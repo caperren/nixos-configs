@@ -38,3 +38,21 @@ if [[ "$SCRIPT_DIR" != "$NIXOS_REPO_CONFIG_PATH" ]]; then
     exec "$NIXOS_REPO_CONFIG_PATH/initial_setup.sh"
     exit
 fi
+
+# If this is a new host, create the config path
+if [ ! -d "$HOST_CONFIG_PATH" ]; then
+    mkdir -p "$HOST_CONFIG_PATH"
+fi
+
+# Copy initial config files from nixos setup, and symlink to our repo, if not set up yet
+if [ ! -L "/etc/nixos" ]; then
+    # Copy the existing config files
+    cp /etc/nixos/configuration.nix "$HOST_CONFIG_PATH/."
+    cp /etc/nixos/hardware-configuration.nix "$HOST_CONFIG_PATH/."
+
+    # Backup the existing nixos config folder
+    sudo mv /etc/nixos /etc/nixos_bkp
+
+    # Create symlink
+    sudo ln -s "$NIXOS_REPO_CONFIG_PATH" /etc/nixos
+fi

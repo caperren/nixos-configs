@@ -10,14 +10,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/cap-nr200p/configuration.nix
-        ./modules/nixos/hyprland.nix
-        inputs.home-manager.nixosModules.default
-      ];
+  outputs =
+    { self, nixpkgs, ... }@inputs:
+    {
+      nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/cap-nr200p/configuration.nix
+          ./modules/nixos/hyprland.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
     };
-  };
 }

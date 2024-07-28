@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -34,7 +35,7 @@
     enable = true;
     user = "caperren";
   };
-  
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -63,10 +64,9 @@
     pkgs.slurp
     pkgs.nwg-displays
 
-  (pkgs.waybar.overrideAttrs (oldAttrs: {
+    (pkgs.waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    })
-  )
+    }))
   ];
 
   xdg.portal.enable = true;

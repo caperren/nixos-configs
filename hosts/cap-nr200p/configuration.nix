@@ -5,10 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -25,7 +25,10 @@
   networking.networkmanager.enable = true;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];  #-#
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ]; # -#
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -84,14 +87,18 @@
   users.users.caperren = {
     isNormalUser = true;
     description = "Corwin Perren";
-    extraGroups = [ "networkmanager" "wheel" "input" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
   # Install firefox.
-  programs.firefox.enable = true;  #-#
+  programs.firefox.enable = true; # -#
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -99,11 +106,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
     lf
     git
-    wofi    
+    wofi
     nvtopPackages.full
     htop
     iftop
@@ -120,7 +127,7 @@
     pasystray
     glava
     spotify-player
-    hyprpicker 
+    hyprpicker
     unetbootin
     lf
     dnsutils
@@ -156,7 +163,7 @@
   ];
 
   programs.thunar.enable = true;
-    programs.thunar.plugins = with pkgs.xfce; [
+  programs.thunar.plugins = with pkgs.xfce; [
     thunar-archive-plugin
     thunar-volman
   ];
@@ -169,19 +176,21 @@
 
   security.sudo = {
     enable = true;
-    extraRules = [{
-      commands = [
-        {
-          command = "${pkgs.systemd}/bin/reboot";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "${pkgs.systemd}/bin/poweroff";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-      groups = [ "wheel" ];
-    }];
+    extraRules = [
+      {
+        commands = [
+          {
+            command = "${pkgs.systemd}/bin/reboot";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "${pkgs.systemd}/bin/poweroff";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+        groups = [ "wheel" ];
+      }
+    ];
   };
 
   programs.steam = {
@@ -202,7 +211,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;  #-#
+  services.openssh.enable = true; # -#
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

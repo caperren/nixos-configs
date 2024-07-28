@@ -4,14 +4,24 @@
     xwayland.enable = true;
   };
 
- environment.sessionVariables = {
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
+
+  environment.sessionVariables = {
     # If your cursor becomes invisible
-    # WLR_NO_HARDWARE_CURSORS = "1";
+    WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
   };
 
-  services.xserver = { 
+  services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
     displayManager.gdm = {
@@ -19,11 +29,15 @@
       wayland = true;
     };
   };
+
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "caperren";
+  };
   
-  hardware.opengl = {  
-    enable = true;  
-    driSupport = true;  
-    driSupport32Bit = true;  
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 
   hardware.nvidia = {
@@ -43,11 +57,16 @@
     pkgs.dunst
     pkgs.libnotify
     pkgs.rofi-wayland
+    pkgs.nwg-look
+    pkgs.desktop-file-utils
+    pkgs.grim
+    pkgs.slurp
+    pkgs.nwg-displays
 
-  #(pkgs.waybar.overrideAttrs (oldAttrs: {
-  #    mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-  #  })
-  #)
+  (pkgs.waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    })
+  )
   ];
 
   xdg.portal.enable = true;

@@ -53,18 +53,15 @@
   # services.xserver.desktopManager.xfce.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.variant = "";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -87,7 +84,7 @@
   users.users.caperren = {
     isNormalUser = true;
     description = "Corwin Perren";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -106,7 +103,93 @@
   #  wget
     lf
     git
+    wofi    
+    nvtopPackages.full
+    htop
+    iftop
+    iotop
+    pulsemixer
+    arandr
+    util-linux
+    usbutils
+    telegram-desktop
+    discord
+    # spotify
+    pavucontrol
+    networkmanagerapplet
+    pasystray
+    glava
+    spotify-player
+    hyprpicker 
+    unetbootin
+    lf
+    dnsutils
+    unzip
+    playerctl
+    google-chrome
+    killall
+    jetbrains.pycharm-professional
+    wget
+    jq
+    rofi-bluetooth
+    wl-clipboard
+    networkmanager
+    alsaUtils
+    nixfmt-rfc-style
   ];
+
+  fonts.fontDir.enable = true;
+  fonts.fontconfig.enable = true;
+  fonts.fontconfig.antialias = true;
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    jetbrains-mono
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+    font-awesome
+    nerdfonts
+  ];
+
+  programs.thunar.enable = true;
+    programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
+
+  security.sudo = {
+    enable = true;
+    extraRules = [{
+      commands = [
+        {
+          command = "${pkgs.systemd}/bin/reboot";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "${pkgs.systemd}/bin/poweroff";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+      groups = [ "wheel" ];
+    }];
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

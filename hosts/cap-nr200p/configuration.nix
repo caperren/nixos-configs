@@ -143,6 +143,8 @@
     networkmanager
     alsaUtils
     nixfmt-rfc-style
+    mako
+    podman
   ];
 
   fonts.fontDir.enable = true;

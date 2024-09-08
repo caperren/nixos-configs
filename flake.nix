@@ -18,8 +18,8 @@
           inherit inputs;
         };
         modules = [
-          ./hosts/cap-nr200p/configuration.nix
-          ./modules/nixos/hyprland.nix
+          ./hosts/cap-slim7/configuration.nix
+          ./modules/nixos/hyprland-amd.nix
           inputs.home-manager.nixosModules.default
         ];
       };

@@ -33,10 +33,10 @@
     };
   };
 
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "caperren";
-  };
+#   services.displayManager.autoLogin = {
+#     enable = true;
+#     user = "caperren";
+#  };
 
   hardware.graphics = {
     enable = true;

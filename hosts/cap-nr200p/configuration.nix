@@ -24,6 +24,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # hardware.u2f.enable = true;
+
   # Enable flakes
   nix.settings.experimental-features = [
     "nix-command"
@@ -63,6 +65,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -162,6 +170,9 @@
     stm32cubemx
     stm32flash
     easyeffects
+    ncspot
+    yubikey-personalization-gui
+    yubikey-manager-qt
   ];
 
   services.udev.extraRules = ''

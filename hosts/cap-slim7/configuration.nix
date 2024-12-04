@@ -10,9 +10,12 @@
     ./hardware-configuration.nix
   ];
 
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
 
   networking.hostName = "cap-slim7"; # Define your hostname.  #-#
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -20,6 +23,16 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.freedesktop.login1.reboot" ||
+          action.id == "org.freedesktop.login1.poweroff") &&
+          subject.isInGroup("powerusers")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -32,6 +45,8 @@
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
+  #time.timeZone = "Europe/Oslo";
+  # services.tzupdate.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -142,11 +157,11 @@
     rofi-bluetooth
     wl-clipboard
     networkmanager
-    alsaUtils
+    alsa-utils
     nixfmt-rfc-style
     mako
     podman
-    kicad
+   # kicad
     obsidian
     speedcrunch
     deadbeef
@@ -162,8 +177,65 @@
     stm32cubemx
     stm32flash
     easyeffects
+    brightnessctl
+#    power-profiles-daemon
+    librewolf
+    # lenovo-legion
+    powertop
+    wlogout
+    ncdu
+    flameshot
+    via
+#     teensyduino
+    teensy-udev-rules
+    transmission_4-qt
+    glmark2
   ];
 
+  # services.automatic-timezoned.enable = true;
+
+    programs.bash.shellAliases = {
+        nixrebuild = "cd /etc/nixos && sudo nixos-rebuild switch --flake .#default";
+        nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#default";
+        nixedit = "sudo nano /etc/nixos/hosts/cap-slim7/configuration.nix";
+
+        conservebatt = "sudo bash -c 'echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode && cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode'";
+        noconservebatt = "sudo bash -c 'echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode && cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode'";
+    };
+
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
+
+#  services.power-profiles-daemon.enable = true;
+
+    services.tlp = {
+        enable = true;
+        settings = {
+            CPU_SCALING_GOVERNOR_ON_AC = "performance";
+            CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+            CPU_MIN_PERF_ON_AC = 0;
+            CPU_MAX_PERF_ON_AC = 100;
+#             CPU_MAX_PERF_ON_AC = 35;
+
+#            CPU_SCALING_GOVERNOR_ON_BAT = "performance";
+#            CPU_ENERGY_PERF_POLICY_ON_BAT = "performance";
+
+            CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+            CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+            CPU_MIN_PERF_ON_BAT = 0;
+            CPU_MAX_PERF_ON_BAT = 35;
+#            CPU_MAX_PERF_ON_BAT = 100;
+
+            #Optional helps save long term battery health
+            START_CHARGE_THRESH_BAT0 = 1; # On non-thinkpad lenovo, this sets conservation mode to 0
+            STOP_CHARGE_THRESH_BAT0 = 1; # ..., but to 1
+        };
+    };
+
+  hardware.keyboard.qmk.enable = true;
+  services.udev.packages = [ pkgs.via ];
   services.udev.extraRules = ''
     # ST-LINK V2
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3748", MODE="600", TAG+="uaccess", SYMLINK+="stlinkv2_%n"
@@ -199,7 +271,8 @@
     dina-font
     proggyfonts
     font-awesome
-    nerdfonts
+    nerd-fonts.symbols-only
+    nerd-fonts.jetbrains-mono
   ];
 
   programs.thunar.enable = true;

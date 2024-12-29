@@ -4,4 +4,4 @@
 /.idea/nixos.iml
 /.idea/vcs.xml
 
-flake.lock*
+flake.lock

@@ -3,3 +3,5 @@
 /.idea/modules.xml
 /.idea/nixos.iml
 /.idea/vcs.xml
+
+flake.lock*

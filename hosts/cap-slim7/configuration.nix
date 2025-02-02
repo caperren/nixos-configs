@@ -47,8 +47,8 @@
   ]; # -#
 
   # Set your time zone.
-  #  time.timeZone = "America/Los_Angeles";
-  time.timeZone = "Pacific/Honolulu";
+  time.timeZone = "America/Los_Angeles";
+  # time.timeZone = "Pacific/Honolulu";
   #time.timeZone = "Europe/Oslo";
   # services.tzupdate.enable = true;
 
@@ -126,87 +126,96 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-    lf
+    #     teensyduino
+    # lenovo-legion
+    alsa-utils
+    arandr
+    arduino-ide
+    audacity
+    # bottles
+    brightnessctl
+    deadbeef
+    discord
+    dnsutils
+    dualsensectl
+    easyeffects
+    flameshot
+    gcc
     git
-    wofi
-    nvtopPackages.full
+    glava
+    glmark2
+    google-chrome
+    heroic
     htop
+    hyprpicker
     iftop
     iotop
-    pulsemixer
-    arandr
-    util-linux
-    usbutils
-    telegram-desktop
-    discord
-    # spotify
-    pavucontrol
-    networkmanagerapplet
-    pasystray
-    glava
-    spotify-player
-    hyprpicker
-    unetbootin
-    lf
-    dnsutils
-    unzip
-    playerctl
-    google-chrome
-    killall
-    jetbrains.pycharm-professional
-    wget
-    jq
-    rofi-bluetooth
-    wl-clipboard
-    networkmanager
-    alsa-utils
-    nixfmt-rfc-style
-    mako
-    podman
-    # kicad
-    obsidian
-    speedcrunch
-    deadbeef
-    vlc
-    sox
-    audacity
-    # flatcam
-    pcb2gcode
     jetbrains-toolbox
-    arduino-ide
+    jetbrains.pycharm-professional
+    jq
+    killall
+    lf
+    lf
+    librewolf
+    mako
+    ncdu
+    networkmanager
+    networkmanagerapplet
+    nixfmt-rfc-style
+    nvtopPackages.full
+    # obs-studio
+    (wrapOBS {
+        plugins = with obs-studio-plugins; [
+          droidcam-obs
+        ];
+    })
+    obsidian
+    pasystray
+    pavucontrol
+    pcb2gcode
+    playerctl
+    podman
+    powertop
+    projectm
+    pulsemixer
     python311Full
-    gcc
+    qemu
+    #quickemu
+    rofi-bluetooth
+    s-tui
+    sox
+    speedcrunch
+    spotify-player
     stm32cubemx
     stm32flash
-    easyeffects
-    brightnessctl
-    #    power-profiles-daemon
-    librewolf
-    # lenovo-legion
-    powertopnix
-    wlogout
-    ncdu
-    flameshot
-    via
-    #     teensyduino
     teensy-udev-rules
+    telegram-desktop
     transmission_4-qt
-    glmark2
-    obs-studio
-    #     stress-ng
-    s-tui
-    projectm
-    #    wineWowPackages.stable
-    #    lutris
-    bottles
+    unetbootin
+    unzip
+    usbutils
+    util-linux
+    via
+    vlc
+    wget
     winetricks
-    dualsensectl
-    qemu
-    quickemu
+    wl-clipboard
+    wlogout
+    wofi
+    xfce.mousepad
+    lutris
+    streamdeck-ui
     # PKGS END
   ];
+
+  programs.ydotool.enable = true;
+
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback
+  ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+  '';
 
   programs.virt-manager.enable = true;
   users.groups.libvirtd.members = [ "caperren" ];
@@ -224,7 +233,12 @@
 
     conservebatt = "sudo bash -c 'echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode && cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode'";
     noconservebatt = "sudo bash -c 'echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode && cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode'";
-  };
+
+    yesway = "nohup waybar >/dev/null 2>&1 &";
+    noway = "pkill waybar";
+
+
+ };
 
   programs.appimage = {
     enable = true;
@@ -378,5 +392,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }

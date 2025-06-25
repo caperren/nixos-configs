@@ -1,5 +1,2 @@
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/.gitignore
-/.idea/modules.xml
-/.idea/nixos.iml
-/.idea/vcs.xml
+/.idea
+flake.lock

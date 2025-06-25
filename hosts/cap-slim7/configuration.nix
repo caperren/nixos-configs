@@ -8,6 +8,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/application-groups/gaming.nix
   ];
 
   #boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -391,13 +392,6 @@
         groups = [ "wheel" ];
       }
     ];
-  };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    gamescopeSession.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are

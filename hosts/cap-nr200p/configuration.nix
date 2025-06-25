@@ -13,6 +13,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/application-groups/gaming.nix
   ];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -308,7 +309,6 @@
   };
 
   virtualisation.waydroid.enable = true;
-  hardware.steam-hardware.enable = true;
 
   virtualisation.podman = {
     enable = true;
@@ -385,18 +385,6 @@
         groups = [ "wheel" ];
       }
     ];
-  };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    gamescopeSession.enable = true;
-  };
-
-  programs.gamescope = {
-    enable = true;
-    capSysNice = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -12,9 +12,13 @@
 
   #boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # 
+  nix.settings.download-buffer-size = 524288000;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.configurationLimit = 8;
 
   networking.hostName = "cap-slim7"; # Define your hostname.  #-#
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -23,19 +27,19 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  security.sudo.extraConfig = ''
-    Defaults        timestamp_timeout=15
-  '';
+  #security.sudo.extraConfig = ''
+  #  Defaults        timestamp_timeout=15
+  #'';
 
-  security.polkit.extraConfig = ''
-    polkit.addRule(function(action, subject) {
-      if ((action.id == "org.freedesktop.login1.reboot" ||
-          action.id == "org.freedesktop.login1.poweroff") &&
-          subject.isInGroup("powerusers")) {
-        return polkit.Result.YES;
-      }
-    });
-  '';
+  #  security.polkit.extraConfig = ''
+  #    polkit.addRule(function(action, subject) {
+  #      if ((action.id == "org.freedesktop.login1.reboot" ||
+  #          action.id == "org.freedesktop.login1.poweroff") &&
+  #          subject.isInGroup("powerusers")) {
+  #        return polkit.Result.YES;
+  #      }
+  #    });
+  #  '';
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -84,7 +88,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -111,6 +115,8 @@
       "wheel"
       "input"
       "dialout"
+      "plugdev"
+      "adbusers"
     ];
     packages = with pkgs; [
       #  thunderbird
@@ -126,108 +132,138 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    #      droidcam-obs
     #     teensyduino
+    #    ];
+    #    plugins = with obs-studio-plugins; [
+    # PKGS END
+    # bottles
     # lenovo-legion
+    obs-studio
+    #(wrapOBS {
+    #arduino-ide
+    #audacity
+    #deadbeef
+    #dolphin-emu
+    #dualsensectl
+    #easyeffects
+    #flameshot
+    #gcc
+    #glmark2
+    #heroic
+    #jetbrains.pycharm-professional
+    #lf
+    #lf
+    #librewolf
+    #lutris
+    #meshcentral
+    #pcb2gcode
+    #projectm_3
+    #python311Full
+    #qemu
+    #quickemu
+    #rofi-bluetooth
+    #s-tui
+    #scrcpy
+    #sox
+    #stm32cubemx
+    #stm32flash
+    #teensy-udev-rules
+    #transmission_4-qt
+    #via
+    #vlc
+    #vscode
+    #winetricks
+    #})
+    vlc
     alsa-utils
     arandr
-    arduino-ide
-    audacity
-    # bottles
     brightnessctl
-    deadbeef
     discord
     dnsutils
-    dualsensectl
-    easyeffects
-    flameshot
-    gcc
     git
     glava
-    glmark2
     google-chrome
-    heroic
     htop
     hyprpicker
     iftop
     iotop
     jetbrains-toolbox
-    jetbrains.pycharm-professional
+    flameshot
     jq
+    kanshi
     killall
-    lf
-    lf
-    librewolf
     mako
     ncdu
     networkmanager
     networkmanagerapplet
     nixfmt-rfc-style
+    nodejs
     nvtopPackages.full
-    # obs-studio
-    (wrapOBS {
-        plugins = with obs-studio-plugins; [
-          droidcam-obs
-        ];
-    })
     obsidian
     pasystray
     pavucontrol
-    pcb2gcode
     playerctl
     podman
     powertop
-    projectm
     pulsemixer
-    python311Full
-    qemu
-    #quickemu
-    rofi-bluetooth
-    s-tui
-    sox
     speedcrunch
     spotify-player
-    stm32cubemx
-    stm32flash
-    teensy-udev-rules
+    streamdeck-ui
     telegram-desktop
-    transmission_4-qt
     unetbootin
     unzip
     usbutils
     util-linux
-    via
-    vlc
     wget
-    winetricks
     wl-clipboard
     wlogout
     wofi
     xfce.mousepad
-    lutris
-    streamdeck-ui
-    # PKGS END
+    imagemagick
+    hyprlock
+    # plex-desktop
+    darktable
+    arduino
+    yt-dlp
+    nmap
+    signal-desktop
+    swayidle
+    hyprlock
+    pciutils
+    s-tui
+    woeusb
+    gparted
   ];
 
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
+  #programs.adb.enable = true;
+  services.meshcentral.enable = true;
+  services.xserver.videoDrivers = [
+    "displaylink"
+    "modesetting"
+  ];
   programs.ydotool.enable = true;
 
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    v4l2loopback
-  ];
-  boot.extraModprobeConfig = ''
-    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-  '';
+  #boot.extraModulePackages = with config.boot.kernelPackages; [
+  #  v4l2loopback
+  #];
+  #boot.extraModprobeConfig = ''
+  #  options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+  #'';
 
-  programs.virt-manager.enable = true;
-  users.groups.libvirtd.members = [ "caperren" ];
-  virtualisation.libvirtd.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
-  services.spice-vdagentd.enable = true;
+  #programs.virt-manager.enable = true;
+  #users.groups.libvirtd.members = [ "caperren" ];
+  #virtualisation.libvirtd.enable = true;
+  #virtualisation.spiceUSBRedirection.enable = true;
+  #services.spice-vdagentd.enable = true;
 
   # services.automatic-timezoned.enable = true;
 
   programs.bash.shellAliases = {
     nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#default; }";
-    #        nixrebuild = "pushd; cd /etc/nixos && sudo nixos-rebuild switch --flake .#default";
     nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#default";
     nixedit = "sudo nano /etc/nixos/hosts/cap-slim7/configuration.nix";
 
@@ -237,13 +273,12 @@
     yesway = "nohup waybar >/dev/null 2>&1 &";
     noway = "pkill waybar";
 
-
- };
-
-  programs.appimage = {
-    enable = true;
-    binfmt = true;
   };
+
+  #programs.appimage = {
+  #  enable = true;
+  #  binfmt = true;
+  #};
 
   #  services.power-profiles-daemon.enable = true;
 
@@ -251,6 +286,10 @@
     enable = true;
     settings = {
       ##### Defaults ######
+      # WIFI
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "off";
+
       # AC
       CPU_MIN_PERF_ON_AC = 0;
 
@@ -287,8 +326,8 @@
     };
   };
 
-  hardware.keyboard.qmk.enable = true;
-  services.udev.packages = [ pkgs.via ];
+  #hardware.keyboard.qmk.enable = true;
+  #services.udev.packages = [ pkgs.via ];
   services.udev.extraRules = ''
     # ST-LINK V2
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3748", MODE="600", TAG+="uaccess", SYMLINK+="stlinkv2_%n"

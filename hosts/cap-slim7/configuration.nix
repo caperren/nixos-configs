@@ -263,16 +263,9 @@
   # services.automatic-timezoned.enable = true;
 
   programs.bash.shellAliases = {
-    nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#default; }";
-    nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#default";
-    nixedit = "sudo nano /etc/nixos/hosts/cap-slim7/configuration.nix";
-
-    conservebatt = "sudo bash -c 'echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode && cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode'";
-    noconservebatt = "sudo bash -c 'echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode && cat /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode'";
-
-    yesway = "nohup waybar >/dev/null 2>&1 &";
-    noway = "pkill waybar";
-
+    nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
+    nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
+    nixedit = "sudo nano /etc/nixos/hosts/$(hostname)/configuration.nix";
   };
 
   #programs.appimage = {

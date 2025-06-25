@@ -1,8 +1,13 @@
-# Edit this configuration file to define what should be installed on your system.  
-# Help is available in the configuration.nix(5) man page and in the NixOS manual 
+# Edit this configuration file to define what should be installed on your system.
+# Help is available in the configuration.nix(5) man page and in the NixOS manual
 # (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -33,7 +38,7 @@
     options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
   '';
 
-  # 
+  #
   nix.settings.download-buffer-size = 524288000;
 
   # Bootloader.
@@ -100,8 +105,6 @@
     openFirewall = true;
   };
 
-  hardware.xone.enable = true;
-
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -137,21 +140,20 @@
       #  thunderbird
     ];
   };
-#  users.users.crestline = {
-#    isNormalUser = true;
-#    description = "Crestline";
-#    extraGroups = [
-#      "networkmanager"
-#      "wheel"
-#      "input"
-#      "dialout"
-#    ];
-#    packages = with pkgs; [
-#      #  thunderbird
-#    ];
+  #  users.users.crestline = {
+  #    isNormalUser = true;
+  #    description = "Crestline";
+  #    extraGroups = [
+  #      "networkmanager"
+  #      "wheel"
+  #      "input"
+  #      "dialout"
+  #    ];
+  #    packages = with pkgs; [
+  #      #  thunderbird
+  #    ];
 
- # };
-
+  # };
 
   #services.displayManager.autoLogin = {
   #   enable = true;
@@ -261,7 +263,7 @@
     kanshi
     #wsmancli
     #realvnc-vnc-viewer
-    ncdu    
+    ncdu
     hyprlock
     openrgb-with-all-plugins
     swayidle
@@ -278,38 +280,38 @@
     highPriority = true;
   };
 
- services.hardware.openrgb.enable = true;
+  services.hardware.openrgb.enable = true;
 
- services.meshcentral.enable = true;
- programs.ydotool.enable = true;
- programs.adb.enable = true;
+  services.meshcentral.enable = true;
+  programs.ydotool.enable = true;
+  programs.adb.enable = true;
 
- hardware.logitech.wireless.enable = true;
- hardware.logitech.wireless.enableGraphical = true;
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
 
- services.sunshine = {
+  services.sunshine = {
     enable = true;
     autoStart = true;
     capSysAdmin = true;
     openFirewall = true;
-    
+
   };
 
-   programs.bash.shellAliases = {
-      nixrebuild = "cd /etc/nixos && sudo nixos-rebuild switch --flake .#default";
-      nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#default";
-      nixedit = "sudo nano /etc/nixos/hosts/cap-nr200p/configuration.nix";
-      scrwebcam = "sudo pkill scrcpy ; sudo modprobe -r v4l2loopback ; sudo modprobe v4l2loopback && nohup scrcpy --camera-facing=back --video-source=camera --v4l2-sink=/dev/video0 --no-window --no-audio-playback 2>&1 1>/dev/null";
-    };
+  programs.bash.shellAliases = {
+    nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
+    nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
+    nixedit = "sudo nano /etc/nixos/hosts/$(hostname)/configuration.nix";
 
-  
+    scrwebcam = "sudo pkill scrcpy ; sudo modprobe -r v4l2loopback ; sudo modprobe v4l2loopback && nohup scrcpy --camera-facing=back --video-source=camera --v4l2-sink=/dev/video0 --no-window --no-audio-playback 2>&1 1>/dev/null";
+  };
+
   virtualisation.waydroid.enable = true;
   hardware.steam-hardware.enable = true;
 
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
-  }; 
+  };
 
   services.udev.extraRules = ''
     # ST-LINK V2
@@ -362,7 +364,6 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
 
-  
   hardware.rtl-sdr.enable = true;
 
   security.sudo = {
@@ -395,8 +396,6 @@
     enable = true;
     capSysNice = true;
   };
-
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

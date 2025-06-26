@@ -6,7 +6,7 @@ set -e
 SCRIPT_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 
 GIT_REPO_NAME="nixos-configs"
-GIT_RELEASE_BRANCH="playground"
+GIT_RELEASE_BRANCH="$(hostname)"
 GIT_REPO_URL="git@github.com:caperren/$GIT_REPO_NAME.git"
 
 NIXOS_REPO_CONFIG_PARENT_PATH="/opt"

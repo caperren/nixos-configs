@@ -9,4 +9,12 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    pavucontrol
+    pasystray
+    alsa-utils
+    pulsemixer
+    easyeffects
+  ];
 }

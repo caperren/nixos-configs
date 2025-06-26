@@ -28,7 +28,6 @@
         };
         modules = [
           ./hosts/cap-slim7/configuration.nix
-          ./modules/nixos/hyprland-amd.nix
           inputs.home-manager.nixosModules.default
           nixos-hardware.nixosModules.lenovo-legion-16arha7
         ];
@@ -38,7 +37,6 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-nr200p/configuration.nix
-          ./modules/nixos/hyprland.nix
           inputs.home-manager.nixosModules.default
         ];
       };

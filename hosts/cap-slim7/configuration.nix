@@ -6,7 +6,7 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
+    # Hardware Scan
     ./hardware-configuration.nix
 
     # Users
@@ -42,19 +42,11 @@
     ../../modules/application-groups/web.nix
   ];
 
-  networking.hostName = "cap-slim7"; # Define your hostname.  #-#
+  networking.hostName = "cap-slim7";
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
   # time.timeZone = "Pacific/Honolulu";
-
-  programs.bash.shellAliases = {
-    nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
-    nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
-    nixedit = "sudo nano /etc/nixos/hosts/$(hostname)/configuration.nix";
-
-    nixlimitfive = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | head -n -5 | cut -d ' ' -f2 | xargs -I {} sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system {}";
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

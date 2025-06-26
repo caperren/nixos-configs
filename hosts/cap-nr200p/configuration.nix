@@ -11,7 +11,7 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
+    # Hardware Scan
     ./hardware-configuration.nix
 
     # Users
@@ -46,20 +46,10 @@
     ../../modules/application-groups/web.nix
   ];
 
-  networking.hostName = "cap-nr200p"; # Define your hostname.  #-#
+  networking.hostName = "cap-nr200p"; # Define your hostname.
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
-
-  programs.bash.shellAliases = {
-    nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
-    nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
-    nixedit = "sudo nano /etc/nixos/hosts/$(hostname)/configuration.nix";
-
-    nixlimitfive = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | head -n -5 | cut -d ' ' -f2 | xargs -I {} sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system {}";
-
-    scrwebcam = "sudo pkill scrcpy ; sudo modprobe -r v4l2loopback ; sudo modprobe v4l2loopback && nohup scrcpy --camera-facing=back --video-source=camera --v4l2-sink=/dev/video0 --no-window --no-audio-playback 2>&1 1>/dev/null";
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

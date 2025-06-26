@@ -61,7 +61,6 @@
           username = "caperren";
           homeDirectory = "/home/caperren";
         };
-    };
-
+      };
     };
 }

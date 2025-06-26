@@ -21,6 +21,10 @@
     options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
   '';
 
+  programs.bash.shellAliases = {
+    scrwebcam = "sudo pkill scrcpy ; sudo modprobe -r v4l2loopback ; sudo modprobe v4l2loopback && nohup scrcpy --camera-facing=back --video-source=camera --v4l2-sink=/dev/video0 --no-window --no-audio-playback 2>&1 1>/dev/null";
+  };
+
   environment.systemPackages = with pkgs; [
     deadbeef
     vlc

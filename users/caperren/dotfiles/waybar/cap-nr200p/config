@@ -1,0 +1,122 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": [
+    "custom/logo",
+    "clock",
+    "disk",
+    "memory",
+    "cpu",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "tray",
+    "idle_inhibitor",
+    "pulseaudio",
+    "custom/exit"
+  ],
+  "reload_style_on_change": true,
+  "custom/logo": {
+    "format": "<span font='20'></span>",
+    "tooltip": false
+  },
+  "hyprland/workspaces": {
+    "all-outputs": false,
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    }
+  },
+  "idle_inhibitor": {
+    "format": "<span font='16'>{icon}</span>",
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉"
+    }
+  },
+  "clock": {
+    "format": "{:%I:%M:%S %p | %a | %F}",
+    "interval": 1,
+    "tooltip-format": "\n<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar-weeks-pos": "right",
+    "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
+    "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
+    "format-calendar-weeks": "<span color='#aeaeae'><b>W{:%V}</b></span>",
+    "format-calendar-weekdays": "<span color='#aeaeae'><b>{}</b></span>"
+  },
+  "disk": {
+    "interval": 30,
+    "format": "  {percentage_used}%",
+    "path": "/"
+  },
+  "cpu": {
+    "interval": 1,
+    "format": " {usage}%",
+    "min-length": 6,
+    "max-length": 6,
+    "format-icons": [
+      "▁",
+      "▂",
+      "▃",
+      "▄",
+      "▅",
+      "▆",
+      "▇",
+      "█"
+    ]
+  },
+  "memory": {
+    "format": " {percentage}%"
+  },
+  "hyprland/window": {
+    "format": "( {class} )",
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "🌎 $1",
+      "(.*) - zsh": "> [$1]"
+    }
+  },
+  "pulseaudio": {
+    "format": "{volume:02}% {icon}",
+    "format-bluetooth": "󰂰",
+    "format-muted": "00% {icon}",
+    "format-icons": {
+      "headphones": "",
+      "bluetooth": "󰥰",
+      "handsfree": "",
+      "headset": "󱡬",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "🕨",
+        "🕩",
+        "🕪"
+      ]
+    },
+    "justify": "center",
+    "on-click": "amixer sset Master toggle",
+    "on-click-right": "pavucontrol",
+    "tooltip-format": "{icon} {volume:02}%"
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  },
+  "custom/exit": {
+    "format": "",
+    "on-click": "wlogout -b 2",
+    "tooltip": false
+  }
+}
+

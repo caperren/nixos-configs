@@ -20,38 +20,40 @@
   services.hardware.openrgb.enable = true;
 
   environment.systemPackages = with pkgs; [
-    kitty
-    lf
+    btop
+    desktop-file-utils
+    dnsutils
+    ffmpeg-full
     git
+    gparted
     htop
     iftop
-    iotop
-    util-linux
-    usbutils
-    dnsutils
-    unzip
-    killall
-    wget
-    jq
-    speedcrunch
-    gparted
-    ffmpeg-full
-    xfce.mousepad
     imagemagick
-    nvtopPackages.full
+    iotop
+    jq
+    killall
+    kitty
+    lf
     ncdu
-    s-tui
+    networkmanager
+    networkmanagerapplet
     nmap
+    nvtopPackages.full
+    openrgb-with-all-plugins
     pciutils
-    desktop-file-utils
+    rofi-bluetooth
     rpi-imager
     rpiboot
-    streamdeck-ui
+    s-tui
     scrcpy
-    openrgb-with-all-plugins
-    networkmanagerapplet
-    rofi-bluetooth
-    networkmanager
+    speedcrunch
+    streamdeck-ui
+    stress
+    unzip
+    usbutils
+    util-linux
+    wget
+    xfce.mousepad
   ];
 
 }

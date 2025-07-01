@@ -40,27 +40,5 @@
           inputs.home-manager.nixosModules.default
         ];
       };
-
-      homeConfigurations = {
-        "caperren@cap-slim7" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraModules = [
-            ./home/caperren/common.nix
-            ./home/caperren/laptop.nix
-          ];
-          username = "caperren";
-          homeDirectory = "/home/caperren";
-        };
-
-        "caperren@cap-nr200p" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraModules = [
-            ./home/caperren/common.nix
-            ./home/caperren/desktop1.nix
-          ];
-          username = "caperren";
-          homeDirectory = "/home/caperren";
-        };
-      };
     };
 }

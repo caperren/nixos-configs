@@ -22,6 +22,9 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
+  programs.hyprlock.enable = true;
+  services.hypridle.enable = true;
+
   environment.systemPackages = with pkgs; [
     waybar
     dunst
@@ -39,8 +42,6 @@
     swayimg
     hyprpicker
     kanshi
-    hyprlock
-    swayidle
     mako
 
     (pkgs.waybar.overrideAttrs (oldAttrs: {

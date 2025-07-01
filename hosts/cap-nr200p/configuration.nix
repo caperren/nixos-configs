@@ -22,6 +22,7 @@
     ../../modules/system/desktop.nix
     ../../modules/system/fonts.nix
     ../../modules/system/gpu-nvidia.nix
+    ../../modules/system/home-manager-settings.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix
     ../../modules/system/networking.nix

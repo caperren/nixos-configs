@@ -35,6 +35,7 @@ in
       userEmail = "caperren@gmail.com";
     };
 
+    home.file.".config/hypr/hyprland-common.conf".source = ./dotfiles/hyprland/hyprland-common.conf;
     home.file.".config/hypr/hyprland.conf".source = hyprlandConfigPath + "/hyprland.conf";
     home.file.".config/kanshi/config".source = kanshiConfigPath + "/config";
     home.file.".config/spotify-player/app.toml".text = spotifyPlayerAppTomlText;

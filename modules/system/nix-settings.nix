@@ -21,10 +21,14 @@
   };
 
   programs.bash.shellAliases = {
-    nixrebuild = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
-    nixupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
-    nixedit = "sudo nano /etc/nixos/hosts/$(hostname)/configuration.nix";
+    # Nix rebuild, switch
+    nrs = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
 
-    nixlimitfive = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | head -n -5 | cut -d ' ' -f2 | xargs -I {} sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system {}";
+    # Nix flake update, rebuild, switch
+    nus = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
+
+    # Special cleanup, needed when efi partition runs out of space. Deletes all but the last five generations.
+    # Remember to make that partition bigger in the future...
+    neficlean = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | head -n -5 | cut -d ' ' -f2 | xargs -I {} sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system {}";
   };
 }

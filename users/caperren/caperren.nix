@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
-  kanshiConfigPath = ./. + "/dotfiles/kanshi/${config.networking.hostName}/config";
+  kanshiConfigPath = ./. + "/dotfiles/kanshi/${config.networking.hostName}";
+  waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
   users.users.caperren = {
@@ -31,7 +32,8 @@ in
       userEmail = "caperren@gmail.com";
     };
 
-    home.file.".config/kanshi/config".source = kanshiConfigPath;
+    home.file.".config/kanshi/config".source = kanshiConfigPath + "/config";
+    home.file.".config/waybar/config".source = waybarConfigPath + "/config";
     home.file.".config/wlogout/layout".source = ./dotfiles/wlogout/layout;
   };
 }

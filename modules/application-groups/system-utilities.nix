@@ -20,6 +20,7 @@
   services.hardware.openrgb.enable = true;
 
   environment.systemPackages = with pkgs; [
+    btop
     desktop-file-utils
     dnsutils
     ffmpeg-full

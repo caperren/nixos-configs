@@ -1,20 +1,35 @@
 { config, pkgs, ... }:
-{
+let
+  jetbrainsToolboxDesktopEntry = pkgs.writeTextFile {
+    name = "jetbrains-toolbox-desktop";
+    destination = "/share/applications/jetbrains-toolbox.desktop";
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=JetBrains Toolbox
+      Exec=jetbrains-toolbox
+      Icon=jetbrains-toolbox
+      Terminal=false
+      Categories=Development;IDE;
+    '';
+  };
+in {
   environment.systemPackages = with pkgs; [
-    vscode-with-extensions
-    nixfmt-rfc-style
-    platformio
-    jetbrains-toolbox
     arduino-ide
-    python311Full
     gcc
+    jetbrains-toolbox
+    jetbrainsToolboxDesktopEntry
+    nix-update
+    nixfmt-rfc-style
+    nixos-generators
     nodejs
+    platformio
+    python311Full
+    python3Full
     stm32cubemx
     stm32flash
-    python3Full
-    nix-update
-    nixos-generators
     teensy-udev-rules
+    vscode-with-extensions
   ];
 
   services.udev.extraRules = ''

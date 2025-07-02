@@ -1,5 +1,19 @@
 { config, pkgs, ... }:
-{
+let
+  spotifyPlayerDesktopEntry = pkgs.writeTextFile {
+    name = "spotify-player-desktop";
+    destination = "/share/applications/spotify-player.desktop";
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Spotify Player
+      Exec=kitty -e spotify_player
+      Icon=spotify_player
+      Terminal=false
+      Categories=Media;
+    '';
+  };
+in {
   boot = {
     # Make v4l2loopback kernel module available to NixOS.
     extraModulePackages = with config.boot.kernelPackages; [
@@ -26,18 +40,20 @@
   };
 
   environment.systemPackages = with pkgs; [
-    deadbeef
-    vlc
-    sox
-    audacity
-    glava
-    spotify-player
-    projectm_3
-    obs-studio
-    darktable
 
-    # Encountering build failures
-    # plex-desktop
+    audacity
+    darktable
+    deadbeef
+    glava
+    obs-studio
+    # plex-desktop --> Encountering build failures
+    projectm_3
+    sox
+    spotify-player
+    spotifyPlayerDesktopEntry
+    vlc
   ];
+
+
 
 }

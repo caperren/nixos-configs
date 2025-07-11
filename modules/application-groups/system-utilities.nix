@@ -23,6 +23,7 @@
     btop
     desktop-file-utils
     dnsutils
+    evtest
     ffmpeg-full
     git
     gparted

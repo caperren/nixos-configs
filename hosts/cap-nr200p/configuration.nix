@@ -25,6 +25,7 @@
     ../../modules/system/home-manager-settings.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix
+    ../../modules/system/misc-hardware.nix
     ../../modules/system/networking.nix
     ../../modules/system/nix-settings.nix
     ../../modules/system/pipewire.nix

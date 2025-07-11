@@ -19,6 +19,7 @@ in {
     gcc
     jetbrains-toolbox
     jetbrainsToolboxDesktopEntry
+    gnumake
     nix-update
     nixfmt-rfc-style
     nixos-generators

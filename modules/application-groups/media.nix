@@ -40,11 +40,11 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-
     audacity
     darktable
     deadbeef
     glava
+    inkscape
     obs-studio
     # plex-desktop --> Encountering build failures
     projectm_3

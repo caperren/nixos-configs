@@ -36,7 +36,7 @@
     kanshi
     libnotify
     mako
-    # nwg-displays
+    nwg-displays
     nwg-look
     rofi-wayland
     slurp

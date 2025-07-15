@@ -1,0 +1,50 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    box-shadow: none;
+    text-shadow: none;
+    transition-duration: 0s;
+}
+
+window {
+    background: rgba(0, 0, 0, 0.00);
+}
+
+#workspaces button {
+    padding: 0 5px;
+    color: rgba(217, 216, 216, 0.4);
+}
+
+#workspaces button.visible {
+    color: rgba(217, 216, 216, 1);
+}
+
+#workspaces button.focused {
+    border-top: 3px solid rgba(217, 216, 216, 1);
+    border-bottom: 3px solid rgba(217, 216, 216, 0);
+}
+
+#workspaces button.urgent {
+    color: rgba(238, 46, 36, 1);
+}
+
+#memory,
+#idle_inhibitor,
+#pulseaudio,
+#backlight {
+    margin: 0 6px 0 10px;
+}
+
+#disk {
+    margin: 0 0 0 10px;
+
+}
+
+#clock {
+    margin: 0 6px 0 10px;
+}
+
+#custom-exit {
+    margin: 0 16px 0 6px;
+}

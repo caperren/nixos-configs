@@ -22,10 +22,10 @@
 
   programs.bash.shellAliases = {
     # Nix rebuild, switch
-    nrs = "pushd /etc/nixos && { trap 'popd' EXIT; sudo nixos-rebuild switch --flake .#$(hostname); }";
+    nrs = "bash -c \"cd /etc/nixos && sudo nixos-rebuild switch --flake .#$(hostname) ; exit\"";
 
     # Nix flake update, rebuild, switch
-    nus = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname)";
+    nus = "bash -c \"cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname) ; exit\"";
 
     # Special cleanup, needed when efi partition runs out of space. Deletes all but the last five generations.
     # Remember to make that partition bigger in the future...

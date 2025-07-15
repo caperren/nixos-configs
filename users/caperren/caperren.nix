@@ -38,11 +38,14 @@ in
     };
 
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
+    home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;
+    home.file.".config/hypr/backgrounds/black.png".source = ./dotfiles/hyprpaper/black.png;
     home.file.".config/hypr/hyprland-common.conf".source = ./dotfiles/hyprland/hyprland-common.conf;
     home.file.".config/hypr/hyprland.conf".source = hyprlandConfigPath + "/hyprland.conf";
     home.file.".config/kanshi/config".source = kanshiConfigPath + "/config";
     home.file.".config/spotify-player/app.toml".text = spotifyPlayerAppTomlText;
     home.file.".config/waybar/config".source = waybarConfigPath + "/config";
+    home.file.".config/waybar/style.css".source = ./dotfiles/waybar/style.css;
     home.file.".config/wlogout/layout".source = ./dotfiles/wlogout/layout;
 
     gtk = {

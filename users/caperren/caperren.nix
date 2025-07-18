@@ -37,6 +37,10 @@ in
       userEmail = "caperren@gmail.com";
     };
 
+    programs.kitty = {
+      font.name = "JetBrains Mono";
+    };
+
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
     home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;
     home.file.".config/hypr/backgrounds/black.png".source = ./dotfiles/hyprpaper/black.png;
@@ -65,10 +69,16 @@ in
         name = "Bibata-Modern-Ice";
         package = pkgs.bibata-cursors;
       };
+
+      font.name = "JetBrains Mono 11";
     };
 
     home.sessionVariables = {
       GTK_THEME = "Adwaita-dark";
+    };
+
+    xresources.properties = {
+      "Xft.font" = "JetBrains Mono";
     };
   };
 }

@@ -42,7 +42,7 @@ in {
   environment.systemPackages = with pkgs; [
 
     audacity
-    darktable
+#    darktable  # Currently failing to build
     deadbeef
     glava
     obs-studio

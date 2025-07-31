@@ -41,12 +41,12 @@ in {
 
   environment.systemPackages = with pkgs; [
 
-    audacity
-#    darktable  # Currently failing to build
+    # aaudacity
+    # darktable
     deadbeef
     glava
     obs-studio
-    # plex-desktop --> Encountering build failures
+    plex-desktop
     projectm_3
     sox
     spotify-player

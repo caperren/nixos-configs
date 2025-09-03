@@ -23,8 +23,7 @@ in {
     nixfmt-rfc-style
     nixos-generators
     nodejs
-    platformio
-    python311Full
+    # platformio
     python3Full
     stm32cubemx
     stm32flash

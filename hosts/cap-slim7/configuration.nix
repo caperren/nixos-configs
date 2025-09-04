@@ -34,6 +34,7 @@
     ../../modules/application-groups/gaming.nix
     ../../modules/application-groups/homelab.nix
     ../../modules/application-groups/media.nix
+    ../../modules/application-groups/media-creation.nix
     ../../modules/application-groups/pcb-design.nix
     ../../modules/application-groups/productivity.nix
     ../../modules/application-groups/programming.nix

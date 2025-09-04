@@ -13,7 +13,8 @@ let
       Categories=Media;
     '';
   };
-in {
+in
+{
   boot = {
     # Make v4l2loopback kernel module available to NixOS.
     extraModulePackages = with config.boot.kernelPackages; [
@@ -40,12 +41,8 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-
-    # aaudacity
-    # darktable
     deadbeef
     glava
-    obs-studio
     plex-desktop
     projectm_3
     sox
@@ -53,7 +50,5 @@ in {
     spotifyPlayerDesktopEntry
     vlc
   ];
-
-
 
 }

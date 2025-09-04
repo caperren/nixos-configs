@@ -41,14 +41,11 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    deadbeef
-    glava
-    plex-desktop
-    projectm_3
-    sox
-    spotify-player
-    spotifyPlayerDesktopEntry
-    vlc
+    audacity
+    darktable
+    davinci-resolve
+    kdePackages.kdenlive
+    obs-studio
   ];
 
 }

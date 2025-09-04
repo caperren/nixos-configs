@@ -17,6 +17,7 @@ in {
   environment.systemPackages = with pkgs; [
     arduino-ide
     gcc
+    gnumake
     jetbrains-toolbox
     jetbrainsToolboxDesktopEntry
     nix-update

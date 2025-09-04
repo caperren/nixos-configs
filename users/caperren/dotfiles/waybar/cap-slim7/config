@@ -2,14 +2,15 @@
   "layer": "top",
   "position": "top",
   "modules-left": [
-    "custom/logo",
+//    "custom/logo",
     "clock",
+    "temperature",
     "disk",
     "memory",
-    "cpu",
-    "hyprland/window"
+    "cpu"
   ],
   "modules-center": [
+    "hyprland/window",
     "hyprland/workspaces"
   ],
   "modules-right": [
@@ -22,7 +23,7 @@
   ],
   "reload_style_on_change": true,
   "custom/logo": {
-    "format": "<span font='20'></span>",
+    "format": "<span font='15'></span>",
     "tooltip": false
   },
   "hyprland/workspaces": {
@@ -50,23 +51,42 @@
   },
   "battery": {
     "bat": "BAT0",
-    "interval": 60,
+    "adapter": "AC",
+    "interval": 10,
+    "full-at": 100,
     "states": {
+      "full": 100,
+      "good": 75,
       "warning": 30,
-      "critical": 15
+      "critical": 15,
+      "empty": 5
     },
-    "format": "{capacity}% {icon}",
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
     "format-icons": [
       "",
       "",
       "",
       "",
       ""
-    ],
-    "max-length": 25
+    ]
+  },
+  "temperature": {
+    "hwmon-path": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon5/temp1_input",
+    "interval": 1,
+    "critical-threshold": 90,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
   },
   "idle_inhibitor": {
-    "format": "<span font='16'>{icon}</span>",
+    "format": "{icon}",
     "format-icons": {
       "activated": "󰈈",
       "deactivated": "󰈉"
@@ -75,9 +95,9 @@
     "tooltip-format-deactivated": "idle-inhibitor <span color='#ee99a0'>off</span>"
   },
   "clock": {
-    "format": "{:%I:%M:%S %p | %a | %F}",
+    "format": "{:%I:%M:%S %p} |",
     "interval": 1,
-    "tooltip-format": "\n<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "tooltip-format": "<big>{:%I:%M:%S %p | %a | %F}</big>\n\n<tt><big>{calendar}</big></tt>",
     "calendar-weeks-pos": "right",
     "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
     "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
@@ -86,34 +106,37 @@
   },
   "disk": {
     "interval": 30,
-    "format": "  {percentage_used}%",
-    "path": "/"
+    "format": " {}%",
+    "tooltip-format": "{used} / {total} used"
   },
   "cpu": {
+    "format": "  {usage:02}% {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+    "tooltip": false,
     "interval": 1,
-    "format": " {usage}%",
-    "min-length": 6,
-    "max-length": 6,
     "format-icons": [
-      "▁",
-      "▂",
-      "▃",
-      "▄",
-      "▅",
-      "▆",
-      "▇",
-      "█"
+      // green,
+      "<span color='#69ff94'>▁</span>",
+      // blue,
+      "<span color='#2aa9ff'>▂</span>",
+      // white,
+      "<span color='#f8f8f2'>▃</span>",
+      // white,
+      "<span color='#f8f8f2'>▄</span>",
+      // yellow,
+      "<span color='#ffffa5'>▅</span>",
+      // yellow,
+      "<span color='#ffffa5'>▆</span>",
+      // orange,
+      "<span color='#ff9977'>▇</span>",
+      // red,
+      "<span color='#dd532e'>█</span>"
     ]
   },
   "memory": {
-    "format": " {percentage}%"
+    "format": "  {percentage:02}%"
   },
   "hyprland/window": {
     "format": "( {class} )",
-    "rewrite": {
-      "(.*) - Mozilla Firefox": "🌎 $1",
-      "(.*) - zsh": "> [$1]"
-    }
   },
   "pulseaudio": {
     "format": "{volume:02}% {icon}",
@@ -143,7 +166,7 @@
     "spacing": 10
   },
   "custom/exit": {
-    "format": "",
+    "format": "| ",
     "on-click": "wlogout -b 2",
     "tooltip": false
   }

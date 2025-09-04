@@ -2,7 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     kicad
-    pcb2gcode
+    #pcb2gcode
   ];
 
 }

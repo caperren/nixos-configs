@@ -1,9 +1,8 @@
 { pkgs, ... }:
 {
-
   environment.systemPackages = with pkgs; [
-    telegram-desktop
     discord
+    slack
+    telegram-desktop
   ];
-
 }

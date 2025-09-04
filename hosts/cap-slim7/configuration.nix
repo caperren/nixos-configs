@@ -37,6 +37,7 @@
     ../../modules/application-groups/pcb-design.nix
     ../../modules/application-groups/productivity.nix
     ../../modules/application-groups/programming.nix
+    ../../modules/application-groups/radio.nix
     ../../modules/application-groups/social.nix
     ../../modules/application-groups/system-utilities.nix
     ../../modules/application-groups/virtualization.nix

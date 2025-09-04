@@ -1,8 +1,16 @@
 { config, pkgs, ... }:
 {
   fonts.fontDir.enable = true;
-  fonts.fontconfig.enable = true;
-  fonts.fontconfig.antialias = true;
+  fonts.fontconfig = {
+    enable = true;
+    antialias = true;
+    defaultFonts = {
+      monospace = [ "JetBrains Mono" ];
+      sansSerif = [ "JetBrains Mono" ];
+      serif = [ "JetBrains Mono" ];
+    };
+  };
+
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-emoji

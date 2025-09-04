@@ -23,30 +23,26 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   programs.hyprlock.enable = true;
+  programs.waybar.enable = true;
   services.hypridle.enable = true;
 
   environment.systemPackages = with pkgs; [
-    waybar
-    dunst
-    libnotify
-    rofi-wayland
-    nwg-look
-    nwg-displays
-    slurp
-    grim
     arandr
-    wl-clipboard
-    wlogout
+    dunst
     flameshot
-    wofi
-    swayimg
+    grim
+    hyprpaper
     hyprpicker
     kanshi
+    libnotify
     mako
-
-    (pkgs.waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
+    nwg-look
+    rofi-wayland
+    slurp
+    swayimg
+    wl-clipboard
+    wlogout
+    wofi
   ];
 
 }

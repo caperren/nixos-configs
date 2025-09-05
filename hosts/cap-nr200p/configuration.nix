@@ -36,6 +36,7 @@
     ../../modules/application-groups/android.nix
     ../../modules/application-groups/downloads.nix
     ../../modules/application-groups/gaming.nix
+    ../../modules/application-groups/hobby-rc.nix
     ../../modules/application-groups/homelab.nix
     ../../modules/application-groups/media.nix
     ../../modules/application-groups/media-creation.nix

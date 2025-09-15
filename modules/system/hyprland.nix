@@ -37,7 +37,7 @@
     libnotify
     mako
     nwg-look
-    rofi-wayland
+    rofi
     slurp
     swayimg
     wl-clipboard

@@ -17,6 +17,7 @@ in {
   environment.systemPackages = with pkgs; [
     arduino-ide
     gcc
+    gnumake
     jetbrains-toolbox
     jetbrainsToolboxDesktopEntry
     nix-update
@@ -24,7 +25,7 @@ in {
     nixos-generators
     nodejs
     # platformio
-    python3Full
+    python314
     stm32cubemx
     stm32flash
     teensy-udev-rules

@@ -34,6 +34,7 @@
     killall
     kitty
     lf
+    minicom
     ncdu
     networkmanager
     networkmanagerapplet

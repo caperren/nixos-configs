@@ -16,6 +16,8 @@ let
 in {
   environment.systemPackages = with pkgs; [
     arduino-ide
+    dfu-util
+    inav-configurator
     gcc
     gnumake
     jetbrains-toolbox

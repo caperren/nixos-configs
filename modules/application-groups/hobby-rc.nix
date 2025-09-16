@@ -4,7 +4,7 @@
 
   environment.systemPackages = with pkgs; [
     betaflight-configurator
+    inav-configurator
     mission-planner
   ];
-
 }

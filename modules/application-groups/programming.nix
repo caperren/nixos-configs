@@ -13,9 +13,11 @@ let
       Categories=Development;IDE;
     '';
   };
-in {
+in
+{
   environment.systemPackages = with pkgs; [
     arduino-ide
+    dfu-util
     gcc
     gnumake
     jetbrains-toolbox

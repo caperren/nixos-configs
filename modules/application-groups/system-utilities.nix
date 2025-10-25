@@ -43,7 +43,7 @@
     openrgb-with-all-plugins
     pciutils
     rofi-bluetooth
-    rpi-imager
+    # rpi-imager # <- Build Failure
     rpiboot
     s-tui
     scrcpy

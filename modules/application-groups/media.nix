@@ -41,7 +41,6 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    deadbeef
     glava
     plex-desktop
     projectm_3

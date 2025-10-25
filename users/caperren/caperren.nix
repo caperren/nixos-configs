@@ -33,8 +33,11 @@ in
 
     programs.git = {
       enable = true;
-      userName = "Corwin Perren";
-      userEmail = "caperren@gmail.com";
+      settings.user = {
+        name = "Corwin Perren";
+        email = "caperren@gmail.com";
+      };
+
     };
 
     programs.kitty = {

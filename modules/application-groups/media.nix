@@ -1,19 +1,4 @@
 { config, pkgs, ... }:
-let
-  spotifyPlayerDesktopEntry = pkgs.writeTextFile {
-    name = "spotify-player-desktop";
-    destination = "/share/applications/spotify-player.desktop";
-    text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=Spotify Player
-      Exec=kitty -e spotify_player
-      Icon=spotify_player
-      Terminal=false
-      Categories=Media;
-    '';
-  };
-in
 {
   boot = {
     # Make v4l2loopback kernel module available to NixOS.
@@ -45,8 +30,8 @@ in
     plex-desktop
     projectm_3
     sox
+    spotify
     spotify-player
-    spotifyPlayerDesktopEntry
     vlc
   ];
 

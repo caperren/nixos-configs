@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Spotify Player
+Exec=kitty -e spotify_player
+Icon=spotify_player
+Terminal=false
+Categories=Media;

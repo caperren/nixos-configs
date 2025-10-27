@@ -40,10 +40,13 @@ in
 
     };
 
+    programs.bemenu.enable = true;
+
     programs.kitty = {
       font.name = "JetBrains Mono";
     };
 
+    # Application config files
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
     home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;
     home.file.".config/hypr/backgrounds/black.png".source = ./dotfiles/hyprpaper/black.png;
@@ -54,6 +57,11 @@ in
     home.file.".config/waybar/config".source = waybarConfigPath + "/config";
     home.file.".config/waybar/style.css".source = ./dotfiles/waybar/style.css;
     home.file.".config/wlogout/layout".source = ./dotfiles/wlogout/layout;
+
+    # Desktop entry files so bemenu can find them
+    home.file.".local/share/glava.desktop".source = ./dotfiles/.local/share/glava.desktop;
+    home.file.".local/share/spotify-player.desktop".source =
+      ./dotfiles/.local/share/spotify-player.desktop;
 
     gtk = {
       enable = true;

@@ -88,6 +88,13 @@ in
       GTK_THEME = "Adwaita-dark";
     };
 
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = [ "okularApplication_pdf.desktop" ];
+      };
+    };
+
     xresources.properties = {
       "Xft.font" = "JetBrains Mono";
     };

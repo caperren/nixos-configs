@@ -33,6 +33,7 @@
     grim
     hyprpaper
     hyprpicker
+    j4-dmenu-desktop
     kanshi
     libnotify
     mako
@@ -42,7 +43,7 @@
     swayimg
     wl-clipboard
     wlogout
-    wofi
+    bemenu
   ];
 
 }

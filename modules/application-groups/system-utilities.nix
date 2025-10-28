@@ -31,6 +31,7 @@
     imagemagick
     iotop
     jq
+    kdePackages.qt6ct
     killall
     kitty
     lf
@@ -54,6 +55,7 @@
     usbutils
     util-linux
     wget
+    xev
     xfce.mousepad
   ];
 

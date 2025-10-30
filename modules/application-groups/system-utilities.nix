@@ -20,7 +20,7 @@
   services.hardware.openrgb.enable = true;
 
   environment.systemPackages = with pkgs; [
-    btop
+    btop-cuda
     desktop-file-utils
     dnsutils
     ffmpeg-full
@@ -40,7 +40,7 @@
     networkmanager
     networkmanagerapplet
     nmap
-    nvtopPackages.full
+    # nvtopPackages.full  # <- Build failure: https://github.com/nixos/nixpkgs/issues/456928
     openrgb-with-all-plugins
     pciutils
     rofi-bluetooth

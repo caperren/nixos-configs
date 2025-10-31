@@ -28,9 +28,9 @@
 
 
     # Nix flake update, rebuild, switch
-    nus = "bash -c \"cd /etc/nixos && sudo nix flake update && nrs ; exit\"";
+    nus = "bash -c \"cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname) ; exit\"";
     # with tracing
-    tnus = "bash -c \"cd /etc/nixos && sudo nix flake update && tnrs ; exit\"";
+    tnus = "bash -c \"cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --show-trace --flake .#$(hostname) ; exit\"";
 
     # Special cleanup, needed when efi partition runs out of space. Deletes all but the last five generations.
     # Remember to make that partition bigger in the future...

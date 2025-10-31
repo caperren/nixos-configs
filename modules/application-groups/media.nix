@@ -27,6 +27,7 @@
 
   environment.systemPackages = with pkgs; [
     glava
+    imv
     plex-desktop
     projectm_3
     sox

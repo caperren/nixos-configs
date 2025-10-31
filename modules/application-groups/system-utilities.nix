@@ -1,23 +1,22 @@
 { config, pkgs, ... }:
 {
+  hardware.keyboard.qmk.enable = true;
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
     thunar-archive-plugin
     thunar-volman
   ];
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
-
   programs.ydotool.enable = true;
 
+  services.glances.enable = true;
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.hardware.openrgb.enable = true;
   services.openssh.enable = true;
   services.printing.enable = true;
-
-  hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
-  hardware.keyboard.qmk.enable = true;
-
-  services.hardware.openrgb.enable = true;
+  services.tumbler.enable = true; # Thumbnail support for images
 
   environment.systemPackages = with pkgs; [
     btop-cuda

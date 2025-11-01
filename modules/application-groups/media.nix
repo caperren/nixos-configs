@@ -27,6 +27,7 @@
 
   environment.systemPackages = with pkgs; [
     glava
+    gimp
     imv
     plex-desktop
     projectm_3

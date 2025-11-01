@@ -73,8 +73,6 @@ in
     home.file.".config/wlogout/layout".source = ./dotfiles/wlogout/layout;
 
     # Desktop entry files so bemenu can find them
-    home.file.".local/share/glances-bemenu.desktop".source =
-      ./dotfiles/.local/share/glances-bemenu.desktop;
     home.file.".local/share/glava.desktop".source = ./dotfiles/.local/share/glava.desktop;
     home.file.".local/share/jetbrains-toolbox.desktop".source =
       ./dotfiles/.local/share/jetbrains-toolbox.desktop;

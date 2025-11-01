@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Glances Bemenu
-Exec=kitty -e glances
-Icon=glances
-Terminal=false
-Categories=Media;

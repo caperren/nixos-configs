@@ -8,12 +8,12 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/obsidian-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "obsidian",
                                 "brightness_change": 0,
-                                "switch_page": 1,
+                                "switch_page": 0,
                                 "switch_state": 0,
                                 "text_vertical_align": "",
                                 "text_horizontal_align": "",
@@ -28,11 +28,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL\nW01",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/jetbrains-toolbox-icon.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 2:1 2:0 125:0\"",
+                                "command": "jetbrains-toolbox",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -49,11 +49,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL\nW02",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/kitty-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 3:1 3:0 125:0\"",
+                                "command": "kitty -e glances",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -63,22 +63,6 @@
                                 "font_color": "",
                                 "font_size": 30,
                                 "background_color": ""
-                            },
-                            "1": {
-                                "text": "MV\nWS2",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 33,
-                                "background_color": ""
                             }
                         }
                     },
@@ -86,11 +70,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL\nW03",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/thunar-icon.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 4:1 4:0 125:0\"",
+                                "command": "thunar",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -108,10 +92,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/expand-solid.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/slash-arrow-up-long-solid-full.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 33:1 33:0 125:0\"",
+                                "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -129,12 +113,12 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/unifi-camera-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "google-chrome-stable --kiosk --start-fullscreen https://homeassistant.crestline.perren.cloud/house-dashboard/0?kiosk",
                                 "brightness_change": 0,
-                                "switch_page": 3,
+                                "switch_page": 0,
                                 "switch_state": 0,
                                 "text_vertical_align": "",
                                 "text_horizontal_align": "",
@@ -149,11 +133,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL\nW04",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/discord-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 5:1 5:0 125:0\"",
+                                "command": "discord",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -170,11 +154,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL\nW05",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/glava-standin-icon.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 6:1 6:0 125:0\"",
+                                "command": "glava",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -191,11 +175,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL\nW06",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/glances-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 7:1 7:0 125:0\"",
+                                "command": "kitty -e glances",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -213,874 +197,7 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/cogs-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 5,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "10": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 2,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "11": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW07",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 8:1 8:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "12": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW08",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 9:1 9:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "13": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW09",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 10:1 10:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "14": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/window-close-regular-red.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 46:1 46:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    }
-                },
-                "1": {
-                    "0": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 4,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "1": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW01",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 2:1 2:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "2": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW02",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 3:1 3:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "3": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW03",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 4:1 4:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "4": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/expand-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 33:1 33:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "5": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "6": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW04",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 5:1 5:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "7": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW05",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 6:1 6:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "8": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW06",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 7:1 7:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "9": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/cogs-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 5,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "10": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "11": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW07",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 8:1 8:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "12": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW08",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 9:1 9:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "13": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW09",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 42:1 10:1 10:0 42:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "14": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/window-close-regular-red.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 46:1 46:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    }
-                },
-                "2": {
-                    "0": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 1,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "1": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW11",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "2": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW12",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "3": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW13",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "4": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/expand-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 33:1 33:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "5": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 3,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "6": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW14",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "7": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW15",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "8": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW16",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "9": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/cogs-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 5,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "10": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 4,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "11": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW17",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "12": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW18",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "13": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "SEL\nW19",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "14": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/window-close-regular-red.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 46:1 46:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    }
-                },
-                "3": {
-                    "0": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "1": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW11",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "2": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW12",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "3": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW13",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "4": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/expand-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 33:1 33:0 125:0\"",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "5": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
                                 "keys": "",
                                 "write": "",
                                 "command": "",
@@ -1096,101 +213,17 @@
                             }
                         }
                     },
-                    "6": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW14",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "7": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW15",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "8": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "MOV\nW16",
-                                "icon": "",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 30,
-                                "background_color": ""
-                            }
-                        }
-                    },
-                    "9": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/cogs-solid.png",
-                                "keys": "",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 5,
-                                "switch_state": 0,
-                                "text_vertical_align": "",
-                                "text_horizontal_align": "",
-                                "font": "",
-                                "font_color": "",
-                                "font_size": 0,
-                                "background_color": ""
-                            }
-                        }
-                    },
                     "10": {
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "SEL",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/firefox-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "firefox",
                                 "brightness_change": 0,
-                                "switch_page": 3,
+                                "switch_page": 0,
                                 "switch_state": 0,
                                 "text_vertical_align": "middle",
                                 "text_horizontal_align": "",
@@ -1205,11 +238,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "MOV\nW17",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/telegram-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "Telegram",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -1226,11 +259,11 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "MOV\nW18",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/spotify-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "spotify",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -1247,15 +280,15 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "MOV\nW19",
-                                "icon": "",
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/steam_logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "steam",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "middle-bottom",
+                                "text_vertical_align": "middle",
                                 "text_horizontal_align": "",
                                 "font": "",
                                 "font_color": "",
@@ -1269,12 +302,12 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/window-close-regular-red.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/cogs-solid.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"YDOTOOL_SOCKET=/run/user/1000/.ydotool_socket ydotool key 125:1 46:1 46:0 125:0\"",
+                                "command": "",
                                 "brightness_change": 0,
-                                "switch_page": 0,
+                                "switch_page": 5,
                                 "switch_state": 0,
                                 "text_vertical_align": "",
                                 "text_horizontal_align": "",
@@ -1355,10 +388,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/steam_logo.png",
+                                "icon": "",
                                 "keys": "",
                                 "write": "",
-                                "command": "steam",
+                                "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -1379,7 +412,7 @@
                                 "icon": "~/.config/streamdeck-ui/icons/power-off-solid-red.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "systemctl poweroff",
+                                "command": "bash -c \"sleep 2 && systemctl poweroff\"",
                                 "brightness_change": 0,
                                 "switch_page": 1,
                                 "switch_state": 0,
@@ -1438,13 +471,13 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "Horizon\nZero Dawn",
+                                "text": "",
                                 "icon": "",
                                 "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
-                                "switch_page": 6,
+                                "switch_page": 0,
                                 "switch_state": 0,
                                 "text_vertical_align": "middle",
                                 "text_horizontal_align": "",
@@ -1460,10 +493,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/discord-logo.png",
+                                "icon": "",
                                 "keys": "",
                                 "write": "",
-                                "command": "discord",
+                                "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -1481,10 +514,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-left-solid.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/retweet-solid-red.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "bash -c \"sleep 2 && systemctl reboot\"",
                                 "brightness_change": 0,
                                 "switch_page": 1,
                                 "switch_state": 0,
@@ -1543,19 +576,19 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "",
+                                "text": "NRS",
                                 "icon": "",
                                 "keys": "",
                                 "write": "",
-                                "command": "",
+                                "command": "kitty -e bash -i -c nrs",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "",
+                                "text_vertical_align": "middle",
                                 "text_horizontal_align": "",
                                 "font": "",
                                 "font_color": "",
-                                "font_size": 0,
+                                "font_size": 30,
                                 "background_color": ""
                             }
                         }
@@ -1564,19 +597,19 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/telegram-logo.png",
+                                "text": "NUS",
+                                "icon": "",
                                 "keys": "",
                                 "write": "",
-                                "command": "telegram-desktop",
+                                "command": "kitty -e bash -i -c nus",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "",
+                                "text_vertical_align": "middle",
                                 "text_horizontal_align": "",
                                 "font": "",
                                 "font_color": "",
-                                "font_size": 0,
+                                "font_size": 30,
                                 "background_color": ""
                             }
                         }
@@ -1586,10 +619,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/retweet-solid-red.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-left-solid.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "systemctl reboot",
+                                "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 1,
                                 "switch_state": 0,
@@ -1603,24 +636,24 @@
                         }
                     }
                 },
-                "5": {
+                "1": {
                     "0": {
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "Map",
+                                "text": "",
                                 "icon": "",
-                                "keys": "m",
+                                "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "middle",
+                                "text_vertical_align": "",
                                 "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
+                                "font": "",
                                 "font_color": "",
-                                "font_size": 16,
+                                "font_size": 0,
                                 "background_color": ""
                             }
                         }
@@ -1629,19 +662,19 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "Pause",
+                                "text": "",
                                 "icon": "",
-                                "keys": "Esc",
+                                "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "middle",
+                                "text_vertical_align": "",
                                 "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
+                                "font": "",
                                 "font_color": "",
-                                "font_size": 16,
+                                "font_size": 0,
                                 "background_color": ""
                             }
                         }
@@ -1693,6 +726,27 @@
                         "states": {
                             "0": {
                                 "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 1,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "5": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
                                 "icon": "",
                                 "keys": "",
                                 "write": "",
@@ -1709,44 +763,23 @@
                             }
                         }
                     },
-                    "5": {
-                        "state": 0,
-                        "states": {
-                            "0": {
-                                "text": "Inventory",
-                                "icon": "",
-                                "keys": "i",
-                                "write": "",
-                                "command": "",
-                                "brightness_change": 0,
-                                "switch_page": 0,
-                                "switch_state": 0,
-                                "text_vertical_align": "middle",
-                                "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
-                                "font_color": "",
-                                "font_size": 16,
-                                "background_color": ""
-                            }
-                        }
-                    },
                     "6": {
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "Crafting",
+                                "text": "",
                                 "icon": "",
-                                "keys": "o",
+                                "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "middle",
+                                "text_vertical_align": "",
                                 "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
+                                "font": "",
                                 "font_color": "",
-                                "font_size": 16,
+                                "font_size": 0,
                                 "background_color": ""
                             }
                         }
@@ -1798,12 +831,12 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "~/.config/streamdeck-ui/icons/long-arrow-alt-left-solid.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
                                 "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
-                                "switch_page": 5,
+                                "switch_page": 3,
                                 "switch_state": 0,
                                 "text_vertical_align": "",
                                 "text_horizontal_align": "",
@@ -1818,19 +851,19 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "Missions",
+                                "text": "",
                                 "icon": "",
-                                "keys": "j",
+                                "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "middle",
+                                "text_vertical_align": "",
                                 "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
+                                "font": "",
                                 "font_color": "",
-                                "font_size": 17,
+                                "font_size": 0,
                                 "background_color": ""
                             }
                         }
@@ -1839,19 +872,19 @@
                         "state": 0,
                         "states": {
                             "0": {
-                                "text": "Skills",
+                                "text": "",
                                 "icon": "",
-                                "keys": "k",
+                                "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
-                                "text_vertical_align": "middle",
+                                "text_vertical_align": "",
                                 "text_horizontal_align": "",
-                                "font": "/nix/store/3b1wqhbv24vqh5wjymfqmfgzrkfhxlff-streamdeck-ui-4.1.3/lib/python3.12/site-packages/streamdeck_ui/fonts/roboto/Roboto-Bold.ttf",
+                                "font": "",
                                 "font_color": "",
-                                "font_size": 16,
+                                "font_size": 0,
                                 "background_color": ""
                             }
                         }
@@ -1903,12 +936,646 @@
                         "states": {
                             "0": {
                                 "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/cogs-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 5,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    }
+                },
+                "2": {
+                    "0": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
                                 "icon": "",
                                 "keys": "",
                                 "write": "",
                                 "command": "",
                                 "brightness_change": 0,
                                 "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "1": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "2": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "3": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "4": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 2,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "5": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "6": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "7": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "8": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "9": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-down-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 4,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "10": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "11": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "12": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "13": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "14": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/cogs-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 5,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    }
+                },
+                "3": {
+                    "0": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "1": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "2": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "3": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "4": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/long-arrow-alt-up-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 3,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "5": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "6": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "7": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "8": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "9": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/slash-arrow-down-long-solid-full.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "10": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "11": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "12": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "13": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 0,
+                                "switch_state": 0,
+                                "text_vertical_align": "",
+                                "text_horizontal_align": "",
+                                "font": "",
+                                "font_color": "",
+                                "font_size": 0,
+                                "background_color": ""
+                            }
+                        }
+                    },
+                    "14": {
+                        "state": 0,
+                        "states": {
+                            "0": {
+                                "text": "",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/cogs-solid.png",
+                                "keys": "",
+                                "write": "",
+                                "command": "",
+                                "brightness_change": 0,
+                                "switch_page": 5,
                                 "switch_state": 0,
                                 "text_vertical_align": "",
                                 "text_horizontal_align": "",

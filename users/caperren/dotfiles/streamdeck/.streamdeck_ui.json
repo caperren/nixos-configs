@@ -53,7 +53,7 @@
                                 "icon": "/home/caperren/.config/streamdeck-ui/icons/kitty-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "kitty -e glances",
+                                "command": "kitty",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,

@@ -46,8 +46,9 @@ in
       font.name = "JetBrains Mono";
     };
 
-    # Assets
+    # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;
+    home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;
 
     # Application config files
     home.file.".config/glances/glances.conf".source = ./dotfiles/.config/glances/glances.conf;
@@ -81,8 +82,9 @@ in
 
     # Custom bash aliases
     home.shellAliases = {
-        # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
-        savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";
+      # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
+      savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";
+      screenshot = "~/.config/hypr/scripts/screenshot.sh";
     };
 
     # Theming

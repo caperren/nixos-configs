@@ -33,6 +33,7 @@
     kdePackages.qt6ct
     killall
     kitty
+    swappy
     lf
     minicom
     ncdu

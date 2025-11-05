@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Phone RDP
+Exec=bash -c "phonerdp"
+Icon=phonerdp
+Terminal=false
+Categories=Utilities;

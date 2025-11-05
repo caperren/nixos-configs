@@ -82,8 +82,13 @@ in
 
     # Custom bash aliases
     home.shellAliases = {
+      # Phone remote desktop over usb (adb), with some default flags I want
+      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --fullscreen";
+
       # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
       savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";
+
+      # Nice to have an alias if I ever want to launch this from cmdline, or see the dbus help string
       screenshot = "~/.config/hypr/scripts/screenshot.sh";
     };
 
@@ -109,6 +114,9 @@ in
       font.name = "JetBrains Mono 11";
     };
 
+    home.sessionPath = [
+      "$HOME/.local/share"
+    ];
     home.sessionVariables = {
       GTK_THEME = "Adwaita-dark";
     };

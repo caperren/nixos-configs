@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Phone RDP
-Exec=bash -c "scrcpy --no-audio --orientation=0 --turn-screen-off"
+Exec=bash -c "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake"
 Icon=phonerdp
 Terminal=false
 Categories=Utilities;

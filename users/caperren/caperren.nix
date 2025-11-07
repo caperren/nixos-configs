@@ -90,7 +90,7 @@ in
     # Custom bash aliases
     home.shellAliases = {
       # Phone remote desktop over usb (adb), with some default flags I want
-      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off";
+      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake";
 
       # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
       savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";

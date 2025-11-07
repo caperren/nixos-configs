@@ -56,6 +56,7 @@ in
     home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;
 
     # Application config files
+    home.file.".config/containers/policy.json".source = ./dotfiles/.config/containers/policy.json;
     home.file.".config/glances/glances.conf".source = ./dotfiles/.config/glances/glances.conf;
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
     home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;

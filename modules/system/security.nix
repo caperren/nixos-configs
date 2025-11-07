@@ -4,6 +4,7 @@
     enable = true;
     extraRules = [
       {
+        groups = [ "wheel" ];
         commands = [
           {
             command = "${pkgs.systemd}/bin/reboot";
@@ -14,7 +15,16 @@
             options = [ "NOPASSWD" ];
           }
         ];
-        groups = [ "wheel" ];
+      }
+      {
+        users = [ "caperren" ];
+        commands = [
+          {
+            command = "${pkgs.nvtopPackages.full}/bin/nvtop";
+            options = [ "NOPASSWD" "SETENV" ];
+          }
+        ];
+
       }
     ];
   };

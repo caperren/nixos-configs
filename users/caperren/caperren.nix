@@ -43,11 +43,16 @@ in
     programs.bemenu.enable = true;
 
     programs.kitty = {
+      enable = true;
       font.name = "JetBrains Mono";
+      settings = {
+        allow_remote_control = true;
+      };
     };
 
-    # Assets
+    # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;
+    home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;
 
     # Application config files
     home.file.".config/glances/glances.conf".source = ./dotfiles/.config/glances/glances.conf;
@@ -73,16 +78,25 @@ in
     home.file.".config/wlogout/layout".source = ./dotfiles/wlogout/layout;
 
     # Desktop entry files so bemenu can find them
-    home.file.".local/share/glava.desktop".source = ./dotfiles/.local/share/glava.desktop;
-    home.file.".local/share/jetbrains-toolbox.desktop".source =
-      ./dotfiles/.local/share/jetbrains-toolbox.desktop;
-    home.file.".local/share/spotify-player.desktop".source =
-      ./dotfiles/.local/share/spotify-player.desktop;
+    home.file.".local/share/applications/alltop.desktop".source =
+      ./dotfiles/.local/share/applications/alltop.desktop;
+    home.file.".local/share/applications/glava.desktop".source =
+      ./dotfiles/.local/share/applications/glava.desktop;
+    home.file.".local/share/applications/phonerdp.desktop".source =
+      ./dotfiles/.local/share/applications/phonerdp.desktop;
+    home.file.".local/share/applications/spotify-player.desktop".source =
+      ./dotfiles/.local/share/applications/spotify-player.desktop;
 
     # Custom bash aliases
     home.shellAliases = {
-        # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
-        savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";
+      # Phone remote desktop over usb (adb), with some default flags I want
+      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake";
+
+      # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
+      savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";
+
+      # Nice to have an alias if I ever want to launch this from cmdline, or see the dbus help string
+      screenshot = "~/.config/hypr/scripts/screenshot.sh";
     };
 
     # Theming
@@ -107,6 +121,9 @@ in
       font.name = "JetBrains Mono 11";
     };
 
+    home.sessionPath = [
+      "$HOME/.local/share"
+    ];
     home.sessionVariables = {
       GTK_THEME = "Adwaita-dark";
     };

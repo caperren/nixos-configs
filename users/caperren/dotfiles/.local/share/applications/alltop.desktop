@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=All Top
+Exec=bash -c "kitty --single-instance --detach bash -c 'kitten @ launch --type=window --title btop btop ; kitten @ launch --type=window --title nvtop nvtop'"
+Icon=alltop
+Terminal=false
+Categories=Utilities;

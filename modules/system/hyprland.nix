@@ -1,35 +1,32 @@
 { config, pkgs, ... }:
 {
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
-  services.displayManager.gdm = {
-    enable = true;
-    wayland = true;
-  };
-
-  services.xserver = {
-    enable = true;
-  };
 
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+  programs.hyprlock.enable = true;
+  programs.waybar.enable = true;
+
+  services.displayManager.gdm = {
+    enable = true;
+    wayland = true;
+  };
+  services.hypridle.enable = true;
+  services.xserver.enable = true;
+
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
-  programs.hyprlock.enable = true;
-  programs.waybar.enable = true;
-  services.hypridle.enable = true;
-
   environment.systemPackages = with pkgs; [
     arandr
+    bemenu
     dunst
-    flameshot
     grim
     hyprpaper
     hyprpicker
@@ -43,7 +40,7 @@
     swayimg
     wl-clipboard
     wlogout
-    bemenu
+
   ];
 
 }

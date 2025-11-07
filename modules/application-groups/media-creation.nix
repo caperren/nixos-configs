@@ -6,5 +6,6 @@
     inkscape
     kdePackages.kdenlive
     obs-studio
+    pinta
   ];
 }

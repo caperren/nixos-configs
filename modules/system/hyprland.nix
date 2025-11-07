@@ -25,6 +25,7 @@
 
   environment.systemPackages = with pkgs; [
     arandr
+    bemenu
     dunst
     grim
     hyprpaper
@@ -39,7 +40,7 @@
     swayimg
     wl-clipboard
     wlogout
-    bemenu
+
   ];
 
 }

@@ -43,7 +43,11 @@ in
     programs.bemenu.enable = true;
 
     programs.kitty = {
+      enable = true;
       font.name = "JetBrains Mono";
+      settings = {
+        allow_remote_control = true;
+      };
     };
 
     # Assets/scripts
@@ -74,11 +78,12 @@ in
     home.file.".config/wlogout/layout".source = ./dotfiles/wlogout/layout;
 
     # Desktop entry files so bemenu can find them
-    home.file.".local/share/glava.desktop".source = ./dotfiles/.local/share/glava.desktop;
-    home.file.".local/share/jetbrains-toolbox.desktop".source =
-      ./dotfiles/.local/share/jetbrains-toolbox.desktop;
-    home.file.".local/share/spotify-player.desktop".source =
-      ./dotfiles/.local/share/spotify-player.desktop;
+    home.file.".local/share/applications/alltop.desktop".source =
+      ./dotfiles/.local/share/applications/alltop.desktop;
+    home.file.".local/share/applications/glava.desktop".source =
+      ./dotfiles/.local/share/applications/glava.desktop;
+    home.file.".local/share/applications/spotify-player.desktop".source =
+      ./dotfiles/.local/share/applications/spotify-player.desktop;
 
     # Custom bash aliases
     home.shellAliases = {

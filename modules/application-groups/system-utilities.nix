@@ -40,7 +40,7 @@
     networkmanager
     networkmanagerapplet
     nmap
-    # nvtopPackages.full  # <- Build failure: https://github.com/nixos/nixpkgs/issues/456928
+    nvtopPackages.full
     openrgb-with-all-plugins
     pciutils
     rofi-bluetooth

@@ -13,12 +13,13 @@ in
     isNormalUser = true;
     description = "Corwin Perren";
     extraGroups = [
-      "networkmanager"
-      "wheel"
-      "input"
-      "dialout"
-      "plugdev"
       "adbusers"
+      "dialout"
+      "input"
+      "networkmanager"
+      "plugdev"
+      "podman"
+      "wheel"
     ];
   };
 
@@ -90,7 +91,7 @@ in
     # Custom bash aliases
     home.shellAliases = {
       # Phone remote desktop over usb (adb), with some default flags I want
-      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake";
+      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake --power-off-on-close";
 
       # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
       savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";

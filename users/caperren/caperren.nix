@@ -82,6 +82,8 @@ in
       ./dotfiles/.local/share/applications/alltop.desktop;
     home.file.".local/share/applications/glava.desktop".source =
       ./dotfiles/.local/share/applications/glava.desktop;
+    home.file.".local/share/applications/phonerdp.desktop".source =
+      ./dotfiles/.local/share/applications/phonerdp.desktop;
     home.file.".local/share/applications/spotify-player.desktop".source =
       ./dotfiles/.local/share/applications/spotify-player.desktop;
 

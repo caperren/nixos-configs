@@ -27,6 +27,7 @@
   environment.systemPackages = with pkgs; [
     bs-manager
     heroic
+    itch
     monado
   ];
 }

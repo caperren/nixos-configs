@@ -15,6 +15,7 @@ in
     extraGroups = [
       "adbusers"
       "dialout"
+      "docker"
       "input"
       "networkmanager"
       "plugdev"

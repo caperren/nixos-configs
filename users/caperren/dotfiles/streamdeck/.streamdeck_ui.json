@@ -116,7 +116,7 @@
                                 "icon": "/home/caperren/.config/streamdeck-ui/icons/unifi-camera-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "google-chrome-stable --kiosk --start-fullscreen https://homeassistant.crestline.perren.cloud/house-dashboard/0?kiosk",
+                                "command": "google-chrome-stable --kiosk --start-fullscreen http://192.168.1.36:8123/house-guest-bedroom-monitoring-dashboard",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,

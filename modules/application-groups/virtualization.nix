@@ -1,12 +1,10 @@
 { config, pkgs, ... }:
 {
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-  };
 
-  environment.systemPackages = with pkgs; [
-    distrobox
-  ];
+  virtualisation.docker.enable = true;
+  virtualisation.containers.policy = {
+    default = [ { type = "insecureAcceptAnything"; } ];
+
+  };
 
 }

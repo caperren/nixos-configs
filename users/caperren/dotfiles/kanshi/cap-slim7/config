@@ -8,8 +8,7 @@ profile bedroom_desk {
     # Top left to right
     output "Dell Inc. DELL P2411H F8NDP11G0DVU" enable position 0,1280
     output "Acer Technologies CB292CU 2217018D42410" enable position 1920,0 transform 90
-    output "DLOGIC Ltd. No Monitor USB_601e-21H1" enable position 3000,1280
-    # output "DLOGIC Ltd. No Monitor USB_601e-21H1" mode --custom 1920x1080@60Hz enable position 3000,1280
+    output "Dell Inc. DELL P2411H F8NDP097114U" enable position 3000,1280
 
     # Bottom left to right
     output "Aculab Ltd Digital Unknown" enable transform 270 position 0,2360
@@ -18,9 +17,4 @@ profile bedroom_desk {
 
     # Far bottom right (laptop itself)
     output "BOE 0x0A9B Unknown" enable position 5440,2360 adaptive_sync on
-}
-
-profile scotts_apartment_tv {
-    output "BOE 0x0A9B Unknown" enable mode 2560x1600@165Hz position 0,0 adaptive_sync on
-    output "Hisense Electric Co., Ltd. HISENSE 0x00000001" enable mode 1920x1080@60Hz position 2560,0
 }

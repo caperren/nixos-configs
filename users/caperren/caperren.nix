@@ -13,12 +13,14 @@ in
     isNormalUser = true;
     description = "Corwin Perren";
     extraGroups = [
-      "networkmanager"
-      "wheel"
-      "input"
-      "dialout"
-      "plugdev"
       "adbusers"
+      "dialout"
+      "docker"
+      "input"
+      "networkmanager"
+      "plugdev"
+      "podman"
+      "wheel"
     ];
   };
 
@@ -55,6 +57,7 @@ in
     home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;
 
     # Application config files
+    home.file.".config/containers/policy.json".source = ./dotfiles/.config/containers/policy.json;
     home.file.".config/glances/glances.conf".source = ./dotfiles/.config/glances/glances.conf;
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
     home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;
@@ -90,7 +93,7 @@ in
     # Custom bash aliases
     home.shellAliases = {
       # Phone remote desktop over usb (adb), with some default flags I want
-      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake";
+      phonerdp = "scrcpy --no-audio --orientation=0 --turn-screen-off --stay-awake --power-off-on-close";
 
       # Streamdeck isn't easy to manually edit, so make a save command to copy any updates to the repo
       savestreamdeck = "cp ~/.streamdeck_ui.json ~/.nixos-configs/users/caperren/dotfiles/streamdeck/.streamdeck_ui.json";

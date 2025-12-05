@@ -21,6 +21,7 @@
   environment.systemPackages = with pkgs; [
     btop-cuda
     desktop-file-utils
+    dmidecode
     dnsutils
     ffmpeg-full
     git

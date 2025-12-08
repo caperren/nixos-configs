@@ -22,5 +22,6 @@
     usbutils
     util-linux
     wget
+    firefox
   ];
 }

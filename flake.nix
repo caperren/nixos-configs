@@ -20,6 +20,13 @@
       ...
     }@inputs:
     {
+      nixosConfigurations.cap-clust-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/cap-clust-01/configuration.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
 
       nixosConfigurations.cap-slim7 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

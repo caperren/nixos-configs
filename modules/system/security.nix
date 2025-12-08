@@ -14,12 +14,17 @@
             command = "${pkgs.systemd}/bin/poweroff";
             options = [ "NOPASSWD" ];
           }
+        ];
+      }
+      {
+        users = [ "cluster-admin" ];
+        commands = [
           {
-            command = "${pkgs.systemd}/bin/systemctl start git-auto-rebuild";
+            command = "${pkgs.systemd}/bin/systemctl start git-auto-rebuild.service";
             options = [ "NOPASSWD" ];
           }
           {
-            command = "${pkgs.systemd}/bin/systemctl stop git-auto-rebuild";
+            command = "${pkgs.systemd}/bin/systemctl stop git-auto-rebuild.service";
             options = [ "NOPASSWD" ];
           }
 
@@ -30,7 +35,10 @@
         commands = [
           {
             command = "${pkgs.nvtopPackages.full}/bin/nvtop";
-            options = [ "NOPASSWD" "SETENV" ];
+            options = [
+              "NOPASSWD"
+              "SETENV"
+            ];
           }
         ];
 

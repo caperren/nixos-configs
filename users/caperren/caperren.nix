@@ -26,7 +26,7 @@ in
     ];
     openssh.authorizedKeys.keys = [
         sshDesktopPubkey
-#        sshLaptopPubkey
+        sshLaptopPubkey
     ];
   };
 

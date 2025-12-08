@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   sshCaperrenDesktopPubkey = builtins.readFile ../caperren/pubkeys/cap-nr200p.pub;
+  sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
   users.users.cluster-admin = {
@@ -13,6 +14,7 @@ in
     ];
     openssh.authorizedKeys.keys = [
       sshCaperrenDesktopPubkey
+      sshCaperrenLaptopPubkey
     ];
   };
 

@@ -8,7 +8,7 @@
     #        startAt = "*:0/1";
     serviceConfig = {
       Type = "simple";
-      ExecStart = "/run/current-system/sw/bin/bash -c '/etc/nixos && git pull && sudo nixos-rebuild switch --flake #$(hostname)'";
+      ExecStart = "/run/current-system/sw/bin/bash -c 'cd /etc/nixos && git pull && sudo nixos-rebuild switch --flake #$(hostname)'";
     };
 
   };

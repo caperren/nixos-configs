@@ -2,6 +2,8 @@
 let
   hyprlandConfigPath = ./. + "/dotfiles/hyprland/${config.networking.hostName}";
   kanshiConfigPath = ./. + "/dotfiles/kanshi/${config.networking.hostName}";
+  sshDesktopPubkey = builtins.readFile ./pubkeys/cap-nr200p.pub;
+  sshLaptopPubkey = builtins.readFile ./pubkeys/cap-slim7.pub;
   spotifyPlayerAppTomlTextTemplate = builtins.readFile ./dotfiles/spotify-player/app.toml;
   spotifyPlayerAppTomlText =
     builtins.replaceStrings [ "{{hostname}}" ] [ config.networking.hostName ]
@@ -21,6 +23,10 @@ in
       "plugdev"
       "podman"
       "wheel"
+    ];
+    openssh.authorizedKeys.keys = [
+        sshDesktopPubkey
+        sshLaptopPubkey
     ];
   };
 

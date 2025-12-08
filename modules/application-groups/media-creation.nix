@@ -4,7 +4,7 @@
     audacity
     darktable
     inkscape
-    kdePackages.kdenlive
+    # kdePackages.kdenlive  # <- Build Failure
     obs-studio
     pinta
   ];

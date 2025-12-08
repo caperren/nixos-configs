@@ -15,12 +15,14 @@
             options = [ "NOPASSWD" ];
           }
           {
-            commands = [
-                "${pkgs.systemd}/bin/systemctl start git-auto-rebuild"
-                "${pkgs.systemd}/bin/systemctl stop git-auto-rebuild"
-            ];
+            commands = "${pkgs.systemd}/bin/systemctl start git-auto-rebuild";
             options = [ "NOPASSWD" ];
           }
+          {
+            commands = "${pkgs.systemd}/bin/systemctl stop git-auto-rebuild";
+            options = [ "NOPASSWD" ];
+          }
+
         ];
       }
       {

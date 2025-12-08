@@ -7,11 +7,11 @@
         groups = [ "wheel" ];
         commands = [
           {
-            command = "${pkgs.systemd}/bin/reboot";
+            command = "${config.system.path}/bin/reboot";
             options = [ "NOPASSWD" ];
           }
           {
-            command = "${pkgs.systemd}/bin/poweroff";
+            command = "${config.system.path}/bin/poweroff";
             options = [ "NOPASSWD" ];
           }
         ];
@@ -20,11 +20,11 @@
         users = [ "cluster-admin" ];
         commands = [
           {
-            command = "${pkgs.systemd}/bin/systemctl start git-auto-rebuild.service";
+            command = "${config.system.path}/bin/systemctl start git-auto-rebuild.service";
             options = [ "NOPASSWD" ];
           }
           {
-            command = "${pkgs.systemd}/bin/systemctl stop git-auto-rebuild.service";
+            command = "${config.system.path}/bin/systemctl stop git-auto-rebuild.service";
             options = [ "NOPASSWD" ];
           }
 
@@ -34,7 +34,7 @@
         users = [ "caperren" ];
         commands = [
           {
-            command = "${pkgs.nvtopPackages.full}/bin/nvtop";
+            command = "${config.system.path}/bin/nvtop";
             options = [
               "NOPASSWD"
               "SETENV"

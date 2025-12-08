@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  sshCaperrenDesktopPubkey = builtins.readFile ../caperren/pubkeys/cap-nr200p.pub;
+in
 {
   users.users.cluster-admin = {
     initialPassword = "changeme";
@@ -7,6 +10,9 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+    ];
+    openssh.authorizedKeys.keys = [
+      sshCaperrenDesktopPubkey
     ];
   };
 

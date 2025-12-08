@@ -1,9 +1,8 @@
 { config, pkgs, ... }:
 {
   systemd.services.git-auto-rebuild = {
-#    enable = true;
+    enable = true;
     after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
     description = "Rebuilds the git repo at /etc/nixos if there are changes in the currently checked out branch";
     #        startAt = "*:0/1";
     serviceConfig = {

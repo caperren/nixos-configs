@@ -14,6 +14,13 @@
             command = "${pkgs.systemd}/bin/poweroff";
             options = [ "NOPASSWD" ];
           }
+          {
+            commands = [
+                "${pkgs.systemd}/bin/systemctl start git-auto-rebuild"
+                "${pkgs.systemd}/bin/systemctl stop git-auto-rebuild"
+            ];
+            options = [ "NOPASSWD" ];
+          }
         ];
       }
       {

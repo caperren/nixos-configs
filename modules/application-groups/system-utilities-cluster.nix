@@ -13,7 +13,7 @@
     iotop
     killall
     kitty
-
+    ncdu
     networkmanager
     nmap
     nvtopPackages.full

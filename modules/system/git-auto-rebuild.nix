@@ -8,7 +8,7 @@
 
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = ''${pkgs.bash}/bin/bash -c "cd /etc/nixos && ${pkgs.git}/bin/git pull && ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake \#$(hostname)"'';
+      ExecStart = ''${pkgs.bash}/bin/bash -c "cd /etc/nixos && ${pkgs.git}/bin/git pull && ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake \#$(${pkgs.hostname}/bin/hostname)"'';
     };
     environment =
       config.nix.envVars
@@ -18,8 +18,10 @@
       }
       // config.networking.proxy.envVars;
     path = with pkgs; [
+      bash
       coreutils
       gnutar
+      hostname
       xz.bin
       gzip
       gitMinimal

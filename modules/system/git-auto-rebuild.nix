@@ -8,7 +8,7 @@
 
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = ''${pkgs.bash}/bin/bash -c "cd /etc/nixos && ${pkgs.git}/bin/git pull && ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake \#$(${pkgs.hostname}/bin/hostname)"'';
+      ExecStart = ''${pkgs.bash}/bin/bash -c "cd /etc/nixos && ${pkgs.git}/bin/git pull && ${config.system.build.nixos-rebuild}/bin/nixos-rebuild switch --flake \#$(${pkgs.hostname}/bin/hostname)"'';
     };
     environment =
       config.nix.envVars

@@ -7,7 +7,7 @@
     #        startAt = "*:0/1";
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.bash}/bin/bash -c 'cd /etc/nixos && ${pkgs.git}/bin/git pull && ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake #$(hostname)'";
+      ExecStart = "${pkgs.bash}/bin/bash -c ''cd /etc/nixos && ${pkgs.git}/bin/git pull && ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake #$(hostname)''";
     };
   };
 }

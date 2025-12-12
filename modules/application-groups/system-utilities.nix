@@ -38,6 +38,7 @@
     kitty
     swappy
     lf
+    mesa-demos
     minicom
     ncdu
     networkmanager

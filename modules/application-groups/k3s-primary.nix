@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  sops.secrets.k3s_token.sopsFile = secrets/cluster.yaml;
+  sops.secrets.k3s_token.sopsFile = /etc/nixos/secrets/cluster.yaml;
 
   services.k3s = {
     enable = true;

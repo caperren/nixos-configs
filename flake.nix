@@ -5,8 +5,13 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -15,6 +20,7 @@
     {
       self,
       nixpkgs,
+      sops-nix,
       home-manager,
       nixos-hardware,
       ...
@@ -24,6 +30,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-01/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -31,6 +38,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-02/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -38,6 +46,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-03/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -45,6 +54,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-04/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -52,6 +62,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-05/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -59,6 +70,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-06/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -66,6 +78,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-07/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -73,6 +86,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-08/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -80,6 +94,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-clust-09/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -91,6 +106,7 @@
         };
         modules = [
           ./hosts/cap-slim7/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
           nixos-hardware.nixosModules.lenovo-legion-16arha7
         ];
@@ -100,6 +116,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/cap-nr200p/configuration.nix
+          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
         ];
       };

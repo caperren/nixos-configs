@@ -25,8 +25,8 @@ in
       "wheel"
     ];
     openssh.authorizedKeys.keys = [
-        sshDesktopPubkey
-        sshLaptopPubkey
+      sshDesktopPubkey
+      sshLaptopPubkey
     ];
   };
 
@@ -57,6 +57,8 @@ in
         allow_remote_control = true;
       };
     };
+
+    programs.ssh.enable = true;
 
     # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;

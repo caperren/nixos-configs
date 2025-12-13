@@ -28,6 +28,7 @@
     {
       nixosConfigurations.cap-clust-01 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-01/configuration.nix
           sops-nix.nixosModules.sops
@@ -36,6 +37,7 @@
       };
       nixosConfigurations.cap-clust-02 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-02/configuration.nix
           sops-nix.nixosModules.sops
@@ -44,6 +46,7 @@
       };
       nixosConfigurations.cap-clust-03 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-03/configuration.nix
           sops-nix.nixosModules.sops
@@ -52,6 +55,7 @@
       };
       nixosConfigurations.cap-clust-04 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-04/configuration.nix
           sops-nix.nixosModules.sops
@@ -60,6 +64,7 @@
       };
       nixosConfigurations.cap-clust-05 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-05/configuration.nix
           sops-nix.nixosModules.sops
@@ -68,6 +73,7 @@
       };
       nixosConfigurations.cap-clust-06 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-06/configuration.nix
           sops-nix.nixosModules.sops
@@ -76,6 +82,7 @@
       };
       nixosConfigurations.cap-clust-07 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-07/configuration.nix
           sops-nix.nixosModules.sops
@@ -84,6 +91,7 @@
       };
       nixosConfigurations.cap-clust-08 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-08/configuration.nix
           sops-nix.nixosModules.sops
@@ -92,6 +100,7 @@
       };
       nixosConfigurations.cap-clust-09 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-clust-09/configuration.nix
           sops-nix.nixosModules.sops
@@ -101,9 +110,7 @@
 
       nixosConfigurations.cap-slim7 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-slim7/configuration.nix
           sops-nix.nixosModules.sops
@@ -114,10 +121,11 @@
 
       nixosConfigurations.cap-nr200p = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-nr200p/configuration.nix
-          sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
         ];
       };
     };

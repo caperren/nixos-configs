@@ -8,7 +8,7 @@
     # System Configuration
     ../system/cpu-amd.nix
     ../system/fonts.nix
-    ../system/git-auto-rebuild.nix
+#    ../system/git-auto-rebuild.nix
     ../system/gpu-amd.nix
     ../system/home-manager-settings.nix
     ../system/internationalization.nix

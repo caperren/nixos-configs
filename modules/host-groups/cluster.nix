@@ -21,6 +21,8 @@
     ../application-groups/system-utilities-cluster.nix
   ];
 
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
   time.timeZone = "America/Los_Angeles";
 
   # This value determines the NixOS release from which the default

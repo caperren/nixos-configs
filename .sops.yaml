@@ -16,12 +16,27 @@ keys:
       - &cap_clust_08 age1vujvq5rdzppkkdhkwyhnl6xhuvm8s5yf2wc8ke05m8jwrdwsdf0qfx5w4r
       - &cap_clust_09 age1uyuudfya8etgztlt6hlssr9hkstyyhg65wdq3pj9rud2czzkaqqssg7yvp
 creation_rules:
+  - path_regex: secrets/default.yaml
+    key_groups:
+      - age:
+          - *caperren
+          - *cap_slim7
+          - *cap_nr200p
+          - *cap_clust_01
+          - *cap_clust_02
+          - *cap_clust_03
+          - *cap_clust_04
+          - *cap_clust_05
+          - *cap_clust_06
+          - *cap_clust_07
+          - *cap_clust_08
+          - *cap_clust_09
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-        - *caperren
-        - *cap_slim7
-        - *cap_nr200p
+          - *caperren
+          - *cap_slim7
+          - *cap_nr200p
   - path_regex: secrets/cluster.yaml
     key_groups:
       - age:

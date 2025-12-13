@@ -8,7 +8,7 @@
     # System Configuration
     ../system/cpu-amd.nix
     ../system/fonts.nix
-#    ../system/git-auto-rebuild.nix
+    ../system/git-auto-rebuild.nix
     ../system/gpu-amd.nix
     ../system/home-manager-settings.nix
     ../system/internationalization.nix
@@ -20,8 +20,6 @@
     # Application Groups
     ../application-groups/system-utilities-cluster.nix
   ];
-
-  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
   time.timeZone = "America/Los_Angeles";
 

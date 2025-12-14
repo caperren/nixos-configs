@@ -1,5 +1,15 @@
 { pkgs, config, ... }:
 {
+  environment.systemPackages = with pkgs; [
+    sops
+    age
+  ];
+  sops = {
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
+    defaultSopsFile = ../../secrets/default.yaml;
+  };
+
   security.sudo = {
     enable = true;
     extraRules = [

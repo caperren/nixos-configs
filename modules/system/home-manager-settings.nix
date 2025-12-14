@@ -1,5 +1,11 @@
-{ config, pkgs, ... }:
+{ inputs, ... }:
 {
-    home-manager.useGlobalPkgs = true;
-    home-manager.backupFileExtension = "bkp";
+  home-manager = {
+    useGlobalPkgs = true;
+    backupFileExtension = "bkp";
+    sharedModules = [
+      inputs.sops-nix.homeManagerModules.sops
+    ];
+  };
+
 }

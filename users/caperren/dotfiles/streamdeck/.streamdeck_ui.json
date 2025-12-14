@@ -179,7 +179,7 @@
                                 "icon": "/home/caperren/.config/streamdeck-ui/icons/btop-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "bash -c \"kitty --single-instance --detach bash -c 'kitten @ launch --type=window --title btop btop ; kitten @ launch --type=window --title nvtop nvtop'\"",
+                                "command": "kitty -e btop",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,

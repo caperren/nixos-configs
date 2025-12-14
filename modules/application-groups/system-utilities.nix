@@ -32,11 +32,13 @@
     imagemagick
     iotop
     jq
+    k3s
     kdePackages.qt6ct
     killall
     kitty
     swappy
     lf
+    mesa-demos
     minicom
     ncdu
     networkmanager

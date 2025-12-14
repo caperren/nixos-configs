@@ -5,16 +5,17 @@ profile builtin_only {
 }
 
 profile bedroom_desk {
-    # Top left to right
+    ##### Top left to right
     output "Dell Inc. DELL P2411H F8NDP11G0DVU" enable position 0,1280
     output "Acer Technologies CB292CU 2217018D42410" enable position 1920,0 transform 90
     output "Dell Inc. DELL P2411H F8NDP097114U" enable position 3000,1280
 
-    # Bottom left to right
+    ##### Bottom left to right
     output "Aculab Ltd Digital Unknown" enable transform 270 position 0,2360
+    # Primary monitor, which wayland doesn't have a concept of
     output "Hewlett Packard HP Z27n CNK7311DRR" enable position 1440,2560
     output "Aculab Ltd QHD270 Unknown" enable transform 90 position 4000,2360
 
-    # Far bottom right (laptop itself)
+    ##### Far bottom right (laptop itself)
     output "BOE 0x0A9B Unknown" enable position 5440,2360 adaptive_sync on
 }

@@ -58,8 +58,6 @@ in
       };
     };
 
-    programs.ssh.enable = true;
-
     # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;
     home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;

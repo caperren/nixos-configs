@@ -21,7 +21,7 @@
     ../../modules/system/cpu-amd.nix
     ../../modules/system/desktop.nix
     ../../modules/system/fonts.nix
-    ../../modules/system/gpu-nvidia.nix
+    ../../modules/system/gpu-amd.nix
     ../../modules/system/home-manager-settings.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix

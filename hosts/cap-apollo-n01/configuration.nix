@@ -8,17 +8,17 @@
     ../../users/caperren/caperren.nix
 
     # System Configuration
-    ../../system/cpu-intel.nix
-    ../../system/fonts.nix
-    ../../system/home-manager-settings.nix
-    ../../system/internationalization.nix
-    ../../system/networking.nix
-    ../../system/nix-settings.nix
-    ../../system/security.nix
-    ../../system/systemd-boot.nix
+    ../../modules/system/cpu-intel.nix
+    ../../modules/system/fonts.nix
+    ../../modules/system/home-manager-settings.nix
+    ../../modules/system/internationalization.nix
+    ../../modules/system/networking.nix
+    ../../modules/system/nix-settings.nix
+    ../../modules/system/security.nix
+    ../../modules/system/systemd-boot.nix
 
     # Application Groups
-    ../../application-groups/system-utilities-cluster.nix
+    ../../modules/application-groups/system-utilities-cluster.nix
   ];
 
   networking.hostName = "cap-apollo-n01";

@@ -108,6 +108,16 @@
         ];
       };
 
+      nixosConfigurations.cap-apollo-n01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-apollo-n01/configuration.nix
+          sops-nix.nixosModules.sops
+          inputs.home-manager.nixosModules.default
+        ];
+      };
+
       nixosConfigurations.cap-slim7 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };

@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
 
     # Users
-    ../../users/caperren/caperren.nix
+    ../../users/apollo-admin/apollo-admin.nix
 
     # System Configuration
     ../../modules/system/cpu-intel.nix

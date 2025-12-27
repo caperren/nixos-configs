@@ -19,6 +19,7 @@
 
     # Application Groups
     ../../modules/application-groups/system-utilities-cluster.nix
+    ../../modules/application-groups/virtualization.nix
   ];
 
   networking.hostName = "cap-apollo-n01";

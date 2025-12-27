@@ -9,6 +9,7 @@ in
     isNormalUser = true;
     description = "Cluster Admin";
     extraGroups = [
+      "docker"
       "networkmanager"
       "wheel"
     ];

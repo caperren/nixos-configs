@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
 
     # Users
-    ../../users/cluster-admin/caperren.nix
+    ../../users/caperren/caperren.nix
 
     # System Configuration
     ../system/cpu-intel.nix

@@ -18,6 +18,7 @@
     nmap
     nvtopPackages.full
     pciutils
+    screen
     unzip
     usbutils
     util-linux

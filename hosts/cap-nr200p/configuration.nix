@@ -31,6 +31,8 @@
     ../../modules/system/security.nix
     ../../modules/system/systemd-boot.nix
 
+    ../../modules/system/ilo-management.nix
+
     # Application Groups
     ../../modules/application-groups/3d-design.nix
     ../../modules/application-groups/android.nix

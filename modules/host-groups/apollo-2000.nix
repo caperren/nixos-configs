@@ -53,7 +53,6 @@
         bash
         config.programs.ssh.package
         screen
-        sleep
       ];
 
       startAt = "*:0/5";

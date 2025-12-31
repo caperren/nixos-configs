@@ -37,28 +37,36 @@
   systemd = {
     services.hpe-ilo-keepalive = {
       enable = true;
-      after = [ "network.target" ];
+      after = [
+        "network.target"
+        "hpe-silent-fans.service"
+      ];
+      wantedBy = [ "multi-user.target" ];
       description = "Maintains ilo ssh session via sending periodic command";
 
       serviceConfig = {
-        Type = "oneshot";
+        Type = "simple";
         ExecStart = ''screen -S ilofansession -X stuff "fan info^M"'';
       };
 
       path = with pkgs; [
         bash
-        screen
         config.programs.ssh.package
+        screen
+        sleep
       ];
+
+      startAt = "*:0/5";
     };
     services.hpe-silent-fans = {
       enable = true;
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      description = "Lowers fan speeds by using ilo over ssh to manually set fan parameters.";
+      description = "Lowers fan speeds by using ilo over ssh to manually set fan parameters";
 
       serviceConfig = {
-        Type = "oneshot";
+        Type = "simple";
+        ExecStartPre = ''${pkgs.sleep}/bin/sleep 30'';
         ExecStart = "${pkgs.writeShellScript "hpe-silent-fans.sh" ''
           set -e
 
@@ -97,18 +105,20 @@
 
       path = with pkgs; [
         bash
-        screen
         config.programs.ssh.package
+        coreutils
+        screen
       ];
     };
 
-    timers.hpe-ilo-keepalive = {
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "*-*-* *:0/5:00";
-        Unit = "hpe-ilo-keepalive.service";
-      };
-    };
+    #    timers.hpe-ilo-keepalive = {
+    #      wantedBy = [ "timers.target" ];
+    #      timerConfig = {
+    #        OnBootSec = "5m";
+    #        OnCalendar = "*-*-* *:0/5:00";
+    #        Unit = "hpe-ilo-keepalive.service";
+    #      };
+    #    };
   };
 
   # This value determines the NixOS release from which the default

@@ -46,7 +46,7 @@
 
       serviceConfig = {
         Type = "simple";
-        ExecStart = ''screen -S ilofansession -X stuff "fan info^M"'';
+        ExecStart = ''${pkgs.screen}/bin/screen -S ilofansession -X stuff "fan info^M"'';
       };
 
       path = with pkgs; [

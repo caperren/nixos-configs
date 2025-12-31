@@ -42,7 +42,7 @@
     };
     services.hpe-silent-fans = {
       enable = true;
-      after = [ "network.target" ];
+      after = [ "network.target" "multi-user.target" ];
       description = "Lowers fan speeds by using ilo over ssh to manually set fan parameters.";
 
       serviceConfig = {

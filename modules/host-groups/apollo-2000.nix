@@ -9,7 +9,6 @@
     ../../modules/system/cpu-intel.nix
     ../../modules/system/fonts.nix
     ../../modules/system/home-manager-settings.nix
-    ../../modules/system/ilo-management.nix
     ../../modules/system/internationalization.nix
     ../../modules/system/networking.nix
     ../../modules/system/nix-settings.nix
@@ -22,6 +21,18 @@
   ];
 
   time.timeZone = "America/Los_Angeles";
+
+  sops.secrets = {
+    "ssh/ilouser/id_rsa" = {
+      sopsFile = ../../secrets/default.yaml;
+      path = "/root/.ssh/ilo_id_rsa";
+      restartUnits = [ "hpe-silent-fans.service" ];
+    };
+    "ssh/ilouser/id_rsa_pub" = {
+      sopsFile = ../../secrets/default.yaml;
+      path = "/root/.ssh/ilo_id_rsa.pub";
+    };
+  };
 
   systemd = {
     services.hpe-ilo-keepalive = {

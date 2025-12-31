@@ -35,28 +35,28 @@
   };
 
   systemd = {
-    services.hpe-ilo-keepalive = {
-      enable = true;
-      after = [
-        "network.target"
-        "hpe-silent-fans.service"
-      ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Maintains ilo ssh session via sending periodic command";
-
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = ''${pkgs.screen}/bin/screen -S ilofansession -X stuff "fan info^M"'';
-      };
-
-      path = with pkgs; [
-        bash
-        config.programs.ssh.package
-        screen
-      ];
-
-      startAt = "*:0/5";
-    };
+#    services.hpe-ilo-keepalive = {
+#      enable = true;
+#      after = [
+#        "network.target"
+#        "hpe-silent-fans.service"
+#      ];
+#      wantedBy = [ "multi-user.target" ];
+#      description = "Maintains ilo ssh session via sending periodic command";
+#
+#      serviceConfig = {
+#        Type = "simple";
+#        ExecStart = ''${pkgs.screen}/bin/screen -S ilofansession -X stuff "fan info^M"'';
+#      };
+#
+#      path = with pkgs; [
+#        bash
+#        config.programs.ssh.package
+#        screen
+#      ];
+#
+#      startAt = "*:0/5";
+#    };
     services.hpe-silent-fans = {
       enable = true;
       after = [ "network.target" ];

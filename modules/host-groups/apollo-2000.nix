@@ -1,5 +1,16 @@
 { config, pkgs, ... }:
+let
+  host = config.networking.hostName;
 
+  # Match "cap-apollo-n02" → [ "cap-apollo" "02" ]
+  match = builtins.match "^(.*)-n([0-9]+)$" host;
+
+  iloHost =
+    if match == null then
+      throw "Unexpected hostname format: ${host}"
+    else
+      "${builtins.elemAt match 0}-ilo${builtins.elemAt match 1}";
+in
 {
   imports = [
     # Users
@@ -72,7 +83,7 @@
           SCREEN_NAME=ilofansession
 
           SSH_USER=ilouser
-          SSH_HOST=cap-apollo-ilo02
+          SSH_HOST=${iloHost}
           SSH_KEY=/root/.ssh/ilo_id_rsa
           SSH_OPTIONS="-o KexAlgorithms=diffie-hellman-group14-sha1,diffie-hellman-group1-sha1 -o PubkeyAcceptedKeyTypes=+ssh-rsa -o HostKeyAlgorithms=ssh-rsa -o StrictHostKeyChecking=no"
 

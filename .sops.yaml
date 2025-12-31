@@ -7,6 +7,7 @@ keys:
       - &cap_nr200p   age1g45zy9m5g4e20cjejgd3x40722rlddgkmhtddrl8wyf63kt5kg7s9ke390
     - &apollo:
       - &cap_apollo_n01 age1ljcy90uwlfngc7vqwlf2x2ckgsdfg90c0r9yvjzpl90jkwf9g48q2leudt
+      - &cap_apollo_n02 age1vl9q7u0jkzjpdqrmg4flvz2f7gyn05luv4ka60hu5l8yn4m6rujquhyc2p
     - &cluster:
       - &cap_clust_01 age1649y4antwgfe4fu02eppnx5gr0yc3g4lj4kwd6v9guxgxgj06y9qk7l4wl
       - &cap_clust_02 age1k085uuy4fv9rfpy0ne6zl9fq0j05a4fykqe26psx2ngxqrcxcu5sksxa9u
@@ -31,6 +32,7 @@ creation_rules:
           - *cap_slim7
           - *cap_nr200p
           - *cap_apollo_n01
+          - *cap_apollo_n02
           - *cap_clust_01
           - *cap_clust_02
           - *cap_clust_03

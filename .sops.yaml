@@ -46,6 +46,16 @@ creation_rules:
           - *cap_clust_07
           - *cap_clust_08
           - *cap_clust_09
+  - path_regex: secrets/apollo-2000.yaml$
+    key_groups:
+      - age:
+          - *caperren
+          - *cap_slim7
+          - *cap_nr200p
+          - *cap_apollo_n01
+          - *cap_apollo_n02
+          - *cap_apollo_n03
+          - *cap_apollo_n04
   - path_regex: secrets/cluster.yaml$
     key_groups:
       - age:

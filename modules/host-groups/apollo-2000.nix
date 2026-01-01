@@ -36,7 +36,7 @@ in
 
 
 
-   services.k3s = {
+  services.k3s = {
     enable = true;
     role = "server";
     tokenFile = config.sops.secrets.k3s_token.path;

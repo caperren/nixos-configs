@@ -1,15 +1,15 @@
 { config, pkgs, ... }:
 let
-  host = config.networking.hostName;
-
   # Match "cap-apollo-n02" → [ "cap-apollo" "02" ]
-  match = builtins.match "^(.*)-n([0-9]+)$" host;
+  match = builtins.match "^(.*)-n([0-9]+)$" config.networking.hostName;
 
   iloHost =
     if match == null then
-      throw "Unexpected hostname format: ${host}"
+      throw "Unexpected hostname format: ${config.networking.hostName}"
     else
       "${builtins.elemAt match 0}-ilo${builtins.elemAt match 1}";
+
+  isK3sPrimary = builtins.elemAt match 1 == "02";
 in
 {
   imports = [
@@ -43,31 +43,19 @@ in
       sopsFile = ../../secrets/default.yaml;
       path = "/root/.ssh/ilo_id_rsa.pub";
     };
+
+    k3s_token.sopsFile = ../../secrets/apollo-2000.yaml;
+  };
+
+   services.k3s = {
+    enable = true;
+    role = "server";
+    tokenFile = config.sops.secrets.k3s_token.path;
+    clusterInit = isK3sPrimary;
+    serverAddr = if isK3sPrimary then "" else "https://cap-apollo-n02:6443";
   };
 
   systemd = {
-#    services.hpe-ilo-keepalive = {
-#      enable = true;
-#      after = [
-#        "network.target"
-#        "hpe-silent-fans.service"
-#      ];
-#      wantedBy = [ "multi-user.target" ];
-#      description = "Maintains ilo ssh session via sending periodic command";
-#
-#      serviceConfig = {
-#        Type = "simple";
-#        ExecStart = ''${pkgs.screen}/bin/screen -S ilofansession -X stuff "fan info^M"'';
-#      };
-#
-#      path = with pkgs; [
-#        bash
-#        config.programs.ssh.package
-#        screen
-#      ];
-#
-#      startAt = "*:0/5";
-#    };
     services.hpe-silent-fans = {
       enable = true;
       after = [ "network.target" ];
@@ -120,15 +108,6 @@ in
         screen
       ];
     };
-
-    #    timers.hpe-ilo-keepalive = {
-    #      wantedBy = [ "timers.target" ];
-    #      timerConfig = {
-    #        OnBootSec = "5m";
-    #        OnCalendar = "*-*-* *:0/5:00";
-    #        Unit = "hpe-ilo-keepalive.service";
-    #      };
-    #    };
   };
 
   # This value determines the NixOS release from which the default

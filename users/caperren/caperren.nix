@@ -58,6 +58,19 @@ in
       };
     };
 
+    programs.ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      matchBlocks = {
+        "cap-apollo-n*" = {
+          user = "apollo-admin";
+        };
+        "cap-clust-*" = {
+          user = "cluster-admin";
+        };
+      };
+    };
+
     # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;
     home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;

@@ -2,9 +2,31 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+let
+  k3s_primaries = [
+    "cap-apollo-n02"
+    "cap-clust-01"
+    "cap-slim-01"
+  ];
 
+  # Match "cap-apollo-n02" → [ "cap-apollo" "02" ]
+  match = builtins.match "^(.*)([0-9]+)$" config.networking.hostName;
+
+  isK3sPrimary = lib.lists.elem config.networking.hostName k3s_primaries;
+  testingFile = pkgs.writeTextFile {
+      name = "testing_output.txt";
+      text = ''
+        ${toString isK3sPrimary}
+      '';
+#      destination = "testing_output.txt";
+  };
+in
 {
+   environment.systemPackages = with pkgs; [
+    testingFile
+  ];
+
   imports = [
     # Hardware Scan
     ./hardware-configuration.nix

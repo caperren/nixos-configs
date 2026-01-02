@@ -21,6 +21,9 @@
     ../application-groups/k3s.nix
     ../application-groups/system-utilities-cluster.nix
     ../application-groups/virtualization.nix
+
+    # Kubernetes Applications
+    ../kubernetes/helm-hello-world.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

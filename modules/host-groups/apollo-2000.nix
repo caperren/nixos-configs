@@ -1,16 +1,14 @@
 { config, pkgs, ... }:
-
 {
   imports = [
     # Users
-    ../../users/cluster-admin/cluster-admin.nix
+    ../../users/apollo-admin/apollo-admin.nix
 
     # System Configuration
-    ../system/cpu-amd.nix
+    ../system/cpu-intel.nix
     ../system/fonts.nix
-    ../system/git-auto-rebuild.nix
-    ../system/gpu-amd.nix
     ../system/home-manager-settings.nix
+    ../system/hpe-ilo-fans.nix
     ../system/internationalization.nix
     ../system/networking.nix
     ../system/nix-settings.nix
@@ -22,6 +20,14 @@
     # Application Groups
     ../application-groups/k3s.nix
     ../application-groups/system-utilities-cluster.nix
+    ../application-groups/virtualization.nix
+
+    # Kubernetes Applications
+    ../kubernetes/apollo-2000/secrets.nix
+    ../kubernetes/apollo-2000/grafana.nix
+    ../kubernetes/apollo-2000/helm-hello-world.nix
+    ../kubernetes/apollo-2000/node-exporter.nix
+    ../kubernetes/apollo-2000/prometheus.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

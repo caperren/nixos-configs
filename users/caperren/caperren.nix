@@ -81,6 +81,16 @@ in
       '';
       force = true;
     };
+    home.file.".config/ssh/config" = {
+      source = ./dotfiles/ssh/config;
+      # Copy the symlinked version to its final location, otherwise it will have bad permissions
+      # which breaks tools like pycharm
+      onChange = ''
+        cat ~/.config/ssh/config > ~/.ssh/config
+        chmod 600 ~/.ssh/config
+      '';
+      force = true;
+    };
     home.file.".config/spotify-player/app.toml".text = spotifyPlayerAppTomlText;
     home.file.".config/waybar/config".source = waybarConfigPath + "/config";
     home.file.".config/waybar/style.css".source = ./dotfiles/waybar/style.css;

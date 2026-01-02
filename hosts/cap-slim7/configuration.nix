@@ -2,9 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+
   imports = [
     # Hardware Scan
     ./hardware-configuration.nix
@@ -25,6 +30,7 @@
     ../../modules/system/nix-settings.nix
     ../../modules/system/pipewire.nix
     ../../modules/system/security.nix
+    ../../modules/system/ssd.nix
     ../../modules/system/systemd-boot.nix
 
     # Application Groups

@@ -9,4 +9,5 @@
   ];
 
   networking.hostName = "cap-clust-04";
+
 }

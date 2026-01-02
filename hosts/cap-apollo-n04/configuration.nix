@@ -5,9 +5,9 @@
     ./hardware-configuration.nix
 
     # Host Groups
-    ../../modules/host-groups/cluster.nix
+    ../../modules/host-groups/apollo-2000.nix
+
   ];
 
-  networking.hostName = "cap-clust-07";
-
+  networking.hostName = "cap-apollo-n04";
 }

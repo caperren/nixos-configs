@@ -1,7 +1,7 @@
 {
-    "default": [
-        {
-            "type": "insecureAcceptAnything"
-        }
-    ]
+  "default": [
+    {
+      "type": "insecureAcceptAnything"
+    }
+  ]
 }

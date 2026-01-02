@@ -52,6 +52,7 @@
     rpiboot
     s-tui
     scrcpy
+    screen
     speedcrunch
     streamdeck-ui
     stress

@@ -5,6 +5,11 @@ keys:
     - &personal:
       - &cap_slim7    age1a5aqj3jr3rqpjet9a7y077ak0ymstjjdnyfgn5m2ad4l2yuxr4aqym7d3d
       - &cap_nr200p   age1g45zy9m5g4e20cjejgd3x40722rlddgkmhtddrl8wyf63kt5kg7s9ke390
+    - &apollo:
+      - &cap_apollo_n01 age1ljcy90uwlfngc7vqwlf2x2ckgsdfg90c0r9yvjzpl90jkwf9g48q2leudt
+      - &cap_apollo_n02 age1vl9q7u0jkzjpdqrmg4flvz2f7gyn05luv4ka60hu5l8yn4m6rujquhyc2p
+      - &cap_apollo_n03 age1dxsvz30sv9dvt7l0euu3eq09xs0dlleujyc40fveyxcq4hrfafmqzv4zuz
+      - &cap_apollo_n04 age1vj0wez5rdsedx9jsqcrh0wjh7tr6hyefvdltp2zapu7q7tfqkg0qez44hz
     - &cluster:
       - &cap_clust_01 age1649y4antwgfe4fu02eppnx5gr0yc3g4lj4kwd6v9guxgxgj06y9qk7l4wl
       - &cap_clust_02 age1k085uuy4fv9rfpy0ne6zl9fq0j05a4fykqe26psx2ngxqrcxcu5sksxa9u
@@ -28,6 +33,10 @@ creation_rules:
           - *caperren
           - *cap_slim7
           - *cap_nr200p
+          - *cap_apollo_n01
+          - *cap_apollo_n02
+          - *cap_apollo_n03
+          - *cap_apollo_n04
           - *cap_clust_01
           - *cap_clust_02
           - *cap_clust_03
@@ -37,6 +46,16 @@ creation_rules:
           - *cap_clust_07
           - *cap_clust_08
           - *cap_clust_09
+  - path_regex: secrets/apollo-2000.yaml$
+    key_groups:
+      - age:
+          - *caperren
+          - *cap_slim7
+          - *cap_nr200p
+          - *cap_apollo_n01
+          - *cap_apollo_n02
+          - *cap_apollo_n03
+          - *cap_apollo_n04
   - path_regex: secrets/cluster.yaml$
     key_groups:
       - age:

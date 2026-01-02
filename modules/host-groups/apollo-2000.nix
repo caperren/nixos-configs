@@ -23,11 +23,11 @@
     ../application-groups/virtualization.nix
 
     # Kubernetes Applications
+    ../kubernetes/apollo-2000/secrets.nix
     ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/helm-hello-world.nix
     ../kubernetes/apollo-2000/node-exporter.nix
     ../kubernetes/apollo-2000/prometheus.nix
-    ../kubernetes/apollo-2000/secrets.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

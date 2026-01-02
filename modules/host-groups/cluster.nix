@@ -20,7 +20,7 @@
     ../system/systemd-boot.nix
 
     # Application Groups
-    ../application-groups/kubernetes.nix
+    ../application-groups/k3s.nix
     ../application-groups/system-utilities-cluster.nix
   ];
 

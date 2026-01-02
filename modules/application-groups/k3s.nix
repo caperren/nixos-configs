@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   k3sTokenSopsFile = {
     "cap-apollo-n02" = ../../secrets/apollo-2000.yaml;
@@ -23,11 +28,22 @@ in
 {
   sops.secrets.k3s_token.sopsFile = k3sTokenSopsFile.${config.networking.hostName};
 
+  environment.etc = {
+    # Enable the embedded registry mirror for all registries
+    "rancher/k3s/registries.yaml".text = ''
+      mirrors:
+        "*":
+    '';
+  };
+
   services.k3s = {
     enable = true;
     role = "server";
     tokenFile = config.sops.secrets.k3s_token.path;
     clusterInit = isK3sPrimary;
     serverAddr = serverAddr;
+    extraFlags = [
+      "--embedded-registry"
+    ];
   };
 }

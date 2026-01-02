@@ -20,6 +20,7 @@ in
       hash = "sha256-U2XjNEWE82/Q3KbBvZLckXbtjsXugUbK6KdqT5kCccM=";
       # configure the chart values like you would do in values.yaml
       values = {
+        replicaCount = 2;
         image = {
           repository = image.imageName;
           tag = image.imageTag;

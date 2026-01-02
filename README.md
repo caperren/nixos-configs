@@ -7,3 +7,6 @@
   - `sops updatekeys <file>`
 ## Misc references used
 * https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles/tree/main
+  * For general flake-based layout of individual systems and layout
+* https://github.com/rorosen/k3s-nix/tree/main
+  * For kubernetes template within nixos framework

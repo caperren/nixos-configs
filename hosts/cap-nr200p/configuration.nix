@@ -8,8 +8,35 @@
   pkgs,
   ...
 }:
+let
+  k3sNodeToPrimary = {
+    "cap-apollo-n03" = "cap-apollo-n02";
+    "cap-apollo-n04" = "cap-apollo-n02";
+    "cap-clust-02" = "cap-clust-01";
+    "cap-clust-03" = "cap-clust-01";
+  };
 
+  isK3sPrimary = lib.lists.elem "${config.networking.hostName}" (
+    lib.unique (lib.attrValues k3sNodeToPrimary)
+  );
+  serverAddr = if isK3sPrimary then "" else k3sNodeToPrimary.${config.networking.hostName};
+  #
+  #  testingFile = pkgs.writeTextFile {
+  #    name = "testing_output.txt";
+  #    text = ''
+  #      TESTING OUTPUT
+  #      isk3sPrimary: ${toString isK3sPrimary}
+  #      serverAddr: ${toString serverAddr}
+  #    '';
+  #    destination = "/testing/testing_output.txt";
+  #  };
+
+in
 {
+
+  #  environment.systemPackages = with pkgs; [
+  #    testingFile
+  #  ];
   imports = [
     # Hardware Scan
     ./hardware-configuration.nix
@@ -29,6 +56,7 @@
     ../../modules/system/nix-settings.nix
     ../../modules/system/pipewire.nix
     ../../modules/system/security.nix
+    ../../modules/system/ssd.nix
     ../../modules/system/systemd-boot.nix
 
     # Application Groups

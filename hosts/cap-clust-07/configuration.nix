@@ -10,5 +10,4 @@
 
   networking.hostName = "cap-clust-07";
 
-
 }

@@ -1,20 +1,33 @@
 { config, pkgs, ... }:
 let
-  k3s_primaries = [ "cap-apollo-n02" "cap-clust-01"];
+  k3sTokenSopsFile = {
+    "cap-apollo-n02" = ../../secrets/apollo-2000.yaml;
+    "cap-apollo-n03" = ../../secrets/apollo-2000.yaml;
+    "cap-apollo-n04" = ../../secrets/apollo-2000.yaml;
+    "cap-clust-01" = ../../secrets/cluster.yaml;
+    "cap-clust-02" = ../../secrets/cluster.yaml;
+    "cap-clust-03" = ../../secrets/cluster.yaml;
+  };
+  k3sNodeToPrimary = {
+    "cap-apollo-n03" = "cap-apollo-n02";
+    "cap-apollo-n04" = "cap-apollo-n02";
+    "cap-clust-02" = "cap-clust-01";
+    "cap-clust-03" = "cap-clust-01";
+  };
 
-  # Match "cap-apollo-n02" → [ "cap-apollo" "02" ]
-  match = builtins.match "^(.*)-n([0-9]+)$" config.networking.hostName;
-
-  isK3sPrimary = lib.lists.elem config.networking.hostName k3s_primaries;
+  isK3sPrimary = lib.lists.elem "${config.networking.hostName}" (
+    lib.unique (lib.attrValues k3sNodeToPrimary)
+  );
+  serverAddr = if isK3sPrimary then "" else k3sNodeToPrimary.${config.networking.hostName};
 in
 {
-  sops.secrets.k3s_token.sopsFile = ../../secrets/apollo-2000.yaml;
+  sops.secrets.k3s_token.sopsFile = k3sTokenSopsFile;
 
   services.k3s = {
     enable = true;
     role = "server";
     tokenFile = config.sops.secrets.k3s_token.path;
     clusterInit = isK3sPrimary;
-    serverAddr = if isK3sPrimary then "" else "https://cap-apollo-n02:6443";
+    serverAddr = serverAddr;
   };
 }

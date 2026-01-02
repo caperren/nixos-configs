@@ -15,9 +15,12 @@
     ../system/networking.nix
     ../system/nix-settings.nix
     ../system/security.nix
+    ../system/server.nix
+    ../system/ssd.nix
     ../system/systemd-boot.nix
 
     # Application Groups
+    ../application-groups/kubernetes.nix
     ../application-groups/system-utilities-cluster.nix
   ];
 

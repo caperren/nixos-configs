@@ -24,5 +24,4 @@
 
   networking.hostName = "cap-apollo-n01";
 
-
 }

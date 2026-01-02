@@ -58,19 +58,6 @@ in
       };
     };
 
-    programs.ssh = {
-      enable = true;
-      enableDefaultConfig = false;
-      matchBlocks = {
-        "cap-apollo-n*" = {
-          user = "apollo-admin";
-        };
-        "cap-clust-*" = {
-          user = "cluster-admin";
-        };
-      };
-    };
-
     # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;
     home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;
@@ -91,6 +78,16 @@ in
       onChange = ''
         cat ~/.config/streamdeck-ui/.streamdeck_ui_link.json > ~/.streamdeck_ui.json
         chmod 600 ~/.streamdeck_ui.json
+      '';
+      force = true;
+    };
+    home.file.".config/ssh/config" = {
+      source = ./dotfiles/ssh/config;
+      # Copy the symlinked version to its final location, otherwise it will have bad permissions
+      # which breaks tools like pycharm
+      onChange = ''
+        cat ~/.config/ssh/config > ~/.ssh/config
+        chmod 600 ~/.ssh/config
       '';
       force = true;
     };

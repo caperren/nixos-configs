@@ -26,7 +26,6 @@
     # with tracing
     tnrs = "bash -c \"cd /etc/nixos && sudo nixos-rebuild switch --show-trace --flake .#$(hostname) ; exit\"";
 
-
     # Nix flake update, rebuild, switch
     nus = "bash -c \"cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#$(hostname) ; exit\"";
     # with tracing

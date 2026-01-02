@@ -1,0 +1,5 @@
+Host cap-apollo-n*
+  User apollo-admin
+
+Host cap-clust-*
+  User cluster-admin

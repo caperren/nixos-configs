@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   k3sTokenSopsFile = {
     "cap-apollo-n02" = ../../secrets/apollo-2000.yaml;

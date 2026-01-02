@@ -21,7 +21,7 @@ let
   serverAddr = if isK3sPrimary then "" else k3sNodeToPrimary.${config.networking.hostName};
 in
 {
-  sops.secrets.k3s_token.sopsFile = k3sTokenSopsFile;
+  sops.secrets.k3s_token.sopsFile = /. + builtins.toPath k3sTokenSopsFile;
 
   services.k3s = {
     enable = true;

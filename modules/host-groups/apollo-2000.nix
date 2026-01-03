@@ -29,6 +29,7 @@
     ../kubernetes/apollo-2000/gitea.nix
     ../kubernetes/apollo-2000/grafana.nix
 #    ../kubernetes/apollo-2000/helm-hello-world.nix
+    ../kubernetes/apollo-2000/hetzner-ddns.nix
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/node-exporter.nix
@@ -37,6 +38,7 @@
     ../kubernetes/apollo-2000/spliit.nix
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
+    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

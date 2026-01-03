@@ -26,6 +26,7 @@
     ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/esphome.nix
     ../kubernetes/apollo-2000/secrets.nix
+    ../kubernetes/apollo-2000/gitea.nix
     ../kubernetes/apollo-2000/grafana.nix
 #    ../kubernetes/apollo-2000/helm-hello-world.nix
     ../kubernetes/apollo-2000/home-assistant.nix

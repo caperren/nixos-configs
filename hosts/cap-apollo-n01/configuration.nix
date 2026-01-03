@@ -27,6 +27,7 @@
   ];
 
   networking.hostName = "cap-apollo-n01";
+  networking.hostId = "6169cc38";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

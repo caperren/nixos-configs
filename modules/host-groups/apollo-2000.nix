@@ -23,6 +23,7 @@
     ../application-groups/virtualization.nix
 
     # Kubernetes Applications
+    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/esphome.nix
     ../kubernetes/apollo-2000/secrets.nix
     ../kubernetes/apollo-2000/grafana.nix

@@ -33,11 +33,17 @@ in
                 {
                   name = "immich";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
+                  env = [
+                    {
+                      name = "IMMICH_PORT";
+                      value = "2283";
+                    }
+                  ];
                   ports = [ { containerPort = 2283; } ];
                   volumeMounts = [ ];
                 }
               ];
+              hostNetwork = true;
               volumes = [ ];
             };
           };

@@ -38,7 +38,7 @@ in
                   volumeMounts = [ ];
                 }
               ];
-              hostNetwork = true;
+
               volumes = [ ];
             };
           };

@@ -5,10 +5,10 @@
 }:
 let
   image = pkgs.dockerTools.pullImage {
-    imageName = "homeassistant/home-assistant";
-    imageDigest = "sha256:9a5a3eb4a213dfb25932dee9dc6815c9305f78cecb5afa716fa2483163d8fb5b";
-    hash = "sha256-bprEmYJY3wRxtb+/8JLZ8M7lvjo6vDJsBZIXAwjtN78=";
-    finalImageTag = "2025.12.5";
+    imageName = "esphome/esphome";
+    imageDigest = "sha256:c42c7485cf18d9a9e021b2d073bca0fd58d9457a51068a5720da67be92d2dfad";
+    hash = "sha256-QIZXdnnMGGQxJWPwvb339mibT5HQ/H2qhBQrRhAkH/c=";
+    finalImageTag = "2025.12.4";
     arch = "amd64";
   };
 in
@@ -16,25 +16,25 @@ in
   services.k3s = {
     images = [ image ];
     manifests = {
-      home-assistant-deployment.content = {
+      esphome-deployment.content = {
         apiVersion = "apps/v1";
         kind = "Deployment";
         metadata = {
-          name = "home-assistant";
-          labels."app.kubernetes.io/name" = "home-assistant";
+          name = "esphome";
+          labels."app.kubernetes.io/name" = "esphome";
         };
         spec = {
           replicas = 1;
-          selector.matchLabels."app.kubernetes.io/name" = "home-assistant";
+          selector.matchLabels."app.kubernetes.io/name" = "esphome";
           template = {
-            metadata.labels."app.kubernetes.io/name" = "home-assistant";
+            metadata.labels."app.kubernetes.io/name" = "esphome";
             spec = {
               containers = [
                 {
-                  name = "home-assistant";
+                  name = "esphome";
                   image = "${image.imageName}:${image.imageTag}";
                   env = [ ];
-                  ports = [ { containerPort = 8123; } ];
+                  ports = [ { containerPort = 6052; } ];
                   volumeMounts = [ ];
                 }
               ];
@@ -43,28 +43,28 @@ in
           };
         };
       };
-      home-assistant-service.content = {
+      esphome-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "home-assistant";
-          labels."app.kubernetes.io/name" = "home-assistant";
+          name = "esphome";
+          labels."app.kubernetes.io/name" = "esphome";
         };
         spec = {
-          selector."app.kubernetes.io/name" = "home-assistant";
+          selector."app.kubernetes.io/name" = "esphome";
           ports = [
             {
-              port = 8123;
-              targetPort = 8123;
+              port = 6052;
+              targetPort = 6052;
             }
           ];
         };
       };
-      home-assistant-ingress.content = {
+      esphome-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
         metadata = {
-          name = "home-assistant";
+          name = "esphome";
           annotations = {
             "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
@@ -77,12 +77,12 @@ in
               http = {
                 paths = [
                   {
-                    path = "/home-assistant";
+                    path = "/esphome";
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "home-assistant";
-                        port.number = 8123;
+                        name = "esphome";
+                        port.number = 6052;
                       };
                     };
                   }

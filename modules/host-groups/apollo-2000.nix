@@ -32,6 +32,7 @@
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/node-exporter.nix
+    ../kubernetes/apollo-2000/plex.nix
     ../kubernetes/apollo-2000/prometheus.nix
     ../kubernetes/apollo-2000/technitium.nix
   ];

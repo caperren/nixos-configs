@@ -33,12 +33,12 @@ in
                 {
                   name = "home-assistant";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [];
+                  env = [ ];
                   ports = [ { containerPort = 8123; } ];
                   volumeMounts = [ ];
                 }
               ];
-              volumes = [];
+              volumes = [ ];
             };
           };
         };
@@ -65,6 +65,10 @@ in
         kind = "Ingress";
         metadata = {
           name = "home-assistant";
+          annotations = {
+            "kubernetes.io/ingress.class" = "traefik";
+            "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+          };
         };
         spec = {
           ingressClassName = "traefik";

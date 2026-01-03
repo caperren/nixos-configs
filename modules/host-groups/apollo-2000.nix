@@ -23,7 +23,7 @@
 
   ]
   ++ (
-    if "${config.networking.hostName}" == "cap-apollo-n01" then
+    if config.networking.hostName == "cap-apollo-n01" then
       [ ]
     else
       [

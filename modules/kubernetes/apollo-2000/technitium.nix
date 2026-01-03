@@ -7,7 +7,7 @@ let
   image = pkgs.dockerTools.pullImage {
     imageName = "technitium/dns-server";
     imageDigest = "sha256:322b236403ca25028032f28736e2270a860527b030b162c9f82451c6494c4698";
-    hash = "sha256-/hAQyui0O4535jm2qaVmkY7w6SmCARg3sbKbb06UeRc=";
+    hash = "sha256-iB92wUlMfsWuWjuv87Gc6HbWl1PzZl89jgoCveix1JA=";
     finalImageTag = "14.3.0";
     arch = "amd64";
   };

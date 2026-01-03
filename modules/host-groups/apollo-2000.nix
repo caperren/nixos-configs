@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  host = config.networking.hostname;
+in
 {
   imports = [
     # Users
@@ -23,7 +26,7 @@
 
   ]
   ++ (
-    if config.networking.hostName == "cap-apollo-n01" then
+    if host == "cap-apollo-n01" then
       [ ]
     else
       [

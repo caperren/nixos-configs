@@ -22,7 +22,7 @@
     ../application-groups/virtualization.nix
 
   ]
-  + (
+  ++ (
     if "${config.network.hostname}" == "cap-apollo-n01" then
       [ ]
     else

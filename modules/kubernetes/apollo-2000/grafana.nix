@@ -6,9 +6,9 @@
 let
   image = pkgs.dockerTools.pullImage {
     imageName = "docker.io/grafana/grafana";
-    imageDigest = "sha256:408c41e88a0e3a7af1297cdd0b2b2ac19cc16f094d6a6eaea3bdf63ef67df75c";
-    hash = "sha256-47mFJYg0lnVGx+eJFyPNFiOsZcTMeJpFpjx+MJIVZPo=";
-    finalImageTag = "12.4.0-19291686361";
+    imageDigest = "sha256:363e595fec05e8d4025b0b63a2ff9a05660441ef0f06da45bb9ffbb2bd71f716";
+    hash = "sha256-GYUk0fmekOFjDSQlnBYGOo7GdoG6QBjD76PADGS4XtQ=";
+    finalImageTag = "12.4.0-20648027705";
     arch = "amd64";
   };
   prometheusServiceCfg = config.services.k3s.manifests.prometheus-service.content;

@@ -7,7 +7,7 @@ let
   image = pkgs.dockerTools.pullImage {
     imageName = "ghcr.io/immich-app/immich-server";
     imageDigest = "sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1";
-    hash = "sha256-iB92wUlMfsWuWjuv87Gc6HbWl1PzZl89jgoCveix1JA=";
+    hash = "sha256-MfFvPJotS1jb3LJ44ea3tCkVu5GO2CIbaw63NRm3/CQ=";
     arch = "amd64";
   };
 in

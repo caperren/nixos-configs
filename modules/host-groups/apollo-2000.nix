@@ -35,6 +35,7 @@
     ../kubernetes/apollo-2000/plex.nix
     ../kubernetes/apollo-2000/prometheus.nix
     ../kubernetes/apollo-2000/spliit.nix
+    ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
   ];
 

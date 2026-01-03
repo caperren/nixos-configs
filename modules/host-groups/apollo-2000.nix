@@ -43,6 +43,7 @@
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
     ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
+    ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

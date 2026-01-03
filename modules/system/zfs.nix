@@ -1,10 +1,9 @@
 { config, pkgs, ... }:
 {
-  boot.zfs = {
-    enabled = true;
-  };
+  boot.supportedFilesystems = [ "zfs" ];
 
   services.zfs = {
+    autoImport.enable = false;
     autoScrub.enable = true;
     trim.enable = true;
   };

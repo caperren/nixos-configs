@@ -5,10 +5,10 @@
 }:
 let
   image = pkgs.dockerTools.pullImage {
-    imageName = "ghcr.io/immich-app/immich-server";
-    imageDigest = "sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1";
-    hash = "sha256-MfFvPJotS1jb3LJ44ea3tCkVu5GO2CIbaw63NRm3/CQ=";
-    finalImageTag = "v2.4.1";
+    imageName = "technitium/dns-server";
+    imageDigest = "sha256:322b236403ca25028032f28736e2270a860527b030b162c9f82451c6494c4698";
+    hash = "sha256-/hAQyui0O4535jm2qaVmkY7w6SmCARg3sbKbb06UeRc=";
+    finalImageTag = "14.3.0";
     arch = "amd64";
   };
 in
@@ -16,25 +16,25 @@ in
   services.k3s = {
     images = [ image ];
     manifests = {
-      immich-deployment.content = {
+      technitium-deployment.content = {
         apiVersion = "apps/v1";
         kind = "Deployment";
         metadata = {
-          name = "immich";
-          labels."app.kubernetes.io/name" = "immich";
+          name = "technitium";
+          labels."app.kubernetes.io/name" = "technitium";
         };
         spec = {
           replicas = 1;
-          selector.matchLabels."app.kubernetes.io/name" = "immich";
+          selector.matchLabels."app.kubernetes.io/name" = "technitium";
           template = {
-            metadata.labels."app.kubernetes.io/name" = "immich";
+            metadata.labels."app.kubernetes.io/name" = "technitium";
             spec = {
               containers = [
                 {
-                  name = "immich";
+                  name = "technitium";
                   image = "${image.imageName}:${image.imageTag}";
                   env = [ ];
-                  ports = [ { containerPort = 2283; } ];
+                  ports = [ { containerPort = 5380; } ];
                   volumeMounts = [ ];
                 }
               ];
@@ -43,28 +43,28 @@ in
           };
         };
       };
-      immich-service.content = {
+      technitium-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "immich";
-          labels."app.kubernetes.io/name" = "immich";
+          name = "technitium";
+          labels."app.kubernetes.io/name" = "technitium";
         };
         spec = {
-          selector."app.kubernetes.io/name" = "immich";
+          selector."app.kubernetes.io/name" = "technitium";
           ports = [
             {
-              port = 2283;
-              targetPort = 2283;
+              port = 5380;
+              targetPort = 5380;
             }
           ];
         };
       };
-      immich-ingress.content = {
+      technitium-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
         metadata = {
-          name = "immich";
+          name = "technitium";
           annotations = {
             "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
@@ -77,12 +77,12 @@ in
               http = {
                 paths = [
                   {
-                    path = "/immich";
+                    path = "/technitium";
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "immich";
-                        port.number = 2283;
+                        name = "technitium";
+                        port.number = 5380;
                       };
                     };
                   }

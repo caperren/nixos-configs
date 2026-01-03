@@ -2,7 +2,7 @@
 {
     services.zfs = {
         enable = true;
-        autoScrub = true;
+        autoScrub.enable = true;
         trim.enable = true;
     };
 }

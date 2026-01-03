@@ -30,7 +30,7 @@
     ../kubernetes/apollo-2000/grafana.nix
 #    ../kubernetes/apollo-2000/helm-hello-world.nix
     ../kubernetes/apollo-2000/home-assistant.nix
-    ../kubernetes/apollo-2000/immich.nix
+#    ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/node-exporter.nix
     ../kubernetes/apollo-2000/prometheus.nix
   ];

@@ -60,6 +60,34 @@ in
           ];
         };
       };
+      home-assistant-ingress.content = {
+        apiVersion = "networking.k8s.io/v1";
+        kind = "Ingress";
+        metadata = {
+          name = "home-assistant";
+        };
+        spec = {
+          ingressClassName = "traefik";
+          rules = [
+            ({
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "home-assistant";
+                        port.number = 8123;
+                      };
+                    };
+                  }
+                ];
+              };
+            })
+          ];
+        };
+      };
     };
   };
 }

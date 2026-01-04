@@ -8,35 +8,7 @@
   pkgs,
   ...
 }:
-let
-  k3sNodeToPrimary = {
-    "cap-apollo-n03" = "cap-apollo-n02";
-    "cap-apollo-n04" = "cap-apollo-n02";
-    "cap-clust-02" = "cap-clust-01";
-    "cap-clust-03" = "cap-clust-01";
-  };
-
-  isK3sPrimary = lib.lists.elem "${config.networking.hostName}" (
-    lib.unique (lib.attrValues k3sNodeToPrimary)
-  );
-  serverAddr = if isK3sPrimary then "" else k3sNodeToPrimary.${config.networking.hostName};
-  #
-  #  testingFile = pkgs.writeTextFile {
-  #    name = "testing_output.txt";
-  #    text = ''
-  #      TESTING OUTPUT
-  #      isk3sPrimary: ${toString isK3sPrimary}
-  #      serverAddr: ${toString serverAddr}
-  #    '';
-  #    destination = "/testing/testing_output.txt";
-  #  };
-
-in
 {
-
-  #  environment.systemPackages = with pkgs; [
-  #    testingFile
-  #  ];
   imports = [
     # Hardware Scan
     ./hardware-configuration.nix
@@ -50,6 +22,7 @@ in
     ../../modules/system/fonts.nix
     ../../modules/system/gpu-amd.nix
     ../../modules/system/home-manager-settings.nix
+    ../../modules/system/homelab-nfs-mounts.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix
     ../../modules/system/networking.nix

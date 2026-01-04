@@ -16,6 +16,7 @@
     ../system/server.nix
     ../system/ssd.nix
     ../system/systemd-boot.nix
+    ..//system/zfs.nix
 
     # Application Groups
     ../application-groups/k3s.nix

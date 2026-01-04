@@ -25,6 +25,7 @@
     ../../modules/system/homelab-nfs-mounts.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix
+    ../../modules/system/monitoring-and-metrics.nix
     ../../modules/system/networking.nix
     ../../modules/system/nix-settings.nix
     ../../modules/system/pipewire.nix

@@ -38,7 +38,7 @@
   services.nfs.server.enable = true;
 
   # Set post-boot zfs options that aren't declarative through nixos directly
-    systemd = {
+  systemd = {
     services.set-zfs-options = {
       enable = true;
       after = [ "network.target" ];
@@ -49,6 +49,8 @@
         Type = "simple";
         ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
           set -e
+
+          zfs set sharenfs="rw,root_squash=@192.168.1.0/24" nas_data_primary
 
           zfs set sharenfs=on nas_data_primary/Media
           zfs set sharenfs=on nas_data_primary/Corwin

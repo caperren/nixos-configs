@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 {
+    boot.supportedFilesystems = [ "nfs" ];
   # Note that this should NOT be used on single-core systems, those which
   # use core pinning, those which disable cores, or where expected single-core
   # loads will be at or near 100%. For my systems, this is a non-issue and

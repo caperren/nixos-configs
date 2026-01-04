@@ -22,7 +22,7 @@
 
   programs.bash.shellAliases = {
     # Nixos directory git reset hard
-    ngrh = "bash -c \"cd /etc/nixos && && sudo git fetch && sudo git reset --hard origin/$(sudo git rev-parse --abbrev-ref HEAD) ; exit\"";
+    ngrh = "bash -c \"cd /etc/nixos && sudo git fetch && sudo git reset --hard origin/$(sudo git rev-parse --abbrev-ref HEAD) ; exit\"";
 
     # Nix rebuild, switch
     nrs = "bash -c \"cd /etc/nixos && sudo nixos-rebuild switch --flake .#$(hostname) ; exit\"";

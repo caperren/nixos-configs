@@ -29,13 +29,9 @@
   networking.hostName = "cap-apollo-n01";
   networking.hostId = "6169cc38";
 
-  systemd.tmpfiles.rules = [
-    "d /nas 0755 root root -"
-  ];
-
   boot.zfs.extraPools = [
-    "storage_primary"
-    "storage_important"
+    "nas_data_primary"
+    "nas_data_important"
   ];
 
   # This value determines the NixOS release from which the default

@@ -100,7 +100,7 @@ in
                 kubernetes_sd_configs:
                 - role: node
                 static_configs:
-                - targets: ["cap-nr200p:9100"]
+                - targets: ["192.168.1.78:9100"]
                 relabel_configs:
                 - source_labels: [__address__]
                   regex: ^(.*):\d+$

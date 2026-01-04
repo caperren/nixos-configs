@@ -29,14 +29,18 @@
   networking.hostName = "cap-apollo-n01";
   networking.hostId = "6169cc38";
 
-  systemd.tmpfiles.rules = [
-    "d /nas/ 0755 root root -"
-  ];
-
-  boot.zfs.extraPools = [
-    "storage_primary"
-    "storage_important"
-  ];
+  fileSystems = {
+    "/nas/storage_primary" = {
+      device = "storage_primary";
+      fsType = "zfs";
+    };
+  };
+  fileSystems = {
+    "/nas/storage_important" = {
+      device = "storage_important";
+      fsType = "zfs";
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

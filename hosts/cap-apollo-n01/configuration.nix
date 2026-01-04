@@ -37,6 +37,32 @@
 
   services.nfs.server.enable = true;
 
+  # Set post-boot zfs options that aren't declarative through nixos directly
+    systemd = {
+    services.set-zfs-options = {
+      enable = true;
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      description = "Sets zfs options post-boot";
+
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
+          set -e
+
+          zfs set sharenfs=on nas_data_primary/Media
+          zfs set sharenfs=on nas_data_primary/Corwin
+        ''}";
+
+      };
+
+      path = with pkgs; [
+        zfs
+        coreutils
+      ];
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

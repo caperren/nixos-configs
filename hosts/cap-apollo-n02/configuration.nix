@@ -9,4 +9,5 @@
   ];
 
   networking.hostName = "cap-apollo-n02";
+  networking.hostId = "bc7334b5";
 }

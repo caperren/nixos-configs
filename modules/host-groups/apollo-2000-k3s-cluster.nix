@@ -121,7 +121,7 @@
     ];
     automounts = [
         {
-        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
+        where = "/mnt/longhorn";
         after = [ "set-zfs-options.service" ];
         wantedBy = [ "multi-user.target" ];
       }

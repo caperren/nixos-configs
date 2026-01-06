@@ -47,7 +47,7 @@
     ../application-groups/virtualization.nix
 
     # Core Kubernetes Applications
-    ../kubernetes/apollo-2000/longhorn.nix
+#    ../kubernetes/apollo-2000/longhorn.nix
 
     # Kubernetes Applications
     ../kubernetes/apollo-2000/autobrr.nix
@@ -79,51 +79,65 @@
     "kubernetes_data"
   ];
 
-  # Set post-boot zfs options that aren't declarative through nixos directly
   systemd = {
-    services.set-zfs-options = {
-      enable = true;
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Sets zfs options post-boot";
+    # Set post-boot zfs options that aren't declarative through nixos directly
+    services = {
+      set-zfs-options = {
+        enable = true;
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+        description = "Sets zfs options post-boot";
 
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
-          set -e
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
+            set -e
 
-          if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn-ext4` ]; then
-            zfs create kubernetes_data/longhorn-ext4 -V 350G
-            while [ ! -e "/dev/zvol/kubernetes_data/longhorn-ext4" ]; do
-                sleep 1;
-            done
-            mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
-            if [ ! -d "/mnt/longhorn" ]; then mkdir -p /mnt/longhorn; fi
-          fi
-        ''}";
+            if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn-ext4` ]; then
+              zfs create kubernetes_data/longhorn-ext4 -V 350G
+              while [ ! -e "/dev/zvol/kubernetes_data/longhorn-ext4" ]; do
+                  sleep 1;
+              done
 
+              mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
+
+              if [ ! -d "/mnt/longhorn" ]; then
+                mkdir -p /mnt/longhorn;
+              fi
+            fi
+
+            if [ ! `mountpoint -q /mnt/longhorn` ]; then
+                mount -o noatime,discard /dev/zvol/kubernetes_data/longhorn-ext4 /mnt/longhorn
+            fi
+          ''}";
+
+        };
+
+        path = with pkgs; [
+          zfs
+          coreutils
+          e2fsprogs
+          util-linux
+        ];
       };
-
-      path = with pkgs; [
-        zfs
-        coreutils
-        e2fsprogs
-      ];
-    };
-    mounts = [
-      {
-        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
-        type = "ext4";
-        where = "/mnt/longhorn";
-        options = "noatime,discard";
-      }
-    ];
-    automounts = [
-        {
-        where = "/mnt/longhorn";
+      k3s.serviceConfig = {
         after = [ "set-zfs-options.service" ];
-      }
-    ];
+      };
+    };
+#    mounts = [
+#      {
+#        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
+#        type = "ext4";
+#        where = "/mnt/longhorn";
+#        options = "noatime,discard";
+#      }
+#    ];
+#    automounts = [
+#      {
+#        where = "/mnt/longhorn";
+#        after = [ "set-zfs-options.service" ];
+#      }
+#    ];
 
   };
 

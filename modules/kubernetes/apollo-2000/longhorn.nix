@@ -23,53 +23,100 @@ in
   };
 
   # Namespace first
-  services.k3s.manifests.longhorn-namespace.content = {
-    apiVersion = "v1";
-    kind = "Namespace";
-    metadata = {
-      name = "longhorn-system";
+  services.k3s = {
+    manifests = {
+      longhorn-namespace.content = {
+        apiVersion = "v1";
+        kind = "Namespace";
+        metadata = {
+          name = "longhorn-system";
+        };
+      };
+      longhorn-helmchart.content = {
+        apiVersion = "helm.cattle.io/v1";
+        kind = "HelmChart";
+        metadata = {
+          name = "longhorn";
+          namespace = "kube-system";
+        };
+        spec = {
+          repo = "https://charts.longhorn.io";
+          chart = "longhorn";
+          targetNamespace = "longhorn-system";
+
+          # Strongly recommended: pin a version so upgrades are intentional.
+          # Replace with the version you want (example only).
+          # version = "v1.10.1";
+
+          valuesContent = ''
+            # Make Longhorn create/mark its StorageClass as the default
+            storageClass:
+              defaultClass: true
+
+            defaultSettings:
+              defaultReplicaCount: ${toString defaultReplicaCount}
+              # Where Longhorn stores data on each node:
+              defaultDataPath: /kubernetes_data
+
+              # Make sure we don't overuse the data mount
+              storageOverProvisioningPercentage: 100
+              storageMinimalAvailablePercentage: 5
+
+              # Optional: if you want node failure to more aggressively evict/recover:
+              # nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+
+            # Optional: if you want the UI reachable via Ingress later, you can configure it here
+            # ingress:
+            #   enabled: true
+            #   host: longhorn.yourdomain.example
+          '';
+        };
+      };
+      longhorn-ui-ingress.content = {
+        apiVersion = "networking.k8s.io/v1";
+        kind = "Ingress";
+        metadata = {
+          name = "longhorn-ui-ingress";
+          namespace = "longhorn-system";
+          annotations = {
+            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure";
+            "traefik.ingress.kubernetes.io/router.tls" = "true";
+            "traefik.ingress.kubernetes.io/router.middlewares" =
+              "longhorn-system-svc-longhorn-headers@kubernetescrd";
+          };
+        };
+        spec = {
+          ingressClassName = "traefik";
+          rules = [
+            ({
+              http = {
+                paths = [
+                  {
+                    path = "/longhorn";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "longhorn-ui";
+                        port.number = 80;
+                      };
+                    };
+                  }
+                ];
+              };
+            })
+          ];
+        };
+      };
+      longhorn-ui-ingress.content = {
+        apiVersion = "traefik.io/v1alpha1";
+        kind = "Middleware";
+        metadata = {
+          name = "svc-longhorn-headers";
+          namespace = "longhorn-system";
+        };
+        spec.headers.customRequestHeaders.X-Forwarded-Proto = "https";
+      };
     };
   };
 
-  # Helm install (k3s Helm Controller CRD)
-  services.k3s.manifests.longhorn-helmchart.content = {
-    apiVersion = "helm.cattle.io/v1";
-    kind = "HelmChart";
-    metadata = {
-      name = "longhorn";
-      namespace = "kube-system";
-    };
-    spec = {
-      repo = "https://charts.longhorn.io";
-      chart = "longhorn";
-      targetNamespace = "longhorn-system";
-
-      # Strongly recommended: pin a version so upgrades are intentional.
-      # Replace with the version you want (example only).
-      # version = "v1.10.1";
-
-      valuesContent = ''
-        # Make Longhorn create/mark its StorageClass as the default
-        storageClass:
-          defaultClass: true
-
-        defaultSettings:
-          defaultReplicaCount: ${toString defaultReplicaCount}
-          # Where Longhorn stores data on each node:
-          defaultDataPath: /kubernetes_data
-
-          # Make sure we don't overuse the data mount
-          storageOverProvisioningPercentage: 100
-          storageMinimalAvailablePercentage: 5
-
-          # Optional: if you want node failure to more aggressively evict/recover:
-          # nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-
-        # Optional: if you want the UI reachable via Ingress later, you can configure it here
-        # ingress:
-        #   enabled: true
-        #   host: longhorn.yourdomain.example
-      '';
-    };
-  };
 }

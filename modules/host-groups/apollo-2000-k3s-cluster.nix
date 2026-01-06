@@ -98,7 +98,7 @@
                 sleep 1;
             done
             mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
-            if [ ! -d "/mnt" ]; then mkdir -p /mnt; fi
+            if [ ! -d "/mnt/longhorn" ]; then mkdir -p /mnt/longhorn; fi
           fi
         ''}";
 

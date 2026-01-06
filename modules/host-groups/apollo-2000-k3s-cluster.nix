@@ -88,7 +88,7 @@
       description = "Sets zfs options post-boot";
 
       serviceConfig = {
-        Type = "simple";
+        Type = "oneshot";
         ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
           set -e
 

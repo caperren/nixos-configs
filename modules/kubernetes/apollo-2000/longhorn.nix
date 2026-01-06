@@ -60,7 +60,7 @@ in
 
           # Make sure we don't overuse the data mount
           storageOverProvisioningPercentage: 100
-          storageMinimalAvailablePercentage: 20
+          storageMinimalAvailablePercentage: 5
 
           # Optional: if you want node failure to more aggressively evict/recover:
           # nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod

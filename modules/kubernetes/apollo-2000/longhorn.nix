@@ -66,57 +66,57 @@ in
               # nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
 
             # Optional: if you want the UI reachable via Ingress later, you can configure it here
-            # ingress:
-            #   enabled: true
-            #   host: longhorn.yourdomain.example
+            ingress:
+              enabled: true
+              host: longhorn.perren.cloud
           '';
         };
       };
-      longhorn-ui-ingress.content = {
-        apiVersion = "networking.k8s.io/v1";
-        kind = "Ingress";
-        metadata = {
-          name = "longhorn-ui-ingress";
-          namespace = "longhorn-system";
-          annotations = {
-            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure";
-            "traefik.ingress.kubernetes.io/router.tls" = "true";
-            "traefik.ingress.kubernetes.io/router.middlewares" =
-              "longhorn-system-longhorn-ui-svc-headers@kubernetescrd";
-          };
-        };
-        spec = {
-          ingressClassName = "traefik";
-          rules = [
-            ({
-              http = {
-                paths = [
-                  {
-                    path = "/longhorn";
-                    pathType = "Prefix";
-                    backend = {
-                      service = {
-                        name = "longhorn-ui";
-                        port.number = 80;
-                      };
-                    };
-                  }
-                ];
-              };
-            })
-          ];
-        };
-      };
-      longhorn-ui-svc-headers.content = {
-        apiVersion = "traefik.io/v1alpha1";
-        kind = "Middleware";
-        metadata = {
-          name = "longhorn-ui-svc-headers";
-          namespace = "longhorn-system";
-        };
-        spec.headers.customRequestHeaders.X-Forwarded-Proto = "https";
-      };
-    };
+#      longhorn-ui-ingress.content = {
+#        apiVersion = "networking.k8s.io/v1";
+#        kind = "Ingress";
+#        metadata = {
+#          name = "longhorn-ui-ingress";
+#          namespace = "longhorn-system";
+#          annotations = {
+#            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure";
+#            "traefik.ingress.kubernetes.io/router.tls" = "true";
+#            "traefik.ingress.kubernetes.io/router.middlewares" =
+#              "longhorn-system-longhorn-ui-svc-headers@kubernetescrd";
+#          };
+#        };
+#        spec = {
+#          ingressClassName = "traefik";
+#          rules = [
+#            ({
+#              http = {
+#                paths = [
+#                  {
+#                    path = "/longhorn";
+#                    pathType = "Prefix";
+#                    backend = {
+#                      service = {
+#                        name = "longhorn-ui";
+#                        port.number = 80;
+#                      };
+#                    };
+#                  }
+#                ];
+#              };
+#            })
+#          ];
+#        };
+#      };
+#      longhorn-ui-svc-headers.content = {
+#        apiVersion = "traefik.io/v1alpha1";
+#        kind = "Middleware";
+#        metadata = {
+#          name = "longhorn-ui-svc-headers";
+#          namespace = "longhorn-system";
+#        };
+#        spec.headers.customRequestHeaders.X-Forwarded-Proto = "https";
+#      };
+#    };
   };
 
 }

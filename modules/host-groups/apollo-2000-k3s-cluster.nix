@@ -89,7 +89,7 @@
         ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
           set -e
 
-          if [ ! `zfs list -H -d0 -o name kubernetes_data` ]; then
+          if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn` ]; then
             zfs create kubernetes_data/longhorn
           fi
 

@@ -95,7 +95,7 @@
           if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn-ext4` ]; then
             zfs create kubernetes_data/longhorn-ext4 -V 350G
             mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
-            sudo mkdir -p /mnt/longhorn
+            #            mkdir -p /mnt/longhorn
           fi
         ''}";
 
@@ -109,7 +109,7 @@
     };
     mounts = [
       {
-        what = "/dev/zvol/zdata/longhorn-ext4";
+        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
         type = "ext4";
         where = "/mnt/longhorn";
         after = [ "set-zfs-options.service" ];

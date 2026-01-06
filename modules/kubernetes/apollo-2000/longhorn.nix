@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, pkgs, ... }:
 let
   # If you have 3 k3s nodes and want HA volumes, 2 is a common homelab default.
   # If you want maximum resilience (and can afford space), set 3.

@@ -75,6 +75,7 @@ in
         bash
         config.programs.ssh.package
         coreutils
+        iputils
         screen
       ];
     };

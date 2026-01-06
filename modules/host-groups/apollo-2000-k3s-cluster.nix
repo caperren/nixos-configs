@@ -110,7 +110,6 @@
         what = "/dev/zvol/zdata/longhorn-ext4";
         type = "ext4";
         where = "/mnt/longhorn";
-        after = [ "set-zfs-options.service" ];
         wantedBy = [ "multi-user.target" ];
         options = "noatime,discard";
       }

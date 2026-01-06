@@ -56,7 +56,7 @@ in
             defaultSettings:
               defaultReplicaCount: ${toString defaultReplicaCount}
               # Where Longhorn stores data on each node:
-              defaultDataPath: /mnt/longhorn
+              defaultDataPath: /kubernetes_data
 
               # Make sure we don't overuse the data mount
               storageOverProvisioningPercentage: 100

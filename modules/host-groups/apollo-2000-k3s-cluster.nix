@@ -119,6 +119,14 @@
         options = "noatime,discard";
       }
     ];
+    automounts = [
+        {
+        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
+        after = [ "set-zfs-options.service" ];
+        wantedBy = [ "multi-user.target" ];
+      }
+    ];
+
   };
 
   # This value determines the NixOS release from which the default

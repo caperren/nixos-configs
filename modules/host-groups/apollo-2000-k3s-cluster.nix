@@ -109,7 +109,7 @@
       {
         what = "/dev/zvol/zdata/longhorn-ext4";
         type = "ext4";
-        where = "/var/lib/longhorn";
+        where = "/mnt/longhorn";
         after = [ "set-zfs-options.service" ];
         wantedBy = [ "kubernetes.target" ];
         requiredBy = [ "kubernetes.target" ];

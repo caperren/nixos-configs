@@ -68,7 +68,7 @@ in
             # Optional: if you want the UI reachable via Ingress later, you can configure it here
             ingress:
               enabled: true
-              host: longhorn.perren.cloud
+              host: longhorn.perren.local
           '';
         };
       };

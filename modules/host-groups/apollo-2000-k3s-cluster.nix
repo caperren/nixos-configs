@@ -111,8 +111,7 @@
         type = "ext4";
         where = "/mnt/longhorn";
         after = [ "set-zfs-options.service" ];
-        wantedBy = [ "k3s.service" ];
-        requiredBy = [ "k3s.service" ];
+        wantedBy = [ "multi-user.target" ];
         options = "noatime,discard";
       }
     ];

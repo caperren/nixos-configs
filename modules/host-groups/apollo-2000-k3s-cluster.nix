@@ -111,8 +111,8 @@
         type = "ext4";
         where = "/mnt/longhorn";
         after = [ "set-zfs-options.service" ];
-        wantedBy = [ "kubernetes.target" ];
-        requiredBy = [ "kubernetes.target" ];
+        wantedBy = [ "k3s.service" ];
+        requiredBy = [ "k3s.service" ];
         options = "noatime,discard";
       }
     ];

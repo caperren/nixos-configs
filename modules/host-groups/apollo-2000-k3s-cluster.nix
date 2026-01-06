@@ -94,6 +94,9 @@
 
           if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn-ext4` ]; then
             zfs create kubernetes_data/longhorn-ext4 -V 350G
+            while [ ! -e "/dev/zvol/kubernetes_data/longhorn-ext4" ]; do
+                sleep 1;
+            done
             mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
             #            mkdir -p /mnt/longhorn
           fi

@@ -30,7 +30,7 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStartPre = ''${pkgs.coreutils}/bin/sleep 30'';
+        ExecStartPre = ''${pkgs.coreutils}/bin/sleep 60'';
         ExecStart = "${pkgs.writeShellScript "hpe-silent-fans.sh" ''
           set -e
 

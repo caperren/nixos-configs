@@ -92,11 +92,10 @@
         ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
           set -e
 
-          if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn` ]; then
-            zfs create kubernetes_data/longhorn
+          if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn-ext4` ]; then
+            zfs create kubernetes_data/longhorn-ext4 -V 350G
+            mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
           fi
-
-          zfs set quota=350G kubernetes_data/longhorn
         ''}";
 
       };
@@ -106,6 +105,17 @@
         coreutils
       ];
     };
+    mounts = [
+      {
+        what = "/dev/zvol/zdata/longhorn-ext4";
+        type = "ext4";
+        where = "/var/lib/longhorn";
+        after = [ "set-zfs-options.service" ];
+        wantedBy = [ "kubernetes.target" ];
+        requiredBy = [ "kubernetes.target" ];
+        options = "noatime,discard";
+      }
+    ];
   };
 
   # This value determines the NixOS release from which the default

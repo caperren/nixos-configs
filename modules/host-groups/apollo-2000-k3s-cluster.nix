@@ -104,6 +104,7 @@
       path = with pkgs; [
         zfs
         coreutils
+        e2fsprogs
       ];
     };
     mounts = [

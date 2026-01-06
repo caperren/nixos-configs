@@ -82,7 +82,7 @@ in
             "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure";
             "traefik.ingress.kubernetes.io/router.tls" = "true";
             "traefik.ingress.kubernetes.io/router.middlewares" =
-              "longhorn-system-svc-longhorn-headers@kubernetescrd";
+              "longhorn-system-longhorn-ui-svc-headers@kubernetescrd";
           };
         };
         spec = {
@@ -107,11 +107,11 @@ in
           ];
         };
       };
-      longhorn-ui-ingress.content = {
+      longhorn-ui-svc-headers.content = {
         apiVersion = "traefik.io/v1alpha1";
         kind = "Middleware";
         metadata = {
-          name = "svc-longhorn-headers";
+          name = "longhorn-ui-svc-headers";
           namespace = "longhorn-system";
         };
         spec.headers.customRequestHeaders.X-Forwarded-Proto = "https";

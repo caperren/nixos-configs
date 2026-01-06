@@ -46,7 +46,7 @@ in
 
           # Strongly recommended: pin a version so upgrades are intentional.
           # Replace with the version you want (example only).
-          # version = "v1.10.1";
+          version = "v1.10.1";
 
           valuesContent = ''
             # Make Longhorn create/mark its StorageClass as the default
@@ -56,7 +56,7 @@ in
             defaultSettings:
               defaultReplicaCount: ${toString defaultReplicaCount}
               # Where Longhorn stores data on each node:
-              defaultDataPath: /kubernetes_data
+              defaultDataPath: /mnt/longhorn
 
               # Make sure we don't overuse the data mount
               storageOverProvisioningPercentage: 100

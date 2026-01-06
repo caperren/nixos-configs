@@ -76,6 +76,35 @@
     "kubernetes_data"
   ];
 
+  # Set post-boot zfs options that aren't declarative through nixos directly
+  systemd = {
+    services.set-zfs-options = {
+      enable = true;
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      description = "Sets zfs options post-boot";
+
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
+          set -e
+
+          if [ ! `zfs list -H -d0 -o name kubernetes_data` ]; then
+            zfs create kubernetes_data/longhorn
+          fi
+
+          zfs set quota=350G kubernetes_data/longhorn
+        ''}";
+
+      };
+
+      path = with pkgs; [
+        zfs
+        coreutils
+      ];
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

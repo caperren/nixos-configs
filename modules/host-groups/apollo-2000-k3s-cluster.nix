@@ -1,3 +1,26 @@
+# Find disks with `ls -l /dev/disk/by-id/`
+# Ensure you're not nuking your boot drive with `lsblk -o NAME,SIZE,MODEL,SERIAL,UUID`
+# To create the kubernetes_data zfs pool, use the following example template
+# sudo wipefs -a /dev/disk/by-id/ata-VK000240GWSRQ_S44HNA0M806711 && \
+# sudo wipefs -a /dev/disk/by-id/ata-VK000240GWSRQ_S44HNE0M306863 && \
+# sudo wipefs -a /dev/disk/by-id/ata-VK000240GWSRQ_S44HNA0M807518 && \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-VK000240GWSRQ_S44HNA0M806711 ; \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-VK000240GWSRQ_S44HNE0M306863 ; \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-VK000240GWSRQ_S44HNA0M807518 ; \
+# sudo zpool create \
+#   -o ashift=12 \
+#   kubernetes_data \
+#   raidz1 \
+#   /dev/disk/by-id/ata-VK000240GWSRQ_S44HNA0M806711 \
+#   /dev/disk/by-id/ata-VK000240GWSRQ_S44HNE0M306863 \
+#   /dev/disk/by-id/ata-VK000240GWSRQ_S44HNA0M807518 && \
+# sudo zfs set compression=lz4 kubernetes_data && \
+# sudo zfs set atime=off kubernetes_data && \
+# sudo zfs set xattr=sa kubernetes_data && \
+# sudo zpool set autotrim=on kubernetes_data && \
+# sudo zpool scrub kubernetes_data && \
+# sudo zpool status
+
 { config, pkgs, ... }:
 {
   imports = [
@@ -29,7 +52,7 @@
     ../kubernetes/apollo-2000/secrets.nix
     ../kubernetes/apollo-2000/gitea.nix
     ../kubernetes/apollo-2000/grafana.nix
-#    ../kubernetes/apollo-2000/helm-hello-world.nix
+    #    ../kubernetes/apollo-2000/helm-hello-world.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/immich.nix
@@ -48,6 +71,10 @@
   ];
 
   time.timeZone = "America/Los_Angeles";
+
+  boot.zfs.extraPools = [
+    "kubernetes_data"
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

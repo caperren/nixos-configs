@@ -6,7 +6,10 @@ let
 in
 {
   # Required by longhorn
-  services.openiscsi.enable = true;
+  services.openiscsi = {
+    enable = true;
+    name = "iqn.2026-01.local.k3s:${config.networking.hostName}";
+  };
   environment.systemPackages = with pkgs; [
     openiscsi
     nfs-utils

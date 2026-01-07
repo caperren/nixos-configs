@@ -88,7 +88,7 @@ in
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
-          name = "termix-data-pvc";
+          name = "termix-data-pvc2";
           labels."app.kubernetes.io/name" = "termix";
         };
         spec = {

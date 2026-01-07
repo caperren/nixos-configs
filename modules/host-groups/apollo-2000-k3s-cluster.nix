@@ -122,8 +122,8 @@
           util-linux
         ];
       };
-      k3s.serviceConfig = {
-        after = [ "set-zfs-options.service" ];
+      k3s.unitConfig = {
+        After = [ "set-zfs-options.service" ];
       };
     };
 #    mounts = [

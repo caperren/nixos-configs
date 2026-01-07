@@ -119,9 +119,9 @@ in
         kind = "Ingress";
         metadata = {
           name = "termix";
+          labels."app.kubernetes.io/name" = "termix";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
-            labels."app.kubernetes.io/name" = "termix";
           };
         };
         spec = {

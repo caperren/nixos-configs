@@ -22,7 +22,7 @@ in
   networking.wg-quick.interfaces = {
     wg0 = {
       mtu = 1420;
-      ips = [ "10.8.0.4/24" ];
+      address = [ "10.8.0.4/24" ];
       listenPort = 51820;
       privateKeyFile = config.sops.secrets."cap-apollo-n02/wireguard/private-key".path;
 

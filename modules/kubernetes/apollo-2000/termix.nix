@@ -116,7 +116,6 @@ in
         metadata = {
           name = "termix";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
             labels."app.kubernetes.io/name" = "termix";
           };

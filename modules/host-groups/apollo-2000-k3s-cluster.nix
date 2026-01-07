@@ -86,7 +86,7 @@
       set-zfs-options = {
         enable = true;
         after = [ "network.target" ];
-        wantedBy = [ "k3s.service" ];
+        wantedBy = [ "k3s.service" "multi-user.target" ];
         description = "Sets zfs options post-boot";
 
         serviceConfig = {

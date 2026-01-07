@@ -55,12 +55,15 @@ in
 
             defaultSettings:
               defaultReplicaCount: ${toString defaultReplicaCount}
+
               # Where Longhorn stores data on each node:
               defaultDataPath: /mnt/longhorn
 
               # Make sure we don't overuse the data mount
               storageOverProvisioningPercentage: 100
               storageMinimalAvailablePercentage: 10
+
+              defaultBackupStore.backupTarget: ""
 
               # Optional: if you want node failure to more aggressively evict/recover:
               # nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod

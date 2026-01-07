@@ -21,6 +21,7 @@ in
         kind = "ServiceAccount";
         metadata = {
           name = "diun";
+          namespace = "default";
           labels."app.kubernetes.io/name" = "diun";
         };
       };

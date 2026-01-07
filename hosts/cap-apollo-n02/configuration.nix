@@ -28,7 +28,7 @@ in
 
       # Had to do this instead persistent keepalive in peer below
       # https://nixos.wiki/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
-      postUp = ["wg set wgnet0 peer ${wgPublicKey} persistent-keepalive 25"];
+#      postUp = ["wg set wg0 peer ${wgPublicKey} persistent-keepalive 25"];
 
       peers = [
         {

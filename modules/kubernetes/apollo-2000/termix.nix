@@ -131,7 +131,7 @@ in
                     backend = {
                       service = {
                         name = "termix";
-                        port.number = 30000;
+                        port.number = 30001;
                       };
                     };
                   }

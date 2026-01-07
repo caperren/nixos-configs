@@ -68,7 +68,7 @@ in
           ##### Set minimum for fan group
           screen -S $SCREEN_NAME -X stuff "fan p 0 min 16^M"
         ''}";
-
+        startAt = "*:0/30";
       };
 
       path = with pkgs; [

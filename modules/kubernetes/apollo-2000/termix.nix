@@ -74,6 +74,7 @@ in
                   ];
                 }
               ];
+              hostNetwork = true;
               volumes = [
                 {
                   name = "data";

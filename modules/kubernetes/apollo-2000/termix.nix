@@ -38,15 +38,15 @@ in
                   volumeMounts = [
                     {
                       mountPath = "/app/data";
-                      name = "storage";
+                      name = "data";
                     }
                   ];
                 }
               ];
               volumes = [
                 {
-                  name = "storage";
-                  persistentVolumeClaim.claimName = "termix";
+                  name = "data";
+                  persistentVolumeClaim.claimName = "termix-data-pvc";
                 }
               ];
             };
@@ -70,10 +70,13 @@ in
           ];
         };
       };
-      termix-pvc.content = {
+      termix-data-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
-        metadata.name = "termix";
+       metadata = {
+          name = "termix-data-pvc";
+          labels."app.kubernetes.io/name" = "termix";
+        };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";

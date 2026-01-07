@@ -109,7 +109,7 @@ in
           ports = [
             {
               port = 8080;
-              targetPort = 30000;
+              targetPort = 8080;
             }
           ];
         };
@@ -133,10 +133,11 @@ in
                 paths = [
                   {
                     path = "/";
+                    pathType = "Prefix";
                     backend = {
                       service = {
                         name = "termix";
-                        port.number = 30000;
+                        port.number = 8080;
                       };
                     };
                   }

@@ -64,7 +64,7 @@ in
         spec = {
           accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "5Gi";
+          resources.requests.storage = "10Gi";
         };
       };
       esphome-service.content = {

@@ -30,7 +30,6 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStartPre = ''${pkgs.coreutils}/bin/sleep 30'';
         ExecStart = "${pkgs.writeShellScript "hpe-silent-fans.sh" ''
           set -e
 
@@ -40,6 +39,11 @@ in
           SSH_HOST=${iloHost}
           SSH_KEY=/root/.ssh/ilo_id_rsa
           SSH_OPTIONS="-o KexAlgorithms=diffie-hellman-group14-sha1,diffie-hellman-group1-sha1 -o PubkeyAcceptedKeyTypes=+ssh-rsa -o HostKeyAlgorithms=ssh-rsa -o StrictHostKeyChecking=no"
+
+          # Wait for ilo host to be available
+          while [ ! `ping -c 1 ${iloHost}` ]; do
+            sleep 5
+          done
 
           # Create screen session
           screen -dmS $SCREEN_NAME
@@ -71,6 +75,7 @@ in
         bash
         config.programs.ssh.package
         coreutils
+        iputils
         screen
       ];
     };

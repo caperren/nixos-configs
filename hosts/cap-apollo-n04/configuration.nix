@@ -5,9 +5,9 @@
     ./hardware-configuration.nix
 
     # Host Groups
-    ../../modules/host-groups/apollo-2000.nix
-
+    ../../modules/host-groups/apollo-2000-k3s-cluster.nix
   ];
 
   networking.hostName = "cap-apollo-n04";
+  networking.hostId = "32d76617";
 }

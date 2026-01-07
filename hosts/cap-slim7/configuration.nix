@@ -23,6 +23,7 @@
     ../../modules/system/fonts.nix
     ../../modules/system/gpu-amd.nix
     ../../modules/system/home-manager-settings.nix
+    ../../modules/system/homelab-nfs-mounts.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix
     ../../modules/system/laptop.nix

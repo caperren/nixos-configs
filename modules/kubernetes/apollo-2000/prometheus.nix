@@ -99,6 +99,8 @@ in
                 scheme: http
                 kubernetes_sd_configs:
                 - role: node
+                static_configs:
+                - targets: ["192.168.1.78"]
                 relabel_configs:
                 - source_labels: [__address__]
                   regex: ^(.*):\d+$

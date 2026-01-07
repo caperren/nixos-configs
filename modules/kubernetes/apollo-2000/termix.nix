@@ -42,7 +42,11 @@ in
                 {
                   name = "init-permissions";
                   image = "busybox";
-                  command = ["sh" "-c" "chown 1000:1000 /data && chmod 750 /data"];
+                  command = [
+                    "sh"
+                    "-c"
+                    "chown 1000:1000 /data && chmod 750 /data"
+                  ];
                   volumeMounts = [
                     {
                       mountPath = "/data";
@@ -80,6 +84,19 @@ in
           };
         };
       };
+      termix-data-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "termix-data-pvc";
+          labels."app.kubernetes.io/name" = "termix";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "1Gi";
+        };
+      };
       termix-service.content = {
         apiVersion = "v1";
         kind = "Service";
@@ -97,19 +114,6 @@ in
           ];
         };
       };
-      termix-data-pvc.content = {
-        apiVersion = "v1";
-        kind = "PersistentVolumeClaim";
-        metadata = {
-          name = "termix-data-pvc";
-          labels."app.kubernetes.io/name" = "termix";
-        };
-        spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "1Gi";
-        };
-      };
       termix-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
@@ -123,11 +127,11 @@ in
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "termix.perren.local";
               http = {
                 paths = [
                   {
-                    host = "termix.perren.local";
                     path = "/";
                     backend = {
                       service = {
@@ -138,7 +142,7 @@ in
                   }
                 ];
               };
-            })
+            }
           ];
         };
       };

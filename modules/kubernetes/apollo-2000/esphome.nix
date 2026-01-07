@@ -6,9 +6,9 @@
 let
   image = pkgs.dockerTools.pullImage {
     imageName = "esphome/esphome";
-    imageDigest = "sha256:c42c7485cf18d9a9e021b2d073bca0fd58d9457a51068a5720da67be92d2dfad";
-    hash = "sha256-QIZXdnnMGGQxJWPwvb339mibT5HQ/H2qhBQrRhAkH/c=";
-    finalImageTag = "2025.12.4";
+    imageDigest = "sha256:c625ac6e9f119cd501293ce47a04aea3042a9428108209f368262d8867aa2920";
+    hash = "sha256-wKXDnBdfTuKV+Wn79/VliiDR76rmrASTHlPCoxWC6gs=";
+    finalImageTag = "2025.12.5";
     arch = "amd64";
   };
 in
@@ -35,12 +35,36 @@ in
                   image = "${image.imageName}:${image.imageTag}";
                   env = [ ];
                   ports = [ { containerPort = 6052; } ];
-                  volumeMounts = [ ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/config";
+                      name = "config";
+                    }
+                  ];
                 }
               ];
-              volumes = [ ];
+              hostNetwork = true;
+              volumes = [
+                {
+                  name = "config";
+                  persistentVolumeClaim.claimName = "esphome-config-pvc";
+                }
+              ];
             };
           };
+        };
+      };
+      esphome-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "esphome-config-pvc";
+          labels."app.kubernetes.io/name" = "esphome";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "5Gi";
         };
       };
       esphome-service.content = {
@@ -65,8 +89,8 @@ in
         kind = "Ingress";
         metadata = {
           name = "esphome";
+          labels."app.kubernetes.io/name" = "esphome";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
           };
         };
@@ -74,10 +98,11 @@ in
           ingressClassName = "traefik";
           rules = [
             ({
+              host = "esphome.perren.local";
               http = {
                 paths = [
                   {
-                    path = "/esphome";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {

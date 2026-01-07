@@ -59,12 +59,7 @@ in
                 {
                   name = "termix";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [
-                    {
-                      name = "DUMMY";
-                      value = "false";
-                    }
-                  ];
+                  env = [ ];
                   ports = [ { containerPort = 8080; } ];
                   volumeMounts = [
                     {

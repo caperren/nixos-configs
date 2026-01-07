@@ -38,6 +38,19 @@ in
           template = {
             metadata.labels."app.kubernetes.io/name" = "termix";
             spec = {
+              initContainers = [
+                {
+                  name = "init-permissions";
+                  image = "busybox";
+                  command = ["sh" "-c" "chown 1000:1000 /data && chmod 750 /data"];
+                  volumeMounts = [
+                    {
+                      mountPath = "/data";
+                      name = "data";
+                    }
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "termix";

@@ -69,7 +69,7 @@
     ../kubernetes/apollo-2000/spliit.nix
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
-    ../kubernetes/apollo-2000/termix.nix
+#    ../kubernetes/apollo-2000/termix.nix
     ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
     ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];

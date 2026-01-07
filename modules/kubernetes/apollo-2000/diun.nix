@@ -72,42 +72,20 @@ in
         metadata = {
           name = "diun";
           labels."app.kubernetes.io/name" = "diun";
-          "diun.enable" = "true";
         };
         spec = {
           replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "diun";
 
-          serviceAccountName = "diun";
-
-          # Uses node as a base, with groupId 1000
-          #          securityContext = {
-          #            runAsUser = 1000;
-          #            runAsGroup = 1000;
-          #            fsGroup = 1000;
-          #            fsGroupChangePolicy = "OnRootMismatch";
-          #          };
-
           template = {
-            metadata.labels."app.kubernetes.io/name" = "diun";
+            metadata = {
+              labels."app.kubernetes.io/name" = "diun";
+              annotations = {
+                "diun.enable" = "true";
+              };
+            };
             spec = {
-              #              initContainers = [
-              #                {
-              #                  name = "init-permissions";
-              #                  image = "busybox";
-              #                  command = [
-              #                    "sh"
-              #                    "-c"
-              #                    "chown 1000:1000 /data && chmod 750 /data"
-              #                  ];
-              #                  volumeMounts = [
-              #                    {
-              #                      mountPath = "/data";
-              #                      name = "data";
-              #                    }
-              #                  ];
-              #                }
-              #              ];
+              serviceAccountName = "diun";
               containers = [
                 {
                   name = "diun";

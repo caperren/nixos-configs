@@ -9,6 +9,8 @@
   - `nix-shell -p nix-prefetch-docker --run "nix-prefetch-docker --image-name <replace> --image-tag <replace>"`
 - To generate a unique id for networking.hostId when using zfs
   - `head -c 8 /etc/machine-id`
+- Watch all container logs by deployment name
+  - `kubectl logs -f -l app.kubernetes.io/name=<app name> --all-containers`
 ## Misc references used
 * https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles/tree/main
   * For general flake-based layout of individual systems and layout

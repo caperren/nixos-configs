@@ -36,7 +36,12 @@ in
           };
 
           template = {
-            metadata.labels."app.kubernetes.io/name" = "termix";
+            metadata = {
+              labels."app.kubernetes.io/name" = "termix";
+              annotations = {
+                "diun.enable" = "true";
+              };
+            };
             spec = {
               initContainers = [
                 {

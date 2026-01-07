@@ -29,7 +29,10 @@ in
 
           # Uses node as a base, with groupId 1000
           securityContext = {
+#            runAsUser = 1000;
+#            runAsGroup = 1000;
             fsGroup = 1000;
+            fsGroupChangePolicy = "Always";
           };
 
           template = {

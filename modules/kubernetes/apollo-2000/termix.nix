@@ -21,7 +21,7 @@ in
         kind = "Deployment";
         metadata = {
           name = "termix";
-          labels."app.kubernetes.io/name" = "termix2";
+          labels."app.kubernetes.io/name" = "termix";
         };
         spec = {
           replicas = 1;
@@ -42,7 +42,12 @@ in
                 {
                   name = "termix";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
+                  env = [
+                    {
+                      name = "DUMMY";
+                      value = "false";
+                    }
+                  ];
                   ports = [ { containerPort = 8080; } ];
                   volumeMounts = [
                     {

@@ -118,6 +118,7 @@ in
           annotations = {
             "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            labels."app.kubernetes.io/name" = "termix";
           };
         };
         spec = {
@@ -131,7 +132,7 @@ in
                     backend = {
                       service = {
                         name = "termix";
-                        port.number = 30001;
+                        port.number = 30000;
                       };
                     };
                   }

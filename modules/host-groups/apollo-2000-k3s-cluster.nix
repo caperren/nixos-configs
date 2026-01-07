@@ -124,6 +124,7 @@
       };
       k3s.unitConfig = {
         After = [ "set-zfs-options.service" ];
+        Requires = [ "set-zfs-options.service" ];
       };
     };
 #    mounts = [

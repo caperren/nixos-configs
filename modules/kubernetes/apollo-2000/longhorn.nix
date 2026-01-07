@@ -63,8 +63,6 @@ in
               storageOverProvisioningPercentage: 100
               storageMinimalAvailablePercentage: 10
 
-              defaultBackupStore.backupTarget: ""
-
               # Optional: if you want node failure to more aggressively evict/recover:
               # nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
 
@@ -73,6 +71,18 @@ in
               enabled: true
               host: longhorn.perren.local
           '';
+        };
+      };
+      longhorn-default-backup-target.content = {
+        apiVersion = "longhorn.io/v1beta2";
+        kind = "BackupTarget";
+        metadata = {
+          name = "default";
+          namespace = "longhorn-system";
+        };
+        spec = {
+          backupTargetURL = "";
+          pollInterval = "5m0s";
         };
       };
     };

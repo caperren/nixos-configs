@@ -26,10 +26,6 @@ in
       listenPort = 51820;
       privateKeyFile = config.sops.secrets."cap-apollo-n02/wireguard/private-key".path;
 
-      # Had to do this instead persistent keepalive in peer below
-      # https://nixos.wiki/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
-#      postUp = ["wg set wg0 peer ${wgPublicKey} persistent-keepalive 25"];
-
       peers = [
         {
           publicKey = wgPublicKey;

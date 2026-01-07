@@ -21,7 +21,7 @@ in
         kind = "Deployment";
         metadata = {
           name = "termix";
-          labels."app.kubernetes.io/name" = "termix";
+          labels."app.kubernetes.io/name" = "termix2";
         };
         spec = {
           replicas = 1;

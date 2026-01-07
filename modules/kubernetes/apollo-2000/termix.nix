@@ -28,7 +28,9 @@ in
           selector.matchLabels."app.kubernetes.io/name" = "termix";
 
           # Uses node as a base, with groupId 1000
-          securityContext.fsGroup = 1000;
+          securityContext = {
+            fsGroup = 1000;
+          };
 
           template = {
             metadata.labels."app.kubernetes.io/name" = "termix";

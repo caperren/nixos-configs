@@ -19,7 +19,7 @@ in
   };
 
   # Wireguard connection to my vps, for tunnelled reverse-proxying
-  networking.wireguard.interfaces = {
+  networking.wg-quick.interfaces = {
     wg0 = {
       mtu = 1420;
       ips = [ "10.8.0.4/24" ];

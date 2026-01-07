@@ -1,4 +1,6 @@
 { config, pkgs, ... }:
+let wgPublicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
+in
 {
   imports = [
     # Hardware Scan
@@ -17,21 +19,25 @@
   };
 
   # Wireguard connection to my vps, for tunnelled reverse-proxying
-  networking.wireguard.interfaces = {
-    wg0 = {
-      ips = [ "10.8.0.4/24" ];
-      listenPort = 51820;
-      privateKeyFile = config.sops.secrets."cap-apollo-n02/wireguard/private-key".path;
-
-      peers = [
-        {
-          publicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
-          presharedKeyFile = config.sops.secrets."cap-apollo-n02/wireguard/preshared-key".path;
-          allowedIPs = [ "0.0.0.0/0" ];
-          endpoint = "caperren.com:51820";
-          persistentKeepalive = 25;
-        }
-      ];
-    };
-  };
+#  networking.wireguard.interfaces = {
+#    wg0 = {
+#      mtu = 1420;
+#      ips = [ "10.8.0.4/24" ];
+#      listenPort = 51820;
+#      privateKeyFile = config.sops.secrets."cap-apollo-n02/wireguard/private-key".path;
+#
+#      # Had to do this instead persistent keepalive in peer below
+#      # https://nixos.wiki/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
+#      postUp = ["wg set wgnet0 peer ${wgPublicKey} persistent-keepalive 25"];
+#
+#      peers = [
+#        {
+#          publicKey = wgPublicKey;
+#          presharedKeyFile = config.sops.secrets."cap-apollo-n02/wireguard/preshared-key".path;
+#          allowedIPs = [ "0.0.0.0/0" ];
+#          endpoint = "caperren.com:51820";
+#        }
+#      ];
+#    };
+#  };
 }

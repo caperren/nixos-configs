@@ -16,6 +16,14 @@ in
   services.k3s = {
     images = [ image ];
     manifests = {
+      diun-serviceaccount.content = {
+        apiVersion = "v1";
+        kind = "ServiceAccount";
+        metadata = {
+          name = "diun";
+          labels."app.kubernetes.io/name" = "diun";
+        };
+      };
       diun-cluster-role.content = {
         apiVersion = "rbac.authorization.k8s.io/v1";
         kind = "ClusterRole";
@@ -63,18 +71,21 @@ in
         metadata = {
           name = "diun";
           labels."app.kubernetes.io/name" = "diun";
+          "diun.enable" = "true";
         };
         spec = {
           replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "diun";
 
+          serviceAccountName = "diun";
+
           # Uses node as a base, with groupId 1000
-          securityContext = {
-            runAsUser = 1000;
-            runAsGroup = 1000;
-            fsGroup = 1000;
-            fsGroupChangePolicy = "OnRootMismatch";
-          };
+          #          securityContext = {
+          #            runAsUser = 1000;
+          #            runAsGroup = 1000;
+          #            fsGroup = 1000;
+          #            fsGroupChangePolicy = "OnRootMismatch";
+          #          };
 
           template = {
             metadata.labels."app.kubernetes.io/name" = "diun";

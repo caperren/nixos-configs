@@ -129,6 +129,7 @@ in
                 paths = [
                   {
                     host = "termix.perren.local";
+                    path = "/";
                     backend = {
                       service = {
                         name = "termix";
@@ -142,7 +143,6 @@ in
           ];
         };
       };
-
     };
   };
 }

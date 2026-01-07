@@ -51,6 +51,7 @@
 
     # Kubernetes Applications
     ../kubernetes/apollo-2000/autobrr.nix
+    ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
     ../kubernetes/apollo-2000/secrets.nix
     ../kubernetes/apollo-2000/gitea.nix

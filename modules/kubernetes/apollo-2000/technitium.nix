@@ -127,6 +127,7 @@ in
         spec = {
           selector."app.kubernetes.io/name" = "technitium";
           type = "LoadBalancer";
+          externalTrafficPolicy = "Local";
           ports = [
             {
               port = 53;

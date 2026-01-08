@@ -37,7 +37,12 @@ in
           };
 
           template = {
-            metadata.labels."app.kubernetes.io/name" = "technitium";
+            metadata = {
+              labels."app.kubernetes.io/name" = "technitium";
+              annotations = {
+                "diun.enable" = "true";
+              };
+            };
             spec = {
               containers = [
                 {

@@ -27,7 +27,12 @@ in
           replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "esphome";
           template = {
-            metadata.labels."app.kubernetes.io/name" = "esphome";
+            metadata = {
+              labels."app.kubernetes.io/name" = "esphome";
+              annotations = {
+                "diun.enable" = "true";
+              };
+            };
             spec = {
               containers = [
                 {

@@ -46,7 +46,7 @@ in
 
           # Strongly recommended: pin a version so upgrades are intentional.
           # Replace with the version you want (example only).
-          version = "v1.10.0";
+          version = "v1.10.1";
 
           valuesContent = ''
             # Make Longhorn create/mark its StorageClass as the default

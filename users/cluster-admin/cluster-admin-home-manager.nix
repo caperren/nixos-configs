@@ -4,10 +4,10 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
+  import = [ ./cluster-admin.nix ];
+
   users.users.cluster-admin = {
     initialPassword = "changeme";
-    isNormalUser = true;
-    description = "Cluster Admin";
     extraGroups = [
       "networkmanager"
       "wheel"

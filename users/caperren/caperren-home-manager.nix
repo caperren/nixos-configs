@@ -11,14 +11,15 @@ let
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
+  import = [ ./caperren.nix ];
+
   users.users.caperren = {
-    isNormalUser = true;
-    description = "Corwin Perren";
     extraGroups = [
       "adbusers"
       "dialout"
       "docker"
       "input"
+      "nas-caperren"
       "networkmanager"
       "plugdev"
       "podman"

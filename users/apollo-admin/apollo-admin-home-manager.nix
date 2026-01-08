@@ -4,10 +4,10 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
+  import = [ ./apollo-admin.nix ];
+
   users.users.apollo-admin = {
     initialPassword = "changeme";
-    isNormalUser = true;
-    description = "Cluster Admin";
     extraGroups = [
       "docker"
       "networkmanager"

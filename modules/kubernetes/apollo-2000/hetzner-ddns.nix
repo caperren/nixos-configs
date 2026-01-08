@@ -16,7 +16,7 @@ in
   sops = {
     secrets."hetzner-ddns/config".sopsFile = ../../../secrets/apollo-2000.yaml;
     templates.hetznerDdnsConfig = {
-      content = builtins.toJSON {
+      content = builtins.toYAML{
         apiVersion = "v1";
         kind = "Secret";
         metadata = {
@@ -25,7 +25,7 @@ in
         };
         stringData.config = config.sops.placeholder."hetzner-ddns/config";
       };
-      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.json";
+      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
     };
   };
 

@@ -141,19 +141,20 @@ in
         kind = "Ingress";
         metadata = {
           name = "technitium";
+          labels."app.kubernetes.io/name" = "technitium";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "technitium.perren.local";
               http = {
                 paths = [
                   {
-                    path = "/technitium";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {
@@ -164,7 +165,7 @@ in
                   }
                 ];
               };
-            })
+            }
           ];
         };
       };

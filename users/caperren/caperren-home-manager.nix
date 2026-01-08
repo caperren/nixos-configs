@@ -11,9 +11,12 @@ let
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
+  sops.secrets."accounts/caperren/hashed-password".sopsFile = ../../secrets/default.yaml;
+
   users.users.caperren = {
     isNormalUser = true;
     description = "Corwin Perren";
+    hashedPasswordFile = config.sops.secrets."accounts/caperren/hashed-password".path;
     extraGroups = [
       "adbusers"
       "dialout"

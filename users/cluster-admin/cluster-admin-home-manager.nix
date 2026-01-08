@@ -4,10 +4,12 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
+sops.secrets."accounts/cluster-admin/hashed-password".sopsFile = ../../secrets/cluster.yaml;
+
   users.users.cluster-admin = {
     isNormalUser = true;
     description = "Cluster Admin";
-    initialPassword = "changeme";
+    hashedPasswordFile = config.sops.secrets."accounts/cluster-admin/hashed-password".path;
     extraGroups = [
       "networkmanager"
       "wheel"

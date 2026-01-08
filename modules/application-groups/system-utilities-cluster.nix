@@ -11,6 +11,7 @@
     htop
     iftop
     iotop
+    jq
     killall
     kitty
     ncdu
@@ -23,5 +24,6 @@
     usbutils
     util-linux
     wget
+    yq
   ];
 }

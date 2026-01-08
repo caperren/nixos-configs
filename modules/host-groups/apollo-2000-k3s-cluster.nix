@@ -47,7 +47,7 @@
     ../application-groups/virtualization.nix
 
     # Core Kubernetes Applications
-#    ../kubernetes/apollo-2000/longhorn.nix
+    ../kubernetes/apollo-2000/longhorn.nix
 
     # Kubernetes Applications
 #    ../kubernetes/apollo-2000/autobrr.nix

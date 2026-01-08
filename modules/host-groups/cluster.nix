@@ -3,7 +3,7 @@
 {
   imports = [
     # Users
-    ../../users/cluster-admin/cluster-admin.nix
+    ../../users/cluster-admin/cluster-admin-home-manager.nix
 
     # System Configuration
     ../system/cpu-amd.nix

@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
 
     # Users
-    ../../users/apollo-admin/apollo-admin.nix
+    ../../users/apollo-admin/apollo-admin-home-manager.nix
 
     # System Configuration
     ../../modules/system/cpu-intel.nix

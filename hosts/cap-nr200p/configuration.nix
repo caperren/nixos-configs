@@ -14,7 +14,7 @@
     ./hardware-configuration.nix
 
     # Users
-    ../../users/caperren/caperren.nix
+    ../../users/caperren/caperren-home-manager.nix
 
     # System Configuration
     ../../modules/system/cpu-amd.nix

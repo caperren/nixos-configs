@@ -25,7 +25,7 @@
 {
   imports = [
     # Users
-    ../../users/apollo-admin/apollo-admin.nix
+    ../../users/apollo-admin/apollo-admin-home-manager.nix
 
     # System Configuration
     ../system/cpu-intel.nix

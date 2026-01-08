@@ -3,7 +3,7 @@
   imports = [ ../../users/all-groups.nix ];
 
   # To make sure we can't mess with users without declaring them
-  users.mutableUsers = false;
+#  users.mutableUsers = false;
 
   # For nfs client support
   boot.supportedFilesystems = [ "nfs" ];

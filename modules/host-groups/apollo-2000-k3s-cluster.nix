@@ -23,6 +23,7 @@
 
 { config, pkgs, ... }:
 let
+  wgPublicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
   wgAddressesByHost = {
     "cap-apollo-n02" = [ "10.8.0.4/24" ];
     "cap-apollo-n03" = [ "10.8.0.5/24" ];
@@ -155,9 +156,13 @@ in
       address = wgAddressesByHost.${config.networking.hostName};
       privateKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/private-key".path;
 
+      # Known issue with using privateKeyFile where persistentKeepalive below is ignored
+      # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
+      postUp = [ "wg set wg0 peer ${wgPublicKey} persistent-keepalive 25" ];
+
       peers = [
         {
-          publicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
+          publicKey = wgPublicKey;
           presharedKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/preshared-key".path;
           allowedIPs = [ "10.8.0.0/24" ];
           endpoint = "caperren.com:51820";

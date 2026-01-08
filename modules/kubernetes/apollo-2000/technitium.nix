@@ -177,7 +177,7 @@ in
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "technitium";
+                        name = "technitium-http-service";
                         port.number = 5380;
                       };
                     };

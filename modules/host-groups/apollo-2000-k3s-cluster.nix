@@ -130,21 +130,6 @@
         Requires = [ "set-zfs-options.service" ];
       };
     };
-#    mounts = [
-#      {
-#        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
-#        type = "ext4";
-#        where = "/mnt/longhorn";
-#        options = "noatime,discard";
-#      }
-#    ];
-#    automounts = [
-#      {
-#        where = "/mnt/longhorn";
-#        after = [ "set-zfs-options.service" ];
-#      }
-#    ];
-
   };
 
   # This value determines the NixOS release from which the default

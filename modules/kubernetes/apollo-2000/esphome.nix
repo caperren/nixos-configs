@@ -101,7 +101,7 @@ in
           ports = [
             {
               port = 6052;
-              targetPort = 6052;
+              targetPort = 6053;
             }
           ];
         };
@@ -146,7 +146,7 @@ in
                     backend = {
                       service = {
                         name = "esphome-public-service";
-                        port.number = 6052;
+                        port.number = 6053;
                       };
                     };
                   }

@@ -59,7 +59,11 @@ in
                     }
                   ];
                   ports = [
-                    { containerPort = 5380; }
+                    {
+                      name = "http";
+                      containerPort = 5380;
+                      protocol = "TCP";
+                    }
                     {
                       name = "dns-tcp";
                       containerPort = 53;
@@ -113,6 +117,7 @@ in
           selector."app.kubernetes.io/name" = "technitium";
           ports = [
             {
+              name = "http";
               port = 5380;
               targetPort = 5380;
             }

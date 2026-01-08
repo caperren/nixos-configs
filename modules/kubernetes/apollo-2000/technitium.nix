@@ -106,15 +106,19 @@ in
           resources.requests.storage = "1Gi";
         };
       };
-      technitium-service.content = {
+      technitium-http-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "technitium-service";
+          name = "technitium-http-service";
           labels."app.kubernetes.io/name" = "technitium";
         };
         spec = {
           selector."app.kubernetes.io/name" = "technitium";
+          sessionAffinity = "ClientIP";
+          sessionAffinityConfig = {
+            clientIP.timeoutSeconds = 300;
+          };
           ports = [
             {
               name = "http";

@@ -3,6 +3,6 @@
   users.users.caperren = {
     isNormalUser = true;
     description = "Corwin Perren";
-    uid = 200;
+    uid = 2000;
   };
 }

@@ -3,6 +3,6 @@
   users.users.apollo-admin = {
     isNormalUser = true;
     description = "Cluster Admin";
-    uid = 201;
+    uid = 2001;
   };
 }

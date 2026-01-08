@@ -16,14 +16,14 @@ in
   sops = {
     secrets."hetzner-ddns/config".sopsFile = ../../../secrets/apollo-2000.yaml;
     templates.hetznerDdnsConfig = {
-      content = builtins.toYAML{
+      content = builtins.toJSON{
         apiVersion = "v1";
         kind = "Secret";
         metadata = {
           name = "hetzner-ddns-config";
           labels."app.kubernetes.io/name" = "hetzner-ddns";
         };
-        stringData.config = config.sops.placeholder."hetzner-ddns/config";
+        data.config = config.sops.placeholder."hetzner-ddns/config";
       };
       path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
     };
@@ -63,7 +63,15 @@ in
               volumes = [
                 {
                   name = "secret-config";
-                  secret.secretName = "hetzner-ddns-config";
+                  secret = {
+                    secretName = "hetzner-ddns-config";
+                    items = [
+                    {
+                        key = "config";
+                        path = "/";
+                    }
+                    ];
+                  };
                 }
               ];
             };

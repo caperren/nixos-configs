@@ -3,5 +3,6 @@
 profile office_desk {
     output "Hewlett Packard HP Z27n CNK7311FCY" enable position 0,0
     output "LG Electronics LG ULTRAGEAR 104NTVS1N751" enable mode 3440x1440@143.92Hz position -440,1440 adaptive_sync on
-    output "BOE Display 0x00000060" enable position 950,2880 scale 1.0
+    output "BOE Display 0x00000060" enable position 1280,2880 scale 1.0
+    output "AOC 1659WX        1234567      " enable position -640,2880 scale 1.0
 }

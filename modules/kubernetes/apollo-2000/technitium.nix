@@ -26,36 +26,131 @@ in
         spec = {
           replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "technitium";
+
+          securityContext = {
+            sysctls = [
+              {
+                name = "net.ipv4.ip_local_port_range";
+                value = "1024 65535";
+              }
+            ];
+          };
+
           template = {
-            metadata.labels."app.kubernetes.io/name" = "technitium";
+            metadata = {
+              labels."app.kubernetes.io/name" = "technitium";
+              annotations = {
+                "diun.enable" = "true";
+              };
+            };
             spec = {
               containers = [
                 {
                   name = "technitium";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
-                  ports = [ { containerPort = 5380; } ];
-                  volumeMounts = [ ];
+                  env = [
+                    {
+                      name = "TZ";
+                      value = "America/Los_Angeles";
+                    }
+                    {
+                      name = "DNS_SERVER_DOMAIN";
+                      value = "technitium.internal.perren.cloud";
+                    }
+                  ];
+                  ports = [
+                    {
+                      name = "http";
+                      containerPort = 5380;
+                      protocol = "TCP";
+                    }
+                    {
+                      name = "dns-tcp";
+                      containerPort = 53;
+                      protocol = "TCP";
+                    }
+                    {
+                      name = "dns-udp";
+                      containerPort = 53;
+                      protocol = "UDP";
+                    }
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/etc/dns";
+                      name = "config";
+                    }
+                  ];
                 }
               ];
-              volumes = [ ];
+              volumes = [
+                {
+                  name = "config";
+                  persistentVolumeClaim.claimName = "technitium-config-pvc";
+                }
+              ];
             };
           };
         };
       };
-      technitium-service.content = {
+      technitium-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "technitium-config-pvc";
+          labels."app.kubernetes.io/name" = "technitium";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "1Gi";
+        };
+      };
+      technitium-http-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "technitium";
+          name = "technitium-http-service";
           labels."app.kubernetes.io/name" = "technitium";
         };
         spec = {
           selector."app.kubernetes.io/name" = "technitium";
+          sessionAffinity = "ClientIP";
+          sessionAffinityConfig = {
+            clientIP.timeoutSeconds = 300;
+          };
           ports = [
             {
+              name = "http";
               port = 5380;
               targetPort = 5380;
+            }
+          ];
+        };
+      };
+      technitium-dns-service.content = {
+        apiVersion = "v1";
+        kind = "Service";
+        metadata = {
+          name = "technitium-dns-service";
+          labels."app.kubernetes.io/name" = "technitium";
+        };
+        spec = {
+          selector."app.kubernetes.io/name" = "technitium";
+          type = "LoadBalancer";
+          externalTrafficPolicy = "Local";
+          ports = [
+            {
+              name = "dns-tcp";
+              port = 53;
+              targetPort = 53;
+              protocol = "TCP";
+            }
+            {
+              name = "dns-udp";
+              port = 53;
+              targetPort = 53;
+              protocol = "UDP";
             }
           ];
         };
@@ -65,30 +160,31 @@ in
         kind = "Ingress";
         metadata = {
           name = "technitium";
+          labels."app.kubernetes.io/name" = "technitium";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "technitium.internal.perren.cloud";
               http = {
                 paths = [
                   {
-                    path = "/technitium";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "technitium";
+                        name = "technitium-http-service";
                         port.number = 5380;
                       };
                     };
                   }
                 ];
               };
-            })
+            }
           ];
         };
       };

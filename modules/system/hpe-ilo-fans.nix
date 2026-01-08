@@ -70,6 +70,7 @@ in
         ''}";
 
       };
+      startAt = "*:0/30";
 
       path = with pkgs; [
         bash

@@ -50,29 +50,29 @@
     ../kubernetes/apollo-2000/longhorn.nix
 
     # Kubernetes Applications
-    ../kubernetes/apollo-2000/autobrr.nix
+#    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
-    ../kubernetes/apollo-2000/secrets.nix
-    ../kubernetes/apollo-2000/gitea.nix
-    ../kubernetes/apollo-2000/grafana.nix
-    #    ../kubernetes/apollo-2000/helm-hello-world.nix
+#    ../kubernetes/apollo-2000/secrets.nix
+#    ../kubernetes/apollo-2000/gitea.nix
+#    ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
-    ../kubernetes/apollo-2000/home-assistant.nix
-    ../kubernetes/apollo-2000/immich.nix
-    ../kubernetes/apollo-2000/kavita.nix
-    ../kubernetes/apollo-2000/node-exporter.nix
-    ../kubernetes/apollo-2000/plex.nix
-    ../kubernetes/apollo-2000/prometheus.nix
-    ../kubernetes/apollo-2000/prowlarr.nix
-    ../kubernetes/apollo-2000/radarr.nix
-    ../kubernetes/apollo-2000/rclone.nix
-    ../kubernetes/apollo-2000/spliit.nix
-    ../kubernetes/apollo-2000/stash.nix
+#    ../kubernetes/apollo-2000/home-assistant.nix
+#    ../kubernetes/apollo-2000/immich.nix
+#    ../kubernetes/apollo-2000/kavita.nix
+#    ../kubernetes/apollo-2000/node-exporter.nix
+#    ../kubernetes/apollo-2000/plex.nix
+#    ../kubernetes/apollo-2000/prometheus.nix
+#    ../kubernetes/apollo-2000/prowlarr.nix
+#    ../kubernetes/apollo-2000/radarr.nix
+#    ../kubernetes/apollo-2000/rclone.nix
+#    ../kubernetes/apollo-2000/secrets.nix
+#    ../kubernetes/apollo-2000/spliit.nix
+#    ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
     ../kubernetes/apollo-2000/termix.nix
-    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
-    ../kubernetes/apollo-2000/zwave-js-ui.nix
+#    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
+#    ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";
@@ -87,7 +87,7 @@
       set-zfs-options = {
         enable = true;
         after = [ "network.target" ];
-        wantedBy = [ "multi-user.target" ];
+        wantedBy = [ "k3s.service" "multi-user.target" ];
         description = "Sets zfs options post-boot";
 
         serviceConfig = {
@@ -95,10 +95,14 @@
           ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
             set -e
 
+            while [ ! -d "/kubernetes_data" ]; do
+                sleep 1
+            done
+
             if [ ! `zfs list -H -d0 -o name kubernetes_data/longhorn-ext4` ]; then
               zfs create kubernetes_data/longhorn-ext4 -V 350G
               while [ ! -e "/dev/zvol/kubernetes_data/longhorn-ext4" ]; do
-                  sleep 1;
+                  sleep 1
               done
 
               mkfs.ext4 /dev/zvol/kubernetes_data/longhorn-ext4
@@ -122,25 +126,11 @@
           util-linux
         ];
       };
-      k3s.serviceConfig = {
-        after = [ "set-zfs-options.service" ];
+      k3s.unitConfig = {
+        After = [ "set-zfs-options.service" ];
+        Requires = [ "set-zfs-options.service" ];
       };
     };
-#    mounts = [
-#      {
-#        what = "/dev/zvol/kubernetes_data/longhorn-ext4";
-#        type = "ext4";
-#        where = "/mnt/longhorn";
-#        options = "noatime,discard";
-#      }
-#    ];
-#    automounts = [
-#      {
-#        where = "/mnt/longhorn";
-#        after = [ "set-zfs-options.service" ];
-#      }
-#    ];
-
   };
 
   # This value determines the NixOS release from which the default

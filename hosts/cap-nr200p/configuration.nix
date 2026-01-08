@@ -19,6 +19,7 @@
     # System Configuration
     ../../modules/system/cpu-amd.nix
     ../../modules/system/desktop.nix
+    ../../modules/system/displaylink.nix
     ../../modules/system/fonts.nix
     ../../modules/system/gpu-amd.nix
     ../../modules/system/home-manager-settings.nix

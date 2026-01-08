@@ -42,17 +42,17 @@
     ../system/zfs.nix
 
     # Application Groups
-    ../application-groups/k3s.nix
+#    ../application-groups/k3s.nix
     ../application-groups/system-utilities-cluster.nix
     ../application-groups/virtualization.nix
 
     # Core Kubernetes Applications
-    ../kubernetes/apollo-2000/longhorn.nix
+#    ../kubernetes/apollo-2000/longhorn.nix
 
     # Kubernetes Applications
 #    ../kubernetes/apollo-2000/autobrr.nix
-    ../kubernetes/apollo-2000/diun.nix
-    ../kubernetes/apollo-2000/esphome.nix
+#    ../kubernetes/apollo-2000/diun.nix
+#    ../kubernetes/apollo-2000/esphome.nix
 #    ../kubernetes/apollo-2000/secrets.nix
 #    ../kubernetes/apollo-2000/gitea.nix
 #    ../kubernetes/apollo-2000/grafana.nix
@@ -69,7 +69,7 @@
 #    ../kubernetes/apollo-2000/spliit.nix
 #    ../kubernetes/apollo-2000/stash.nix
 #    ../kubernetes/apollo-2000/technitium.nix
-    ../kubernetes/apollo-2000/termix.nix
+#    ../kubernetes/apollo-2000/termix.nix
 #    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
 #    ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];

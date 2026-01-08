@@ -13,6 +13,22 @@ let
   };
 in
 {
+  sops = {
+    secrets."hetzner-ddns/config".sopsFile = ../../../secrets/apollo-2000.yaml;
+    templates.hetznerDdnsConfig = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "hetzner-ddns-config";
+          labels."app.kubernetes.io/name" = "hetzner-ddns";
+        };
+        stringData.config = config.sops.placeholder."hetzner-ddns/config";
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.json";
+    };
+  };
+
   services.k3s = {
     images = [ image ];
     manifests = {
@@ -35,10 +51,21 @@ in
                   image = "${image.imageName}:${image.imageTag}";
                   env = [ ];
                   ports = [ ];
-                  volumeMounts = [ ];
+                  volumeMounts = [
+                    {
+                      name = "secret-config";
+                      mountPath = "/etc/hetzner_ddns.json";
+                      readOnly = true;
+                    }
+                  ];
                 }
               ];
-              volumes = [ ];
+              volumes = [
+                {
+                  name = "secret-config";
+                  secret.secretName = "hetzner-ddns-config";
+                }
+              ];
             };
           };
         };

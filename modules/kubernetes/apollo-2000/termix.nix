@@ -129,7 +129,7 @@ in
           ingressClassName = "traefik";
           rules = [
             {
-              host = "termix.perren.local";
+              host = "termix.internal.perren.cloud";
               http = {
                 paths = [
                   {

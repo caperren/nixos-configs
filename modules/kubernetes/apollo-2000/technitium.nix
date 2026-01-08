@@ -55,7 +55,7 @@ in
                     }
                     {
                       name = "DNS_SERVER_DOMAIN";
-                      value = "perren.local";
+                      value = "technitium.internal.perren.cloud";
                     }
                   ];
                   ports = [
@@ -169,7 +169,7 @@ in
           ingressClassName = "traefik";
           rules = [
             {
-              host = "technitium.perren.local";
+              host = "technitium.internal.perren.cloud";
               http = {
                 paths = [
                   {

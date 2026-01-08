@@ -103,7 +103,7 @@ in
           ingressClassName = "traefik";
           rules = [
             ({
-              host = "esphome.perren.local";
+              host = "esphome.internal.perren.cloud";
               http = {
                 paths = [
                   {

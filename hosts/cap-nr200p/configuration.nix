@@ -56,7 +56,7 @@
   networking.hostName = "cap-nr200p"; # Define your hostname.
 
   networking.hosts = {
-    "192.168.1.42" = [ "technitium.perren.local" ];
+    "192.168.1.42" = [ "technitium.internal.perren.cloud" ];
   };
 
   # Set your time zone.

@@ -61,10 +61,12 @@ in
                   ports = [
                     { containerPort = 5380; }
                     {
+                      name = "dns-tcp";
                       containerPort = 53;
                       protocol = "TCP";
                     }
                     {
+                      name = "dns-udp";
                       containerPort = 53;
                       protocol = "UDP";
                     }
@@ -104,7 +106,7 @@ in
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "technitium";
+          name = "technitium-service";
           labels."app.kubernetes.io/name" = "technitium";
         };
         spec = {
@@ -121,7 +123,7 @@ in
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "technitium";
+          name = "technitium-dns-service";
           labels."app.kubernetes.io/name" = "technitium";
         };
         spec = {
@@ -130,11 +132,13 @@ in
           externalTrafficPolicy = "Local";
           ports = [
             {
+              name = "dns-tcp";
               port = 53;
               targetPort = 53;
               protocol = "TCP";
             }
             {
+              name = "dns-udp";
               port = 53;
               targetPort = 53;
               protocol = "UDP";

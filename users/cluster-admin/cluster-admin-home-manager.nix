@@ -4,7 +4,7 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
-  import = [ ./cluster-admin.nix ];
+  imports = [ ./cluster-admin.nix ];
 
   users.users.cluster-admin = {
     initialPassword = "changeme";

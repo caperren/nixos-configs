@@ -11,7 +11,7 @@ let
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
-  import = [ ./caperren.nix ];
+  imports = [ ./caperren.nix ];
 
   users.users.caperren = {
     extraGroups = [

@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
 
     # Users
+    ../../users/all-users.nix
     ../../users/apollo-admin/apollo-admin-home-manager.nix
 
     # System Configuration
@@ -30,7 +31,7 @@
   networking.hostId = "6169cc38";
 
   boot.zfs.extraPools = [
-#    "nas_data_homelab"
+    #    "nas_data_homelab"
     "nas_data_primary"
     "nas_data_important"
   ];

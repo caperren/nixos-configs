@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 {
+  imports = [ ../../users/all-groups.nix ];
+
   # For nfs client support
   boot.supportedFilesystems = [ "nfs" ];
   services.rpcbind.enable = true;

@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  import = [ ./crestline.nix  ];
+  imports = [ ./crestline.nix  ];
 
   users.users.crestline = {
     extraGroups = [

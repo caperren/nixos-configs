@@ -4,7 +4,7 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
-  import = [ ./apollo-admin.nix ];
+  imports = [ ./apollo-admin.nix ];
 
   users.users.apollo-admin = {
     initialPassword = "changeme";

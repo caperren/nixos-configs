@@ -63,14 +63,9 @@ in
               volumes = [
                 {
                   name = "secret-config";
-                  secret = {
-                    secretName = "hetzner-ddns-config";
-                    items = [
-                    {
-                        key = "config";
-                        path = "/";
-                    }
-                    ];
+                  hostPath = {
+                    path = config.sops.secrets."hetzner-ddns/config".path;
+                    type = "File";
                   };
                 }
               ];

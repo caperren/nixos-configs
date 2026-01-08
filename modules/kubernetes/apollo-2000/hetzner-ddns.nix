@@ -16,7 +16,7 @@ in
   sops = {
     secrets."hetzner-ddns/config".sopsFile = ../../../secrets/apollo-2000.yaml;
     templates.hetznerDdnsConfig = {
-      content = builtins.toJSON{
+      content = builtins.toJSON {
         apiVersion = "v1";
         kind = "Secret";
         metadata = {
@@ -43,7 +43,12 @@ in
           replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "hetzner-ddns";
           template = {
-            metadata.labels."app.kubernetes.io/name" = "hetzner-ddns";
+            metadata = {
+              labels."app.kubernetes.io/name" = "hetzner-ddns";
+              annotations = {
+                "diun.enable" = "true";
+              };
+            };
             spec = {
               containers = [
                 {

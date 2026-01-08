@@ -4,9 +4,9 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
-  imports = [ ./apollo-admin.nix ];
-
   users.users.apollo-admin = {
+    isNormalUser = true;
+    description = "Apollo Admin";
     initialPassword = "changeme";
     extraGroups = [
       "docker"

@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 {
-  imports = [ ./crestline.nix  ];
-
   users.users.crestline = {
+    isNormalUser = true;
+    description = "Crestline";
     extraGroups = [
       "dialout"
       "input"

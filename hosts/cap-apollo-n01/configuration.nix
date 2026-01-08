@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
 
     # Users
-    ../../users/all-users.nix
     ../../users/apollo-admin/apollo-admin-home-manager.nix
 
     # System Configuration

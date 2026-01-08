@@ -155,14 +155,13 @@ in
       address = wgAddressesByHost.${config.networking.hostName};
       privateKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/private-key".path;
 
-      persistentKeepAlive = 25;
-
       peers = [
         {
           publicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
           presharedKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/preshared-key".path;
           allowedIPs = [ "10.8.0.0/24" ];
           endpoint = "caperren.com:51820";
+          persistentKeepalive = 25;
         }
       ];
     };

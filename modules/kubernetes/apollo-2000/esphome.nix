@@ -72,28 +72,11 @@ in
           resources.requests.storage = "10Gi";
         };
       };
-      esphome-local-service.content = {
+      esphome-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "esphome-local-service";
-          labels."app.kubernetes.io/name" = "esphome";
-        };
-        spec = {
-          selector."app.kubernetes.io/name" = "esphome";
-          ports = [
-            {
-              port = 6052;
-              targetPort = 6052;
-            }
-          ];
-        };
-      };
-      esphome-public-service.content = {
-        apiVersion = "v1";
-        kind = "Service";
-        metadata = {
-          name = "esphome-public-service";
+          name = "esphome-service";
           labels."app.kubernetes.io/name" = "esphome";
         };
         spec = {
@@ -128,7 +111,7 @@ in
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "esphome-local-service";
+                        name = "esphome-service";
                         port.number = 6052;
                       };
                     };
@@ -145,7 +128,7 @@ in
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "esphome-public-service";
+                        name = "esphome-service";
                         port.number = 6052;
                       };
                     };

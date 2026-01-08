@@ -1,7 +1,4 @@
 { config, pkgs, ... }:
-let
-  wgPublicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
-in
 {
   imports = [
     # Hardware Scan

@@ -24,7 +24,7 @@ let
     "cap-clust-03" = "https://cap-clust-01:6443";
   };
 
-  isK3sPrimary = lib.lists.elem "${config.networking.hostName}" k3sPrimaries;
+  isK3sPrimary = lib.lists.elem config.networking.hostName k3sPrimaries;
   serverAddr = if isK3sPrimary then "" else k3sNodeToPrimary.${config.networking.hostName};
 in
 {

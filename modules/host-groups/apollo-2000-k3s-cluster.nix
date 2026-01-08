@@ -84,6 +84,11 @@ in
 
   time.timeZone = "America/Los_Angeles";
 
+  sops.secrets = {
+    "${config.networking.hostName}/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;
+    "${config.networking.hostName}/wireguard/preshared-key".sopsFile = ../../secrets/apollo-2000.yaml;
+  };
+
   boot.zfs.extraPools = [
     "kubernetes_data"
   ];

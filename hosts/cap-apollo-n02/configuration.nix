@@ -13,11 +13,4 @@ in
 
   networking.hostName = "cap-apollo-n02";
   networking.hostId = "bc7334b5";
-
-  sops.secrets = {
-    "cap-apollo-n02/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;
-    "cap-apollo-n02/wireguard/preshared-key".sopsFile = ../../secrets/apollo-2000.yaml;
-  };
-
-
 }

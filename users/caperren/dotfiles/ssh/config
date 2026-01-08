@@ -1,5 +1,7 @@
 Host cap-apollo-n*
+  HostName %h.secured.internal.perren.cloud
   User apollo-admin
 
 Host cap-clust-*
+  HostName %h.secured.internal.perren.cloud
   User cluster-admin

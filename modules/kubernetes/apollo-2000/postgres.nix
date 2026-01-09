@@ -67,7 +67,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "postgres";
                   image = "${image.imageName}:${image.imageTag}";
-                  envFrom = [ { configMapRef.name = "postgres-environment-secret"; } ];
+                  envFrom = [ { secretRef.name = "postgres-environment-secret"; } ];
                   ports = [ { containerPort = 8080; } ];
                   volumeMounts = [
                     {

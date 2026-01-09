@@ -51,11 +51,21 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
 
           selector.matchLabels."app.kubernetes.io/name" = "postgres";
 
           template = {
-            metadata.labels."app.kubernetes.io/name" = "postgres";
+            metadata = {
+              labels."app.kubernetes.io/name" = "postgres";
+              annotations."diun.enable" = "true";
+            };
             spec = {
               containers = [
                 {

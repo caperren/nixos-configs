@@ -39,9 +39,7 @@ in
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "esphome";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               containers = [

@@ -204,9 +204,7 @@ in
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "homepage";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               serviceAccountName = "homepage";

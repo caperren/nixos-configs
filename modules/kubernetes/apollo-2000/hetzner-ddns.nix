@@ -55,9 +55,7 @@ in
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "hetzner-ddns";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               containers = [

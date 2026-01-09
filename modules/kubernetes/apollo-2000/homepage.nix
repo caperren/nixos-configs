@@ -229,6 +229,10 @@ in
                       name = "HOMEPAGE_ALLOWED_HOSTS";
                       value = "homepage.perren.cloud,homepage.internal.perren.cloud";
                     }
+                    {
+                      name = "LOG_TARGETS";
+                      value = "stdout";
+                    }
                   ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [

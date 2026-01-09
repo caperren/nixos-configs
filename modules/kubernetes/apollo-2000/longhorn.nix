@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   # If you have 3 k3s nodes and want HA volumes, 2 is a common homelab default.
   # If you want maximum resilience (and can afford space), set 3.
@@ -15,15 +20,23 @@ in
     nfs-utils
   ];
 
-  # Fix for failed environment check on openiscsi
-  # https://github.com/longhorn/longhorn/issues/2166#issuecomment-3315367546
-  systemd.services.iscsid.serviceConfig = {
-    PrivateMounts = "yes";
-    BindPaths = "/run/current-system/sw/bin:/bin";
+  systemd = {
+    # Fix for failed environment check on openiscsi
+    # https://github.com/longhorn/longhorn/issues/2166#issuecomment-3315367546
+    services.iscsid.serviceConfig = {
+      PrivateMounts = "yes";
+      BindPaths = "/run/current-system/sw/bin:/bin";
+    };
+
+    # and one from the same thread for a failed nsenter with longhorn rwx
+    # https://github.com/longhorn/longhorn/issues/2166#issuecomment-3094699127
+    tmpfiles.rules = [
+      "L /usr/bin/mount - - - - /run/current-system/sw/bin/mount"
+    ];
   };
 
   # Namespace first
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     manifests = {
       longhorn-namespace.content = {
         apiVersion = "v1";
@@ -70,6 +83,13 @@ in
             ingress:
               enabled: true
               host: longhorn.internal.perren.cloud
+              annotations:
+                gethomepage.dev/description: Distributed block storage filesystem
+                gethomepage.dev/enabled: true
+                gethomepage.dev/group: Cluster Management
+                gethomepage.dev/icon: longhorn.png
+                gethomepage.dev/name: Longhorn
+                gethomepage.dev/pod-selector: app.kubernetes.io/name=longhorn
           '';
         };
       };

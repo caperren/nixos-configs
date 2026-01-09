@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -13,7 +14,7 @@ let
   };
 in
 {
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       technitium-deployment.content = {
@@ -25,25 +26,30 @@ in
         };
         spec = {
           replicas = 1;
-          selector.matchLabels."app.kubernetes.io/name" = "technitium";
-
-          securityContext = {
-            sysctls = [
-              {
-                name = "net.ipv4.ip_local_port_range";
-                value = "1024 65535";
-              }
-            ];
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
           };
+
+          selector.matchLabels."app.kubernetes.io/name" = "technitium";
 
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "technitium";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
+              securityContext = {
+                sysctls = [
+                  {
+                    name = "net.ipv4.ip_local_port_range";
+                    value = "1024 65535";
+                  }
+                ];
+              };
               containers = [
                 {
                   name = "technitium";
@@ -163,6 +169,11 @@ in
           labels."app.kubernetes.io/name" = "technitium";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "DNS server and ad-blocker";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Cluster Management";
+            "gethomepage.dev/icon" = "technitium.png";
+            "gethomepage.dev/name" = "Technitium";
           };
         };
         spec = {

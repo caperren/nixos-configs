@@ -4,10 +4,11 @@
     isNormalUser = true;
     description = "Crestline";
     extraGroups = [
+      "dialout"
+      "input"
+      "nas-media-view"
       "networkmanager"
       "wheel"
-      "input"
-      "dialout"
     ];
   };
 

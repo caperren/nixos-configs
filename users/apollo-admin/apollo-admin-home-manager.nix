@@ -4,10 +4,12 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
+  sops.secrets."accounts/apollo-admin/hashed-password".sopsFile = ../../secrets/apollo-2000.yaml;
+
   users.users.apollo-admin = {
-    initialPassword = "changeme";
     isNormalUser = true;
-    description = "Cluster Admin";
+    description = "Apollo Admin";
+    hashedPasswordFile = config.sops.secrets."accounts/apollo-admin/hashed-password".path;
     extraGroups = [
       "docker"
       "networkmanager"

@@ -1,19 +1,75 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
   image = pkgs.dockerTools.pullImage {
-    imageName = "crazymax/spliit";
-    imageDigest = "sha256:b0cb61acc5e75e5aa81dd63d0b49311ff26332b42c1b09c2b25a807503ad5572";
-    hash = "sha256-ac6BuKp8SUXJdT519Px8O048sNj3F0wox+y15N7rAI8=";
-    finalImageTag = "1.18.0";
+    imageName = "ghcr.io/spliit-app/spliit";
+    imageDigest = "sha256:2f0f44d58768bed6c7c9aed72f74e43a14599b459828cd87227a7c35ba29b9b8";
+    hash = "sha256-yHjOZwJeLvYk/WvprkwcW4QmVsYsbGPmY8D00OnazYY=";
+    finalImageTag = "1.19.0";
     arch = "amd64";
   };
+
+  postgresImageName =
+    (builtins.elemAt config.services.k3s.manifests.postgres-deployment.content.spec.template.spec.containers 0)
+    .image;
+  postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
+  postgresServiceName = postgresServiceCfg.metadata.name;
+  postgresServicePort = toString (builtins.elemAt postgresServiceCfg.spec.ports 0).port;
+  spliitDbName = "spliit";
 in
-{
-  services.k3s = {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  sops = {
+    secrets = {
+      "postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
+      "postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+    };
+
+    templates.spliit-init-db-environment-secret = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "spliit-init-db-environment-secret";
+          labels."app.kubernetes.io/name" = "spliit";
+        };
+        stringData = {
+          PGUSER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+          PGPASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+        };
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/spliit-init-db-environment-secret.yaml";
+    };
+
+    templates.spliit-environment-secret = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "spliit-environment-secret";
+          labels."app.kubernetes.io/name" = "spliit";
+        };
+        stringData = {
+          POSTGRES_URL_NON_POOLING = "postgresql://${
+            config.sops.placeholder."postgres/environment/POSTGRES_USER"
+          }:${
+            config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
+          }@${postgresServiceName}.default.svc.cluster.local/${spliitDbName}";
+          POSTGRES_PRISMA_URL = "postgresql://${
+            config.sops.placeholder."postgres/environment/POSTGRES_USER"
+          }:${
+            config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
+          }@${postgresServiceName}.default.svc.cluster.local/${spliitDbName}";
+        };
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/spliit-environment-secret.yaml";
+    };
+  };
+
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       spliit-deployment.content = {
@@ -25,15 +81,78 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "spliit";
+
           template = {
-            metadata.labels."app.kubernetes.io/name" = "spliit";
+            metadata = {
+              labels."app.kubernetes.io/name" = "spliit";
+              annotations."diun.enable" = "true";
+            };
             spec = {
+              initContainers = [
+                {
+                  name = "init-create-db";
+                  image = postgresImageName;
+                  envFrom = [ { secretRef.name = "spliit-init-db-environment-secret"; } ];
+                  env = [
+                    {
+                      name = "PGHOST";
+                      value = "${postgresServiceName}.default.svc.cluster.local";
+                    }
+                    {
+                      name = "PGPORT";
+                      value = postgresServicePort;
+                    }
+                    {
+                      name = "PGDATABASE";
+                      value = "postgres";
+                    }
+                    {
+                      name = "NEW_DB";
+                      value = spliitDbName;
+                    }
+                  ];
+                  command = [
+                    "sh"
+                    "-ec"
+                  ];
+                  args = [
+                    ''
+                      echo "Waiting for Postgres at $PGHOST:$PGPORT..."
+                      until pg_isready; do
+                        sleep 2
+                      done
+
+                      echo "Ensuring database '$NEW_DB' exists..."
+                      if psql -tAc "SELECT 1 FROM pg_database WHERE datname = '$NEW_DB';" | grep -q 1; then
+                        echo "Database '$NEW_DB' already exists."
+                      else
+                        echo "Creating database '$NEW_DB'..."
+                        psql -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"$NEW_DB\";"
+                      fi
+                    ''
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "spliit";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
+                  envFrom = [ { secretRef.name = "spliit-environment-secret"; } ];
+                  env = [
+                    {
+                      name = "TZ";
+                      value = "America/Los_Angeles";
+                    }
+                  ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [ ];
                 }
@@ -55,7 +174,7 @@ in
           ports = [
             {
               port = 3000;
-              targetPort = 3090;
+              targetPort = 3000;
             }
           ];
         };
@@ -65,30 +184,53 @@ in
         kind = "Ingress";
         metadata = {
           name = "spliit";
+          labels."app.kubernetes.io/name" = "spliit";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Split expenses";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Financial";
+            "gethomepage.dev/icon" = "spliit.png";
+            "gethomepage.dev/name" = "Spliit";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "spliit.internal.perren.cloud";
               http = {
                 paths = [
                   {
-                    path = "/spliit";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {
                         name = "spliit";
-                        port.number = 3090;
+                        port.number = 3000;
                       };
                     };
                   }
                 ];
               };
-            })
+            }
+            {
+              host = "spliit.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "spliit";
+                        port.number = 3000;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
           ];
         };
       };

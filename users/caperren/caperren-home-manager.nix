@@ -11,14 +11,18 @@ let
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
+  sops.secrets."accounts/caperren/hashed-password".sopsFile = ../../secrets/default.yaml;
+
   users.users.caperren = {
     isNormalUser = true;
     description = "Corwin Perren";
+    hashedPasswordFile = config.sops.secrets."accounts/caperren/hashed-password".path;
     extraGroups = [
       "adbusers"
       "dialout"
       "docker"
       "input"
+      "nas-caperren"
       "networkmanager"
       "plugdev"
       "podman"
@@ -116,6 +120,16 @@ in
 
       # Nice to have an alias if I ever want to launch this from cmdline, or see the dbus help string
       screenshot = "~/.config/hypr/scripts/screenshot.sh";
+
+      # Quick reboot of all the apollo servers
+      apollo-reboot = "${pkgs.writeShellScript "apollo-reboot.sh" ''
+        set -e
+
+        for i in {1..4}; do
+            echo "Rebooting cap-apollo-n0$i"
+            ssh cap-apollo-n0$i "sudo reboot"
+        done
+      ''}";
     };
 
     # Theming

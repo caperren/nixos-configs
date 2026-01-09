@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -23,13 +24,13 @@ in
           name = "hetzner-ddns-config";
           labels."app.kubernetes.io/name" = "hetzner-ddns";
         };
-        data.config = config.sops.placeholder."hetzner-ddns/config";
+        stringData.config = config.sops.placeholder."hetzner-ddns/config";
       };
       path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
     };
   };
 
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       hetzner-ddns-deployment.content = {
@@ -41,13 +42,20 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "hetzner-ddns";
+
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "hetzner-ddns";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               containers = [

@@ -1,0 +1,364 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  image = pkgs.dockerTools.pullImage {
+    imageName = "ghcr.io/gethomepage/homepage";
+    imageDigest = "sha256:7dc099d5c6ec7fc945d858218565925b01ff8a60bcbfda990fc680a8b5cd0b6e";
+    hash = "sha256-S1c4oN+VH5GNrl44TchRRe6VhETUuvFp36XjJV8JbDs=";
+    finalImageTag = "v1.8.0";
+    arch = "amd64";
+  };
+in
+{
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+    images = [ image ];
+    manifests = {
+      homepage-serviceaccount.content = {
+        apiVersion = "v1";
+        kind = "ServiceAccount";
+        metadata = {
+          name = "homepage";
+          namespace = "default";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        secrets = [
+          {
+            name = "homepage";
+          }
+        ];
+      };
+      homepage-serviceaccount-token-secret.content = {
+        apiVersion = "v1";
+        kind = "Secret";
+        type = "kubernetes.io/service-account-token";
+        metadata = {
+          name = "homepage";
+          namespace = "default";
+          labels."app.kubernetes.io/name" = "homepage";
+          annotations."kubernetes.io/service-account.name" = "homepage";
+        };
+      };
+      homepage-cluster-role.content = {
+        apiVersion = "rbac.authorization.k8s.io/v1";
+        kind = "ClusterRole";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        rules = [
+          {
+            apiGroups = [
+              ""
+            ];
+            resources = [
+              "namespaces"
+              "pods"
+              "nodes"
+            ];
+            verbs = [
+              "get"
+              "list"
+            ];
+          }
+          {
+            apiGroups = [
+              "extensions"
+              "networking.k8s.io"
+            ];
+            resources = [
+              "ingresses"
+            ];
+            verbs = [
+              "get"
+              "list"
+            ];
+          }
+          {
+            apiGroups = [
+              "traefik.io"
+            ];
+            resources = [
+              "ingressroutes"
+            ];
+            verbs = [
+              "get"
+              "list"
+            ];
+          }
+          {
+            apiGroups = [
+              "gateway.networking.k8s.io"
+            ];
+            resources = [
+              "httproutes"
+              "gateways"
+            ];
+            verbs = [
+              "get"
+              "list"
+            ];
+          }
+          {
+            apiGroups = [
+              "metrics.k8s.io"
+            ];
+            resources = [
+              "nodes"
+              "pods"
+            ];
+            verbs = [
+              "get"
+              "list"
+            ];
+          }
+        ];
+      };
+      homepage-cluster-role-binding.content = {
+        apiVersion = "rbac.authorization.k8s.io/v1";
+        kind = "ClusterRoleBinding";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        roleRef = {
+          apiGroup = "rbac.authorization.k8s.io";
+          kind = "ClusterRole";
+          name = "homepage";
+        };
+        subjects = [
+          {
+            kind = "ServiceAccount";
+            name = "homepage";
+            namespace = "default";
+          }
+        ];
+      };
+      homepage-config.content = {
+        apiVersion = "v1";
+        kind = "ConfigMap";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        data = {
+          "bookmarks.yaml" = "";
+          "custom.css" = "";
+          "custom.js" = "";
+          "docker.yaml" = "";
+          "kubernetes.yaml" = ''
+            mode: cluster
+          '';
+          "proxmox.yaml" = "";
+          "services.yaml" = "";
+          "settings.yaml" = ''
+            background: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
+            cardBlur: md
+            theme: dark
+            color: slate
+            headerStyle: boxedWidgets
+            providers:
+              longhorn:
+                url: http://longhorn-frontend.longhorn-system.svc.cluster.local
+          '';
+          "widgets.yaml" = ''
+            - kubernetes:
+                cluster:
+                  show: true
+                  cpu: true
+                  memory: true
+                  showLabel: true
+                  label: "cluster"
+                nodes:
+                  show: true
+                  cpu: true
+                  memory: true
+                  showLabel: true
+            - longhorn:
+                expanded: true
+                total: true
+                labels: true
+                nodes: true
+            - datetime:
+                text_size: xl
+                format:
+                  timeStyle: short
+          '';
+        };
+      };
+      homepage-deployment.content = {
+        apiVersion = "apps/v1";
+        kind = "Deployment";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        spec = {
+          replicas = 1;
+
+          selector.matchLabels."app.kubernetes.io/name" = "homepage";
+
+          template = {
+            metadata = {
+              labels."app.kubernetes.io/name" = "homepage";
+              annotations."diun.enable" = "true";
+            };
+            spec = {
+              serviceAccountName = "homepage";
+              automountServiceAccountToken = true;
+              dnsPolicy = "ClusterFirst";
+              enableServiceLinks = true;
+
+              restartPolicy = "Always";
+
+              containers = [
+                {
+                  name = "homepage";
+                  image = "${image.imageName}:${image.imageTag}";
+                  env = [
+                    {
+                      name = "TZ";
+                      value = "America/Los_Angeles";
+                    }
+                    {
+                      name = "HOMEPAGE_ALLOWED_HOSTS";
+                      value = "homepage.perren.cloud,homepage.internal.perren.cloud";
+                    }
+                    {
+                      name = "LOG_TARGETS";
+                      value = "stdout";
+                    }
+                  ];
+                  ports = [ { containerPort = 3000; } ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/app/config/bookmarks.yaml";
+                      name = "homepage-config";
+                      subPath = "bookmarks.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/custom.css";
+                      name = "homepage-config";
+                      subPath = "custom.css";
+                    }
+                    {
+                      mountPath = "/app/config/custom.js";
+                      name = "homepage-config";
+                      subPath = "custom.js";
+                    }
+                    {
+                      mountPath = "/app/config/docker.yaml";
+                      name = "homepage-config";
+                      subPath = "docker.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/kubernetes.yaml";
+                      name = "homepage-config";
+                      subPath = "kubernetes.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/proxmox.yaml";
+                      name = "homepage-config";
+                      subPath = "proxmox.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/services.yaml";
+                      name = "homepage-config";
+                      subPath = "services.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/settings.yaml";
+                      name = "homepage-config";
+                      subPath = "settings.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/widgets.yaml";
+                      name = "homepage-config";
+                      subPath = "widgets.yaml";
+                    }
+                  ];
+                }
+              ];
+              volumes = [
+                {
+                  name = "homepage-config";
+                  configMap.name = "homepage";
+                }
+              ];
+            };
+          };
+        };
+      };
+      homepage-service.content = {
+        apiVersion = "v1";
+        kind = "Service";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        spec = {
+          selector."app.kubernetes.io/name" = "homepage";
+          ports = [
+            {
+              port = 3000;
+              targetPort = 3000;
+            }
+          ];
+        };
+      };
+      homepage-ingress.content = {
+        apiVersion = "networking.k8s.io/v1";
+        kind = "Ingress";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+          annotations = {
+            "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+          };
+        };
+        spec = {
+          ingressClassName = "traefik";
+          rules = [
+            {
+              host = "homepage.internal.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "homepage";
+                        port.number = 3000;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
+            {
+              host = "homepage.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "homepage";
+                        port.number = 3000;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
+          ];
+        };
+      };
+    };
+  };
+}

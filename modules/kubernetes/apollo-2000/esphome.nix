@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -13,7 +14,7 @@ let
   };
 in
 {
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       esphome-deployment.content = {
@@ -25,13 +26,20 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "esphome";
+
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "esphome";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               containers = [
@@ -76,7 +84,7 @@ in
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "esphome";
+          name = "esphome-service";
           labels."app.kubernetes.io/name" = "esphome";
         };
         spec = {
@@ -97,12 +105,17 @@ in
           labels."app.kubernetes.io/name" = "esphome";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Espressif esp-based smart home management";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Smart Home";
+            "gethomepage.dev/icon" = "esphome.png";
+            "gethomepage.dev/name" = "ESPHome";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
               host = "esphome.internal.perren.cloud";
               http = {
                 paths = [
@@ -111,14 +124,31 @@ in
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "esphome";
+                        name = "esphome-service";
                         port.number = 6052;
                       };
                     };
                   }
                 ];
               };
-            })
+            }
+            {
+              host = "esphome.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "esphome-service";
+                        port.number = 6052;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
           ];
         };
       };

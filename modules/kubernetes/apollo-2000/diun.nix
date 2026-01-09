@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -13,7 +14,7 @@ let
   };
 in
 {
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       diun-serviceaccount.content = {
@@ -75,6 +76,14 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "diun";
 
           template = {
@@ -86,6 +95,9 @@ in
             };
             spec = {
               serviceAccountName = "diun";
+
+              restartPolicy = "Always";
+
               containers = [
                 {
                   name = "diun";
@@ -98,7 +110,7 @@ in
                     }
                     {
                       name = "LOG_LEVEL";
-                      value = "info";
+                      value = "debug";
                     }
                     {
                       name = "LOG_JSON";
@@ -130,7 +142,6 @@ in
                   ];
                 }
               ];
-              restartPolicy = "Always";
               volumes = [
                 {
                   name = "data";

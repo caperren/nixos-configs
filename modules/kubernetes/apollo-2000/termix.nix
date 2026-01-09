@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -13,7 +14,7 @@ let
   };
 in
 {
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       termix-deployment.content = {
@@ -25,6 +26,14 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "termix";
 
           # Uses node as a base, with groupId 1000
@@ -38,9 +47,7 @@ in
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "termix";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               initContainers = [
@@ -123,6 +130,11 @@ in
           labels."app.kubernetes.io/name" = "termix";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Web-based server management platform";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Cluster Management";
+            "gethomepage.dev/icon" = "termix.png";
+            "gethomepage.dev/name" = "Termix";
           };
         };
         spec = {

@@ -22,10 +22,18 @@
 # sudo zpool status
 
 { config, pkgs, ... }:
+let
+  wgPublicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
+  wgAddressesByHost = {
+    "cap-apollo-n02" = [ "10.8.0.4/24" ];
+    "cap-apollo-n03" = [ "10.8.0.5/24" ];
+    "cap-apollo-n04" = [ "10.8.0.7/24" ];
+  };
+in
 {
   imports = [
     # Users
-    ../../users/apollo-admin/apollo-admin.nix
+    ../../users/apollo-admin/apollo-admin-home-manager.nix
 
     # System Configuration
     ../system/cpu-intel.nix
@@ -50,32 +58,40 @@
     ../kubernetes/apollo-2000/longhorn.nix
 
     # Kubernetes Applications
-#    ../kubernetes/apollo-2000/autobrr.nix
+    #    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
-#    ../kubernetes/apollo-2000/secrets.nix
-#    ../kubernetes/apollo-2000/gitea.nix
-#    ../kubernetes/apollo-2000/grafana.nix
+    #    ../kubernetes/apollo-2000/secrets.nix
+    #    ../kubernetes/apollo-2000/gitea.nix
+    #    ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
-#    ../kubernetes/apollo-2000/home-assistant.nix
-#    ../kubernetes/apollo-2000/immich.nix
-#    ../kubernetes/apollo-2000/kavita.nix
-#    ../kubernetes/apollo-2000/node-exporter.nix
-#    ../kubernetes/apollo-2000/plex.nix
-#    ../kubernetes/apollo-2000/prometheus.nix
-#    ../kubernetes/apollo-2000/prowlarr.nix
-#    ../kubernetes/apollo-2000/radarr.nix
-#    ../kubernetes/apollo-2000/rclone.nix
-#    ../kubernetes/apollo-2000/secrets.nix
-#    ../kubernetes/apollo-2000/spliit.nix
-#    ../kubernetes/apollo-2000/stash.nix
+    #    ../kubernetes/apollo-2000/home-assistant.nix
+    ../kubernetes/apollo-2000/homepage.nix
+    #    ../kubernetes/apollo-2000/immich.nix
+    #    ../kubernetes/apollo-2000/kavita.nix
+    #    ../kubernetes/apollo-2000/node-exporter.nix
+    ../kubernetes/apollo-2000/pg-admin.nix
+    #    ../kubernetes/apollo-2000/plex.nix
+    ../kubernetes/apollo-2000/postgres.nix
+    #    ../kubernetes/apollo-2000/prometheus.nix
+    #    ../kubernetes/apollo-2000/prowlarr.nix
+    #    ../kubernetes/apollo-2000/radarr.nix
+    #    ../kubernetes/apollo-2000/rclone.nix
+    #    ../kubernetes/apollo-2000/secrets.nix
+    ../kubernetes/apollo-2000/spliit.nix
+    #    ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
     ../kubernetes/apollo-2000/termix.nix
-#    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
-#    ../kubernetes/apollo-2000/zwave-js-ui.nix
+    #    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
+    #    ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";
+
+  sops.secrets = {
+    "${config.networking.hostName}/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;
+    "${config.networking.hostName}/wireguard/preshared-key".sopsFile = ../../secrets/apollo-2000.yaml;
+  };
 
   boot.zfs.extraPools = [
     "kubernetes_data"
@@ -87,7 +103,10 @@
       set-zfs-options = {
         enable = true;
         after = [ "network.target" ];
-        wantedBy = [ "k3s.service" "multi-user.target" ];
+        wantedBy = [
+          "k3s.service"
+          "multi-user.target"
+        ];
         description = "Sets zfs options post-boot";
 
         serviceConfig = {
@@ -130,6 +149,29 @@
         After = [ "set-zfs-options.service" ];
         Requires = [ "set-zfs-options.service" ];
       };
+    };
+  };
+
+  # Wireguard connection to my vps, for tunnelled reverse-proxying
+  networking.wg-quick.interfaces = {
+    wg0 = {
+      mtu = 1420;
+      address = wgAddressesByHost.${config.networking.hostName};
+      privateKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/private-key".path;
+
+      # Known issue with using privateKeyFile where persistentKeepalive below is ignored
+      # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
+      postUp = [ "wg set wg0 peer ${wgPublicKey} persistent-keepalive 25" ];
+
+      peers = [
+        {
+          publicKey = wgPublicKey;
+          presharedKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/preshared-key".path;
+          allowedIPs = [ "10.8.0.0/24" ];
+          endpoint = "caperren.com:51820";
+          persistentKeepalive = 25;
+        }
+      ];
     };
   };
 

@@ -60,6 +60,17 @@ in
           done
 
           ##### Tune pid for segmented fans
+          # When you type the command `fan a` it gives the following usage:
+          #
+          # alg: alg ALG PIECE TYPE LOW HIGH ARG1 ARG2
+          #
+          # ALG is the number of the algorithm (in my case 0)
+          # PIECE is the segment (starting at 0)
+          # TYPE I don't know what it does but setting it to 0 works
+          # LOW is the min temp of the range (wihtout decimals so only write 10 for 10.00C)
+          # HIGH is the max temp of the range (wihtout decimals so only write 20 for 20.00C)
+          # ARG1 is the min PWM (no conversion required the plain number between 0-255)
+          # ARG2 is the max PWM (no conversion required the plain number between 0-255)
           for sensor in 8 22 23 24 25 27 39; do
             screen -S $SCREEN_NAME -X stuff "fan a $sensor 0 0 16 41 16 25^M"
             sleep 0.5

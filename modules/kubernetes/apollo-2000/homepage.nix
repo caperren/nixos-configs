@@ -218,7 +218,7 @@ in
                     }
                     {
                       name = "HOMEPAGE_ALLOWED_HOSTS";
-                      value = "homepage.internal.perren.cloud, homepage.perren.cloud";
+                      value = "homepage.internal.perren.cloud,homepage.perren.cloud";
                     }
                   ];
                   ports = [ { containerPort = 3000; } ];

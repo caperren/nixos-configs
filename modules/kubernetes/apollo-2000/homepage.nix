@@ -153,7 +153,11 @@ in
             mode: cluster
           '';
           "services.yaml" = "";
-          "settings.yaml" = "";
+          "settings.yaml" = ''
+            providers:
+              longhorn:
+                url: http://longhorn.internal.perren.cloud
+          '';
           "widgets.yaml" = ''
             - kubernetes:
                 cluster:
@@ -167,12 +171,11 @@ in
                   cpu: true
                   memory: true
                   showLabel: true
-            - resources:
-                backend: resources
+            - longhorn:
                 expanded: true
-                cpu: true
-                memory: true
-                network: default
+                total: true
+                labels: true
+                nodes: true
             - search:
                 provider: duckduckgo
                 target: _blank
@@ -219,7 +222,7 @@ in
                   ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [
-                  {
+                    {
                       mountPath = "/app/config/bookmarks.yaml";
                       name = "homepage-config";
                       subPath = "bookmarks.yaml";

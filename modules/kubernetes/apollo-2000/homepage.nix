@@ -187,6 +187,10 @@ in
                       name = "TZ";
                       value = "America/Los_Angeles";
                     }
+                    {
+                      name = "HOMEPAGE_ALLOWED_HOSTS";
+                      value = "homepage.internal.perren.cloud";
+                    }
                   ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [

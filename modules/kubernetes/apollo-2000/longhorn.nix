@@ -23,7 +23,7 @@ in
   };
 
   # Namespace first
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     manifests = {
       longhorn-namespace.content = {
         apiVersion = "v1";

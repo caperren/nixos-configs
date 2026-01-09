@@ -14,25 +14,24 @@ let
     arch = "amd64";
   };
 in
-{
-#  sops = {
-#    secrets."postgres/".sopsFile = ../../../secrets/apollo-2000.yaml;
-#    templates.hetznerDdnsConfig = {
-#      content = builtins.toJSON {
-#        apiVersion = "v1";
-#        kind = "Secret";
-#        metadata = {
-#          name = "hetzner-ddns-config";
-#          labels."app.kubernetes.io/name" = "hetzner-ddns";
-#        };
-#        data.config = config.sops.placeholder."hetzner-ddns/config";
-#      };
-#      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
-#    };
-#  };
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  sops = {
+    secrets."postgres/environment".sopsFile = ../../../secrets/apollo-2000.yaml;
+    templates.postgresEnvironment = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "postgres-environment";
+          labels."app.kubernetes.io/name" = "postgres";
+        };
+        data.config = config.sops.placeholder."postgres/environment";
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
+    };
+  };
 
-
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       postgres-deployment.content = {

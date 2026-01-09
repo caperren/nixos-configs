@@ -29,8 +29,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "spliit";
         };
         stringData = {
-          POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
-          POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+          POSTGRES_URL_NON_POOLING = "postgresql://${
+            config.sops.placeholder."postgres/environment/POSTGRES_USER"
+          }:${
+            config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
+          }@postgres.default.svc.cluster.local/spliit";
         };
       };
       path = "/var/lib/rancher/k3s/server/manifests/spliit-environment-secret.yaml";
@@ -62,18 +65,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     {
                       name = "TZ";
                       value = "America/Los_Angeles";
-                    }
-                    {
-                      name = "POSTGRES_HOST";
-                      value = "postgres.default.svc.cluster.local";
-                    }
-                    {
-                      name = "POSTGRES_PORT";
-                      value = "5432";
-                    }
-                    {
-                      name = "POSTGRES_DB";
-                      value = "spliit";
                     }
                   ];
                   ports = [ { containerPort = 3000; } ];

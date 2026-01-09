@@ -95,6 +95,9 @@ in
             };
             spec = {
               serviceAccountName = "diun";
+
+              restartPolicy = "Always";
+
               containers = [
                 {
                   name = "diun";
@@ -139,7 +142,6 @@ in
                   ];
                 }
               ];
-              restartPolicy = "Always";
               volumes = [
                 {
                   name = "data";

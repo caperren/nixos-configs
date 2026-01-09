@@ -207,6 +207,9 @@ in
               automountServiceAccountToken = true;
               dnsPolicy = "ClusterFirst";
               enableServiceLinks = true;
+
+              restartPolicy = "Always";
+
               containers = [
                 {
                   name = "homepage";
@@ -218,7 +221,11 @@ in
                     }
                     {
                       name = "HOMEPAGE_ALLOWED_HOSTS";
-                      value = "homepage.internal.perren.cloud:80,homepage.perren.cloud:443";
+                      value = "homepage.internal.perren.cloud:80,homepage.perren.cloud:80";
+                    }
+                    {
+                      name = "LOG_LEVEL";
+                      value = "debug";
                     }
                   ];
                   ports = [ { containerPort = 3000; } ];

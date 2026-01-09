@@ -182,7 +182,6 @@ in
                 {
                   name = "homepage";
                   image = "${image.imageName}:${image.imageTag}";
-                  args = [ "serve" ];
                   env = [
                     {
                       name = "TZ";

@@ -16,7 +16,10 @@ let
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
-    secrets."postgres/environment".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets."postgres/environment/POSTGRES_DB".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets."postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets."postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+
     templates.postgresEnvironment = {
       content = builtins.toJSON {
         apiVersion = "v1";
@@ -25,9 +28,13 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           name = "postgres-environment";
           labels."app.kubernetes.io/name" = "postgres";
         };
-        data.config = config.sops.placeholder."postgres/environment";
+        data = {
+            POSTGRES_DB = config.sops.placeholder."postgres/environment/POSTGRES_DB";
+            POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+            POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+        };
       };
-      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
+      path = "/var/lib/rancher/k3s/server/manifests/postgres-environment-secret.yaml";
     };
   };
 

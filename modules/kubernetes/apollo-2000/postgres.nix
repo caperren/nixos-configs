@@ -71,7 +71,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ports = [ { containerPort = 8080; } ];
                   volumeMounts = [
                     {
-                      mountPath = "/var/lib/postgresql/data";
+                      mountPath = "/var/lib/postgresql";
                       name = "data";
                     }
                   ];

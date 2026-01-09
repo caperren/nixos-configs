@@ -26,7 +26,7 @@ in
         };
         data.config = config.sops.placeholder."hetzner-ddns/config";
       };
-      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
+      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.json";
     };
   };
 

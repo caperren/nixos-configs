@@ -221,7 +221,7 @@ in
                     }
                     {
                       name = "HOMEPAGE_ALLOWED_HOSTS";
-                      value = "homepage.internal.perren.cloud:80,homepage.perren.cloud:80";
+                      value = "homepage.internal.perren.cloud,homepage.perren.cloud.";
                     }
                     {
                       name = "LOG_LEVEL";

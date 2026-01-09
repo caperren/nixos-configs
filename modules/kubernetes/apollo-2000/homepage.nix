@@ -157,7 +157,7 @@ in
           "settings.yaml" = ''
             providers:
               longhorn:
-                url: http://longhorn.internal.perren.cloud
+                url: http://longhorn-frontend.longhorn-system.svc.cluster.local
           '';
           "widgets.yaml" = ''
             - kubernetes:

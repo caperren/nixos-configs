@@ -12,12 +12,39 @@ let
     finalImageTag = "1.19.0";
     arch = "amd64";
   };
+
+  postgresImageName =
+    (builtins.elemAt config.services.k3s.manifests.postgres-deployment.spec.template.spec.containers 0)
+    .image;
+  postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
+  postgresServiceName = postgresServiceCfg.metadata.name;
+  postgresServicePort = toString (builtins.elemAt postgresServiceCfg.spec.ports 0).port;
+  spliitDbName = "spliit";
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
     secrets = {
       "postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
       "postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+    };
+
+    templates.spliit-init-db-environment-secret = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "spliit-init-db-environment-secret";
+          labels."app.kubernetes.io/name" = "spliit";
+        };
+        stringData = {
+          POSTGRES_HOST = "${postgresServiceName}.default.svc.cluster.local";
+          POSTGRES_PORT = postgresServicePort;
+          POSTGRES_DB = spliitDbName;
+          POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+          POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+        };
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/spliit-init-db-environment-secret.yaml";
     };
 
     templates.spliit-environment-secret = {
@@ -33,12 +60,12 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             config.sops.placeholder."postgres/environment/POSTGRES_USER"
           }:${
             config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
-          }@postgres.default.svc.cluster.local/spliit";
+          }@${postgresServiceName}.default.svc.cluster.local/${spliitDbName}";
           POSTGRES_PRISMA_URL = "postgresql://${
             config.sops.placeholder."postgres/environment/POSTGRES_USER"
           }:${
             config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
-          }@postgres.default.svc.cluster.local/spliit";
+          }@${postgresServiceName}.default.svc.cluster.local/${spliitDbName}";
         };
       };
       path = "/var/lib/rancher/k3s/server/manifests/spliit-environment-secret.yaml";
@@ -61,6 +88,35 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata.labels."app.kubernetes.io/name" = "spliit";
             spec = {
+              initContainers = [
+                {
+                  name = "init-create-db";
+                  image = postgresImageName;
+                  envFrom = [ { secretRef.name = "spliit-init-db-environment-secret"; } ];
+                  command = [
+                    "sh"
+                    "-ec"
+                  ];
+                  args = [
+                    ''
+                      echo "Waiting for Postgres at $POSTGRES_HOST:$POSTGRES_PORT..."
+                      until pg_isready -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER"; do
+                        sleep 2
+                      done
+
+                      echo "Ensuring database '$POSTGRES_DB' exists..."
+                      if psql "host=$POSTGRES_HOST port=$POSTGRES_PORT user=$POSTGRES_USER dbname=postgres" -tAc \
+                        "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DB';" | grep -q 1; then
+                        echo "Database '$POSTGRES_DB' already exists."
+                      else
+                        echo "Creating database '$POSTGRES_DB'..."
+                        psql "host=$POSTGRES_HOST port=$POSTGRES_PORT user=$POSTGRES_USER dbname=postgres" -v ON_ERROR_STOP=1 -c \
+                          "CREATE DATABASE \"$POSTGRES_DB\";"
+                      fi
+                    ''
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "spliit";

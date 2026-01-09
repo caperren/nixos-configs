@@ -25,6 +25,14 @@ in
         };
         spec = {
           replicas = 1;
+          stragegy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "technitium";
 
           template = {

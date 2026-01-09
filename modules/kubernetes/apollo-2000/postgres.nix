@@ -49,7 +49,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
-          replicas = 1;
+          replicas = 3;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -68,7 +68,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   name = "postgres";
                   image = "${image.imageName}:${image.imageTag}";
                   envFrom = [ { secretRef.name = "postgres-environment-secret"; } ];
-                  ports = [ { containerPort = 8080; } ];
+                  ports = [ { containerPort = 5432; } ];
                   volumeMounts = [
                     {
                       mountPath = "/var/lib/postgresql";

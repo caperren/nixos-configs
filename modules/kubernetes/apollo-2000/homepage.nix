@@ -156,7 +156,7 @@ in
           "services.yaml" = "";
           "settings.yaml" = ''
             background: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
-            cardBlur: xs
+            cardBlur: md
             theme: dark
             color: slate
             headerStyle: boxedWidgets

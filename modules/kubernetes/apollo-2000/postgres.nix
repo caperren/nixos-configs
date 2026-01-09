@@ -20,18 +20,18 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     secrets."postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
     secrets."postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
 
-    templates.postgresEnvironment = {
+    templates.postgres-environment-secret = {
       content = builtins.toJSON {
         apiVersion = "v1";
         kind = "Secret";
         metadata = {
-          name = "postgres-environment";
+          name = "postgres-environment-secret";
           labels."app.kubernetes.io/name" = "postgres";
         };
         stringData = {
-            POSTGRES_DB = config.sops.placeholder."postgres/environment/POSTGRES_DB";
-            POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
-            POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+          POSTGRES_DB = config.sops.placeholder."postgres/environment/POSTGRES_DB";
+          POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+          POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
         };
       };
       path = "/var/lib/rancher/k3s/server/manifests/postgres-environment-secret.yaml";
@@ -58,12 +58,17 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "postgres";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
+                  envFrom = [ { configMapRef.name = "postgres-environment-secret"; } ];
                   ports = [ ];
                   volumeMounts = [ ];
                 }
               ];
-              volumes = [ ];
+              volumes = [
+                {
+                  name = "data";
+                  persistentVolumeClaim.claimName = "postgres-data-pvc";
+                }
+              ];
             };
           };
         };

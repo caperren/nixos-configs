@@ -313,11 +313,6 @@ in
           labels."app.kubernetes.io/name" = "homepage";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
-            "gethomepage.dev/description" = "Dynamically Detected Homepage";
-            "gethomepage.dev/enabled" = "true";
-            "gethomepage.dev/group" = "Cluster Management";
-            "gethomepage.dev/icon" = "homepage.png";
-            "gethomepage.dev/name" = "Homepage";
           };
         };
         spec = {

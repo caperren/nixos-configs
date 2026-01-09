@@ -6,15 +6,38 @@
 }:
 let
   image = pkgs.dockerTools.pullImage {
-    imageName = "crazymax/spliit";
-    imageDigest = "sha256:b0cb61acc5e75e5aa81dd63d0b49311ff26332b42c1b09c2b25a807503ad5572";
-    hash = "sha256-ac6BuKp8SUXJdT519Px8O048sNj3F0wox+y15N7rAI8=";
-    finalImageTag = "1.18.0";
+    imageName = "ghcr.io/spliit-app/spliit";
+    imageDigest = "sha256:2f0f44d58768bed6c7c9aed72f74e43a14599b459828cd87227a7c35ba29b9b8";
+    hash = "sha256-yHjOZwJeLvYk/WvprkwcW4QmVsYsbGPmY8D00OnazYY=";
+    finalImageTag = "1.19.0";
     arch = "amd64";
   };
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02"){
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  sops = {
+    secrets = {
+      "postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
+      "postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+    };
+
+    templates.spliit-environment-secret = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "spliit-environment-secret";
+          labels."app.kubernetes.io/name" = "spliit";
+        };
+        stringData = {
+          POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+          POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+        };
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/spliit-environment-secret.yaml";
+    };
+  };
+
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       spliit-deployment.content = {
@@ -34,7 +57,25 @@ in
                 {
                   name = "spliit";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
+                  envFrom = [ { secretRef.name = "spliit-environment-secret"; } ];
+                  env = [
+                    {
+                      name = "TZ";
+                      value = "America/Los_Angeles";
+                    }
+                    {
+                      name = "POSTGRES_HOST";
+                      value = "postgres.default.svc.cluster.local";
+                    }
+                    {
+                      name = "POSTGRES_PORT";
+                      value = 5432;
+                    }
+                    {
+                      name = "POSTGRES_DB";
+                      value = "America/Los_Angeles";
+                    }
+                  ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [ ];
                 }
@@ -56,7 +97,7 @@ in
           ports = [
             {
               port = 3000;
-              targetPort = 3090;
+              targetPort = 3000;
             }
           ];
         };
@@ -66,30 +107,53 @@ in
         kind = "Ingress";
         metadata = {
           name = "spliit";
+          labels."app.kubernetes.io/name" = "spliit";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Split expenses";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Financial";
+            "gethomepage.dev/icon" = "spliit.png";
+            "gethomepage.dev/name" = "Spliit";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "spliit.internal.perren.cloud";
               http = {
                 paths = [
                   {
-                    path = "/spliit";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {
                         name = "spliit";
-                        port.number = 3090;
+                        port.number = 3000;
                       };
                     };
                   }
                 ];
               };
-            })
+            }
+            {
+              host = "spliit.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "spliit";
+                        port.number = 3000;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
           ];
         };
       };

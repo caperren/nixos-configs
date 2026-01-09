@@ -16,9 +16,11 @@ let
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
-    secrets."postgres/environment/POSTGRES_DB".sopsFile = ../../../secrets/apollo-2000.yaml;
-    secrets."postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
-    secrets."postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets = {
+      "postgres/environment/POSTGRES_DB".sopsFile = ../../../secrets/apollo-2000.yaml;
+      "postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
+      "postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+    };
 
     templates.postgres-environment-secret = {
       content = builtins.toJSON {

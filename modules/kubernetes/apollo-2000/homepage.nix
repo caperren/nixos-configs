@@ -215,7 +215,7 @@ in
               volumes = [
                 {
                   name = "homepage-config";
-                  configMap.name = "hompage";
+                  configMap.name = "homepage";
                 }
                 #                {
                 #                  name = "logs";

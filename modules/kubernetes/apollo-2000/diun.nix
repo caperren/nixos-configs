@@ -107,7 +107,7 @@ in
                     }
                     {
                       name = "LOG_LEVEL";
-                      value = "info";
+                      value = "debug";
                     }
                     {
                       name = "LOG_JSON";

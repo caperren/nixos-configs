@@ -17,139 +17,140 @@ in
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
-#      homepage-serviceaccount.content = {
-#        apiVersion = "v1";
-#        kind = "ServiceAccount";
-#        metadata = {
-#          name = "homepage";
-#          namespace = "default";
-#          labels."app.kubernetes.io/name" = "homepage";
-#        };
-#        secrets = [
-#          {
-#            name = "homepage";
-#          }
-#        ];
-#      };
-#      homepage-serviceaccount-token-secret.content = {
-#        apiVersion = "v1";
-#        kind = "Secret";
-#        type = "kubernetes.io/service-account-token";
-#        metadata = {
-#          name = "homepage";
-#          namespace = "default";
-#          labels."app.kubernetes.io/name" = "homepage";
-#          annotations."kubernetes.io/service-account.name" = "homepage";
-#        };
-#      };
-#      homepage-config.content = {
-#        apiVersion = "v1";
-#        kind = "ConfigMap";
-#        metadata = {
-#          name = "homepage";
-#          labels."app.kubernetes.io/name" = "homepage";
-#        };
-#        data = {
-#          "kubernetes.yaml" = {
-#            mode = "cluster";
-#          };
-#        };
-#      };
-#      homepage-cluster-role.content = {
-#        apiVersion = "rbac.authorization.k8s.io/v1";
-#        kind = "ClusterRole";
-#        metadata = {
-#          name = "homepage";
-#          labels."app.kubernetes.io/name" = "homepage";
-#        };
-#        rules = [
-#          {
-#            apiGroups = [
-#              ""
-#            ];
-#            resources = [
-#              "namespaces"
-#              "pods"
-#              "nodes"
-#            ];
-#            verbs = [
-#              "get"
-#              "list"
-#            ];
-#          }
-#          {
-#            apiGroups = [
-#              "extensions"
-#              "networking.k8s.io"
-#            ];
-#            resources = [
-#              "ingresses"
-#            ];
-#            verbs = [
-#              "get"
-#              "list"
-#            ];
-#          }
-#          {
-#            apiGroups = [
-#              "traefik.io"
-#            ];
-#            resources = [
-#              "ingressroutes"
-#            ];
-#            verbs = [
-#              "get"
-#              "list"
-#            ];
-#          }
-#          {
-#            apiGroups = [
-#              "gateway.networking.k8s.io"
-#            ];
-#            resources = [
-#              "httproutes"
-#              "gateways"
-#            ];
-#            verbs = [
-#              "get"
-#              "list"
-#            ];
-#          }
-#          {
-#            apiGroups = [
-#              "metrics.k8s.io"
-#            ];
-#            resources = [
-#              "nodes"
-#              "pods"
-#            ];
-#            verbs = [
-#              "get"
-#              "list"
-#            ];
-#          }
-#        ];
-#      };
-#      homepage-cluster-role-binding.content = {
-#        apiVersion = "rbac.authorization.k8s.io/v1";
-#        kind = "ClusterRoleBinding";
-#        metadata = {
-#          name = "homepage";
-#          labels."app.kubernetes.io/name" = "homepage";
-#        };
-#        roleRef = {
-#          apiGroup = "rbac.authorization.k8s.io";
-#          kind = "ClusterRole";
-#          name = "homepage";
-#        };
-#        subjects = [
-#          {
-#            kind = "ServiceAccount";
-#            name = "homepage";
-#            namespace = "default";
-#          }
-#        ];
-#      };
+      #      homepage-serviceaccount.content = {
+      #        apiVersion = "v1";
+      #        kind = "ServiceAccount";
+      #        metadata = {
+      #          name = "homepage";
+      #          namespace = "default";
+      #          labels."app.kubernetes.io/name" = "homepage";
+      #        };
+      #        secrets = [
+      #          {
+      #            name = "homepage";
+      #          }
+      #        ];
+      #      };
+      #      homepage-serviceaccount-token-secret.content = {
+      #        apiVersion = "v1";
+      #        kind = "Secret";
+      #        type = "kubernetes.io/service-account-token";
+      #        metadata = {
+      #          name = "homepage";
+      #          namespace = "default";
+      #          labels."app.kubernetes.io/name" = "homepage";
+      #          annotations."kubernetes.io/service-account.name" = "homepage";
+      #        };
+      #      };
+      #      homepage-cluster-role.content = {
+      #        apiVersion = "rbac.authorization.k8s.io/v1";
+      #        kind = "ClusterRole";
+      #        metadata = {
+      #          name = "homepage";
+      #          labels."app.kubernetes.io/name" = "homepage";
+      #        };
+      #        rules = [
+      #          {
+      #            apiGroups = [
+      #              ""
+      #            ];
+      #            resources = [
+      #              "namespaces"
+      #              "pods"
+      #              "nodes"
+      #            ];
+      #            verbs = [
+      #              "get"
+      #              "list"
+      #            ];
+      #          }
+      #          {
+      #            apiGroups = [
+      #              "extensions"
+      #              "networking.k8s.io"
+      #            ];
+      #            resources = [
+      #              "ingresses"
+      #            ];
+      #            verbs = [
+      #              "get"
+      #              "list"
+      #            ];
+      #          }
+      #          {
+      #            apiGroups = [
+      #              "traefik.io"
+      #            ];
+      #            resources = [
+      #              "ingressroutes"
+      #            ];
+      #            verbs = [
+      #              "get"
+      #              "list"
+      #            ];
+      #          }
+      #          {
+      #            apiGroups = [
+      #              "gateway.networking.k8s.io"
+      #            ];
+      #            resources = [
+      #              "httproutes"
+      #              "gateways"
+      #            ];
+      #            verbs = [
+      #              "get"
+      #              "list"
+      #            ];
+      #          }
+      #          {
+      #            apiGroups = [
+      #              "metrics.k8s.io"
+      #            ];
+      #            resources = [
+      #              "nodes"
+      #              "pods"
+      #            ];
+      #            verbs = [
+      #              "get"
+      #              "list"
+      #            ];
+      #          }
+      #        ];
+      #      };
+      #      homepage-cluster-role-binding.content = {
+      #        apiVersion = "rbac.authorization.k8s.io/v1";
+      #        kind = "ClusterRoleBinding";
+      #        metadata = {
+      #          name = "homepage";
+      #          labels."app.kubernetes.io/name" = "homepage";
+      #        };
+      #        roleRef = {
+      #          apiGroup = "rbac.authorization.k8s.io";
+      #          kind = "ClusterRole";
+      #          name = "homepage";
+      #        };
+      #        subjects = [
+      #          {
+      #            kind = "ServiceAccount";
+      #            name = "homepage";
+      #            namespace = "default";
+      #          }
+      #        ];
+      #      };
+      homepage-config.content = {
+        apiVersion = "v1";
+        kind = "ConfigMap";
+        metadata = {
+          name = "homepage";
+          labels."app.kubernetes.io/name" = "homepage";
+        };
+        data = {
+          "kubernetes.yaml" = {
+            mode = "cluster";
+          };
+          "settings.yaml" = "";
+        };
+      };
       homepage-deployment.content = {
         apiVersion = "apps/v1";
         kind = "Deployment";
@@ -177,7 +178,7 @@ in
               };
             };
             spec = {
-#              serviceAccountName = "homepage";
+              #              serviceAccountName = "homepage";
               containers = [
                 {
                   name = "homepage";
@@ -194,23 +195,32 @@ in
                   ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [
-#                    {
-#                      mountPath = "/app/config/kubernetes.yaml";
-#                      name = "homepage-config";
-#                      subPath = "kubernetes.yaml";
-#                    }
-#                    {
-#                      mountPath = "/app/config/logs";
-#                      name = "logs";
-#                    }
+                    {
+                      mountPath = "/app/config/kubernetes.yaml";
+                      name = "homepage-config";
+                      subPath = "kubernetes.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/settings.yaml";
+                      name = "homepage-config";
+                      subPath = "settings.yaml";
+                    }
+                    #                    {
+                    #                      mountPath = "/app/config/logs";
+                    #                      name = "logs";
+                    #                    }
                   ];
                 }
               ];
               volumes = [
-#                {
-#                  name = "logs";
-#                  emptyDir = { };
-#                }
+                {
+                  name = "homepage-config";
+                  configMap.name = "hompage";
+                }
+                #                {
+                #                  name = "logs";
+                #                  emptyDir = { };
+                #                }
               ];
             };
           };

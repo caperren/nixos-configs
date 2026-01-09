@@ -50,7 +50,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
-          replicas = 3;
+          replicas = 1;
 
           selector.matchLabels."app.kubernetes.io/name" = "postgres";
 

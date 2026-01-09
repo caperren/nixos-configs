@@ -145,11 +145,38 @@ in
           labels."app.kubernetes.io/name" = "homepage";
         };
         data = {
+          "bookmarks.yaml" = "";
+          "custom.css" = "";
+          "custom.js" = "";
+          "docker.yaml" = "";
           "kubernetes.yaml" = ''
             mode: cluster
           '';
-          "settings.yaml" = lib.generators.toYAML { } {
-          };
+          "services.yaml" = "";
+          "settings.yaml" = "";
+          "widgets.yaml" = ''
+            - kubernetes:
+                cluster:
+                  show: true
+                  cpu: true
+                  memory: true
+                  showLabel: true
+                  label: "cluster"
+                nodes:
+                  show: true
+                  cpu: true
+                  memory: true
+                  showLabel: true
+            - resources:
+                backend: resources
+                expanded: true
+                cpu: true
+                memory: true
+                network: default
+            - search:
+                provider: duckduckgo
+                target: _blank
+          '';
         };
       };
       homepage-deployment.content = {
@@ -192,20 +219,46 @@ in
                   ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [
+                  {
+                      mountPath = "/app/config/bookmarks.yaml";
+                      name = "homepage-config";
+                      subPath = "bookmarks.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/custom.css";
+                      name = "homepage-config";
+                      subPath = "custom.css";
+                    }
+                    {
+                      mountPath = "/app/config/custom.js";
+                      name = "homepage-config";
+                      subPath = "custom.js";
+                    }
+                    {
+                      mountPath = "/app/config/docker.yaml";
+                      name = "homepage-config";
+                      subPath = "docker.yaml";
+                    }
                     {
                       mountPath = "/app/config/kubernetes.yaml";
                       name = "homepage-config";
                       subPath = "kubernetes.yaml";
                     }
                     {
+                      mountPath = "/app/config/services.yaml";
+                      name = "homepage-config";
+                      subPath = "services.yaml";
+                    }
+                    {
                       mountPath = "/app/config/settings.yaml";
                       name = "homepage-config";
                       subPath = "settings.yaml";
                     }
-                    #                    {
-                    #                      mountPath = "/app/config/logs";
-                    #                      name = "logs";
-                    #                    }
+                    {
+                      mountPath = "/app/config/widgets.yaml";
+                      name = "homepage-config";
+                      subPath = "widgets.yaml";
+                    }
                   ];
                 }
               ];
@@ -214,10 +267,6 @@ in
                   name = "homepage-config";
                   configMap.name = "homepage";
                 }
-                #                {
-                #                  name = "logs";
-                #                  emptyDir = { };
-                #                }
               ];
             };
           };

@@ -9,7 +9,6 @@ let
     imageName = "postgres";
     imageDigest = "sha256:bfe50b2b0ddd9b55eadedd066fe24c7c6fe06626185b73358c480ea37868024d";
     hash = "sha256-kABeg+78cZ1caggEV2i/2EJz5omlbiD3rDjzJddwlbU=";
-    finalImageName = "postgres";
     finalImageTag = "18.1";
     arch = "amd64";
   };

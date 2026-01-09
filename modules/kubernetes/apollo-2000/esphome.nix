@@ -112,7 +112,7 @@ in
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
               host = "esphome.internal.perren.cloud";
               http = {
                 paths = [
@@ -128,8 +128,8 @@ in
                   }
                 ];
               };
-            })
-            ({
+            }
+            {
               host = "esphome.perren.cloud";
               http = {
                 paths = [
@@ -145,7 +145,7 @@ in
                   }
                 ];
               };
-            })
+            }
           ];
         };
       };

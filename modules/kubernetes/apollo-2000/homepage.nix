@@ -333,6 +333,23 @@ in
                 ];
               };
             }
+            {
+              host = "homepage.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "homepage";
+                        port.number = 3000;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
           ];
         };
       };

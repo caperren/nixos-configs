@@ -155,6 +155,10 @@ in
           "proxmox.yaml" = "";
           "services.yaml" = "";
           "settings.yaml" = ''
+            background: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
+            theme: dark
+            color: slate
+            headerStyle: boxedWidgets
             providers:
               longhorn:
                 url: http://longhorn-frontend.longhorn-system.svc.cluster.local
@@ -223,10 +227,6 @@ in
                     {
                       name = "HOMEPAGE_ALLOWED_HOSTS";
                       value = "homepage.perren.cloud,homepage.internal.perren.cloud";
-                    }
-                    {
-                      name = "LOG_LEVEL";
-                      value = "debug";
                     }
                   ];
                   ports = [ { containerPort = 3000; } ];

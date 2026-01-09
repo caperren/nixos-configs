@@ -144,9 +144,12 @@ in
           name = "homepage";
           labels."app.kubernetes.io/name" = "homepage";
         };
-        data = lib.generators.toYAML { } {
-          "kubernetes.yaml".mode = "cluster";
-          "settings.yaml" = "";
+        data = {
+          "kubernetes.yaml" = lib.generators.toYAML { } {
+            mode = "cluster";
+          };
+          "settings.yaml" = lib.generators.toYAML { } {
+          };
         };
       };
       homepage-deployment.content = {

@@ -34,6 +34,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           }:${
             config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
           }@postgres.default.svc.cluster.local/spliit";
+          POSTGRES_PRISMA_URL = "postgresql://${
+            config.sops.placeholder."postgres/environment/POSTGRES_USER"
+          }:${
+            config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD"
+          }@postgres.default.svc.cluster.local/spliit";
         };
       };
       path = "/var/lib/rancher/k3s/server/manifests/spliit-environment-secret.yaml";

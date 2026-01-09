@@ -80,7 +80,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "spliit";
         };
         spec = {
-          replicas = 0;
+          replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "spliit";
           template = {
             metadata.labels."app.kubernetes.io/name" = "spliit";

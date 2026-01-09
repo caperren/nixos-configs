@@ -152,6 +152,7 @@ in
           "kubernetes.yaml" = ''
             mode: cluster
           '';
+          "proxmox.yaml" = "";
           "services.yaml" = "";
           "settings.yaml" = ''
             providers:
@@ -246,6 +247,11 @@ in
                       mountPath = "/app/config/kubernetes.yaml";
                       name = "homepage-config";
                       subPath = "kubernetes.yaml";
+                    }
+                    {
+                      mountPath = "/app/config/proxmox.yaml";
+                      name = "homepage-config";
+                      subPath = "proxmox.yaml";
                     }
                     {
                       mountPath = "/app/config/services.yaml";

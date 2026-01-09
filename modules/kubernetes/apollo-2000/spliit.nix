@@ -69,7 +69,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "POSTGRES_PORT";
-                      value = 5432;
+                      value = "5432";
                     }
                     {
                       name = "POSTGRES_DB";

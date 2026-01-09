@@ -132,7 +132,7 @@ in
           labels."app.kubernetes.io/name" = "termix";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
-            "gethomepage.dev/description" = "Web-based terminals for cluster management";
+            "gethomepage.dev/description" = "Web-based server management platform";
             "gethomepage.dev/enabled" = "true";
             "gethomepage.dev/group" = "Cluster Management";
             "gethomepage.dev/icon" = "termix.png";

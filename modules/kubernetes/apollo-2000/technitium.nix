@@ -171,6 +171,11 @@ in
           labels."app.kubernetes.io/name" = "technitium";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "DNS server and ad-blocker";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Cluster Management";
+            "gethomepage.dev/icon" = "technitium.png";
+            "gethomepage.dev/name" = "Technitium";
           };
         };
         spec = {

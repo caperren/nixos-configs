@@ -68,6 +68,19 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      postgres-data-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "postgres-data-pvc";
+          labels."app.kubernetes.io/name" = "postgres";
+        };
+        spec = {
+          accessModes = [ "ReadWriteMany" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "10Gi";
+        };
+      };
     };
   };
 }

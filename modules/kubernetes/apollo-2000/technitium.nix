@@ -27,15 +27,6 @@ in
           replicas = 1;
           selector.matchLabels."app.kubernetes.io/name" = "technitium";
 
-          securityContext = {
-            sysctls = [
-              {
-                name = "net.ipv4.ip_local_port_range";
-                value = "1024 65535";
-              }
-            ];
-          };
-
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "technitium";
@@ -44,6 +35,14 @@ in
               };
             };
             spec = {
+              securityContext = {
+                sysctls = [
+                  {
+                    name = "net.ipv4.ip_local_port_range";
+                    value = "1024 65535";
+                  }
+                ];
+              };
               containers = [
                 {
                   name = "technitium";

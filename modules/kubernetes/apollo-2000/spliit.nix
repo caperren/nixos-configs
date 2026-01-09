@@ -14,7 +14,7 @@ let
   };
 
   postgresImageName =
-    (builtins.elemAt config.services.k3s.manifests.postgres-deployment.spec.template.spec.containers 0)
+    (builtins.elemAt config.services.k3s.manifests.postgres-deployment.content.spec.template.spec.containers 0)
     .image;
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;

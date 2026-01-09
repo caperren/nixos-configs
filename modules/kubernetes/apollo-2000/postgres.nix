@@ -93,6 +93,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           resources.requests.storage = "10Gi";
         };
       };
+      postgres-service.content = {
+        apiVersion = "v1";
+        kind = "Service";
+        metadata = {
+          name = "postgres";
+          labels."app.kubernetes.io/name" = "postgres";
+        };
+        spec = {
+          selector."app.kubernetes.io/name" = "postgres";
+          ports = [
+            {
+              port = 5432;
+              targetPort = 5432;
+            }
+          ];
+        };
+      };
     };
   };
 }

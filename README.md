@@ -15,6 +15,8 @@
   - `kubectl exec --stdin --tty <pod-name> -- <bash | sh>`
 - To figure out why a manifest is not applying (after it's present)
   - `kubectl apply -f /var/lib/rancher/k3s/server/manifests/<manifest file>`
+- Get logs for a particular container (like init containers) in a pod
+  - `kubectl logs <pod name> -c <container name>`
 ## Misc references used
 * https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles/tree/main
   * For general flake-based layout of individual systems and layout

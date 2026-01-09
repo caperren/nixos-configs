@@ -37,11 +37,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "spliit";
         };
         stringData = {
-          POSTGRES_HOST = "${postgresServiceName}.default.svc.cluster.local";
-          POSTGRES_PORT = postgresServicePort;
-          POSTGRES_DB = spliitDbName;
-          POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
-          POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+          PGUSER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+          PGPASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
         };
       };
       path = "/var/lib/rancher/k3s/server/manifests/spliit-init-db-environment-secret.yaml";
@@ -93,29 +90,41 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   name = "init-create-db";
                   image = postgresImageName;
                   envFrom = [ { secretRef.name = "spliit-init-db-environment-secret"; } ];
+                  env = [
+                    {
+                      name = "PGHOST";
+                      value = "${postgresServiceName}.default.svc.cluster.local";
+                    }
+                    {
+                      name = "PGPORT";
+                      value = postgresServicePort;
+                    }
+                    {
+                      name = "PGDATABASE";
+                      value = "postgres";
+                    }
+                    {
+                      name = "NEW_DB";
+                      value = spliitDbName;
+                    }
+                  ];
                   command = [
                     "sh"
                     "-ec"
                   ];
                   args = [
                     ''
-                      export PGHOST="$POSTGRES_HOST"
-                      export PGPORT="$POSTGRES_PORT"
-                      export PGUSER="$POSTGRES_USER"
-                      export PGPASSWORD="$POSTGRES_PASSWORD"
-                      export PGDATABASE="postgres"
-
                       echo "Waiting for Postgres at $PGHOST:$PGPORT..."
                       until pg_isready; do
                         sleep 2
                       done
 
-                      echo "Ensuring database '$POSTGRES_DB' exists..."
-                      if psql -tAc "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DB';" | grep -q 1; then
-                        echo "Database '$POSTGRES_DB' already exists."
+                      echo "Ensuring database '$NEW_DB' exists..."
+                      if psql -tAc "SELECT 1 FROM pg_database WHERE datname = '$NEW_DB';" | grep -q 1; then
+                        echo "Database '$NEW_DB' already exists."
                       else
-                        echo "Creating database '$POSTGRES_DB'..."
-                        psql -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"$POSTGRES_DB\";"
+                        echo "Creating database '$NEW_DB'..."
+                        psql -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"$NEW_DB\";"
                       fi
                     ''
                   ];

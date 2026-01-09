@@ -99,19 +99,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ];
                   args = [
                     ''
-                      echo "Waiting for Postgres at $POSTGRES_HOST:$POSTGRES_PORT..."
-                      until pg_isready -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER"; do
+                      export PGHOST="$POSTGRES_HOST"
+                      export PGPORT="$POSTGRES_PORT"
+                      export PGUSER="$POSTGRES_USER"
+                      export PGPASSWORD="$POSTGRES_PASSWORD"
+                      export PGDATABASE="postgres"
+
+                      echo "Waiting for Postgres at $PGHOST:$PGPORT..."
+                      until pg_isready; do
                         sleep 2
                       done
 
                       echo "Ensuring database '$POSTGRES_DB' exists..."
-                      if psql "host=$POSTGRES_HOST port=$POSTGRES_PORT user=$POSTGRES_USER dbname=postgres" -tAc \
-                        "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DB';" | grep -q 1; then
+                      if psql -tAc "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DB';" | grep -q 1; then
                         echo "Database '$POSTGRES_DB' already exists."
                       else
                         echo "Creating database '$POSTGRES_DB'..."
-                        psql "host=$POSTGRES_HOST port=$POSTGRES_PORT user=$POSTGRES_USER dbname=postgres" -v ON_ERROR_STOP=1 -c \
-                          "CREATE DATABASE \"$POSTGRES_DB\";"
+                        psql -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"$POSTGRES_DB\";"
                       fi
                     ''
                   ];

@@ -75,6 +75,12 @@ in
             ingress:
               enabled: true
               host: longhorn.internal.perren.cloud
+              annotations:
+                gethomepage.dev/description: Distributed block storage filesystem
+                gethomepage.dev/enabled: true
+                gethomepage.dev/group: Cluster Management
+                gethomepage.dev/icon: longhorn.png
+                gethomepage.dev/name: Longhorn
           '';
         };
       };

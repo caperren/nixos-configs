@@ -107,6 +107,11 @@ in
           labels."app.kubernetes.io/name" = "esphome";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Espressif esp-based smart home management";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Smart Home";
+            "gethomepage.dev/icon" = "esphome.png";
+            "gethomepage.dev/name" = "ESPHome";
           };
         };
         spec = {

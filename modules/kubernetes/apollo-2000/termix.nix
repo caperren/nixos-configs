@@ -136,7 +136,7 @@ in
             "gethomepage.dev/enabled" = "true";
             "gethomepage.dev/group" = "Cluster Management";
             "gethomepage.dev/icon" = "termix.png";
-            "gethomepage.dev/name" = "Terminx";
+            "gethomepage.dev/name" = "Termix";
           };
         };
         spec = {

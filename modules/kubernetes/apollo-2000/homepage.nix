@@ -177,9 +177,10 @@ in
                 total: true
                 labels: true
                 nodes: true
-            - search:
-                provider: duckduckgo
-                target: _blank
+            - datetime:
+                text_size: xl
+                format:
+                  timeStyle: short
           '';
         };
       };

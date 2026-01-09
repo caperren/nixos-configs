@@ -28,7 +28,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           name = "postgres-environment";
           labels."app.kubernetes.io/name" = "postgres";
         };
-        data = {
+        stringData = {
             POSTGRES_DB = config.sops.placeholder."postgres/environment/POSTGRES_DB";
             POSTGRES_USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
             POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";

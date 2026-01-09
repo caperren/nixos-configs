@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -13,7 +14,7 @@ let
   };
 in
 {
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       termix-deployment.content = {
@@ -25,6 +26,14 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "termix";
 
           # Uses node as a base, with groupId 1000

@@ -81,7 +81,7 @@ in
                 gethomepage.dev/group: Cluster Management
                 gethomepage.dev/icon: longhorn.png
                 gethomepage.dev/name: Longhorn
-                gethomepage.dev/pod-selector: longhorn
+                gethomepage.dev/pod-selector: app.kubernetes.io/name=longhorn
           '';
         };
       };

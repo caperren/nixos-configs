@@ -73,7 +73,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "POSTGRES_DB";
-                      value = "America/Los_Angeles";
+                      value = "spliit";
                     }
                   ];
                   ports = [ { containerPort = 3000; } ];

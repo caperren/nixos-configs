@@ -145,9 +145,9 @@ in
           labels."app.kubernetes.io/name" = "homepage";
         };
         data = {
-          "kubernetes.yaml" = lib.generators.toYAML { } {
-            mode = "cluster";
-          };
+          "kubernetes.yaml" = ''
+            mode: cluster
+          '';
           "settings.yaml" = lib.generators.toYAML { } {
           };
         };

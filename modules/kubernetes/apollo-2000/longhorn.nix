@@ -20,11 +20,19 @@ in
     nfs-utils
   ];
 
-  # Fix for failed environment check on openiscsi
-  # https://github.com/longhorn/longhorn/issues/2166#issuecomment-3315367546
-  systemd.services.iscsid.serviceConfig = {
-    PrivateMounts = "yes";
-    BindPaths = "/run/current-system/sw/bin:/bin";
+  systemd = {
+    # Fix for failed environment check on openiscsi
+    # https://github.com/longhorn/longhorn/issues/2166#issuecomment-3315367546
+    services.iscsid.serviceConfig = {
+      PrivateMounts = "yes";
+      BindPaths = "/run/current-system/sw/bin:/bin";
+    };
+
+    # and one from the same thread for a failed nsenter with longhorn rwx
+    # https://github.com/longhorn/longhorn/issues/2166#issuecomment-3094699127
+    tmpfiles.rules = [
+      "L /usr/bin/mount - - - - /run/current-system/sw/bin/mount"
+    ];
   };
 
   # Namespace first

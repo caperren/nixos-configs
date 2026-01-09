@@ -26,7 +26,7 @@ in
         };
         spec = {
           replicas = 1;
-          stragegy = {
+          strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
               maxSurge = 0;

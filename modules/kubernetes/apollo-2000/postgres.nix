@@ -34,7 +34,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             POSTGRES_PASSWORD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
         };
       };
-      path = "/var/lib/rancher/k3s/server/manifests/postgres-environment-secret.json";
+      path = "/var/lib/rancher/k3s/server/manifests/postgres-environment-secret.yaml";
     };
   };
 

@@ -24,9 +24,9 @@ in
           name = "hetzner-ddns-config";
           labels."app.kubernetes.io/name" = "hetzner-ddns";
         };
-        data.config = config.sops.placeholder."hetzner-ddns/config";
+        stringData.config = config.sops.placeholder."hetzner-ddns/config";
       };
-      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.json";
+      path = "/var/lib/rancher/k3s/server/manifests/hetzner-ddns-config-secret.yaml";
     };
   };
 

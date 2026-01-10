@@ -4,6 +4,10 @@
     ../../users/all-groups.nix
     ../../users/root/root-home-manager.nix
   ];
+
+  # Statically generated groups for consistent nas sharing won't work otherwise
+  users.mutableUsers = false;
+
   # For nfs client support
   boot.supportedFilesystems = [ "nfs" ];
   services.rpcbind.enable = true;

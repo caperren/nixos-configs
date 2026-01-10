@@ -38,30 +38,33 @@
   services.nfs.server.enable = true;
 
   # Set post-boot zfs options that aren't declarative through nixos directly
-  systemd = {
-    services.set-zfs-options = {
-      enable = true;
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Sets zfs options post-boot";
-
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
-          set -e
-
-          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/Media
-          zfs set sharenfs=off nas_data_primary/Corwin
-        ''}";
-
-      };
-
-      path = with pkgs; [
-        zfs
-        coreutils
-      ];
-    };
-  };
+#  systemd = {
+#    services.set-zfs-options = {
+#      enable = true;
+#      after = [ "network.target" ];
+#      wantedBy = [ "multi-user.target" ];
+#      description = "Sets zfs options post-boot";
+#
+#      serviceConfig = {
+#        Type = "simple";
+#        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
+#          set -e
+#
+#          zfs set sharenfs="${zfsShareNfsConfig}" nas_data_primary/ad
+#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/caperren
+#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/caperren_gdrive
+#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/long_term_storage
+#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/media
+#        ''}";
+#
+#      };
+#
+#      path = with pkgs; [
+#        zfs
+#        coreutils
+#      ];
+#    };
+#  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

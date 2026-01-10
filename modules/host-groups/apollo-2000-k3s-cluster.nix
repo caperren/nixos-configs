@@ -89,6 +89,11 @@ in
 
   time.timeZone = "America/Los_Angeles";
 
+  # Shitty bandaid until ollama can natively consider zfs ram caching as actually available, or provide an override flag
+  # https://github.com/ollama/ollama/issues/5700
+  # Setting to 24 Gibibytes for now
+  boot.kernelParams = [ "zfs.zfs_arc_max=25769800000" ];
+
   sops.secrets = {
     "${config.networking.hostName}/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;
     "${config.networking.hostName}/wireguard/preshared-key".sopsFile = ../../secrets/apollo-2000.yaml;

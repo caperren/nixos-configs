@@ -37,7 +37,17 @@
 - Get logs for a particular container (like init containers) in a pod
     - `kubectl logs <pod name> -c <container name>`
 - To get realtime zfs statistics
-  - `watch -n 0.25 zpool iostat -y 0.25 1`
+  - `zpool iostat -y 5`
+- To drain a node of its pods, to allow for a reboot without service interruption
+  - `kubectl cordon <node>`
+    - Disables scheduling, so pods aren't re-assigned
+  - `kubectl drain <node> --ignore-daemonsets`
+    - Removes the pods from the node, leaving daemonsets that won't globally affect cluster operation
+  - `kubectl get pods -A -owide`
+    - Verify that nodes have moved
+  - Perform reboot
+  - `kubectl uncordon <node>`
+    - After work is complete, to allow scheduling 
 
 ## Misc references used
 * https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles/tree/main

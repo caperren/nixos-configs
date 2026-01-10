@@ -71,6 +71,7 @@ in
     #    ../kubernetes/apollo-2000/kavita.nix
     #    ../kubernetes/apollo-2000/node-exporter.nix
     ../kubernetes/apollo-2000/ollama.nix
+    ../kubernetes/apollo-2000/openwebui.nix
     ../kubernetes/apollo-2000/pg-admin.nix
     #    ../kubernetes/apollo-2000/plex.nix
     ../kubernetes/apollo-2000/postgres.nix

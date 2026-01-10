@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
-  fileSystems."/mnt/nas_data_primary/Corwin" = {
-    device = "cap-apollo-n01:/nas_data_primary/Corwin";
+  fileSystems."/mnt/nas_data_primary/caperren" = {
+    device = "cap-apollo-n01:/nas_data_primary/caperren";
     fsType = "nfs";
     options = [
       "x-systemd.automount"
@@ -9,10 +9,11 @@
       "noauto"
       "_netdev"
       "nofail"
+      "nfsvers=4.0"
     ];
   };
-  fileSystems."/mnt/nas_data_primary/Media" = {
-    device = "cap-apollo-n01:/nas_data_primary/Media";
+  fileSystems."/mnt/nas_data_primary/media" = {
+    device = "cap-apollo-n01:/nas_data_primary/media";
     fsType = "nfs";
     options = [
       "x-systemd.automount"
@@ -20,6 +21,7 @@
       "noauto"
       "_netdev"
       "nofail"
+      "nfsvers=4.0"
     ];
   };
 }

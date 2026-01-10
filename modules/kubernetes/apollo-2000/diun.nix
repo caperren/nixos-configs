@@ -13,8 +13,31 @@ let
     arch = "amd64";
   };
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  sops = {
+    secrets = {
+      "bots/perrencloudbot/api-token".sopsFile = ../../../secrets/default.yaml;
+      "bots/perrencloudbot/chat-ids".sopsFile = ../../../secrets/default.yaml;
+    };
+
+    templates.diun-environment-secret = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "diun-environment-secret";
+          labels."app.kubernetes.io/name" = "diun";
+        };
+        stringData = {
+          DIUN_NOTIF_TELEGRAM_TOKEN = config.sops.placeholder."bots/perrencloudbot/api-token";
+          DIUN_NOTIF_TELEGRAM_CHATIDS = config.sops.placeholder."bots/perrencloudbot/chat-ids";
+        };
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/diun-environment-secret.yaml";
+    };
+  };
+
+  services.k3s = {
     images = [ image ];
     manifests = {
       diun-serviceaccount.content = {

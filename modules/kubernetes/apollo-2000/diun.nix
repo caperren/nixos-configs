@@ -140,7 +140,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = " DIUN_NOTIF_TELEGRAM_TEMPLATEBODY";
-                      value = "Found updated image {{ .Entry.Image.Path }}.%0A`nix-shell -p nix-prefetch-docker --run \"nix-prefetch-docker --image-name {{ .Entry.Image }} --image-tag {{ .Entry.Image.Tag }}\"`";
+                      value = "Found updated image {{ .Entry.Image.Path }}.%0A<code>nix-shell -p nix-prefetch-docker --run \"nix-prefetch-docker --image-name {{ .Entry.Image }} --image-tag {{ .Entry.Image.Tag }}\"</code>";
                     }
                     {
                       name = "DIUN_WATCH_FIRSTCHECKNOTIF";

@@ -112,9 +112,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "diun";
-              annotations = {
-                "diun.enable" = "true";
-              };
+              annotations."diun.enable" = "true";
             };
             spec = {
               serviceAccountName = "diun";

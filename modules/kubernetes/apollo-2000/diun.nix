@@ -141,6 +141,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       value = "false";
                     }
                     {
+                      name = "DIUN_WATCH_FIRSTCHECKNOTIF";
+                      value = true;
+                    }
+                    {
                       name = "DIUN_WATCH_WORKERS";
                       value = "20";
                     }

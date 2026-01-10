@@ -53,7 +53,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "openwebui";
         };
         spec = {
-          replicas = 1;
+          replicas = 0;
           #          strategy = {
           #            type = "RollingUpdate";
           #            rollingUpdate = {

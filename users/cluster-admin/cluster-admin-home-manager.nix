@@ -4,7 +4,10 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
-  sops.secrets."accounts/cluster-admin/hashed-password".sopsFile = ../../secrets/cluster.yaml;
+  sops.secrets."accounts/cluster-admin/hashed-password" = {
+    sopsFile = ../../secrets/cluster.yaml;
+    neededForUsers = true;
+  };
 
   users.users.cluster-admin = {
     isNormalUser = true;

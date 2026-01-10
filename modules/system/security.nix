@@ -5,7 +5,10 @@
     age
   ];
   sops = {
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age = {
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      generateKey = true;
+    };
 
     defaultSopsFile = ../../secrets/default.yaml;
   };

@@ -78,7 +78,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                         memory = "16Gi";
                         cpu = "8000m";
                     };
-                    requests = {
+                    limits = {
                         memory = "80Gi";
                         cpu = "28000m";
                     };

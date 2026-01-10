@@ -140,7 +140,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY";
-                      value = "Tag \"{{ .Entry.Image.Tag }}\" updated for \"{{ .Entry.Image }}\"\n\n`nix-shell -p nix-prefetch-docker --run \"nix-prefetch-docker --image-name {{ .Entry.Image }} --image-tag {{ .Entry.Image.Tag }}\"`";
+                      value = "**{{ if (eq .Entry.Status \"new\") }}New{{ else }}Updated{{ end }} Application Tag Available**\nName: {{ if .Entry.Image.HubLink }}[{{ .Entry.Manifest.Name }}]({{ .Entry.Image.HubLink }}){{ else }}{{ .Entry.Manifest.Name }}{{ end }}\nTag: {{ .Entry.Image.Tag }}{{ if .Meta.URL }}\nRepo: {{ .Meta.URL }}{{ else }}{{ end }}\n\n<pre language=\"bash\">nix-shell -p nix-prefetch-docker --run \"nix-prefetch-docker --image-name {{ .Entry.Image }} --image-tag {{ .Entry.Image.Tag }}\"</pre>";
                     }
                     {
                       name = "DIUN_WATCH_WORKERS";

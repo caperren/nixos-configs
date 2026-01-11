@@ -134,6 +134,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "jellyfin";
         };
         spec = {
+          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
           accessModes = [ "ReadOnlyMany" ];
           volumeName = "jellyfin-media-nfs-pv";
           resources.requests.storage = "1Ti";

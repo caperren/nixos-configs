@@ -25,14 +25,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "ollama";
         };
         spec = {
-          replicas = 0;
-          #          strategy = {
-          #            type = "RollingUpdate";
-          #            rollingUpdate = {
-          #              maxSurge = 0;
-          #              maxUnavailable = 1;
-          #            };
-          #          };
+          replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
 
           selector.matchLabels."app.kubernetes.io/name" = "ollama";
 
@@ -50,12 +50,12 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ports = [ { containerPort = 11434; } ];
                   resources = {
                     requests = {
-                        memory = "16Gi";
-                        cpu = "8000m";
+                      memory = "16Gi";
+                      cpu = "8000m";
                     };
                     limits = {
-                        memory = "80Gi";
-                        cpu = "28000m";
+                      memory = "80Gi";
+                      cpu = "28000m";
                     };
                   };
                   volumeMounts = [

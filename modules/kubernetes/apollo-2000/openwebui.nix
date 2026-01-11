@@ -28,14 +28,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "openwebui";
         };
         spec = {
-          replicas = 0;
-          #          strategy = {
-          #            type = "RollingUpdate";
-          #            rollingUpdate = {
-          #              maxSurge = 0;
-          #              maxUnavailable = 1;
-          #            };
-          #          };
+          replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
 
           selector.matchLabels."app.kubernetes.io/name" = "openwebui";
 

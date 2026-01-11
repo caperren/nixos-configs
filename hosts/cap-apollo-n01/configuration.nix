@@ -51,7 +51,7 @@
           set -e
 
           ###### Variables
-          pool_datasets=(nas_data_primary nas_data_important)
+          pool_datasets=(nas_data_primary)
 
           chown_owner="root:root"
           chmod_dir_options="750"

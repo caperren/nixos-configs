@@ -85,7 +85,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         spec = {
           accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "1Gi";
+          resources.requests.storage = "10Gi";
         };
       };
       jellyfin-service.content = {

@@ -25,7 +25,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "ollama";
         };
         spec = {
-          replicas = 1;
+          replicas = 0;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -76,19 +76,19 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
-      ollama-data-pvc.content = {
-        apiVersion = "v1";
-        kind = "PersistentVolumeClaim";
-        metadata = {
-          name = "ollama-data-pvc";
-          labels."app.kubernetes.io/name" = "ollama";
-        };
-        spec = {
-          accessModes = [ "ReadWriteMany" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "200Gi";
-        };
-      };
+#      ollama-data-pvc.content = {
+#        apiVersion = "v1";
+#        kind = "PersistentVolumeClaim";
+#        metadata = {
+#          name = "ollama-data-pvc";
+#          labels."app.kubernetes.io/name" = "ollama";
+#        };
+#        spec = {
+#          accessModes = [ "ReadWriteMany" ];
+#          storageClassName = "longhorn";
+#          resources.requests.storage = "100Gi";
+#        };
+#      };
       ollama-service.content = {
         apiVersion = "v1";
         kind = "Service";

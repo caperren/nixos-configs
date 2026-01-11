@@ -14,31 +14,6 @@ let
   };
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
-  #  sops = {
-  #    secrets = {
-  #      "openwebui/environment/POSTGRES_DB".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #      "openwebui/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #      "openwebui/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #    };
-  #
-  #    templates.openwebui-environment-secret = {
-  #      content = builtins.toJSON {
-  #        apiVersion = "v1";
-  #        kind = "Secret";
-  #        metadata = {
-  #          name = "openwebui-environment-secret";
-  #          labels."app.kubernetes.io/name" = "openwebui";
-  #        };
-  #        stringData = {
-  #          POSTGRES_DB = config.sops.placeholder."openwebui/environment/POSTGRES_DB";
-  #          POSTGRES_USER = config.sops.placeholder."openwebui/environment/POSTGRES_USER";
-  #          POSTGRES_PASSWORD = config.sops.placeholder."openwebui/environment/POSTGRES_PASSWORD";
-  #        };
-  #      };
-  #      path = "/var/lib/rancher/k3s/server/manifests/openwebui-environment-secret.yaml";
-  #    };
-  #  };
-
   services.k3s = {
     images = [ image ];
     manifests = {
@@ -50,14 +25,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "jellyfin";
         };
         spec = {
-          replicas = 0;
-          #          strategy = {
-          #            type = "RollingUpdate";
-          #            rollingUpdate = {
-          #              maxSurge = 0;
-          #              maxUnavailable = 1;
-          #            };
-          #          };
+          replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
 
           selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
 
@@ -71,12 +46,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "jellyfin";
                   image = "${image.imageName}:${image.imageTag}";
-                  #                  envFrom = [ { secretRef.name = "jellyfin-environment-secret"; } ];
                   env = [
-                    {
-                      name = "OLLAMA_BASE_URL";
-                      value = "http://${ollamaServiceName}.default.svc.cluster.local:${ollamaServicePort}";
-                    }
                   ];
                   ports = [ { containerPort = 8096; } ];
                   volumeMounts = [

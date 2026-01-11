@@ -66,28 +66,28 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   name = "cache";
                   emptyDir = { };
                 }
-                {
-                  name = "config";
-                  persistentVolumeClaim.claimName = "jellyfin-config-pvc";
-                }
+#                {
+#                  name = "config";
+#                  persistentVolumeClaim.claimName = "jellyfin-config-pvc";
+#                }
               ];
             };
           };
         };
       };
-      jellyfin-config-pvc.content = {
-        apiVersion = "v1";
-        kind = "PersistentVolumeClaim";
-        metadata = {
-          name = "jellyfin-config-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
-        };
-        spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "10Gi";
-        };
-      };
+#      jellyfin-config-pvc.content = {
+#        apiVersion = "v1";
+#        kind = "PersistentVolumeClaim";
+#        metadata = {
+#          name = "jellyfin-config-pvc";
+#          labels."app.kubernetes.io/name" = "jellyfin";
+#        };
+#        spec = {
+#          accessModes = [ "ReadWriteOnce" ];
+#          storageClassName = "longhorn";
+#          resources.requests.storage = "10Gi";
+#        };
+#      };
       jellyfin-service.content = {
         apiVersion = "v1";
         kind = "Service";

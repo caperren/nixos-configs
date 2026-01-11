@@ -68,8 +68,11 @@ in
     #    ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/homepage.nix
     #    ../kubernetes/apollo-2000/immich.nix
+    ../kubernetes/apollo-2000/jellyfin.nix
     #    ../kubernetes/apollo-2000/kavita.nix
     #    ../kubernetes/apollo-2000/node-exporter.nix
+    ../kubernetes/apollo-2000/ollama.nix
+    ../kubernetes/apollo-2000/openwebui.nix
     ../kubernetes/apollo-2000/pg-admin.nix
     #    ../kubernetes/apollo-2000/plex.nix
     ../kubernetes/apollo-2000/postgres.nix
@@ -87,6 +90,11 @@ in
   ];
 
   time.timeZone = "America/Los_Angeles";
+
+  # Shitty bandaid until ollama can natively consider zfs ram caching as actually available, or provide an override flag
+  # https://github.com/ollama/ollama/issues/5700
+  # Setting to 24 Gibibytes for now
+  boot.kernelParams = [ "zfs.zfs_arc_max=25769800000" ];
 
   sops.secrets = {
     "${config.networking.hostName}/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;

@@ -50,13 +50,86 @@
         ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
           set -e
 
-          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/Media
-          zfs set sharenfs=off nas_data_primary/Corwin
+          ###### Variables
+          pool_datasets=(nas_data_primary)
+
+          chown_owner="root:root"
+          chmod_dir_options="750"
+          chmod_file_options="640"
+
+          zfs_share_options="rw=@192.168.1.0/24,root_squash"
+
+          ##### Top level dataset options #####
+          for pool_dataset in ''${pool_datasets[@]}; do
+              echo "Setting top level dataset options for \"''${pool_dataset}\" pool"
+
+              # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
+              zfs set acltype=posix "''${pool_dataset}"
+
+              # Set non-acl owner
+              chown -R "''${chown_owner}" "/''${pool_dataset}"
+
+              # Set non-acl directory and file permissions
+              find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
+          done
+
+          ##### Dataset acl config #####
+          ### nas_data_primary ###
+          # ad
+          echo "Setting acl for nas_data_primary/ad dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-ad-management:rwx" \
+            -m "g:nas-ad-view:rx" \
+            /nas_data_primary/ad
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-ad-management:rwx" \
+            -m "g:nas-ad-view:rx" \
+            /nas_data_primary/ad
+
+          # caperren
+          echo "Setting acl for nas_data_primary/caperren dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/caperren
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/caperren
+
+          # caperren_gdrive
+
+          # immich
+
+          # kavita
+
+          # long_term_storage
+
+          # media
+          echo "Setting acl for nas_data_primary/media dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-media-management:rwx" \
+            -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-media-management:rwx" \
+            -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
+
+          ##### Set sharing options
+          echo "Setting zfs sharing options for datasets"
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
         ''}";
 
       };
 
       path = with pkgs; [
+        acl
         zfs
         coreutils
       ];

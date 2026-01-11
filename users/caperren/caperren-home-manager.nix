@@ -11,7 +11,10 @@ let
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
-  sops.secrets."accounts/caperren/hashed-password".sopsFile = ../../secrets/default.yaml;
+  sops.secrets."accounts/caperren/hashed-password" = {
+    sopsFile = ../../secrets/default.yaml;
+    neededForUsers = true;
+  };
 
   users.users.caperren = {
     isNormalUser = true;

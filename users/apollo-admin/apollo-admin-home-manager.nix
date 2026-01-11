@@ -4,7 +4,10 @@ let
   sshCaperrenLaptopPubkey = builtins.readFile ../caperren/pubkeys/cap-slim7.pub;
 in
 {
-  sops.secrets."accounts/apollo-admin/hashed-password".sopsFile = ../../secrets/apollo-2000.yaml;
+  sops.secrets."accounts/apollo-admin/hashed-password" = {
+    sopsFile = ../../secrets/apollo-2000.yaml;
+    neededForUsers = true;
+  };
 
   users.users.apollo-admin = {
     isNormalUser = true;

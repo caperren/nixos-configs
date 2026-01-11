@@ -20,6 +20,11 @@
     options = "--delete-older-than 14d";
   };
 
+  # Nix-related utilities
+  environment.systemPackages = with pkgs; [
+    nix-inspect
+  ];
+
   programs.bash.shellAliases = {
     # Nix rebuild, switch
     nrs = "bash -c \"cd /etc/nixos && sudo nixos-rebuild switch --flake .#$(hostname) ; exit\"";

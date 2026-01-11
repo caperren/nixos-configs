@@ -61,6 +61,8 @@
 
           ##### Top level dataset options #####
           for pool_dataset in ''${pool_datasets[@]}; do
+              echo "Setting top level dataset options for \"''${pool_dataset}\" pool"
+
               # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
               zfs set acltype=posix "''${pool_dataset}"
 
@@ -75,6 +77,7 @@
           ##### Dataset acl config #####
           ### nas_data_primary ###
           # ad
+          echo "Setting acl for nas_data_primary/ad dataset"
           setfacl -R \
             -m "g:nas-caperren:rwx" \
             -m "g:nas-ad-management:rwx" \
@@ -87,6 +90,7 @@
             /nas_data_primary/ad
 
           # caperren
+          echo "Setting acl for nas_data_primary/caperren dataset"
           setfacl -R \
             -m "g:nas-caperren:rwx" \
             /nas_data_primary/caperren
@@ -103,6 +107,7 @@
           # long_term_storage
 
           # media
+          echo "Setting acl for nas_data_primary/media dataset"
           setfacl -R \
             -m "g:nas-caperren:rwx" \
             -m "g:nas-media-management:rwx" \
@@ -115,10 +120,10 @@
             /nas_data_primary/media
 
           ##### Set sharing options
+          echo "Setting zfs sharing options for datasets"
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
-
         ''}";
 
       };

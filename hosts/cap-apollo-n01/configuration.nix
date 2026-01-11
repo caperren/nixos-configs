@@ -38,33 +38,97 @@
   services.nfs.server.enable = true;
 
   # Set post-boot zfs options that aren't declarative through nixos directly
-#  systemd = {
-#    services.set-zfs-options = {
-#      enable = true;
-#      after = [ "network.target" ];
-#      wantedBy = [ "multi-user.target" ];
-#      description = "Sets zfs options post-boot";
-#
-#      serviceConfig = {
-#        Type = "simple";
-#        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
-#          set -e
-#
-#          zfs set sharenfs="${zfsShareNfsConfig}" nas_data_primary/ad
-#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/caperren
-#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/caperren_gdrive
-#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/long_term_storage
-#          zfs set sharenfs="rw=@192.168.1.0/24" nas_data_primary/media
-#        ''}";
-#
-#      };
-#
-#      path = with pkgs; [
-#        zfs
-#        coreutils
-#      ];
-#    };
-#  };
+  systemd = {
+    services.set-zfs-options = {
+      enable = true;
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      description = "Sets zfs options post-boot";
+
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
+          set -e
+
+          ###### Variables
+          pool_datasets=(nas_data_primary nas_data_important)
+
+          chown_owner="root:root"
+          chmod_dir_options="750"
+          chmod_file_options="640"
+
+          zfs_share_options="rw=192.168.1.0/24,all_squash"
+
+          ##### Top level dataset options #####
+          for pool_dataset in ''${pool_datasets[@]}; do
+              # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
+              zfs set acltype=posix "''${pool_dataset}"
+
+              # Set non-acl owner
+              chown -R "''${chown_owner}" "/''${pool_dataset}"
+
+              # Set non-acl directory and file permissions
+              find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
+          done
+
+          ##### Dataset acl config #####
+          ### nas_data_primary ###
+          # ad
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-ad-management:rwx" \
+            -m "g:nas-ad-view:rx" \
+            /nas_data_primary/ad
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-ad-management:rwx" \
+            -m "g:nas-ad-view:rx" \
+            /nas_data_primary/ad
+
+          # caperren
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/caperren
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/caperren
+
+          # caperren_gdrive
+
+          # immich
+
+          # kavita
+
+          # long_term_storage
+
+          # media
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-media-management:rwx" \
+            -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-media-management:rwx" \
+            -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
+
+          ##### Set sharing options
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
+
+        ''}";
+
+      };
+
+      path = with pkgs; [
+        zfs
+        coreutils
+      ];
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

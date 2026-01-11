@@ -80,7 +80,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 }
                 {
                   name = "media";
-                  persistentVolumeClaim.claimName = "jellyfin-media-nfs-pv";
+                  persistentVolumeClaim.claimName = "jellyfin-media-pvc";
                 }
               ];
             };

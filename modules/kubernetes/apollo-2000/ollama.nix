@@ -14,31 +14,6 @@ let
   };
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
-  #  sops = {
-  #    secrets = {
-  #      "ollama/environment/POSTGRES_DB".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #      "ollama/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #      "ollama/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #    };
-  #
-  #    templates.ollama-environment-secret = {
-  #      content = builtins.toJSON {
-  #        apiVersion = "v1";
-  #        kind = "Secret";
-  #        metadata = {
-  #          name = "ollama-environment-secret";
-  #          labels."app.kubernetes.io/name" = "ollama";
-  #        };
-  #        stringData = {
-  #          POSTGRES_DB = config.sops.placeholder."ollama/environment/POSTGRES_DB";
-  #          POSTGRES_USER = config.sops.placeholder."ollama/environment/POSTGRES_USER";
-  #          POSTGRES_PASSWORD = config.sops.placeholder."ollama/environment/POSTGRES_PASSWORD";
-  #        };
-  #      };
-  #      path = "/var/lib/rancher/k3s/server/manifests/ollama-environment-secret.yaml";
-  #    };
-  #  };
-
   services.k3s = {
     images = [ image ];
     manifests = {

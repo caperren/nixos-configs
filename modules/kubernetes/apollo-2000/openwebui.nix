@@ -17,31 +17,6 @@ let
   ollamaServicePort = toString (builtins.elemAt ollamaServiceCfg.spec.ports 0).port;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
-  #  sops = {
-  #    secrets = {
-  #      "openwebui/environment/POSTGRES_DB".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #      "openwebui/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #      "openwebui/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
-  #    };
-  #
-  #    templates.openwebui-environment-secret = {
-  #      content = builtins.toJSON {
-  #        apiVersion = "v1";
-  #        kind = "Secret";
-  #        metadata = {
-  #          name = "openwebui-environment-secret";
-  #          labels."app.kubernetes.io/name" = "openwebui";
-  #        };
-  #        stringData = {
-  #          POSTGRES_DB = config.sops.placeholder."openwebui/environment/POSTGRES_DB";
-  #          POSTGRES_USER = config.sops.placeholder."openwebui/environment/POSTGRES_USER";
-  #          POSTGRES_PASSWORD = config.sops.placeholder."openwebui/environment/POSTGRES_PASSWORD";
-  #        };
-  #      };
-  #      path = "/var/lib/rancher/k3s/server/manifests/openwebui-environment-secret.yaml";
-  #    };
-  #  };
-
   services.k3s = {
     images = [ image ];
     manifests = {
@@ -82,16 +57,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                   ];
                   ports = [ { containerPort = 8080; } ];
-                  #                  resources = {
-                  #                    requests = {
-                  #                      memory = "16Gi";
-                  #                      cpu = "8000m";
-                  #                    };
-                  #                    limits = {
-                  #                      memory = "80Gi";
-                  #                      cpu = "28000m";
-                  #                    };
-                  #                  };
                   volumeMounts = [
                     {
                       mountPath = "/app/backend/data";

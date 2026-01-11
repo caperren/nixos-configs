@@ -124,6 +124,7 @@
       };
 
       path = with pkgs; [
+        acl
         zfs
         coreutils
       ];

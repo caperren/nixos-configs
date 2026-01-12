@@ -12,6 +12,7 @@ let
     finalImageTag = "3a3a9e6";
     arch = "amd64";
   };
+  zWaveUsbDevice = (builtins.elemAt flake.nixosConfigurations.cap-apollo-n02.config.services.k3s.manifests.zwave-js-ui-deployment.content.spec.template.spec.volumes 0).hostPath.path;
 in
 {
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
@@ -32,7 +33,7 @@ in
               - name: zwave
                 groups:
                   - paths:
-                      - path: /dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE7E6E0-if00
+                      - path: ${zWaveUsbDevice}
           '';
         };
       };

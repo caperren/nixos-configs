@@ -12,6 +12,7 @@ let
     finalImageTag = "11.9.1";
     arch = "amd64";
   };
+  zWaveUsbDevice = "/dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE7E6E0-if00";
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
@@ -60,6 +61,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "zwave-js-ui";
                   image = "${image.imageName}:${image.imageTag}";
+                  resources.limits."squat.ai/zwave" = "1";
                   envFrom = [ { secretRef.name = "zwave-js-ui-environment-secret"; } ];
                   env = [
                     {
@@ -88,6 +90,12 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 }
               ];
               volumes = [
+              {
+                  name = "adapter";
+                  hostPath = {
+                    path = zWaveUsbDevice;
+                  };
+                }
                 {
                   name = "config";
                   persistentVolumeClaim.claimName = "zwave-js-ui-config-pvc";

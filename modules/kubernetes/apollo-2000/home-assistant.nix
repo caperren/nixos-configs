@@ -84,10 +84,6 @@ in
                       mountPath = "/config";
                       name = "config";
                     }
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
                   ];
                 }
                 #                {

@@ -56,7 +56,7 @@ in
                   command = [
                     "sh"
                     "-c"
-                    "chown -R 568:568 /data && chmod 750 /data"
+                    "chown -R 568:568 /config && chmod 750 /config"
                   ];
                   securityContext = {
                     runAsUser = 0;

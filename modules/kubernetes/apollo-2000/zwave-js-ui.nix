@@ -160,7 +160,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "http";
+                        name = "zwave-js-ui";
                         port.number = 8091;
                       };
                     };

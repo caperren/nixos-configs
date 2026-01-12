@@ -43,12 +43,6 @@ in
               annotations."diun.enable" = "true";
             };
             spec = {
-              securityContext = {
-                runAsUser = 568;
-                runAsGroup = 568;
-                fsGroup = 568;
-                fsGroupChangePolicy = "OnRootMismatch";
-              };
               initContainers = [
                 {
                   name = "init-permissions";
@@ -56,7 +50,7 @@ in
                   command = [
                     "sh"
                     "-c"
-                    "chown -R 568:568 /config && chmod 750 /config"
+                    "chown -R root:root /config && chmod 750 /config"
                   ];
                   securityContext = {
                     runAsUser = 0;

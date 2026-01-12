@@ -12,7 +12,7 @@ let
     finalImageTag = "3a3a9e6";
     arch = "amd64";
   };
-  zigbeeUsbDevice = (builtins.elemAt config.services.k3s.manifests.home-assistant.content.spec.template.spec.volumes 0).hostPath.path;
+  zigbeeUsbDevice = (builtins.elemAt config.services.k3s.manifests.home-assistant-deployment.content.spec.template.spec.volumes 0).hostPath.path;
 in
 {
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {

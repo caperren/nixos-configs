@@ -12,6 +12,7 @@ let
     finalImageTag = "2026.1.0";
     arch = "amd64";
   };
+  zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
 in
 {
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {

@@ -83,6 +83,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ];
                   volumeMounts = [
                     {
+                      mountPath = zWaveUsbDevice;
+                      name = "adapter";
+                    }
+                    {
                       mountPath = "/usr/src/app/store";
                       name = "config";
                     }
@@ -90,7 +94,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 }
               ];
               volumes = [
-              {
+                {
                   name = "adapter";
                   hostPath = {
                     path = zWaveUsbDevice;

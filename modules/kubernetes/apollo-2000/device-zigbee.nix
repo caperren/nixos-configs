@@ -12,6 +12,7 @@ let
     finalImageTag = "3a3a9e6";
     arch = "amd64";
   };
+  zigbeeUsbDevice = (builtins.elemAt config.services.k3s.manifests.home-assistant.content.spec.template.spec.volumes 0).hostPath.path;
 in
 {
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
@@ -32,7 +33,7 @@ in
               - name: zigbee
                 groups:
                   - paths:
-                      - path: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_*-if00-port0
+                      - path: ${zigbeeUsbDevice}
           '';
         };
       };

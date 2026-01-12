@@ -90,7 +90,7 @@ in
     ../kubernetes/apollo-2000/technitium.nix
     ../kubernetes/apollo-2000/termix.nix
     #    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
-    #    ../kubernetes/apollo-2000/zwave-js-ui.nix
+    ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

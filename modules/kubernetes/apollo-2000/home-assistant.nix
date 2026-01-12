@@ -26,7 +26,7 @@ in
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
-          replicas = 0;
+          replicas = 1;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -80,7 +80,7 @@ in
                       readOnly = true;
                     }
                     {
-                      mountPath = zigbeeUsbDevice;
+                      mountPath = "/dev/ttyUSB0";
                       name = "adapter";
                     }
                     {

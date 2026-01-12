@@ -37,8 +37,8 @@ in
           selector.matchLabels."app.kubernetes.io/name" = "home-assistant";
 
           template = {
-            metadata.labels = {
-              "app.kubernetes.io/name" = "home-assistant";
+            metadata = {
+              labels."app.kubernetes.io/name" = "home-assistant";
               annotations."diun.enable" = "true";
             };
             spec = {

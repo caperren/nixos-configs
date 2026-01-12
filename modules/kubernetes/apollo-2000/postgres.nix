@@ -101,7 +101,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         spec = {
           accessModes = [ "ReadWriteMany" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "10Gi";
+          resources.requests.storage = "20Gi";
         };
       };
       postgres-service.content = {

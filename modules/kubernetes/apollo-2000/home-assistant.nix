@@ -49,6 +49,28 @@ in
                 fsGroup = 568;
                 fsGroupChangePolicy = "OnRootMismatch";
               };
+              initContainers = [
+                {
+                  name = "init-permissions";
+                  image = "busybox";
+                  command = [
+                    "sh"
+                    "-c"
+                    "chown -R 568:568 /data && chmod 750 /data"
+                  ];
+                  securityContext = {
+                    runAsUser = 0;
+                    runAsGroup = 0;
+                    readOnlyRootFilesystem = true;
+                  };
+                  volumeMounts = [
+                    {
+                      mountPath = "/config";
+                      name = "config";
+                    }
+                  ];
+                }
+              ];
               containers = [
                 #                {
                 #                  name = "busybox";

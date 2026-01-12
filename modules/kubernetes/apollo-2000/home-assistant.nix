@@ -124,7 +124,7 @@ in
             "gethomepage.dev/description" = "Open source home automation";
             "gethomepage.dev/enabled" = "true";
             "gethomepage.dev/group" = "Smart Home";
-            "gethomepage.dev/icon" = "home.png";
+            "gethomepage.dev/icon" = "home-assistant.png";
             "gethomepage.dev/name" = "Home Assistant";
           };
         };

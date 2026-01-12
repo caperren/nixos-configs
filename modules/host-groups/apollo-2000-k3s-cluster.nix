@@ -57,6 +57,10 @@ in
     # Core Kubernetes Applications
     ../kubernetes/apollo-2000/longhorn.nix
 
+    # Hardware Devices
+    ../kubernetes/apollo-2000/device-zigbee.nix
+#    ../kubernetes/apollo-2000/device-zwave.nix
+
     # Kubernetes Applications
     #    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix

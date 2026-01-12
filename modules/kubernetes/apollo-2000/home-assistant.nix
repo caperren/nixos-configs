@@ -26,7 +26,7 @@ in
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
-          replicas = 1;
+          replicas = 0;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

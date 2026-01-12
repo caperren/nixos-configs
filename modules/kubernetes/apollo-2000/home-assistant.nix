@@ -44,51 +44,51 @@ in
             };
             spec = {
               containers = [
-                #                {
-                #                  name = "busybox";
-                #                  image = "busybox";
-                #                  command = [
-                #                    "sleep"
-                #                    "3600"
-                #                  ];
-                #                  volumeMounts = [
-                #                    {
-                #                      mountPath = "/config";
-                #                      name = "config";
-                #                    }
-                #                    {
-                #                      mountPath = "/config";
-                #                      name = "config";
-                #                    }
-                #                  ];
-                #                }
-                {
-                  name = "home-assistant";
-                  image = "${image.imageName}:${image.imageTag}";
-                  resources.limits."squat.ai/zigbee" = "1";
-                  env = [
-                    {
-                      name = "TZ";
-                      value = "America/Los_Angeles";
-                    }
-                  ];
-                  ports = [ { containerPort = 8123; } ];
-                  volumeMounts = [
-                    {
-                      name = "localtime";
-                      mountPath = "/etc/localtime";
-                      readOnly = true;
-                    }
-                    {
-                      mountPath = "/dev/ttyUSB0";
-                      name = "adapter";
-                    }
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
-                  ];
-                }
+                                {
+                                  name = "busybox";
+                                  image = "busybox";
+                                  command = [
+                                    "sleep"
+                                    "3600"
+                                  ];
+                                  volumeMounts = [
+                                    {
+                                      mountPath = "/config";
+                                      name = "config";
+                                    }
+                                    {
+                                      mountPath = "/config";
+                                      name = "config";
+                                    }
+                                  ];
+                                }
+#                {
+#                  name = "home-assistant";
+#                  image = "${image.imageName}:${image.imageTag}";
+#                  resources.limits."squat.ai/zigbee" = "1";
+#                  env = [
+#                    {
+#                      name = "TZ";
+#                      value = "America/Los_Angeles";
+#                    }
+#                  ];
+#                  ports = [ { containerPort = 8123; } ];
+#                  volumeMounts = [
+#                    {
+#                      name = "localtime";
+#                      mountPath = "/etc/localtime";
+#                      readOnly = true;
+#                    }
+#                    {
+#                      mountPath = "/dev/ttyUSB0";
+#                      name = "adapter";
+#                    }
+#                    {
+#                      mountPath = "/config";
+#                      name = "config";
+#                    }
+#                  ];
+#                }
               ];
               hostNetwork = true;
               volumes = [

@@ -25,7 +25,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           name = "zwave-js-ui-environment-secret";
           labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
-        stringData.SESSION_SECRET = config.sops.placeholder."postgres/environment/SESSION_SECRET";
+        stringData.SESSION_SECRET = config.sops.placeholder."zwave-js-ui/environment/SESSION_SECRET";
       };
       path = "/var/lib/rancher/k3s/server/manifests/zwave-js-ui-environment-secret.yaml";
     };

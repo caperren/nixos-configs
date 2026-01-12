@@ -44,27 +44,41 @@ in
             spec = {
               containers = [
                 {
-                  name = "home-assistant";
-                  image = "${image.imageName}:${image.imageTag}";
-                  env = [
-                    {
-                      name = "TZ";
-                      value = "America/Los_Angeles";
-                    }
+                  name = "busybox";
+                  image = "busybox";
+                  command = [
+                    "sleep"
+                    "3600"
                   ];
-                  ports = [ { containerPort = 8123; } ];
-                  volumeMounts = [
-                    {
-                      name = "localtime";
-                      mountPath = "/etc/localtime";
-                      readOnly = true;
-                    }
+                   volumeMounts = [
                     {
                       mountPath = "/config";
                       name = "config";
                     }
                   ];
                 }
+#                {
+#                  name = "home-assistant";
+#                  image = "${image.imageName}:${image.imageTag}";
+#                  env = [
+#                    {
+#                      name = "TZ";
+#                      value = "America/Los_Angeles";
+#                    }
+#                  ];
+#                  ports = [ { containerPort = 8123; } ];
+#                  volumeMounts = [
+#                    {
+#                      name = "localtime";
+#                      mountPath = "/etc/localtime";
+#                      readOnly = true;
+#                    }
+#                    {
+#                      mountPath = "/config";
+#                      name = "config";
+#                    }
+#                  ];
+#                }
               ];
               hostNetwork = true;
               volumes = [

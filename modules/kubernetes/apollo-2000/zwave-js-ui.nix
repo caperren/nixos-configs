@@ -59,39 +59,53 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             spec = {
               containers = [
                 {
-                  name = "zwave-js-ui";
-                  image = "${image.imageName}:${image.imageTag}";
-                  resources.limits."squat.ai/zwave" = "1";
-                  envFrom = [ { secretRef.name = "zwave-js-ui-environment-secret"; } ];
-                  env = [
-                    {
-                      name = "TZ";
-                      value = "America/Los_Angeles";
-                    }
-                  ];
-                  ports = [
-                    {
-                      name = "http";
-                      containerPort = 8091;
-                      protocol = "TCP";
-                    }
-                    {
-                      name = "js-websocket";
-                      containerPort = 3000;
-                      protocol = "TCP";
-                    }
+                  name = "busybox";
+                  image = "busybox";
+                  command = [
+                    "sleep"
+                    "3600"
                   ];
                   volumeMounts = [
-                    {
-                      mountPath = zWaveUsbDevice;
-                      name = "adapter";
-                    }
                     {
                       mountPath = "/usr/src/app/store";
                       name = "config";
                     }
                   ];
                 }
+                #                {
+                #                  name = "zwave-js-ui";
+                #                  image = "${image.imageName}:${image.imageTag}";
+                #                  resources.limits."squat.ai/zwave" = "1";
+                #                  envFrom = [ { secretRef.name = "zwave-js-ui-environment-secret"; } ];
+                #                  env = [
+                #                    {
+                #                      name = "TZ";
+                #                      value = "America/Los_Angeles";
+                #                    }
+                #                  ];
+                #                  ports = [
+                #                    {
+                #                      name = "http";
+                #                      containerPort = 8091;
+                #                      protocol = "TCP";
+                #                    }
+                #                    {
+                #                      name = "js-websocket";
+                #                      containerPort = 3000;
+                #                      protocol = "TCP";
+                #                    }
+                #                  ];
+                #                  volumeMounts = [
+                #                    {
+                #                      mountPath = zWaveUsbDevice;
+                #                      name = "adapter";
+                #                    }
+                #                    {
+                #                      mountPath = "/usr/src/app/store";
+                #                      name = "config";
+                #                    }
+                #                  ];
+                #                }
               ];
               volumes = [
                 {

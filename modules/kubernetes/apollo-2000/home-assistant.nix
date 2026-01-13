@@ -131,11 +131,11 @@ in
           resources.requests.storage = "2Gi";
         };
       };
-      home-assistant-dns-service.content = {
+      home-assistant-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "home-assistant-dns-service";
+          name = "home-assistant";
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {

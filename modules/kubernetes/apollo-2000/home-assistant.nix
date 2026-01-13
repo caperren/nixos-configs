@@ -150,61 +150,61 @@ in
           ];
         };
       };
-      home-assistant-ingress.content = {
-        apiVersion = "networking.k8s.io/v1";
-        kind = "Ingress";
-        metadata = {
-          name = "home-assistant";
-          labels."app.kubernetes.io/name" = "home-assistant";
-          annotations = {
-            "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
-            "gethomepage.dev/description" = "Open source home automation";
-            "gethomepage.dev/enabled" = "true";
-            "gethomepage.dev/group" = "Smart Home";
-            "gethomepage.dev/icon" = "home-assistant.png";
-            "gethomepage.dev/name" = "Home Assistant";
-          };
-        };
-        spec = {
-          ingressClassName = "traefik";
-          rules = [
-            {
-              host = "home-assistant.internal.perren.cloud";
-              http = {
-                paths = [
-                  {
-                    path = "/";
-                    pathType = "Prefix";
-                    backend = {
-                      service = {
-                        name = "home-assistant";
-                        port.number = 8123;
-                      };
-                    };
-                  }
-                ];
-              };
-            }
-            {
-              host = "home-assistant.perren.cloud";
-              http = {
-                paths = [
-                  {
-                    path = "/";
-                    pathType = "Prefix";
-                    backend = {
-                      service = {
-                        name = "home-assistant";
-                        port.number = 8123;
-                      };
-                    };
-                  }
-                ];
-              };
-            }
-          ];
-        };
-      };
+      #      home-assistant-ingress.content = {
+      #        apiVersion = "networking.k8s.io/v1";
+      #        kind = "Ingress";
+      #        metadata = {
+      #          name = "home-assistant";
+      #          labels."app.kubernetes.io/name" = "home-assistant";
+      #          annotations = {
+      #            "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+      #            "gethomepage.dev/description" = "Open source home automation";
+      #            "gethomepage.dev/enabled" = "true";
+      #            "gethomepage.dev/group" = "Smart Home";
+      #            "gethomepage.dev/icon" = "home-assistant.png";
+      #            "gethomepage.dev/name" = "Home Assistant";
+      #          };
+      #        };
+      #        spec = {
+      #          ingressClassName = "traefik";
+      #          rules = [
+      #            {
+      #              host = "home-assistant.internal.perren.cloud";
+      #              http = {
+      #                paths = [
+      #                  {
+      #                    path = "/";
+      #                    pathType = "Prefix";
+      #                    backend = {
+      #                      service = {
+      #                        name = "home-assistant";
+      #                        port.number = 8123;
+      #                      };
+      #                    };
+      #                  }
+      #                ];
+      #              };
+      #            }
+      #            {
+      #              host = "home-assistant.perren.cloud";
+      #              http = {
+      #                paths = [
+      #                  {
+      #                    path = "/";
+      #                    pathType = "Prefix";
+      #                    backend = {
+      #                      service = {
+      #                        name = "home-assistant";
+      #                        port.number = 8123;
+      #                      };
+      #                    };
+      #                  }
+      #                ];
+      #              };
+      #            }
+      #          ];
+      #        };
+      #      };
     };
   };
 }

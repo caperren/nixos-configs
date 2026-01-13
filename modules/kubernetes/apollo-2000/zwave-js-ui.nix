@@ -58,20 +58,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
               containers = [
-                #                {
-                #                  name = "busybox";
-                #                  image = "busybox";
-                #                  command = [
-                #                    "sleep"
-                #                    "3600"
-                #                  ];
-                #                  volumeMounts = [
-                #                    {
-                #                      mountPath = "/usr/src/app/store";
-                #                      name = "config";
-                #                    }
-                #                  ];
-                #                }
                 {
                   name = "zwave-js-ui";
                   image = "${image.imageName}:${image.imageTag}";

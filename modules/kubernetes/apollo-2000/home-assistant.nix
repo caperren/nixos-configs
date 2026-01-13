@@ -66,20 +66,6 @@ in
                 }
               ];
               containers = [
-                #                {
-                #                  name = "busybox";
-                #                  image = "busybox";
-                #                  command = [
-                #                    "sleep"
-                #                    "3600"
-                #                  ];
-                #                  volumeMounts = [
-                #                    {
-                #                      mountPath = "/config";
-                #                      name = "config";
-                #                    }
-                #                  ];
-                #                }
                 {
                   name = "home-assistant";
                   image = "${image.imageName}:${image.imageTag}";
@@ -154,6 +140,10 @@ in
         };
         spec = {
           selector."app.kubernetes.io/name" = "home-assistant";
+          sessionAffinity = "ClientIP";
+          sessionAffinityConfig = {
+            clientIP.timeoutSeconds = 300;
+          };
           externalTrafficPolicy = "Local";
           ports = [
             {

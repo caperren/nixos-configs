@@ -43,28 +43,28 @@ in
               annotations."diun.enable" = "true";
             };
             spec = {
-              initContainers = [
-                {
-                  name = "init-permissions";
-                  image = "busybox";
-                  command = [
-                    "sh"
-                    "-c"
-                    "chown -R root:root /config && chmod 750 /config"
-                  ];
-                  securityContext = {
-                    runAsUser = 0;
-                    runAsGroup = 0;
-                    readOnlyRootFilesystem = true;
-                  };
-                  volumeMounts = [
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
-                  ];
-                }
-              ];
+#              initContainers = [
+#                {
+#                  name = "init-permissions";
+#                  image = "busybox";
+#                  command = [
+#                    "sh"
+#                    "-c"
+#                    "chown -R root:root /config && chmod 750 /config"
+#                  ];
+#                  securityContext = {
+#                    runAsUser = 0;
+#                    runAsGroup = 0;
+#                    readOnlyRootFilesystem = true;
+#                  };
+#                  volumeMounts = [
+#                    {
+#                      mountPath = "/config";
+#                      name = "config";
+#                    }
+#                  ];
+#                }
+#              ];
               containers = [
                 {
                   name = "home-assistant";

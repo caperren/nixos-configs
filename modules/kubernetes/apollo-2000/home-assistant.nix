@@ -154,6 +154,7 @@ in
         };
         spec = {
           selector."app.kubernetes.io/name" = "home-assistant";
+          externalTrafficPolicy = "Local";
           ports = [
             {
               port = 8123;

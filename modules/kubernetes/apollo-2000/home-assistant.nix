@@ -94,8 +94,9 @@ in
                   ];
                 }
               ];
-              hostNetwork = true;
+#              hostNetwork = true;
               dnsPolicy = "ClusterFirstWithHostNet";
+              dnsPolicy = "ClusterFirst";
               volumes = [
                 {
                   name = "adapter";

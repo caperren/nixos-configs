@@ -95,7 +95,7 @@ in
                 }
               ];
 #              hostNetwork = true;
-              dnsPolicy = "ClusterFirstWithHostNet";
+#              dnsPolicy = "ClusterFirstWithHostNet";
               dnsPolicy = "ClusterFirst";
               volumes = [
                 {

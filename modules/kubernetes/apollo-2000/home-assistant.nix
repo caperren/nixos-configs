@@ -131,19 +131,16 @@ in
           resources.requests.storage = "2Gi";
         };
       };
-      home-assistant-service.content = {
+      home-assistant-dns-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "home-assistant";
+          name = "home-assistant-dns-service";
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
           selector."app.kubernetes.io/name" = "home-assistant";
-          sessionAffinity = "ClientIP";
-          sessionAffinityConfig = {
-            clientIP.timeoutSeconds = 300;
-          };
+          type = "LoadBalancer";
           externalTrafficPolicy = "Local";
           ports = [
             {

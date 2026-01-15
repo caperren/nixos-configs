@@ -96,7 +96,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       command = [
                         "sh"
                         "-c"
-                        "ls ${zWaveUsbDevice} >/dev/null 2>&1"
+                        "ls /dev/zwave >/dev/null 2>&1"
                       ];
                     };
                     initialDelaySeconds = 30;

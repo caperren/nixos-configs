@@ -75,7 +75,7 @@ in
                       command = [
                         "sh"
                         "-c"
-                        "ls ${zigbeeUsbDevice} >/dev/null 2>&1"
+                        "ls /dev/ttyUSB0 >/dev/null 2>&1"
                       ];
                     };
                     initialDelaySeconds = 30;

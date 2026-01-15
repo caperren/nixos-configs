@@ -91,6 +91,19 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       name = "config";
                     }
                   ];
+                  livenessProbe = {
+                    exec = {
+                      command = [
+                        "sh"
+                        "-c"
+                        "ls ${zWaveUsbDevice} >/dev/null 2>&1"
+                      ];
+                    };
+                    initialDelaySeconds = 30;
+                    periodSeconds = 10;
+                    timeoutSeconds = 2;
+                    failureThreshold = 3;
+                  };
                 }
               ];
               volumes = [

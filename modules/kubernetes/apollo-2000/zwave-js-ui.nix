@@ -57,6 +57,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
+              terminationGracePeriodSeconds = 30;
               containers = [
                 {
                   name = "zwave-js-ui";

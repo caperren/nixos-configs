@@ -43,6 +43,7 @@ in
               annotations."diun.enable" = "true";
             };
             spec = {
+              terminationGracePeriodSeconds = 30;
               containers = [
                 {
                   name = "home-assistant";

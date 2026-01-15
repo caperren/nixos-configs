@@ -34,6 +34,7 @@ in
                 {
                   name = "kavita";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 5000; } ];
                   volumeMounts = [ ];

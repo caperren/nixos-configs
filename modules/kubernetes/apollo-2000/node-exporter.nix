@@ -33,6 +33,7 @@ in
                 {
                   name = "node-exporter";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   args = [
                     "--path.sysfs=/host/sys"
                     "--path.rootfs=/host/root"

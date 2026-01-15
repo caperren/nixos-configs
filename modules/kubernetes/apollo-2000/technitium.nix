@@ -54,6 +54,7 @@ in
                 {
                   name = "technitium";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [
                     {
                       name = "TZ";

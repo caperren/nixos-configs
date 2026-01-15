@@ -34,6 +34,7 @@ in
                 {
                   name = "gitea";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 3000; } ];
                   volumeMounts = [ ];

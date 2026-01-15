@@ -63,6 +63,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "pg-admin";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   envFrom = [ { secretRef.name = "pg-admin-environment-secret"; } ];
                   env = [
                     {

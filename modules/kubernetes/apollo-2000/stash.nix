@@ -34,6 +34,7 @@ in
                 {
                   name = "stash";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 9999; } ];
                   volumeMounts = [ ];

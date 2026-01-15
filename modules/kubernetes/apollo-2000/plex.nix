@@ -34,6 +34,7 @@ in
                 {
                   name = "plex";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 32400; } ];
                   volumeMounts = [ ];

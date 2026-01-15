@@ -34,6 +34,7 @@ in
                 {
                   name = "immich";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [
                     {
                       name = "IMMICH_PORT";

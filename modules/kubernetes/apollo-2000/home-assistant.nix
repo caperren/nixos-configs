@@ -48,6 +48,7 @@ in
                 {
                   name = "home-assistant";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   resources.limits."squat.ai/zigbee" = "1";
                   env = [
                     {

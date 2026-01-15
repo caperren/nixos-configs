@@ -143,6 +143,7 @@ in
                 {
                   name = "prometheus";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   args = [
                     "--config.file=/etc/prometheus/prometheus.yaml"
                     "--storage.tsdb.path=/prometheus/"

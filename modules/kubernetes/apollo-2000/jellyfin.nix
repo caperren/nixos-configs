@@ -49,6 +49,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "jellyfin";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [
                   ];
                   ports = [ { containerPort = 8096; } ];

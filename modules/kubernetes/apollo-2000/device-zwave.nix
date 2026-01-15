@@ -64,6 +64,7 @@ in
                 {
                   name = "generic-device-plugin";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
 
                   args = [
                     "--config=/config/config.yaml"

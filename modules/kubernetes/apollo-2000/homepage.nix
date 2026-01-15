@@ -218,6 +218,7 @@ in
                 {
                   name = "homepage";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [
                     {
                       name = "TZ";

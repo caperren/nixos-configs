@@ -34,6 +34,7 @@ in
                 {
                   name = "yt-dlp-web-ui";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 3033; } ];
                   volumeMounts = [ ];

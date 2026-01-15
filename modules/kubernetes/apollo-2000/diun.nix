@@ -123,6 +123,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "diun";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   args = [ "serve" ];
                   envFrom = [ { secretRef.name = "diun-environment-secret"; } ];
                   env = [

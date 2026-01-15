@@ -34,6 +34,7 @@ in
                 {
                   name = "rclone";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ ];
                   volumeMounts = [ ];

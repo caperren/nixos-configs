@@ -62,6 +62,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "zwave-js-ui";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   resources.limits."squat.ai/zwave" = "1";
                   envFrom = [ { secretRef.name = "zwave-js-ui-environment-secret"; } ];
                   env = [

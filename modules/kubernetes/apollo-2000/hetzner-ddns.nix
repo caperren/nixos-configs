@@ -62,6 +62,7 @@ in
                 {
                   name = "hetzner-ddns";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ ];
                   volumeMounts = [

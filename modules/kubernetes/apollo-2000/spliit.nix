@@ -146,6 +146,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "spliit";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   envFrom = [ { secretRef.name = "spliit-environment-secret"; } ];
                   env = [
                     {

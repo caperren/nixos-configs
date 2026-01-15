@@ -34,6 +34,7 @@ in
                 {
                   name = "prowlaar";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 9696; } ];
                   volumeMounts = [ ];

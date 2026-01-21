@@ -57,7 +57,7 @@ in
 
     programs.bash.enable = true;
     programs.command-not-found.enable = false;
-    programs.bash.interactiveShellInit = ''
+    programs.bash.initExtra = ''
       source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
     '';
 

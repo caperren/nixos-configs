@@ -64,7 +64,7 @@
         coreutils
         gnugrep
         kubectl
-        systemctl
+        systemc
       ];
     };
   };

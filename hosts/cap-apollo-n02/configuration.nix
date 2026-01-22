@@ -31,7 +31,7 @@
 
           journalctl -k -f -o cat | while IFS= read -r line; do
             # Match the log line (prefix match is usually safest for kernel messages)
-            if echo "$line" | grep -qE "^$PATTERN*"; then
+            if echo "$line" | grep -qE "^.*$PATTERN.*"; then
               now="$(date +%s)"
 
               if [ -f "$LAST_FILE" ]; then

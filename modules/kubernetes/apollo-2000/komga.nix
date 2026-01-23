@@ -37,7 +37,10 @@ in
           selector.matchLabels."app.kubernetes.io/name" = "komga";
 
           template = {
-            metadata.labels."app.kubernetes.io/name" = "komga";
+            metadata = {
+              labels."app.kubernetes.io/name" = "komga";
+              annotations."diun.enable" = "true";
+            };
             spec = {
               securityContext.supplementalGroups = [ config.users.groups.nas-komga-view.gid ];
               containers = [

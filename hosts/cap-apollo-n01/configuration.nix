@@ -116,7 +116,7 @@
             /nas_data_primary/komga
 
           # long_term_storage
-          cho "Setting acl for nas_data_primary/long_term_storage dataset"
+          echo "Setting acl for nas_data_primary/long_term_storage dataset"
           setfacl -R \
             -m "g:nas-caperren:rwx" \
             /nas_data_primary/long_term_storage

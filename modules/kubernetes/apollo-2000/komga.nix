@@ -90,19 +90,6 @@ in
           resources.requests.storage = "2Gi";
         };
       };
-      komga-config-pvc.content = {
-        apiVersion = "v1";
-        kind = "PersistentVolumeClaim";
-        metadata = {
-          name = "komga-config-pvc";
-          labels."app.kubernetes.io/name" = "komga";
-        };
-        spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "10Gi";
-        };
-      };
       komga-data-nfs-pv.content = {
         apiVersion = "v1";
         kind = "PersistentVolume";

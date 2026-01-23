@@ -94,7 +94,7 @@ in
         apiVersion = "v1";
         kind = "PersistentVolume";
         metadata = {
-          name = "komga-nfs-pv";
+          name = "komga-data-nfs-pv";
           labels."app.kubernetes.io/name" = "komga";
         };
         spec = {

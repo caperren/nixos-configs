@@ -6,23 +6,23 @@
 }:
 let
   image = pkgs.dockerTools.pullImage {
-    imageName = "ghcr.io/jellyfin/jellyfin";
-    imageDigest = "sha256:cd7e4cb71812dd76988a725da615e37c6d0d24c200be904ad5d183e51f1dc6ed";
-    hash = "sha256-8FujxEYyhcFfyP5cwemHSeR+l/zYpk49pQymuMlH6So=";
-    finalImageTag = "10.11.5";
+    imageName = "gotson/komga";
+    imageDigest = "sha256:09129eae6eff50337f039bd6e99d995126cb03226950c80e9864cbc05f10a661";
+    hash = "sha256-GoAaZtsgB8sPtOKS4cV9wL9UYqhc3rNMbBpVFu6uctE=";
+    finalImageTag = "1.23.6";
     arch = "amd64";
   };
 in
-lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
-  services.k3s = {
+{
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
-      jellyfin-deployment.content = {
+      komga-deployment.content = {
         apiVersion = "apps/v1";
         kind = "Deployment";
         metadata = {
-          name = "jellyfin";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          name = "komga";
+          labels."app.kubernetes.io/name" = "komga";
         };
         spec = {
           replicas = 1;
@@ -34,35 +34,27 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             };
           };
 
-          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          selector.matchLabels."app.kubernetes.io/name" = "komga";
 
           template = {
-            metadata = {
-              labels."app.kubernetes.io/name" = "jellyfin";
-              annotations."diun.enable" = "true";
-            };
+            metadata.labels."app.kubernetes.io/name" = "komga";
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-media-view.gid ];
+              securityContext.supplementalGroups = [ config.users.groups.nas-komga-view.gid ];
               containers = [
                 {
-                  name = "jellyfin";
+                  name = "komga";
                   image = "${image.imageName}:${image.imageTag}";
                   imagePullPolicy = "IfNotPresent";
-                  env = [
-                  ];
-                  ports = [ { containerPort = 8096; } ];
+                  env = [ ];
+                  ports = [ { containerPort = 25600; } ];
                   volumeMounts = [
-                    {
-                      mountPath = "/cache";
-                      name = "cache";
-                    }
                     {
                       mountPath = "/config";
                       name = "config";
                     }
                     {
-                      mountPath = "/media";
-                      name = "media";
+                      mountPath = "/data";
+                      name = "data";
                       readOnly = true;
                     }
                   ];
@@ -70,28 +62,37 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               ];
               volumes = [
                 {
-                  name = "cache";
-                  emptyDir = { };
-                }
-                {
                   name = "config";
-                  persistentVolumeClaim.claimName = "jellyfin-config-pvc";
+                  persistentVolumeClaim.claimName = "komga-config-pvc";
                 }
                 {
-                  name = "media";
-                  persistentVolumeClaim.claimName = "jellyfin-media-pvc";
+                  name = "data";
+                  persistentVolumeClaim.claimName = "komga-data-pvc";
                 }
               ];
             };
           };
         };
       };
-      jellyfin-config-pvc.content = {
+      komga-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
-          name = "jellyfin-config-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          name = "komga-config-pvc";
+          labels."app.kubernetes.io/name" = "komga";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "2Gi";
+        };
+      };
+      komga-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "komga-config-pvc";
+          labels."app.kubernetes.io/name" = "komga";
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -99,12 +100,12 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           resources.requests.storage = "10Gi";
         };
       };
-      jellyfin-media-nfs-pv.content = {
+      komga-data-nfs-pv.content = {
         apiVersion = "v1";
         kind = "PersistentVolume";
         metadata = {
-          name = "jellyfin-media-nfs-pv";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          name = "komga-nfs-pv";
+          labels."app.kubernetes.io/name" = "komga";
         };
         spec = {
           capacity.storage = "1Ti";
@@ -120,63 +121,63 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           ];
           nfs = {
             server = "cap-apollo-n01";
-            path = "/nas_data_primary/media";
+            path = "/nas_data_primary/komga";
             readOnly = true;
           };
         };
       };
-      jellyfin-media-pvc.content = {
+      komga-data-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
-          name = "jellyfin-media-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          name = "komga-data-pvc";
+          labels."app.kubernetes.io/name" = "komga";
         };
         spec = {
-          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          selector.matchLabels."app.kubernetes.io/name" = "komga";
           accessModes = [ "ReadOnlyMany" ];
-          volumeName = "jellyfin-media-nfs-pv";
+          volumeName = "komga-data-nfs-pv";
           storageClassName = "";
           resources.requests.storage = "1Ti";
         };
       };
-      jellyfin-service.content = {
+      komga-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "jellyfin";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          name = "komga";
+          labels."app.kubernetes.io/name" = "komga";
         };
         spec = {
-          selector."app.kubernetes.io/name" = "jellyfin";
+          selector."app.kubernetes.io/name" = "komga";
           ports = [
             {
-              port = 8096;
-              targetPort = 8096;
+              port = 25600;
+              targetPort = 25600;
             }
           ];
         };
       };
-      jellyfin-ingress.content = {
+      komga-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
         metadata = {
-          name = "jellyfin";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          name = "komga";
+          labels."app.kubernetes.io/name" = "komga";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
-            "gethomepage.dev/description" = "Free software media system";
+            "gethomepage.dev/description" = "Media server for comics and books";
             "gethomepage.dev/enabled" = "true";
             "gethomepage.dev/group" = "Media";
-            "gethomepage.dev/icon" = "jellyfin.png";
-            "gethomepage.dev/name" = "Jellyfin";
+            "gethomepage.dev/icon" = "komga.png";
+            "gethomepage.dev/name" = "Komga";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
             {
-              host = "jellyfin.internal.perren.cloud";
+              host = "komga.internal.perren.cloud";
               http = {
                 paths = [
                   {
@@ -184,8 +185,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "jellyfin";
-                        port.number = 8096;
+                        name = "komga";
+                        port.number = 25600;
                       };
                     };
                   }
@@ -193,7 +194,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             }
             {
-              host = "jellyfin.perren.cloud";
+              host = "komga.perren.cloud";
               http = {
                 paths = [
                   {
@@ -201,8 +202,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "jellyfin";
-                        port.number = 8096;
+                        name = "komga";
+                        port.number = 25600;
                       };
                     };
                   }

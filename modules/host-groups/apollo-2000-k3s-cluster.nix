@@ -73,7 +73,7 @@ in
     ../kubernetes/apollo-2000/homepage.nix
     #    ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/jellyfin.nix
-    #    ../kubernetes/apollo-2000/kavita.nix
+    ../kubernetes/apollo-2000/komga.nix
     #    ../kubernetes/apollo-2000/node-exporter.nix
     ../kubernetes/apollo-2000/ollama.nix
     ../kubernetes/apollo-2000/openwebui.nix

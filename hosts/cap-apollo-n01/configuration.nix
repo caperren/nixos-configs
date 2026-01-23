@@ -102,9 +102,27 @@
 
           # immich
 
-          # kavita
+          # komga
+          echo "Setting acl for nas_data_primary/komga dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-komga-management:rwx" \
+            -m "g:nas-komga-view:rx" \
+            /nas_data_primary/komga
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-komga-management:rwx" \
+            -m "g:nas-komga-view:rx" \
+            /nas_data_primary/komga
 
           # long_term_storage
+          cho "Setting acl for nas_data_primary/long_term_storage dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/long_term_storage
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/long_term_storage
 
           # media
           echo "Setting acl for nas_data_primary/media dataset"
@@ -123,6 +141,8 @@
           echo "Setting zfs sharing options for datasets"
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
         ''}";
 

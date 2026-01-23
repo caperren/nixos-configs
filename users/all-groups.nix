@@ -18,4 +18,10 @@
 
   # Group with r permissions to the ad share
   users.groups.nas-ad-view.gid = 204;
+
+  # Group with r/w permissions to the ad share
+  users.groups.nas-komga-management.gid = 205;
+
+  # Group with r permissions to the ad share
+  users.groups.nas-komga-view.gid = 206;
 }

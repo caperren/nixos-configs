@@ -27,9 +27,9 @@ let
       requests
       pycountry
       py7zr
-      unrar-cffi
       pyqt5
       pybcj
+      rarfile
     ];
 
     pythonImportsCheck = [ "comictagger" ];
@@ -67,6 +67,7 @@ in
 
   environment.systemPackages = with pkgs; [
     comictagger
+    unrar
   ];
 
   boot.zfs.extraPools = [

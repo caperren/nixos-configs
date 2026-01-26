@@ -81,6 +81,14 @@ in
                       name = "TZ";
                       value = "America/Los_Angeles";
                     }
+                    {
+                      name = "LC_ALL";
+                      value = "en_US";
+                    }
+                    {
+                      name = "LANG";
+                      value = "en_US";
+                    }
                   ];
                   ports = [ { containerPort = 8123; } ];
                   volumeMounts = [

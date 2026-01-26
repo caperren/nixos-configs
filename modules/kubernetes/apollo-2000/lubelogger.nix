@@ -90,7 +90,7 @@ in
                       value = "en_US";
                     }
                   ];
-                  ports = [ { containerPort = 8123; } ];
+                  ports = [ { containerPort = 8080; } ];
                   volumeMounts = [
                     {
                       name = "localtime";
@@ -111,9 +111,7 @@ in
               volumes = [
                 {
                   name = "localtime";
-                  hostPath = {
-                    path = "/etc/localtime";
-                  };
+                  hostPath.path = "/etc/localtime";
                 }
                 {
                   name = "data";
@@ -138,7 +136,7 @@ in
         spec = {
           accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "64MiB";
+          resources.requests.storage = "64Mi";
         };
       };
       lubelogger-keys-pvc.content = {
@@ -151,7 +149,7 @@ in
         spec = {
           accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "1MiB";
+          resources.requests.storage = "1Mi";
         };
       };
       lubelogger-service.content = {

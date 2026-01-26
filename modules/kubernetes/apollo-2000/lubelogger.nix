@@ -157,11 +157,11 @@ in
           labels."app.kubernetes.io/name" = "lubelogger";
           annotations = {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
-            "gethomepage.dev/description" = "Open source home automation";
+            "gethomepage.dev/description" = "Open source vehicle maintenance tracking";
             "gethomepage.dev/enabled" = "true";
-            "gethomepage.dev/group" = "Smart Home";
+            "gethomepage.dev/group" = "Documentation";
             "gethomepage.dev/icon" = "lubelogger.png";
-            "gethomepage.dev/name" = "Home Assistant";
+            "gethomepage.dev/name" = "Lube Logger";
           };
         };
         spec = {

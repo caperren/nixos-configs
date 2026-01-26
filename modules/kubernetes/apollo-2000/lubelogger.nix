@@ -51,26 +51,6 @@ in
               };
             };
             spec = {
-              initContainers = [
-                {
-                  name = "temp";
-                  image = "busybox";
-                  command = [
-                    "sleep"
-                    "36000"
-                  ];
-                  volumeMounts = [
-                    {
-                      mountPath = "/data";
-                      name = "data";
-                    }
-                    {
-                      mountPath = "/keys";
-                      name = "keys";
-                    }
-                  ];
-                }
-              ];
               containers = [
                 {
                   name = "lubelogger";

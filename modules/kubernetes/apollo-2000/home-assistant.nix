@@ -7,9 +7,10 @@
 let
   image = pkgs.dockerTools.pullImage {
     imageName = "homeassistant/home-assistant";
-    imageDigest = "sha256:97d63b3d0028b6b52ad8e5ac7b014c3404e69bf1656b5489eec48b59184e0bc7";
-    hash = "sha256-Fv4LREiKpEgk4EA8yZ+byKQxUyjmLkMpsDUonD1cZxc=";
-    finalImageTag = "2026.1.0";
+    imageDigest = "sha256:c36741490472518338323db8ee67775d7df70d2fa1f68eff9b9e63679fe64a18";
+    hash = "sha256-ZuPa4FQb0/EcQOLn26E5bDsLwvCHxe1iQLJ4rZiVHKo=";
+    finalImageName = "homeassistant/home-assistant";
+    finalImageTag = "2026.1.3";
     arch = "amd64";
   };
   zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
@@ -40,7 +41,13 @@ in
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "home-assistant";
-              annotations."diun.enable" = "true";
+              annotations = {
+                "diun.enable" = "true";
+                "diun.watch_repo" = "true";
+                "diun.sort_tags" = "semver";
+                "diun.max_tags" = 5;
+                "diun.include_tags" = "${image.finalImageTag};^[0-9]{4}.[0-9].[0-9]$";
+              };
             };
             spec = {
               terminationGracePeriodSeconds = 30;

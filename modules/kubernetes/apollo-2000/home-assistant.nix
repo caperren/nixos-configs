@@ -121,7 +121,7 @@ in
         spec = {
           accessModes = [ "ReadWriteMany" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "2Gi";
+          resources.requests.storage = "5Gi";
         };
       };
       home-assistant-service.content = {

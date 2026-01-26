@@ -5,14 +5,15 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "homeassistant/home-assistant";
     imageDigest = "sha256:c36741490472518338323db8ee67775d7df70d2fa1f68eff9b9e63679fe64a18";
     hash = "sha256-ZuPa4FQb0/EcQOLn26E5bDsLwvCHxe1iQLJ4rZiVHKo=";
     finalImageName = "homeassistant/home-assistant";
     finalImageTag = "2026.1.3";
-    arch = "amd64";
   };
+  image = pkgs.dockerTools.pullImage imageConfig // { arch = "amd64"; };
+
   zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
 in
 {
@@ -46,7 +47,7 @@ in
                 "diun.watch_repo" = "true";
                 "diun.sort_tags" = "semver";
                 "diun.max_tags" = 5;
-                "diun.include_tags" = "${image.finalImageTag};^[0-9]{4}.[0-9].[0-9]$";
+                "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]{4}.[0-9].[0-9]$";
               };
             };
             spec = {

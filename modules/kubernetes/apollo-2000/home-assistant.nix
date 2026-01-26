@@ -46,7 +46,7 @@ in
                 "diun.enable" = "true";
                 "diun.watch_repo" = "true";
                 "diun.sort_tags" = "semver";
-                "diun.max_tags" = 5;
+                "diun.max_tags" = "5";
                 "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]{4}.[0-9].[0-9]$";
               };
             };

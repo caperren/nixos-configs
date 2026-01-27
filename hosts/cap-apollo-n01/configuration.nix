@@ -66,7 +66,7 @@ in
   networking.hostId = "6169cc38";
 
   environment.systemPackages = with pkgs; [
-    comictagger
+#    comictagger
     unrar
   ];
 

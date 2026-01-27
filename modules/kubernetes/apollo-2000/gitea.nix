@@ -126,7 +126,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ports = [
                     {
                       name = "http";
-                      containerPort = 3000;
+                      containerPort = 30008;
                       protocol = "TCP";
                     }
                     {
@@ -247,8 +247,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           ports = [
             {
               name = "http";
-              port = 3000;
-              targetPort = 3000;
+              port = 30008;
+              targetPort = 30008;
             }
           ];
         };
@@ -281,7 +281,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     backend = {
                       service = {
                         name = "gitea";
-                        port.number = 3000;
+                        port.number = 30008;
                       };
                     };
                   }
@@ -298,7 +298,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     backend = {
                       service = {
                         name = "gitea";
-                        port.number = 3000;
+                        port.number = 30008;
                       };
                     };
                   }

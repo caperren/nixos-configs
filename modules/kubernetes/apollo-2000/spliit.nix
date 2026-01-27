@@ -69,7 +69,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     };
   };
 
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       spliit-deployment.content = {

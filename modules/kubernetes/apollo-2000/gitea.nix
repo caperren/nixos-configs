@@ -179,7 +179,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           resources.requests.storage = "10Mi";
         };
       };
-      komga-data-nfs-pv.content = {
+      gitea-data-nfs-pv.content = {
         apiVersion = "v1";
         kind = "PersistentVolume";
         metadata = {

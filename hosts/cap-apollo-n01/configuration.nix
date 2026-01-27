@@ -151,9 +151,11 @@ in
           # gitea
           echo "Setting acl for nas_data_primary/gitea dataset"
           setfacl -R \
+            -m "g:1000:rwx" \
             -m "g:nas-gitea-management:rwx" \
             /nas_data_primary/gitea
           setfacl -R -d \
+            -m "g:1000:rwx" \
             -m "g:nas-gitea-management:rwx" \
             /nas_data_primary/gitea
 

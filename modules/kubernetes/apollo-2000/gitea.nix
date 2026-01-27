@@ -67,8 +67,9 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             };
             spec = {
               securityContext = {
+                runAsUser = 0;
                 runAsGroup = config.users.groups.nas-gitea-management.gid;
-                supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
+#                supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
               };
               containers = [
                 {

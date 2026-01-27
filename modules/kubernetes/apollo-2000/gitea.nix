@@ -114,16 +114,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ports = [ { containerPort = 30008; } ];
                   volumeMounts = [
                     {
-                      name = "localtime";
-                      mountPath = "/etc/localtime";
-                      readOnly = true;
-                    }
-                    {
-                      name = "timezone";
-                      mountPath = "/etc/timezone";
-                      readOnly = true;
-                    }
-                    {
                       mountPath = "/data";
                       name = "data";
                     }
@@ -139,14 +129,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 }
               ];
               volumes = [
-                {
-                  name = "localtime";
-                  hostPath.path = "/etc/localtime";
-                }
-                {
-                  name = "timezone";
-                  hostPath.path = "/etc/timezone";
-                }
                 {
                   name = "config";
                   persistentVolumeClaim.claimName = "gitea-config-pvc";

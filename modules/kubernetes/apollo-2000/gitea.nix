@@ -66,7 +66,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
+              securityContext = {
+                runAsGroup = config.users.groups.nas-gitea-management.gid;
+                supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
+              };
               containers = [
                 {
                   name = "gitea";
@@ -89,10 +92,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     {
                       name = "GITEA__database__NAME";
                       value = "gitea";
-                    }
-                    {
-                      name = "GITEA__server__HTTP_PORT";
-                      value = "30008";
                     }
                     {
                       name = "GITEA__server__PROTOCOL";
@@ -119,7 +118,18 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       value = "0";
                     }
                   ];
-                  ports = [ { containerPort = 30008; } ];
+                  ports = [
+                    {
+                      name = "http";
+                      containerPort = 3000;
+                      protocol = "TCP";
+                    }
+                    {
+                      name = "ssh";
+                      containerPort = 22;
+                      protocol = "TCP";
+                    }
+                  ];
                   volumeMounts = [
                     {
                       mountPath = "/data";
@@ -218,8 +228,9 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           selector."app.kubernetes.io/name" = "gitea";
           ports = [
             {
-              port = 30008;
-              targetPort = 30008;
+              name = "http";
+              port = 3000;
+              targetPort = 3000;
             }
           ];
         };
@@ -252,7 +263,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     backend = {
                       service = {
                         name = "gitea";
-                        port.number = 30008;
+                        port.number = 3000;
                       };
                     };
                   }
@@ -269,7 +280,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     backend = {
                       service = {
                         name = "gitea";
-                        port.number = 30008;
+                        port.number = 3000;
                       };
                     };
                   }

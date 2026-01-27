@@ -7,10 +7,10 @@
 let
   image = pkgs.dockerTools.pullImage {
     imageName = "docker.gitea.com/gitea";
-    imageDigest = "sha256:fee0e5e55da6d2d11186bf39023a772fe63d9deffc0a83283e3d8e5d11c2716a";
-    hash = "sha256-3PzTVd34AmeRoZrvc1zKkXiZN/ZeXOObumYrGO9FR1Y=";
-    finalImageTag = "1.25.3";
-    arch = "amd64";
+    imageDigest = "sha256:1926e89ad28358ef2146bb8a1b9c3ba24bae681cb02b72d2df11125fdc675abe";
+    hash = "sha256-rvgF0WLfvYR0Vyd/eCjBoNcCrycpRGK/gD2CKK2bjgs=";
+    finalImageName = "docker.gitea.com/gitea";
+    finalImageTag = "1.25.4-rootless";
   };
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;
@@ -100,7 +100,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "GITEA__server__ROOT_URL";
-                      value = "postgres";
+                      value = "https://gitea.perren.cloud/";
                     }
                     {
                       name = "GITEA__server__SSH_LISTEN_PORT";
@@ -114,7 +114,17 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ports = [ { containerPort = 30008; } ];
                   volumeMounts = [
                     {
-                      mountPath = "/var/lib/gitea";
+                      name = "localtime";
+                      mountPath = "/etc/localtime";
+                      readOnly = true;
+                    }
+                    {
+                      name = "timezone";
+                      mountPath = "/etc/timezone";
+                      readOnly = true;
+                    }
+                    {
+                      mountPath = "/data";
                       name = "data";
                     }
                     {
@@ -129,6 +139,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 }
               ];
               volumes = [
+                {
+                  name = "localtime";
+                  hostPath.path = "/etc/localtime";
+                }
+                {
+                  name = "timezone";
+                  hostPath.path = "/etc/timezone";
+                }
                 {
                   name = "config";
                   persistentVolumeClaim.claimName = "gitea-config-pvc";

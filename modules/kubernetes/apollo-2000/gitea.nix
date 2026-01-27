@@ -69,6 +69,26 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               securityContext = {
                 supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
               };
+              initContainers = [
+                {
+                  name = "temp";
+                  image = "busybox";
+                  command = [
+                    "sleep"
+                    "36000"
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/data";
+                      name = "data";
+                    }
+                    {
+                      mountPath = "/config";
+                      name = "config";
+                    }
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "gitea";

@@ -86,6 +86,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       mountPath = "/config";
                       name = "config";
                     }
+                    {
+                      mountPath = "/tmp";
+                      name = "tmp";
+                    }
                   ];
                 }
               ];

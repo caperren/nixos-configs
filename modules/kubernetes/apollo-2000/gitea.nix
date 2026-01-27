@@ -110,6 +110,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       name = "GITEA__server__SSH_PORT";
                       value = "30009";
                     }
+                    {
+                      name = "USER_UID";
+                      value = "0";
+                    }
+                    {
+                      name = "USER_GID";
+                      value = "0";
+                    }
                   ];
                   ports = [ { containerPort = 30008; } ];
                   volumeMounts = [

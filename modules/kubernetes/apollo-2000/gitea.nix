@@ -49,7 +49,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          replicas = 0;
+          replicas = 1;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -126,7 +126,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       name = "data";
                     }
                     {
-                      mountPath = "/etc/gitea";
+                      mountPath = "/config";
                       name = "config";
                     }
                     {
@@ -234,7 +234,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
             "gethomepage.dev/description" = "Git and object repository";
             "gethomepage.dev/enabled" = "true";
-            "gethomepage.dev/group" = "Code and objects";
+            "gethomepage.dev/group" = "Programming";
             "gethomepage.dev/icon" = "gitea.png";
             "gethomepage.dev/name" = "Gitea";
           };

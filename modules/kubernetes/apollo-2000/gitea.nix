@@ -174,7 +174,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          accessModes = [ "ReadWriteMany" ];
+          accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
           resources.requests.storage = "10Mi";
         };
@@ -201,7 +201,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           nfs = {
             server = "cap-apollo-n01";
             path = "/nas_data_primary/gitea";
-            readOnly = true;
           };
         };
       };

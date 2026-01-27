@@ -140,8 +140,28 @@ in
             /nas_data_primary/caperren
 
           # caperren_gdrive
+          setfacl -R \
+            -m "g:nas-caperren-gdrive-management:rwx" \
+            /nas_data_primary/caperren_gdrive
+          setfacl -R -d \
+            -m "g:nas-caperren-gdrive-management:rwx" \
+            /nas_data_primary/caperren_gdrive
+
+          # gitea
+          setfacl -R \
+            -m "g:nas-gitea-management:rwx" \
+            /nas_data_primary/gitea
+          setfacl -R -d \
+            -m "g:nas-gitea-management:rwx" \
+            /nas_data_primary/gitea
 
           # immich
+          setfacl -R \
+            -m "g:nas-immich-management:rwx" \
+            /nas_data_primary/immich
+          setfacl -R -d \
+            -m "g:nas-immich-management:rwx" \
+            /nas_data_primary/immich
 
           # komga
           echo "Setting acl for nas_data_primary/komga dataset"
@@ -182,6 +202,9 @@ in
           echo "Setting zfs sharing options for datasets"
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren_gdrive
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/gitea
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media

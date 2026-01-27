@@ -140,6 +140,7 @@ in
             /nas_data_primary/caperren
 
           # caperren_gdrive
+          echo "Setting acl for nas_data_primary/caperren_gdrive dataset"
           setfacl -R \
             -m "g:nas-caperren-gdrive-management:rwx" \
             /nas_data_primary/caperren_gdrive
@@ -148,6 +149,7 @@ in
             /nas_data_primary/caperren_gdrive
 
           # gitea
+          echo "Setting acl for nas_data_primary/gitea dataset"
           setfacl -R \
             -m "g:nas-gitea-management:rwx" \
             /nas_data_primary/gitea
@@ -156,6 +158,7 @@ in
             /nas_data_primary/gitea
 
           # immich
+          echo "Setting acl for nas_data_primary/immich dataset"
           setfacl -R \
             -m "g:nas-immich-management:rwx" \
             /nas_data_primary/immich

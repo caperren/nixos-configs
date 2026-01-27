@@ -5,13 +5,17 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "gotson/komga";
     imageDigest = "sha256:09129eae6eff50337f039bd6e99d995126cb03226950c80e9864cbc05f10a661";
     hash = "sha256-GoAaZtsgB8sPtOKS4cV9wL9UYqhc3rNMbBpVFu6uctE=";
     finalImageTag = "1.23.6";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+
+  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
 in
 {
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
@@ -25,7 +29,7 @@ in
           labels."app.kubernetes.io/name" = "komga";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

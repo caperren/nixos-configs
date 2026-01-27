@@ -3,6 +3,8 @@
   imports = [
     ../../users/all-groups.nix
     ../../users/root/root-home-manager.nix
+
+    ./maintenance.nix
   ];
 
   # Statically generated groups for consistent nas sharing won't work otherwise

@@ -148,17 +148,6 @@ in
             -m "g:nas-caperren-gdrive-management:rwx" \
             /nas_data_primary/caperren_gdrive
 
-          # gitea
-          echo "Setting acl for nas_data_primary/gitea dataset"
-          setfacl -R \
-            -m "g:1000:rwx" \
-            -m "g:nas-gitea-management:rwx" \
-            /nas_data_primary/gitea
-          setfacl -R -d \
-            -m "g:1000:rwx" \
-            -m "g:nas-gitea-management:rwx" \
-            /nas_data_primary/gitea
-
           # immich
           echo "Setting acl for nas_data_primary/immich dataset"
           setfacl -R \
@@ -208,7 +197,6 @@ in
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren_gdrive
-          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/gitea
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage

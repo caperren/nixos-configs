@@ -5,13 +5,17 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "ghcr.io/jellyfin/jellyfin";
     imageDigest = "sha256:cd7e4cb71812dd76988a725da615e37c6d0d24c200be904ad5d183e51f1dc6ed";
     hash = "sha256-8FujxEYyhcFfyP5cwemHSeR+l/zYpk49pQymuMlH6So=";
     finalImageTag = "10.11.5";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+
+  allowedReplicas = if options."perren.cloud".maintenance.nfs then 1 else 0;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -25,7 +29,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "jellyfin";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

@@ -66,6 +66,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
+              securityContext.supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
               initContainers = [
                 {
                   name = "temp";

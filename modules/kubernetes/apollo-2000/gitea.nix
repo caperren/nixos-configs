@@ -119,7 +119,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "GITEA__server__ROOT_URL";
-                      value = "https://gitea.perren.cloud/";
+                      value = "http://gitea.internal.perren.cloud/";
                     }
 
                   ];

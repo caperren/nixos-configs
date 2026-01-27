@@ -7,10 +7,10 @@
 let
   image = pkgs.dockerTools.pullImage {
     imageName = "docker.gitea.com/gitea";
-    imageDigest = "sha256:17d18218be2dad1f8ed402a4f906989505c90ab8b66ee9befcecfb5d470133e7";
-    hash = "sha256-7Di5+jS9aL4asL94kuxNrZnN/zPpUMrjvJURaEtZy80=";
+    imageDigest = "sha256:1926e89ad28358ef2146bb8a1b9c3ba24bae681cb02b72d2df11125fdc675abe";
+    hash = "sha256-rvgF0WLfvYR0Vyd/eCjBoNcCrycpRGK/gD2CKK2bjgs=";
     finalImageName = "docker.gitea.com/gitea";
-    finalImageTag = "1.25.4";
+    finalImageTag = "1.25.4-rootless";
   };
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;
@@ -67,9 +67,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             };
             spec = {
               securityContext = {
-                runAsUser = 0;
-                runAsGroup = config.users.groups.nas-gitea-management.gid;
-#                supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
+                supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
               };
               containers = [
                 {
@@ -102,22 +100,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       name = "GITEA__server__ROOT_URL";
                       value = "https://gitea.perren.cloud/";
                     }
-                    {
-                      name = "GITEA__server__SSH_LISTEN_PORT";
-                      value = "30009";
-                    }
-                    {
-                      name = "GITEA__server__SSH_PORT";
-                      value = "30009";
-                    }
-                    {
-                      name = "USER_UID";
-                      value = "0";
-                    }
-                    {
-                      name = "USER_GID";
-                      value = "0";
-                    }
+
                   ];
                   ports = [
                     {
@@ -133,11 +116,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ];
                   volumeMounts = [
                     {
-                      mountPath = "/data";
+                      mountPath = "/var/lib/gitea";
                       name = "data";
                     }
                     {
-                      mountPath = "/config";
+                      mountPath = "/etc/gitea";
                       name = "config";
                     }
                     {

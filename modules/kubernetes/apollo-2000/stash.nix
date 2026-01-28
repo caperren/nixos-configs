@@ -65,7 +65,7 @@ in
           selector.matchLabels."app.kubernetes.io/name" = "stash-a";
 
           template = {
-           metadata = {
+            metadata = {
               labels."app.kubernetes.io/name" = "stash-a";
               annotations."diun.enable" = "true";
             };
@@ -241,9 +241,10 @@ in
             }
           ];
         };
+      };
 
-        # B
-        stash-b-deployment.content = {
+      # B
+      stash-b-deployment.content = {
         apiVersion = "apps/v1";
         kind = "Deployment";
         metadata = {
@@ -263,7 +264,7 @@ in
           selector.matchLabels."app.kubernetes.io/name" = "stash-b";
 
           template = {
-           metadata = {
+            metadata = {
               labels."app.kubernetes.io/name" = "stash-b";
               annotations."diun.enable" = "true";
             };

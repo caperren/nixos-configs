@@ -55,8 +55,8 @@ in
     ../application-groups/virtualization.nix
 
     # Core Kubernetes Applications
-    ../kubernetes/apollo-2000/longhorn.nix  # Distributed block storage
-    ../kubernetes/apollo-2000/multus.nix  # VLAN-aware networking
+    ../kubernetes/apollo-2000/longhorn.nix # Distributed block storage
+    ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices
     ../kubernetes/apollo-2000/device-zigbee.nix
@@ -84,6 +84,7 @@ in
     ../kubernetes/apollo-2000/postgres.nix
     #    ../kubernetes/apollo-2000/prometheus.nix
     #    ../kubernetes/apollo-2000/prowlarr.nix
+    ../kubernetes/qbittorrent.nix
     #    ../kubernetes/apollo-2000/radarr.nix
     #    ../kubernetes/apollo-2000/rclone.nix
     #    ../kubernetes/apollo-2000/secrets.nix

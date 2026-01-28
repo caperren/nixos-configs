@@ -68,8 +68,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       name = "config";
                     }
                     {
-                      mountPath = "/downloads";
-                      name = "downloads";
+                      mountPath = "/media";
+                      name = "media";
                     }
                   ];
                 }
@@ -80,8 +80,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   persistentVolumeClaim.claimName = "qbittorrent-config-pvc";
                 }
                 {
-                  name = "downloads";
-                  persistentVolumeClaim.claimName = "qbittorrent-downloads-pvc";
+                  name = "media";
+                  persistentVolumeClaim.claimName = "qbittorrent-media-pvc";
                 }
               ];
             };
@@ -101,11 +101,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           resources.requests.storage = "256Mi";
         };
       };
-      qbittorrent-downloads-nfs-pv.content = {
+      qbittorrent-media-nfs-pv.content = {
         apiVersion = "v1";
         kind = "PersistentVolume";
         metadata = {
-          name = "qbittorrent-downloads-nfs-pv";
+          name = "qbittorrent-media-nfs-pv";
           labels."app.kubernetes.io/name" = "qbittorrent";
         };
         spec = {
@@ -126,17 +126,17 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
-      qbittorrent-downloads-pvc.content = {
+      qbittorrent-media-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
-          name = "qbittorrent-downloads-pvc";
+          name = "qbittorrent-media-pvc";
           labels."app.kubernetes.io/name" = "qbittorrent";
         };
         spec = {
           selector.matchLabels."app.kubernetes.io/name" = "qbittorrent";
           accessModes = [ "ReadOnlyMany" ];
-          volumeName = "qbittorrent-downloads-nfs-pv";
+          volumeName = "qbittorrent-media-nfs-pv";
           storageClassName = "";
           resources.requests.storage = "1Ti";
         };

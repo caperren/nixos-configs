@@ -167,6 +167,13 @@ in
     };
   };
 
+  # VLANs for use with multus
+  networking.vlans.vlan5 = {
+    id = 5;
+    interface = "eno50";
+  };
+  networking.interfaces.vlan5.useDHCP = false;
+
   # Wireguard connection to my vps, for tunnelled reverse-proxying
   networking.wg-quick.interfaces = {
     wg0 = {

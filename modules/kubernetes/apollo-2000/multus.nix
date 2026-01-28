@@ -20,7 +20,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           chart = "rke2-multus";
           targetNamespace = "kube-system";
 
-          version = "1.35.0+rke2r1";
+          version = "4.2.3";
 
           valuesContent = ''
             config:

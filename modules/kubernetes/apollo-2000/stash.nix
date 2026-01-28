@@ -5,55 +5,163 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "stashapp/stash";
     imageDigest = "sha256:4cac18873ea052f03510602d9e1a9b29e6241a393a111479010292b7a1e28a5e";
     hash = "sha256-D3XMtByDotpCR/Q4CqoKzL1n/wGHgXMyPNYpkUxxlXs=";
+    finalImageName = "stashapp/stash";
     finalImageTag = "v0.30.1";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+
+  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
+  stashShareEnvironment = [
+    {
+      name = "TZ";
+      value = "America/Los_Angeles";
+    }
+    {
+      name = "STASH_STASH";
+      value = "/data/";
+    }
+    {
+      name = "STASH_GENERATED";
+      value = "/store/generated/";
+    }
+    {
+      name = "STASH_METADATA";
+      value = "/store/metadata/";
+    }
+    {
+      name = "STASH_CACHE";
+      value = "/cache/";
+    }
+  ];
 in
 {
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
-      stash-deployment.content = {
+      # Shared
+      stash-a-deployment.content = {
         apiVersion = "apps/v1";
         kind = "Deployment";
         metadata = {
-          name = "stash";
-          labels."app.kubernetes.io/name" = "stash";
+          name = "stash-a";
+          labels."app.kubernetes.io/name" = "stash-a";
         };
         spec = {
-          replicas = 1;
-          selector.matchLabels."app.kubernetes.io/name" = "stash";
+          replicas = allowedReplicas;
+          selector.matchLabels."app.kubernetes.io/name" = "stash-a";
           template = {
-            metadata.labels."app.kubernetes.io/name" = "stash";
+            metadata.labels."app.kubernetes.io/name" = "stash-a";
             spec = {
               containers = [
                 {
-                  name = "stash";
+                  name = "stash-a";
                   image = "${image.imageName}:${image.imageTag}";
                   imagePullPolicy = "IfNotPresent";
-                  env = [ ];
+                  env = stashShareEnvironment;
                   ports = [ { containerPort = 9999; } ];
-                  volumeMounts = [ ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/store";
+                      name = "store";
+                    }
+                    {
+                      mountPath = "/data";
+                      name = "content";
+                    }
+                    {
+                      mountPath = "/cache";
+                      name = "cache";
+                    }
+                  ];
                 }
               ];
-              volumes = [ ];
+              volumes = [
+                {
+                  name = "cache";
+                  emptyDir = { };
+                }
+                {
+                  name = "store";
+                  persistentVolumeClaim.claimName = "stash-a-store-pvc";
+                }
+                {
+                  name = "content";
+                  persistentVolumeClaim.claimName = "stash-a-content-pvc";
+                }
+              ];
             };
           };
         };
       };
-      stash-service.content = {
+      stash-a-store-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "stash-a-store-pvc";
+          labels."app.kubernetes.io/name" = "stash-a";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "10Gi";
+        };
+      };
+      stash-a-content-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "stash-a-content-nfs-pv";
+          labels."app.kubernetes.io/name" = "stash-a";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadOnlyMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/ad";
+            readOnly = true;
+          };
+        };
+      };
+      stash-a-content-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "stash-a-content-pvc";
+          labels."app.kubernetes.io/name" = "stash-a";
+        };
+        spec = {
+          selector.matchLabels."app.kubernetes.io/name" = "stash-a";
+          accessModes = [ "ReadOnlyMany" ];
+          volumeName = "stash-a-content-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
+        };
+      };
+      stash-a-service.content = {
         apiVersion = "v1";
         kind = "Service";
         metadata = {
-          name = "stash";
-          labels."app.kubernetes.io/name" = "stash";
+          name = "stash-a";
+          labels."app.kubernetes.io/name" = "stash-a";
         };
         spec = {
-          selector."app.kubernetes.io/name" = "stash";
+          selector."app.kubernetes.io/name" = "stash-a";
           ports = [
             {
               port = 9999;
@@ -62,11 +170,11 @@ in
           ];
         };
       };
-      stash-ingress.content = {
+      stash-a-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
         metadata = {
-          name = "stash";
+          name = "stash-a";
           annotations = {
             "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
@@ -79,11 +187,11 @@ in
               http = {
                 paths = [
                   {
-                    path = "/stash";
+                    path = "/stash-a";
                     pathType = "Prefix";
                     backend = {
                       service = {
-                        name = "stash";
+                        name = "stash-a";
                         port.number = 9999;
                       };
                     };
@@ -93,6 +201,8 @@ in
             })
           ];
         };
+
+        # Local
       };
     };
   };

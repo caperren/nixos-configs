@@ -329,7 +329,7 @@ in
         spec = {
           accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "256Mi";
+          resources.requests.storage = "1Gi";
         };
       };
       stash-b-store-pvc.content = {

@@ -4,11 +4,6 @@
   lib,
   ...
 }:
-let
-  # If you have 3 k3s nodes and want HA volumes, 2 is a common homelab default.
-  # If you want maximum resilience (and can afford space), set 3.
-  defaultReplicaCount = 2;
-in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
   services.k3s = {
@@ -25,7 +20,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           chart = "rke2-multus";
           targetNamespace = "kube-system";
 
-          version = "v4.2.3";
+          # https://github.com/rancher/rke2/releases
+          version = "v1.35.0+rke2r1";
 
           valuesContent = ''
             config:

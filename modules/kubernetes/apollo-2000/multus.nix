@@ -35,6 +35,36 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           '';
         };
       };
+
+      # Networks
+      vlan-5-nad.content = {
+        apiVersion = "k8s.cni.cncf.io/v1";
+        kind = "NetworkAttachmentDefinition";
+        metadata = {
+          name = "vlan5";
+          namespace = "default";
+        };
+        spec.config = builtins.toJSON {
+          cniVersion = "0.3.1";
+          type = "macvlan";
+          master = "eno50";  # Same on all apollo systems
+          mode = "bridge";
+          vlan = 5;
+
+          # pick ONE ipam strategy:
+          ipam.type = "dhcp";
+
+          # Reference in case I need static ips later
+          # ipam = {
+          #   type = "host-local";
+          #   subnet = "192.168.20.0/24";
+          #   rangeStart = "192.168.20.200";
+          #   rangeEnd = "192.168.20.250";
+          #   gateway = "192.168.20.1";
+          #   routes = [{ dst = "0.0.0.0/0"; }];
+          # };
+        };
+      };
     };
   };
 }

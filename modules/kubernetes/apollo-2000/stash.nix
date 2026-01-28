@@ -204,23 +204,6 @@ in
           ];
         };
       };
-      stash-a-service.content = {
-        apiVersion = "v1";
-        kind = "Service";
-        metadata = {
-          name = "stash-a";
-          labels."app.kubernetes.io/name" = "stash-a";
-        };
-        spec = {
-          selector."app.kubernetes.io/name" = "stash-a";
-          ports = [
-            {
-              port = 9999;
-              targetPort = 9999;
-            }
-          ];
-        };
-      };
       stash-a-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
@@ -400,23 +383,6 @@ in
           volumeName = "stash-b-content-nfs-pv";
           storageClassName = "";
           resources.requests.storage = "1Ti";
-        };
-      };
-      stash-b-service.content = {
-        apiVersion = "v1";
-        kind = "Service";
-        metadata = {
-          name = "stash-b";
-          labels."app.kubernetes.io/name" = "stash-b";
-        };
-        spec = {
-          selector."app.kubernetes.io/name" = "stash-b";
-          ports = [
-            {
-              port = 9999;
-              targetPort = 9999;
-            }
-          ];
         };
       };
       stash-b-service.content = {

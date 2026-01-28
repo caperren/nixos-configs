@@ -74,6 +74,10 @@ in
           for sensor in 8 22 23 24 25 27 39; do
             screen -S $SCREEN_NAME -X stuff "fan a $sensor 0 0 16 41 16 25^M"
             sleep 0.5
+            screen -S $SCREEN_NAME -X stuff "fan a $sensor 0 1 41 70 25 75^M"
+            sleep 0.5
+            screen -S $SCREEN_NAME -X stuff "fan a $sensor 0 1 60 80 75 150^M"
+            sleep 0.5
           done
 
           ##### Set minimum for fan group

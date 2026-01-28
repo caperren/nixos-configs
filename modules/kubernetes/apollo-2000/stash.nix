@@ -84,6 +84,10 @@ in
                       name = "store";
                     }
                     {
+                      mountPath = "/root/.stash";
+                      name = "config";
+                    }
+                    {
                       mountPath = "/data";
                       name = "content";
                     }
@@ -100,6 +104,10 @@ in
                   emptyDir = { };
                 }
                 {
+                  name = "config";
+                  persistentVolumeClaim.claimName = "stash-a-config-pvc";
+                }
+                {
                   name = "store";
                   persistentVolumeClaim.claimName = "stash-a-store-pvc";
                 }
@@ -110,6 +118,19 @@ in
               ];
             };
           };
+        };
+      };
+      stash-a-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "stash-a-config-pvc";
+          labels."app.kubernetes.io/name" = "stash-a";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "2Gi";
         };
       };
       stash-a-store-pvc.content = {
@@ -183,24 +204,47 @@ in
           ];
         };
       };
+      jellyfin-service.content = {
+        apiVersion = "v1";
+        kind = "Service";
+        metadata = {
+          name = "jellyfin";
+          labels."app.kubernetes.io/name" = "jellyfin";
+        };
+        spec = {
+          selector."app.kubernetes.io/name" = "jellyfin";
+          ports = [
+            {
+              port = 9999;
+              targetPort = 9999;
+            }
+          ];
+        };
+      };
       stash-a-ingress.content = {
         apiVersion = "networking.k8s.io/v1";
         kind = "Ingress";
         metadata = {
           name = "stash-a";
+          labels."app.kubernetes.io/name" = "stash-a";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Ad content serving";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Media";
+            "gethomepage.dev/icon" = "stash.png";
+            "gethomepage.dev/name" = "stash-a";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "stash-a.internal.perren.cloud";
               http = {
                 paths = [
                   {
-                    path = "/stash-a";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {
@@ -211,7 +255,7 @@ in
                   }
                 ];
               };
-            })
+            }
           ];
         };
 

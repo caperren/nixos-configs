@@ -5,13 +5,17 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "docker.gitea.com/gitea";
     imageDigest = "sha256:1926e89ad28358ef2146bb8a1b9c3ba24bae681cb02b72d2df11125fdc675abe";
     hash = "sha256-rvgF0WLfvYR0Vyd/eCjBoNcCrycpRGK/gD2CKK2bjgs=";
     finalImageName = "docker.gitea.com/gitea";
     finalImageTag = "1.25.4-rootless";
   };
+  image = pkgs.dockerTools.pullImage imageConfig // {
+    arch = "amd64";
+  };
+
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;
 in

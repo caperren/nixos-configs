@@ -145,7 +145,17 @@ in
           labels."app.kubernetes.io/name" = "homepage";
         };
         data = {
-          "bookmarks.yaml" = "";
+          "bookmarks.yaml" = ''
+            - iLO
+              - cap-apollo-ilo01
+                - href: https://192.168.1.45
+              - cap-apollo-ilo02
+                - href: https://192.168.1.46
+              - cap-apollo-ilo03
+                - href: https://192.168.1.47
+              - cap-apollo-ilo04
+                - href: https://192.168.1.48
+          '';
           "custom.css" = "";
           "custom.js" = "";
           "docker.yaml" = "";

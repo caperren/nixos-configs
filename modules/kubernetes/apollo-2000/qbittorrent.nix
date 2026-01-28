@@ -49,7 +49,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."k8s.v1.cni.cncf.io/networks" = "vlan5";
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-media-management.gid ];
+              securityContext = {
+                runAsUser = 911;  # Default for qbittorrent
+                runAsGroup = config.users.groups.nas-media-management.gid;
+                supplementalGroups = [ config.users.groups.nas-media-management.gid ];
+              };
               containers = [
                 {
                   name = "qbittorrent";
@@ -59,6 +63,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     {
                       name = "TZ";
                       value = "America/Los_Angeles";
+                    }
+                    {
+                      name = "PGID";
+                      value = "201";
+                    }
+                    {
+                      name = "UMASK";
+                      value = "0002";
                     }
                   ];
                   ports = [ { containerPort = 8080; } ];

@@ -20,8 +20,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           chart = "rke2-multus";
           targetNamespace = "kube-system";
 
-          # https://github.com/rancher/rke2/releases
-          version = "v1.35.0+rke2r1";
+          version = "1.35.0+rke2r1";
 
           valuesContent = ''
             config:

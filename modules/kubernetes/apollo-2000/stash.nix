@@ -54,10 +54,23 @@ in
         };
         spec = {
           replicas = allowedReplicas;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "stash-a";
+
           template = {
-            metadata.labels."app.kubernetes.io/name" = "stash-a";
+           metadata = {
+              labels."app.kubernetes.io/name" = "stash-a";
+              annotations."diun.enable" = "true";
+            };
             spec = {
+              securityContext.supplementalGroups = [ config.users.groups.nas-ad-view.gid ];
               containers = [
                 {
                   name = "stash-a";

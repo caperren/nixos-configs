@@ -122,7 +122,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           ];
           nfs = {
             server = "cap-apollo-n01";
-            path = "/nas_data_primary/media/downloads";
+            path = "/nas_data_primary/media";
           };
         };
       };

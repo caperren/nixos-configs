@@ -69,7 +69,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       ip route
 
                       # Remove the VLAN default route so the pod keeps cluster default via eth0
-                      ip route del default via 192.168.6.1 dev net1 || true
+                      # ip route del default via 192.168.6.1 dev net1 || true
+                      ip route del default via 10.42.0.1 dev net1 || true
 
                       # Optional: make extra-sure cluster CIDRs stay on eth0
                       ip route replace 10.42.0.0/16 via 10.42.0.1 dev eth0 || true
@@ -77,6 +78,15 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
                       echo "=== routes AFTER ==="
                       ip route
+
+                      echo "=== resolv BEFORE ==="
+                      cat /etc/resolv.conf
+
+                      # Rewrite resolv.conf
+                      echo -e "nameserver 1.1.1.1\nnameserver 1.0.0.1" > /etc/resolv.conf
+
+                      echo "=== resolv AFTER ==="
+                      cat /etc/resolv.conf
                     ''
                   ];
                 }

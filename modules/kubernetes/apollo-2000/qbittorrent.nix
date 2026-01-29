@@ -52,6 +52,35 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               securityContext = {
                 supplementalGroups = [ config.users.groups.nas-media-management.gid ];
               };
+              initContainers = [
+                {
+                  name = "fix-multus-routes";
+                  image = "busybox:1.36";
+                  securityContext = {
+                    capabilities.add = [ "NET_ADMIN" ];
+                    runAsUser = 0;
+                    runAsGroup = 0;
+                  };
+                  command = [
+                    "sh"
+                    "-ec"
+                    ''
+                      echo "=== routes BEFORE ==="
+                      ip route
+
+                      # Remove the VLAN default route so the pod keeps cluster default via eth0
+                      ip route del default via 192.168.6.1 dev net1 || true
+
+                      # Optional: make extra-sure cluster CIDRs stay on eth0
+                      ip route replace 10.42.0.0/16 via 10.42.0.1 dev eth0 || true
+                      ip route replace 10.43.0.0/16 via 10.42.0.1 dev eth0 || true
+
+                      echo "=== routes AFTER ==="
+                      ip route
+                    ''
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "qbittorrent";

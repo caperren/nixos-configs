@@ -64,7 +64,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "PGID";
-                      value = "${config.users.groups.nas-media-management.gid}";
+                      value = toString config.users.groups.nas-media-management.gid;
                     }
                     {
                       name = "UMASK";

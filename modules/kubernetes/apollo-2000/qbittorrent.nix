@@ -50,8 +50,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             };
             spec = {
               securityContext = {
-                runAsUser = 911;  # Default for qbittorrent
-                runAsGroup = config.users.groups.nas-media-management.gid;
                 supplementalGroups = [ config.users.groups.nas-media-management.gid ];
               };
               containers = [
@@ -66,7 +64,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     }
                     {
                       name = "PGID";
-                      value = "201";
+                      value = "${config.users.groups.nas-media-management.gid}";
                     }
                     {
                       name = "UMASK";

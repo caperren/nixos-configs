@@ -1,40 +1,4 @@
 { config, pkgs, ... }:
-let
-  python = pkgs.python311;
-
-  comictagger = python.pkgs.buildPythonApplication rec {
-    pname = "comictagger";
-    version = "1.5.5";
-
-    # nix store prefetch-file --hash-type sha256 \
-    #  https://files.pythonhosted.org/packages/source/c/comictagger/comictagger-1.5.5.tar.gz
-    src = python.pkgs.fetchPypi {
-      inherit pname version;
-      hash = "sha256-f/SS6mo5zIcNBN/FRMhRPMNOeB1BIqBhsAogjsmdjB0=";
-    };
-
-    pyproject = true;
-
-    nativeBuildInputs = with python.pkgs; [
-      setuptools
-      wheel
-    ];
-
-    propagatedBuildInputs = with python.pkgs; [
-      beautifulsoup4
-      natsort
-      pillow
-      requests
-      pycountry
-      py7zr
-      pyqt5
-      pybcj
-      rarfile
-    ];
-
-    pythonImportsCheck = [ "comictagger" ];
-  };
-in
 {
   imports = [
     # Hardware Scan
@@ -66,7 +30,6 @@ in
   networking.hostId = "6169cc38";
 
   environment.systemPackages = with pkgs; [
-#    comictagger
     unrar
   ];
 

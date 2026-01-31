@@ -35,11 +35,19 @@
         extraProfile = ''
           # Fixes timezones on VRChat
           unset TZ
+
           # Allows Monado to be used
           export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
+
+          # Needed for steamvr to work properly
+          QT_QPA_PLATFORM=xcb
         '';
       };
     };
+
+  programs.bash.shellAliases = {
+    vrcompositor-workaround = "sudo setcap CAP_SYS_NICE+ep ~/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
+  };
 
   # Valve's micro-compositor
   programs.gamescope = {

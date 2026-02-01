@@ -46,6 +46,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "ollama";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   #                  envFrom = [ { secretRef.name = "ollama-environment-secret"; } ];
                   ports = [ { containerPort = 11434; } ];
                   resources = {

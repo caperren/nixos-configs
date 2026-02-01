@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   hyprlandConfigPath = ./. + "/dotfiles/hyprland/${config.networking.hostName}";
   kanshiConfigPath = ./. + "/dotfiles/kanshi/${config.networking.hostName}";
@@ -44,6 +49,7 @@ in
 
     home.packages = with pkgs; [
       obsidian
+      inputs.comictagger.packages.${pkgs.stdenv.hostPlatform.system}.comictagger
     ];
 
     programs.git = {
@@ -54,7 +60,13 @@ in
       };
 
     };
+
     programs.bash.enable = true;
+    programs.command-not-found.enable = false;
+    programs.bash.initExtra = ''
+      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+    '';
+
     programs.bemenu.enable = true;
 
     programs.kitty = {
@@ -106,6 +118,8 @@ in
     # Desktop entry files so bemenu can find them
     home.file.".local/share/applications/alltop.desktop".source =
       ./dotfiles/.local/share/applications/alltop.desktop;
+    home.file.".local/share/applications/comictagger.desktop".source =
+      ./dotfiles/.local/share/applications/comictagger.desktop;
     home.file.".local/share/applications/glava.desktop".source =
       ./dotfiles/.local/share/applications/glava.desktop;
     home.file.".local/share/applications/phonerdp.desktop".source =

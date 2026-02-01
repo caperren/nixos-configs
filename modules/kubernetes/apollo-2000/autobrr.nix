@@ -34,6 +34,7 @@ in
                 {
                   name = "autobrr";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 7474; } ];
                   volumeMounts = [ ];

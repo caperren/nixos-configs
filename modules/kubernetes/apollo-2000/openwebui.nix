@@ -49,6 +49,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "openwebui";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   #                  envFrom = [ { secretRef.name = "openwebui-environment-secret"; } ];
                   env = [
                     {

@@ -75,6 +75,7 @@ in
                 {
                   name = "grafana";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [
                     {
                       name = "GF_ANALYTICS_CHECK_FOR_UPDATES";

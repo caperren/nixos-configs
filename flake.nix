@@ -2,6 +2,11 @@
   description = "Nixos config flake";
 
   inputs = {
+    comictagger = {
+      url = "path:./modules/applications/comictagger";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -17,8 +22,8 @@
     };
 
     nix-index-database = {
-        url = "github:nix-community/nix-index-database";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -30,7 +35,6 @@
       nix-index-database,
       nixos-hardware,
       sops-nix,
-
 
       ...
     }@inputs:

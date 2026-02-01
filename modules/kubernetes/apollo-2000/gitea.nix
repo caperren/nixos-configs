@@ -5,16 +5,44 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "docker.gitea.com/gitea";
-    imageDigest = "sha256:fee0e5e55da6d2d11186bf39023a772fe63d9deffc0a83283e3d8e5d11c2716a";
-    hash = "sha256-3PzTVd34AmeRoZrvc1zKkXiZN/ZeXOObumYrGO9FR1Y=";
-    finalImageTag = "1.25.3";
+    imageDigest = "sha256:1926e89ad28358ef2146bb8a1b9c3ba24bae681cb02b72d2df11125fdc675abe";
+    hash = "sha256-rvgF0WLfvYR0Vyd/eCjBoNcCrycpRGK/gD2CKK2bjgs=";
+    finalImageName = "docker.gitea.com/gitea";
+    finalImageTag = "1.25.4-rootless";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+
+  postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
+  postgresServiceName = postgresServiceCfg.metadata.name;
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  sops = {
+    secrets = {
+      "postgres/environment/POSTGRES_USER".sopsFile = ../../../secrets/apollo-2000.yaml;
+      "postgres/environment/POSTGRES_PASSWORD".sopsFile = ../../../secrets/apollo-2000.yaml;
+    };
+
+    templates.gitea-environment-secret = {
+      content = builtins.toJSON {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata = {
+          name = "gitea-environment-secret";
+          labels."app.kubernetes.io/name" = "gitea";
+        };
+        stringData = {
+          GITEA__database__USER = config.sops.placeholder."postgres/environment/POSTGRES_USER";
+          GITEA__database__PASSWD = config.sops.placeholder."postgres/environment/POSTGRES_PASSWORD";
+        };
+      };
+      path = "/var/lib/rancher/k3s/server/manifests/gitea-environment-secret.yaml";
+    };
+  };
+  services.k3s = {
     images = [ image ];
     manifests = {
       gitea-deployment.content = {
@@ -26,24 +54,191 @@ in
         };
         spec = {
           replicas = 1;
+          strategy = {
+            type = "RollingUpdate";
+            rollingUpdate = {
+              maxSurge = 0;
+              maxUnavailable = 1;
+            };
+          };
+
           selector.matchLabels."app.kubernetes.io/name" = "gitea";
+
           template = {
-            metadata.labels."app.kubernetes.io/name" = "gitea";
+            metadata = {
+              labels."app.kubernetes.io/name" = "gitea";
+              annotations."diun.enable" = "true";
+            };
             spec = {
+              securityContext = {
+                supplementalGroups = [ config.users.groups.nas-gitea-management.gid ];
+              };
+              initContainers = [
+                {
+                  name = "init-permissions";
+                  image = "busybox";
+                  command = [
+                    "sh"
+                    "-c"
+                    "chown -R 1000:1000 /data && chown -R 1000:1000 /config"
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/data";
+                      name = "data";
+                    }
+                    {
+                      mountPath = "/config";
+                      name = "config";
+                    }
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "gitea";
                   image = "${image.imageName}:${image.imageTag}";
-                  env = [ ];
-                  ports = [ { containerPort = 3000; } ];
-                  volumeMounts = [ ];
+                  imagePullPolicy = "IfNotPresent";
+                  envFrom = [ { secretRef.name = "gitea-environment-secret"; } ];
+                  env = [
+                    {
+                      name = "TZ";
+                      value = "America/Los_Angeles";
+                    }
+                    {
+                      name = "GITEA__database__DB_TYPE";
+                      value = "postgres";
+                    }
+                    {
+                      name = "GITEA__database__HOST";
+                      value = "${postgresServiceName}.default.svc.cluster.local";
+                    }
+                    {
+                      name = "GITEA__database__NAME";
+                      value = "gitea";
+                    }
+                    {
+                      name = "GITEA__server__PROTOCOL";
+                      value = "http";
+                    }
+                    {
+                      name = "GITEA__server__ROOT_URL";
+                      value = "http://gitea.internal.perren.cloud/";
+                    }
+
+                  ];
+                  ports = [
+                    {
+                      name = "http";
+                      containerPort = 30008;
+                      protocol = "TCP";
+                    }
+                    {
+                      name = "ssh";
+                      containerPort = 22;
+                      protocol = "TCP";
+                    }
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/var/lib/gitea";
+                      name = "data";
+                    }
+                    {
+                      mountPath = "/etc/gitea";
+                      name = "config";
+                    }
+                    {
+                      mountPath = "/tmp/gitea";
+                      name = "tmp";
+                    }
+                  ];
                 }
               ];
-              volumes = [ ];
+              volumes = [
+                {
+                  name = "config";
+                  persistentVolumeClaim.claimName = "gitea-config-pvc";
+                }
+                {
+                  name = "data";
+                  persistentVolumeClaim.claimName = "gitea-data-pvc";
+                }
+                {
+                  name = "tmp";
+                  emptyDir = { };
+                }
+              ];
             };
           };
         };
       };
+      gitea-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "gitea-config-pvc";
+          labels."app.kubernetes.io/name" = "gitea";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "10Mi";
+        };
+      };
+      gitea-data-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "gitea-data-pvc";
+          labels."app.kubernetes.io/name" = "gitea";
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "30Gi";
+        };
+      };
+      #      gitea-data-nfs-pv.content = {
+      #        apiVersion = "v1";
+      #        kind = "PersistentVolume";
+      #        metadata = {
+      #          name = "gitea-data-nfs-pv";
+      #          labels."app.kubernetes.io/name" = "gitea";
+      #        };
+      #        spec = {
+      #          capacity.storage = "1Ti";
+      #          accessModes = [ "ReadOnlyMany" ];
+      #          persistentVolumeReclaimPolicy = "Retain";
+      #          mountOptions = [
+      #            "nfsvers=4.1"
+      #            "rsize=1048576"
+      #            "wsize=1048576"
+      #            "hard"
+      #            "timeo=600"
+      #            "retrans=2"
+      #          ];
+      #          nfs = {
+      #            server = "cap-apollo-n01";
+      #            path = "/nas_data_primary/gitea";
+      #          };
+      #        };
+      #      };
+      #      gitea-data-pvc.content = {
+      #        apiVersion = "v1";
+      #        kind = "PersistentVolumeClaim";
+      #        metadata = {
+      #          name = "gitea-data-pvc";
+      #          labels."app.kubernetes.io/name" = "gitea";
+      #        };
+      #        spec = {
+      #          selector.matchLabels."app.kubernetes.io/name" = "gitea";
+      #          accessModes = [ "ReadOnlyMany" ];
+      #          volumeName = "gitea-data-nfs-pv";
+      #          storageClassName = "";
+      #          resources.requests.storage = "1Ti";
+      #        };
+      #      };
       gitea-service.content = {
         apiVersion = "v1";
         kind = "Service";
@@ -55,8 +250,9 @@ in
           selector."app.kubernetes.io/name" = "gitea";
           ports = [
             {
-              port = 3000;
-              targetPort = 3000;
+              name = "http";
+              port = 30008;
+              targetPort = 30008;
             }
           ];
         };
@@ -66,30 +262,53 @@ in
         kind = "Ingress";
         metadata = {
           name = "gitea";
+          labels."app.kubernetes.io/name" = "gitea";
           annotations = {
-            "kubernetes.io/ingress.class" = "traefik";
             "traefik.ingress.kubernetes.io/router.entrypoints" = "web";
+            "gethomepage.dev/description" = "Git and object repository";
+            "gethomepage.dev/enabled" = "true";
+            "gethomepage.dev/group" = "Programming";
+            "gethomepage.dev/icon" = "gitea.png";
+            "gethomepage.dev/name" = "Gitea";
           };
         };
         spec = {
           ingressClassName = "traefik";
           rules = [
-            ({
+            {
+              host = "gitea.internal.perren.cloud";
               http = {
                 paths = [
                   {
-                    path = "/gitea";
+                    path = "/";
                     pathType = "Prefix";
                     backend = {
                       service = {
                         name = "gitea";
-                        port.number = 3000;
+                        port.number = 30008;
                       };
                     };
                   }
                 ];
               };
-            })
+            }
+            {
+              host = "gitea.perren.cloud";
+              http = {
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "Prefix";
+                    backend = {
+                      service = {
+                        name = "gitea";
+                        port.number = 30008;
+                      };
+                    };
+                  }
+                ];
+              };
+            }
           ];
         };
       };

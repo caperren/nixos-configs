@@ -29,6 +29,10 @@
   networking.hostName = "cap-apollo-n01";
   networking.hostId = "6169cc38";
 
+  environment.systemPackages = with pkgs; [
+    unrar
+  ];
+
   boot.zfs.extraPools = [
     #    "nas_data_homelab"
     "nas_data_primary"
@@ -99,12 +103,44 @@
             /nas_data_primary/caperren
 
           # caperren_gdrive
+          echo "Setting acl for nas_data_primary/caperren_gdrive dataset"
+          setfacl -R \
+            -m "g:nas-caperren-gdrive-management:rwx" \
+            /nas_data_primary/caperren_gdrive
+          setfacl -R -d \
+            -m "g:nas-caperren-gdrive-management:rwx" \
+            /nas_data_primary/caperren_gdrive
 
           # immich
+          echo "Setting acl for nas_data_primary/immich dataset"
+          setfacl -R \
+            -m "g:nas-immich-management:rwx" \
+            /nas_data_primary/immich
+          setfacl -R -d \
+            -m "g:nas-immich-management:rwx" \
+            /nas_data_primary/immich
 
-          # kavita
+          # komga
+          echo "Setting acl for nas_data_primary/komga dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-komga-management:rwx" \
+            -m "g:nas-komga-view:rx" \
+            /nas_data_primary/komga
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-komga-management:rwx" \
+            -m "g:nas-komga-view:rx" \
+            /nas_data_primary/komga
 
           # long_term_storage
+          echo "Setting acl for nas_data_primary/long_term_storage dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/long_term_storage
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/long_term_storage
 
           # media
           echo "Setting acl for nas_data_primary/media dataset"
@@ -123,6 +159,10 @@
           echo "Setting zfs sharing options for datasets"
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren_gdrive
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
         ''}";
 

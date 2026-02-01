@@ -71,6 +71,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 {
                   name = "postgres";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   envFrom = [ { secretRef.name = "postgres-environment-secret"; } ];
                   ports = [ { containerPort = 5432; } ];
                   volumeMounts = [
@@ -101,7 +102,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         spec = {
           accessModes = [ "ReadWriteMany" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "10Gi";
+          resources.requests.storage = "20Gi";
         };
       };
       postgres-service.content = {

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=ComicTagger
+Exec=comictagger
+Icon=comictagger
+Terminal=false
+Categories=Utilities;

@@ -5,11 +5,14 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "ghcr.io/gethomepage/homepage";
-    imageDigest = "sha256:7dc099d5c6ec7fc945d858218565925b01ff8a60bcbfda990fc680a8b5cd0b6e";
-    hash = "sha256-S1c4oN+VH5GNrl44TchRRe6VhETUuvFp36XjJV8JbDs=";
-    finalImageTag = "v1.8.0";
+    imageDigest = "sha256:7fa7b07a26bd8d90a44bb975c6455b10d8dee467ce674b040750ffb4a0f486d6";
+    hash = "sha256-CewMt2VZ+4Z2zQ6c52ovciCdKqXckDdp4oFydqQD3Sk=";
+    finalImageName = "ghcr.io/gethomepage/homepage";
+    finalImageTag = "v1.9.0";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
 in
@@ -153,7 +156,17 @@ in
             mode: cluster
           '';
           "proxmox.yaml" = "";
-          "services.yaml" = "";
+          "services.yaml" = ''
+            - iLO:
+              - cap-apollo-ilo01:
+                  href: https://192.168.1.45
+              - cap-apollo-ilo02:
+                  href: https://192.168.1.46
+              - cap-apollo-ilo03:
+                  href: https://192.168.1.47
+              - cap-apollo-ilo04:
+                  href: https://192.168.1.48
+          '';
           "settings.yaml" = ''
             background: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
             cardBlur: md
@@ -204,7 +217,13 @@ in
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "homepage";
-              annotations."diun.enable" = "true";
+              annotations = {
+                "diun.enable" = "true";
+                "diun.watch_repo" = "true";
+                "diun.sort_tags" = "semver";
+                "diun.max_tags" = "5";
+                "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9].[0-9].[0-9]$";
+              };
             };
             spec = {
               serviceAccountName = "homepage";
@@ -218,6 +237,7 @@ in
                 {
                   name = "homepage";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [
                     {
                       name = "TZ";

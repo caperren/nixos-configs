@@ -18,4 +18,19 @@
 
   # Group with r permissions to the ad share
   users.groups.nas-ad-view.gid = 204;
+
+  # Group with r/w permissions to the ad share
+  users.groups.nas-komga-management.gid = 205;
+
+  # Group with r permissions to the ad share
+  users.groups.nas-komga-view.gid = 206;
+
+  # Group with r/w permissions to the gitea share
+  users.groups.nas-gitea-management.gid = 207;
+
+  # Group with r/w permissions to the caperren_gdrive share
+  users.groups.nas-caperren-gdrive-management.gid = 208;
+
+  # Group with r/w permissions to the immich share
+  users.groups.nas-immich-management.gid = 209;
 }

@@ -32,6 +32,7 @@
     - `kubectl logs -f -l app.kubernetes.io/name=<app name> --all-containers`
 - To get a shell for a specific pod
     - `kubectl exec --stdin --tty <pod-name> -- <bash | sh>`
+    - `sudo kubectl exec --stdin --tty $(sudo kubectl get pods -l app.kubernetes.io/name=<app_name> --no-headers -o custom-columns=":metadata.name") -- /bin/sh`
 - To figure out why a manifest is not applying (after it's present)
     - `kubectl apply -f /var/lib/rancher/k3s/server/manifests/<manifest file>`
 - Get logs for a particular container (like init containers) in a pod
@@ -47,7 +48,7 @@
     - Verify that nodes have moved
   - Perform reboot
   - `kubectl uncordon <node>`
-    - After work is complete, to allow scheduling 
+    - After work is complete, to allow scheduling
 
 ## Misc references used
 * https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles/tree/main

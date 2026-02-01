@@ -46,6 +46,7 @@ in
                 {
                   name = "esphome";
                   image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
                   env = [ ];
                   ports = [ { containerPort = 6052; } ];
                   volumeMounts = [

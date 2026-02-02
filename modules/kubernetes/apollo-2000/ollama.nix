@@ -5,13 +5,17 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
+  imageConfig = {
     imageName = "ollama/ollama";
     imageDigest = "sha256:2c9595c555fd70a28363489ac03bd5bf9e7c5bdf2890373c3a830ffd7252ce6d";
     hash = "sha256-tmBOo9DduFkNPCHKNL5XdhnQVjWNklo8GMe4rHA0fMg=";
     finalImageTag = "0.13.5";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+
+  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -25,7 +29,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "ollama";
         };
         spec = {
-          replicas = 0;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -47,7 +51,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   name = "ollama";
                   image = "${image.imageName}:${image.imageTag}";
                   imagePullPolicy = "IfNotPresent";
-                  #                  envFrom = [ { secretRef.name = "ollama-environment-secret"; } ];
                   ports = [ { containerPort = 11434; } ];
                   resources = {
                     requests = {

@@ -10,9 +10,23 @@
     thunar-archive-plugin
     thunar-volman
   ];
+
+  # Yazi file manager, with substitute for pre-packaged version
+  nix = {
+    settings = {
+      substitute = true;
+      substituters = [
+        "https://yazi.cachix.org"
+      ];
+      trusted-public-keys = [
+        "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
+      ];
+    };
+  };
+  programs.yazi.enable = true;
+
   programs.ydotool.enable = true;
 
-  services.glances.enable = true;
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.hardware.openrgb.enable = true;
   services.openssh.enable = true;

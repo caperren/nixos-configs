@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
 
-  services.glances.enable = true;
   services.openssh.enable = true;
 
   environment.systemPackages = with pkgs; [

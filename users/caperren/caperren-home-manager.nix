@@ -77,13 +77,26 @@ in
       };
     };
 
+    programs.yazi = {
+      enable = true;
+      settings = {
+        mgr = {
+          sort_by = "natural";
+          sort_sensitive = true;
+          sort_dir_first = true;
+          linemode = "none";
+          show_hidden = true;
+          show_symlink = true;
+        };
+      };
+    };
+
     # Assets/scripts
     home.file.".config/streamdeck-ui/icons".source = ./dotfiles/streamdeck/icons;
     home.file.".config/hypr/scripts".source = ./dotfiles/.config/hypr/scripts;
 
     # Application config files
     home.file.".config/containers/policy.json".source = ./dotfiles/.config/containers/policy.json;
-    home.file.".config/glances/glances.conf".source = ./dotfiles/.config/glances/glances.conf;
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
     home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;
     home.file.".config/hypr/backgrounds/black.png".source = ./dotfiles/hyprpaper/backgrounds/black.png;

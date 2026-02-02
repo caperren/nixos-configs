@@ -15,9 +15,8 @@
               hosts, too!
         - `:r` -> reload the flake from disk for realtime editing/test dev loop
         - Examples
-            - Print shell script created with `pkgs.writeShellScript` and linked to alias
-                -
-                `:p builtins.readFile flake.nixosConfigurations.cap-apollo-n01.config.programs.bash.shellAliases.setzfsoptions`
+          - Print shell script created with `pkgs.writeShellScript` and linked to alias
+              - `:p builtins.readFile flake.nixosConfigurations.cap-apollo-n01.config.programs.bash.shellAliases.setzfsoptions`
     - `nix-inspect --expr 'builtins.getFlake "<path>"'`
         - Shows flake in `lf`-style hierarchical interface
 - To generate the sops age key for a new host

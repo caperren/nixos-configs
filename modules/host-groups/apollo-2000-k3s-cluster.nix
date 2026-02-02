@@ -80,7 +80,6 @@ in
     ../kubernetes/apollo-2000/ollama.nix
     ../kubernetes/apollo-2000/openwebui.nix
     ../kubernetes/apollo-2000/pg-admin.nix
-    #    ../kubernetes/apollo-2000/plex.nix
     ../kubernetes/apollo-2000/postgres.nix
     #    ../kubernetes/apollo-2000/prometheus.nix
     #    ../kubernetes/apollo-2000/prowlarr.nix
@@ -92,7 +91,6 @@ in
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
     ../kubernetes/apollo-2000/termix.nix
-    #    ../kubernetes/apollo-2000/yt-dlp-web-ui.nix
     ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 

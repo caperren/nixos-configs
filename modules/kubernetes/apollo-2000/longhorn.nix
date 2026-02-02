@@ -37,13 +37,49 @@ in
 
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     manifests = {
-      longhorn-namespace.content = {
+    longhorn-namespace.content = {
         apiVersion = "v1";
         kind = "Namespace";
         metadata = {
           name = "longhorn-system";
         };
       };
+
+      longhorn-recurringjob-backup-daily.content = {
+        apiVersion = "longhorn.io/v1beta2";
+        kind = "RecurringJob";
+        metadata = {
+          name = "backup-daily";
+          namespace = "longhorn-system";
+        };
+        spec = {
+          task = "backup";
+          cron = "30 2 * * *"; # daily 02:30
+          retain = 14;
+          concurrency = 2;
+
+          groups = [ "daily" ];
+
+          # Full backup once a week, otherwise incremental
+          parameters."full-backup-interval" = "7";
+        };
+      };
+      longhorn-recurringjob-snapshot-hourly.content = {
+        apiVersion = "longhorn.io/v1beta2";
+        kind = "RecurringJob";
+        metadata = {
+          name = "snapshot-hourly";
+          namespace = "longhorn-system";
+        };
+        spec = {
+          task = "snapshot";
+          cron = "15 * * * *"; # hourly at :15
+          retain = 24;
+          concurrency = 2;
+          groups = [ "hourly" ];
+        };
+      };
+
       longhorn-helmchart.content = {
         apiVersion = "helm.cattle.io/v1";
         kind = "HelmChart";

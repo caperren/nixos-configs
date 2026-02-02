@@ -35,7 +35,6 @@ in
     ];
   };
 
-  # Namespace first
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     manifests = {
       longhorn-namespace.content = {
@@ -102,6 +101,18 @@ in
         };
         spec = {
           backupTargetURL = "";
+          pollInterval = "5m0s";
+        };
+      };
+      longhorn-backup-target-1.content = {
+        apiVersion = "longhorn.io/v1beta2";
+        kind = "BackupTarget";
+        metadata = {
+          name = "default";
+          namespace = "longhorn-system";
+        };
+        spec = {
+          backupTargetURL = "nfs://192.168.1.41:/nas_data_primary/longhorn?nfsOptions=nfsvers=4.2,retrans=3,actimeo=1";
           pollInterval = "5m0s";
         };
       };

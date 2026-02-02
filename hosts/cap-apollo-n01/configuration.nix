@@ -55,7 +55,7 @@
           set -e
 
           ###### Variables
-          pool_datasets=(nas_data_primary)
+          pool_datasets=(nas_data_primary nas_data_high_speed)
 
           chown_owner="root:root"
           chmod_dir_options="750"
@@ -79,6 +79,16 @@
           done
 
           ##### Dataset acl config #####
+          ### nas_data_high_speed ###
+          # ollama
+          echo "Setting acl for nas_data_high_speed/ollama dataset"
+          setfacl -R \
+            -m "g:nas-ollama-management:rwx" \
+            /nas_data_high_speed/ollama
+          setfacl -R -d \
+            -m "g:nas-ollama-management:rwx" \
+            /nas_data_high_speed/ollama
+
           ### nas_data_primary ###
           # ad
           echo "Setting acl for nas_data_primary/ad dataset"
@@ -157,6 +167,7 @@
 
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"
+          zfs set sharenfs="''${zfs_share_options}" nas_data_high_speed/ollama
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren_gdrive

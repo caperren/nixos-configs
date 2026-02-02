@@ -33,4 +33,7 @@
 
   # Group with r/w permissions to the immich share
   users.groups.nas-immich-management.gid = 209;
+
+  # Group with r/w permissions to the ollama share
+  users.groups.nas-ollama-management.gid = 210;
 }

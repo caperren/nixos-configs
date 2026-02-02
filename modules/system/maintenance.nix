@@ -4,6 +4,6 @@
   options."perren.cloud".maintenance.nfs = lib.mkOption {
     type = lib.types.bool;
     readOnly = true;
-    default = true;
+    default = false;
   };
 }

@@ -61,7 +61,8 @@
           chmod_dir_options="750"
           chmod_file_options="640"
 
-          zfs_share_options="rw=@192.168.1.0/24,root_squash"
+          zfs_share_base_options="rw=@192.168.1.0/24"
+          zfs_share_options="''${zfs_share_base_options},root_squash"
 
           ##### Top level dataset options #####
           for pool_dataset in ''${pool_datasets[@]}; do
@@ -174,6 +175,7 @@
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
+          zfs set sharenfs="''${zfs_share_base_options}" nas_data_primary/longhorn
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
         ''}";
 

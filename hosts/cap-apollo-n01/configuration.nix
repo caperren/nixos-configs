@@ -72,10 +72,13 @@
               zfs set acltype=posix "''${pool_dataset}"
 
               # Set non-acl owner
+              echo "Recursively chowning \"''${pool_dataset}\" pool"
               chown -R "''${chown_owner}" "/''${pool_dataset}"
 
               # Set non-acl directory and file permissions
+              echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
               find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
               find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
           done
 

@@ -77,19 +77,46 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
-#      ollama-data-pvc.content = {
-#        apiVersion = "v1";
-#        kind = "PersistentVolumeClaim";
-#        metadata = {
-#          name = "ollama-data-pvc";
-#          labels."app.kubernetes.io/name" = "ollama";
-#        };
-#        spec = {
-#          accessModes = [ "ReadWriteMany" ];
-#          storageClassName = "longhorn";
-#          resources.requests.storage = "100Gi";
-#        };
-#      };
+      ollama-data-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "ollama-data-nfs-pv";
+          labels."app.kubernetes.io/name" = "jellyfin";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadOnlyMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_high_speed/ollama";
+          };
+        };
+      };
+      ollama-data-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "ollama-data-pvc";
+          labels."app.kubernetes.io/name" = "jellyfin";
+        };
+        spec = {
+          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          accessModes = [ "ReadOnlyMany" ];
+          volumeName = "ollama-data-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
+        };
+      };
       ollama-service.content = {
         apiVersion = "v1";
         kind = "Service";

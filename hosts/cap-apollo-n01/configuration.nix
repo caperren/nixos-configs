@@ -34,9 +34,9 @@
   ];
 
   boot.zfs.extraPools = [
-    #    "nas_data_homelab"
-    "nas_data_primary"
+    "nas_data_high_speed"
     "nas_data_important"
+    "nas_data_primary"
   ];
 
   services.nfs.server.enable = true;

@@ -100,7 +100,7 @@ in
           namespace = "longhorn-system";
         };
         spec = {
-          backupTargetURL = "nfs://192.168.1.41:/nas_data_primary/longhorn?nfsOptions=nfsvers=4.2,retrans=3,actimeo=1";
+          backupTargetURL = "nfs://192.168.1.41:/nas_data_primary/longhorn";
           pollInterval = "5m0s";
         };
       };

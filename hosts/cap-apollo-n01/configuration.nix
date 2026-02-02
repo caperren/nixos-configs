@@ -175,7 +175,7 @@
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
-          zfs set sharenfs="''${zfs_share_base_options}" nas_data_primary/longhorn
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
         ''}";
 

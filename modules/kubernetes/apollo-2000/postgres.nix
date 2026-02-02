@@ -97,7 +97,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "postgres-data-pvc";
-          labels."app.kubernetes.io/name" = "postgres";
+          labels = {
+            "app.kubernetes.io/name" = "postgres";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteMany" ];

@@ -105,7 +105,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "technitium-config-pvc";
-          labels."app.kubernetes.io/name" = "technitium";
+          labels = {
+            "app.kubernetes.io/name" = "technitium";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

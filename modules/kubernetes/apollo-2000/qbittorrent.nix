@@ -141,7 +141,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "qbittorrent-config-pvc";
-          labels."app.kubernetes.io/name" = "qbittorrent";
+          labels = {
+            "app.kubernetes.io/name" = "qbittorrent";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

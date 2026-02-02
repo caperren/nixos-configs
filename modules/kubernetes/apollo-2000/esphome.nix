@@ -73,7 +73,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "esphome-config-pvc";
-          labels."app.kubernetes.io/name" = "esphome";
+          labels = {
+            "app.kubernetes.io/name" = "esphome";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

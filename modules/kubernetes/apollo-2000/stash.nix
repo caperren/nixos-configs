@@ -125,7 +125,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-a-config-pvc";
-          labels."app.kubernetes.io/name" = "stash-a";
+          labels = {
+            "app.kubernetes.io/name" = "stash-a";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -138,7 +142,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-a-store-pvc";
-          labels."app.kubernetes.io/name" = "stash-a";
+          labels = {
+            "app.kubernetes.io/name" = "stash-a";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -324,7 +332,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-b-config-pvc";
-          labels."app.kubernetes.io/name" = "stash-b";
+          labels = {
+            "app.kubernetes.io/name" = "stash-b";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -337,7 +349,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-b-store-pvc";
-          labels."app.kubernetes.io/name" = "stash-b";
+          labels = {
+            "app.kubernetes.io/name" = "stash-b";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

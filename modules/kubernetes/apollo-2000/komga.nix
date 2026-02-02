@@ -86,7 +86,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "komga-config-pvc";
-          labels."app.kubernetes.io/name" = "komga";
+          labels = {
+            "app.kubernetes.io/name" = "komga";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

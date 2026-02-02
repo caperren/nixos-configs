@@ -111,7 +111,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "lubelogger-data-pvc";
-          labels."app.kubernetes.io/name" = "lubelogger";
+          labels = {
+            "app.kubernetes.io/name" = "lubelogger";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -124,7 +128,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "lubelogger-keys-pvc";
-          labels."app.kubernetes.io/name" = "lubelogger";
+          labels = {
+            "app.kubernetes.io/name" = "lubelogger";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

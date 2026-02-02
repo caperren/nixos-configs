@@ -12,7 +12,9 @@ let
     finalImageName = "homeassistant/home-assistant";
     finalImageTag = "2026.1.3";
   };
-  image = pkgs.dockerTools.pullImage imageConfig // { arch = "amd64"; };
+  image = pkgs.dockerTools.pullImage imageConfig // {
+    arch = "amd64";
+  };
 
   zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
 in
@@ -124,7 +126,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "home-assistant-config-pvc";
-          labels."app.kubernetes.io/name" = "home-assistant";
+          labels = {
+            "app.kubernetes.io/name" = "home-assistant";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteMany" ];

@@ -46,6 +46,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
+            securityContext.supplementalGroups = [ config.users.groups.nas-ollama-management.gid ];
               containers = [
                 {
                   name = "ollama";

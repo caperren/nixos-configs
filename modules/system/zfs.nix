@@ -15,6 +15,9 @@ in
   ];
 
   services.zfs.zed.settings = {
+    ZED_DEBUG_LOG = "/tmp/zed.debug.log";
+    ZED_USE_ENCLOSURE_LEDS = true;
+    ZED_SCRUB_AFTER_RESILVER = true;
     ZED_NOTIFY_VERBOSE = true;
   };
   systemd.services.zfs-zed.path = [

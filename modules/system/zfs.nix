@@ -14,11 +14,8 @@ in
     zfs
   ];
 
-  services.zfs.zed = {
-    enable = true;
-    settings = {
+  services.zfs.zed.settings = {
 
-    };
   };
   systemd.services.zfs-zed.path = [
     pkgs.notify

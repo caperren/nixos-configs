@@ -135,7 +135,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         spec = {
           accessModes = [ "ReadWriteMany" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "5Gi";
+          resources.requests.storage = "20Gi";
         };
       };
       home-assistant-service.content = {

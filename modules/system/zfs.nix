@@ -15,7 +15,7 @@ in
   ];
 
   services.zfs.zed.settings = {
-    ZED_NOTIFY_VERBOSE = 1;
+    ZED_NOTIFY_VERBOSE = true;
   };
   systemd.services.zfs-zed.path = [
     pkgs.notify
@@ -25,7 +25,6 @@ in
 
   environment.etc."zfs/zed.d/zed-tg-notify.sh" = {
     source = pkgs.writeShellScript "zed-tg-notify.sh" ''
-      #!/usr/bin/env bash
       set -euo pipefail
 
       # Extract zevent data

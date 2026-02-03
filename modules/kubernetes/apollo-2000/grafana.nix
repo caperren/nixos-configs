@@ -54,8 +54,8 @@ let
     "k8s-system-api-server.json" = builtins.readFile k8sApiServerDashboard;
   };
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       grafana-deployment.content = {

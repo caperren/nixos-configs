@@ -5,7 +5,6 @@
   ...
 }:
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
-
   services.k3s = {
     manifests = {
       multus-helmchart.content = {
@@ -47,7 +46,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         spec.config = builtins.toJSON {
           cniVersion = "0.3.1";
           type = "macvlan";
-          master = "vlan5";  # Same on all apollo systems
+          master = "vlan5"; # Same on all apollo systems
           mode = "bridge";
           vlan = 5;
 

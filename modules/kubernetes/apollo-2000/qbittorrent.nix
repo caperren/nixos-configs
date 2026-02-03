@@ -49,9 +49,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."k8s.v1.cni.cncf.io/networks" = "vlan5";
             };
             spec = {
-              securityContext = {
-                supplementalGroups = [ config.users.groups.nas-media-management.gid ];
-              };
+              securityContext.supplementalGroups = [ config.users.groups.nas-media-management.gid ];
               initContainers = [
                 {
                   name = "fix-multus-routes";

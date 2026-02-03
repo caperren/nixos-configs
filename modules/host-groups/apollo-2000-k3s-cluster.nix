@@ -66,7 +66,6 @@ in
     #    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
-    #    ../kubernetes/apollo-2000/secrets.nix
     ../kubernetes/apollo-2000/gitea.nix
     #    ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
@@ -86,7 +85,6 @@ in
     ../kubernetes/apollo-2000/qbittorrent.nix
     #    ../kubernetes/apollo-2000/radarr.nix
     #    ../kubernetes/apollo-2000/rclone.nix
-    #    ../kubernetes/apollo-2000/secrets.nix
     ../kubernetes/apollo-2000/spliit.nix
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix

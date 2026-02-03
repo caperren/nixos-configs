@@ -15,7 +15,7 @@ in
   ];
 
   services.zfs.zed.settings = {
-    ZED_NOTIFY_VERBOSE = true;
+    ZED_NOTIFY_VERBOSE = 1;
   };
   systemd.services.zfs-zed.path = [
     pkgs.notify

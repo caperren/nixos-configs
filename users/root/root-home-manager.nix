@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  notifyHelpers = import ../../modules/scripts/notify-helpers.nix { inherit pkgs; };
+in
 {
   sops = {
     secrets = {
@@ -39,6 +42,7 @@
     home.packages = with pkgs; [
       notify
       python314
+      notifyHelpers.tgEscape
     ];
   };
 }

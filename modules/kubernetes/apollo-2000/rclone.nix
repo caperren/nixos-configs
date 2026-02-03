@@ -20,7 +20,8 @@ let
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
-    secrets."rclone/config/google-drive-token".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets."rclone/environment/RCLONE_DRIVE_CLIENT_ID".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets."rclone/environment/RCLONE_DRIVE_CLIENT_SECRET".sopsFile = ../../../secrets/apollo-2000.yaml;
 
     templates.rclone-environment-secret = {
       content = builtins.toJSON {
@@ -30,7 +31,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           name = "rclone-environment-secret";
           labels."app.kubernetes.io/name" = "rclone";
         };
-        stringData.GOOGLE_DRIVE_TOKEN = config.sops.placeholder."rclone/config/google-drive-token";
+        stringData.RCLONE_DRIVE_CLIENT_ID = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_CLIENT_ID";
+        stringData.RCLONE_DRIVE_CLIENT_SECRET = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_CLIENT_SECRET";
       };
       path = "/var/lib/rancher/k3s/server/manifests/rclone-environment-secret.yaml";
     };
@@ -49,34 +51,27 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           "rclone.conf" = ''
             [google_drive]
             type = drive
-            scope = drive
+            scope = drive.readonly
             env_auth = true
-            token_url = https://oauth2.googleapis.com/token
-            client_id = YOUR_CLIENT_ID
-            client_secret = YOUR_CLIENT_SECRET
           '';
         };
       };
       rclone-deployment.content = {
-        apiVersion = "apps/v1";
-        kind = "Deployment";
+        apiVersion = "batch/v1";
+        kind = "CronJob";
         metadata = {
           name = "rclone";
           labels."app.kubernetes.io/name" = "rclone";
         };
         spec = {
-          replicas = allowedReplicas;
-          strategy = {
-            type = "RollingUpdate";
-            rollingUpdate = {
-              maxSurge = 0;
-              maxUnavailable = 1;
-            };
-          };
+          schedule = "0 0 * * *"; # Run at midnight every day of the week
+          concurrencyPolicy = "Forbid";
+          successfulJobsHistoryLimit = 3;
+          failedJobsHistoryLimit = 3;
 
           selector.matchLabels."app.kubernetes.io/name" = "rclone";
 
-          template = {
+          jobTemplate.spec.template = {
             metadata = {
               labels."app.kubernetes.io/name" = "rclone";
               annotations = {
@@ -88,16 +83,49 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
+              restartPolicy = "Never"; # rclone container will terminate when finished
+
               securityContext.supplementalGroups = [ config.users.groups.nas-caperren-gdrive-management.gid ];
+
               containers = [
                 {
                   name = "rclone";
                   image = "${image.imageName}:${image.imageTag}";
                   imagePullPolicy = "IfNotPresent";
                   envFrom = [ { secretRef.name = "rclone-environment-secret"; } ];
+                  env = [
+                    {
+                      name = "TZ";
+                      value = "America/Los_Angeles";
+                    }
+                    {
+                      name = "RCLONE_CONFIG";
+                      value = "/config/rclone/rclone.conf";
+                    }
+                  ];
+                  command = [
+                    "/bin/sh"
+                    "-lc"
+                  ];
+                  args = [
+                    ''
+                      set -euo pipefail
+
+                      rclone sync "gdrive:" "/storage" \
+                        --drive-export-formats "ods,odt,odp" \
+                        --create-empty-src-dirs \
+                        --fast-list \
+                        --checkers 16 \
+                        --transfers 8 \
+                        --retries 5 \
+                        --retries-sleep 10s \
+                        --stats 30s \
+                        --log-level INFO
+                    ''
+                  ];
                   volumeMounts = [
                     {
-                      mountPath = "/home/user/.config/rclone/rclone.conf";
+                      mountPath = "/config/rclone/rclone.conf";
                       name = "config";
                       subPath = "rclone.conf";
                     }

@@ -51,24 +51,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
               securityContext.supplementalGroups = [ config.users.groups.nas-rclone-management.gid ];
 
-              initContainers = [
-                {
-                  name = "tmp";
-                  image = "${image.imageName}:${image.imageTag}";
-                  imagePullPolicy = "IfNotPresent";
-                  command = [
-                    "sleep"
-                    "36000"
-                  ];
-                  volumeMounts = [
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
-                  ];
-                }
-              ];
-
               containers = [
                 {
                   name = "rclone";

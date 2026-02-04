@@ -85,7 +85,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             spec = {
               restartPolicy = "Never"; # rclone container will terminate when finished
 
-              securityContext.supplementalGroups = [ config.users.groups.nas-caperren-gdrive-management.gid ];
+              securityContext.supplementalGroups = [ config.users.groups.nas-rclone-management.gid ];
 
               containers = [
                 {

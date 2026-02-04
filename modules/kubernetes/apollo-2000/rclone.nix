@@ -19,45 +19,9 @@ let
   allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
-  sops = {
-    secrets."rclone/environment/RCLONE_DRIVE_CLIENT_ID".sopsFile = ../../../secrets/apollo-2000.yaml;
-    secrets."rclone/environment/RCLONE_DRIVE_CLIENT_SECRET".sopsFile = ../../../secrets/apollo-2000.yaml;
-    secrets."rclone/environment/RCLONE_DRIVE_TOKEN".sopsFile = ../../../secrets/apollo-2000.yaml;
-
-    templates.rclone-environment-secret = {
-      content = builtins.toJSON {
-        apiVersion = "v1";
-        kind = "Secret";
-        metadata = {
-          name = "rclone-environment-secret";
-          labels."app.kubernetes.io/name" = "rclone";
-        };
-        stringData.RCLONE_DRIVE_CLIENT_ID = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_CLIENT_ID";
-        stringData.RCLONE_DRIVE_CLIENT_SECRET = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_CLIENT_SECRET";
-        stringData.RCLONE_DRIVE_TOKEN = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_TOKEN";
-      };
-      path = "/var/lib/rancher/k3s/server/manifests/rclone-environment-secret.yaml";
-    };
-  };
   services.k3s = {
     images = [ image ];
     manifests = {
-      rclone-config.content = {
-        apiVersion = "v1";
-        kind = "ConfigMap";
-        metadata = {
-          name = "rclone-configmap";
-          labels."app.kubernetes.io/name" = "rclone";
-        };
-        data = {
-          "rclone.conf" = ''
-            [google_drive]
-            type = drive
-            scope = drive.readonly
-            env_auth = true
-          '';
-        };
-      };
       rclone-deployment.content = {
         apiVersion = "batch/v1";
         kind = "CronJob";
@@ -89,12 +53,29 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
               securityContext.supplementalGroups = [ config.users.groups.nas-rclone-management.gid ];
 
+              initContainers = [
+                {
+                  name = "tmp";
+                  image = "${image.imageName}:${image.imageTag}";
+                  imagePullPolicy = "IfNotPresent";
+                  command = [
+                    "sleep"
+                    "36000"
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/config";
+                      name = "config";
+                    }
+                  ];
+                }
+              ];
+
               containers = [
                 {
                   name = "rclone";
                   image = "${image.imageName}:${image.imageTag}";
                   imagePullPolicy = "IfNotPresent";
-                  envFrom = [ { secretRef.name = "rclone-environment-secret"; } ];
                   env = [
                     {
                       name = "TZ";
@@ -125,9 +106,8 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ];
                   volumeMounts = [
                     {
-                      mountPath = "/config/rclone/rclone.conf";
+                      mountPath = "/config";
                       name = "config";
-                      subPath = "rclone.conf";
                     }
                     {
                       mountPath = "/storage";
@@ -139,7 +119,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               volumes = [
                 {
                   name = "config";
-                  configMap.name = "rclone-configmap";
+                  configMap.name = "rclone-config-pvc";
                 }
                 {
                   name = "storage";
@@ -148,6 +128,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               ];
             };
           };
+        };
+      };
+      rclone-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "rclone-config-pvc";
+          labels = {
+            "app.kubernetes.io/name" = "rclone";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
+        };
+        spec = {
+          accessModes = [ "ReadWriteOnce" ];
+          storageClassName = "longhorn";
+          resources.requests.storage = "10Mi";
         };
       };
       rclone-storage-nfs-pv.content = {

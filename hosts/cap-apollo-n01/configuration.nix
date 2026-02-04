@@ -44,13 +44,13 @@
       group = "root";
 
       content = ''
-        AWS_ACCESS_KEY_ID=${config.sops.placeholder."backups/primary/id"}
-        AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."backups/primary/key"}
+        AWS_ACCESS_KEY_ID="${config.sops.placeholder."backups/primary/id"}"
+        AWS_SECRET_ACCESS_KEY="${config.sops.placeholder."backups/primary/key"}"
 
-        RESTIC_REPOSITORY=${
+        RESTIC_REPOSITORY="${
           config.sops.placeholder."backups/primary/repository"
-        }/${config.networking.hostName}
-        RESTIC_PASSWORD=${config.sops.placeholder."${config.networking.hostName}/backups/restic-password"}
+        }/${config.networking.hostName}"
+        RESTIC_PASSWORD="${config.sops.placeholder."${config.networking.hostName}/backups/restic-password"}"
       '';
     };
   };

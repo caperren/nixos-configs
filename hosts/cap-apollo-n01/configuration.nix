@@ -87,7 +87,7 @@
 
               # Set non-acl owner
               echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type d -exec chown ''${chmod_dir_options} "{}" \;
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type d -exec chown ''${chown_owner} "{}" \;
               echo "Recursively chowning files in \"''${pool_dataset}\" pool"
               find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type f -exec chown ''${chown_owner} "{}" \;
 

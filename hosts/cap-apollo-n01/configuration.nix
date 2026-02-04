@@ -29,16 +29,13 @@
   networking.hostName = "cap-apollo-n01";
   networking.hostId = "6169cc38";
 
-  environment.systemPackages = with pkgs; [
-    unrar
-  ];
-
   boot.zfs.extraPools = [
     "nas_data_high_speed"
     "nas_data_important"
     "nas_data_primary"
   ];
 
+  # ZFS snapshot and replication management
   services.sanoid.datasets = {
     "nas_data_high_speed/ollama".useTemplate = [ "low_priority" ];
     "nas_data_primary/ad".useTemplate = [ "low_priority" ];
@@ -49,6 +46,9 @@
     "nas_data_primary/media".useTemplate = [ "low_priority" ];
     "nas_data_primary/rclone".useTemplate = [ "medium_priority" ];
   };
+
+  # Backup management
+
 
   services.nfs.server.enable = true;
 
@@ -66,7 +66,7 @@
           set -e
 
           ###### Variables
-          pool_datasets=(nas_data_primary nas_data_high_speed)
+          pool_datasets=(nas_data_primary nas_data_high_speed nas_data_important)
 
           chown_owner="root:root"
           chmod_dir_options="750"
@@ -81,6 +81,9 @@
 
               # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
               zfs set acltype=posix "''${pool_dataset}"
+
+              # Make snapshot directory visible, for backups
+              zfs set snapdir=visible "''${pool_dataset}"
 
               # Set non-acl owner
               echo "Recursively chowning \"''${pool_dataset}\" pool"
@@ -191,8 +194,11 @@
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
-          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
+
+          # Longhorn is special and literally recommends no_root_squash when connecting to an
+          # nfs data store for backups in its faq troubleshooting...
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
         ''}";
 
       };

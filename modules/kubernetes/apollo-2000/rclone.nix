@@ -70,7 +70,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                     ''
                       set -euo pipefail
 
-                      mkdir -p /backup/google_drive
+                      mkdir -p /storage/google_drive
 
                       rclone sync "google_drive:" "/storage/google_drive" \
                         --drive-export-formats "ods,odt,odp" \

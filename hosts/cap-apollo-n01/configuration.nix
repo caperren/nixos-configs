@@ -91,9 +91,9 @@
 
               # Set non-acl directory and file permissions
               echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -name ".zfs" -prune -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type d -exec chmod ''${chmod_dir_options} "{}" \;
               echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -name ".zfs" -prune -type f -exec chmod ''${chmod_file_options} "{}" \;
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type f -exec chmod ''${chmod_file_options} "{}" \;
           done
 
           ##### Dataset acl config #####

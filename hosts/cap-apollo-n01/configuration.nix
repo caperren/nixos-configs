@@ -29,6 +29,34 @@
   networking.hostName = "cap-apollo-n01";
   networking.hostId = "6169cc38";
 
+  sops = {
+    secrets = {
+      "backups/primary/repository".sopsFile = ../../secrets/default.yaml;
+      "backups/primary/id".sopsFile = ../../secrets/default.yaml;
+      "backups/primary/key".sopsFile = ../../secrets/default.yaml;
+
+      "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
+    };
+
+    templates.restic-environment-file = {
+      mode = "0400";
+      owner = "root";
+      group = "root";
+
+      content = ''
+        AWS_ACCESS_KEY_ID=${config.sops.placeholder."backups/primary/id"}
+        AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."backups/primary/key"}
+
+        RESTIC_REPOSITORY=${
+          config.sops.placeholder."backups/primary/repository"
+        }/${config.networking.hostName}
+        RESTIC_PASSWORD=${config.sops.placeholder."${config.networking.hostName}/backups/restic-password"}
+      '';
+    };
+  };
+
+  environment.systemPackages = [ pkgs.restic ];
+
   boot.zfs.extraPools = [
     "nas_data_high_speed"
     "nas_data_important"
@@ -49,7 +77,7 @@
 
   # Backup management
 
-
+  # NFS for acting as a nas
   services.nfs.server.enable = true;
 
   # Set post-boot zfs options that aren't declarative through nixos directly

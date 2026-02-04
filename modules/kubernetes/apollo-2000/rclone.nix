@@ -98,10 +98,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       name = "TZ";
                       value = "America/Los_Angeles";
                     }
-                    {
-                      name = "RCLONE_CONFIG";
-                      value = "/config/rclone/rclone.conf";
-                    }
                   ];
                   command = [
                     "/bin/sh"
@@ -113,7 +109,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
                       mkdir -p /backup/google_drive
 
-                      rclone sync "gdrive:" "/storage/google_drive" \
+                      rclone sync "google_drive:" "/storage/google_drive" \
                         --drive-export-formats "ods,odt,odp" \
                         --create-empty-src-dirs \
                         --fast-list \

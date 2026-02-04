@@ -86,8 +86,10 @@
               zfs set snapdir=visible "''${pool_dataset}"
 
               # Set non-acl owner
-              echo "Recursively chowning \"''${pool_dataset}\" pool"
-              chown -R "''${chown_owner}" "/''${pool_dataset}"
+              echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type d -exec chown ''${chmod_dir_options} "{}" \;
+              echo "Recursively chowning files in \"''${pool_dataset}\" pool"
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type f -exec chown ''${chown_owner} "{}" \;
 
               # Set non-acl directory and file permissions
               echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"

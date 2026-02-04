@@ -22,6 +22,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
     secrets."rclone/environment/RCLONE_DRIVE_CLIENT_ID".sopsFile = ../../../secrets/apollo-2000.yaml;
     secrets."rclone/environment/RCLONE_DRIVE_CLIENT_SECRET".sopsFile = ../../../secrets/apollo-2000.yaml;
+    secrets."rclone/environment/RCLONE_DRIVE_TOKEN".sopsFile = ../../../secrets/apollo-2000.yaml;
 
     templates.rclone-environment-secret = {
       content = builtins.toJSON {
@@ -33,6 +34,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         };
         stringData.RCLONE_DRIVE_CLIENT_ID = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_CLIENT_ID";
         stringData.RCLONE_DRIVE_CLIENT_SECRET = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_CLIENT_SECRET";
+        stringData.RCLONE_DRIVE_TOKEN = config.sops.placeholder."rclone/environment/RCLONE_DRIVE_TOKEN";
       };
       path = "/var/lib/rancher/k3s/server/manifests/rclone-environment-secret.yaml";
     };

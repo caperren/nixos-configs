@@ -22,7 +22,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
     images = [ image ];
     manifests = {
-      rclone-deployment.content = {
+      rclone-cronjob.content = {
         apiVersion = "batch/v1";
         kind = "CronJob";
         metadata = {
@@ -35,97 +35,98 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           successfulJobsHistoryLimit = 3;
           failedJobsHistoryLimit = 3;
 
-          selector.matchLabels."app.kubernetes.io/name" = "rclone";
-
-          jobTemplate.spec.template = {
-            metadata = {
-              labels."app.kubernetes.io/name" = "rclone";
-              annotations = {
-                "diun.enable" = "true";
-                "diun.watch_repo" = "true";
-                "diun.sort_tags" = "semver";
-                "diun.max_tags" = "5";
-                "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]*.[0-9]*.[0-9]*$";
+          jobTemplate.spec = {
+            selector.matchLabels."app.kubernetes.io/name" = "rclone";
+            template = {
+              metadata = {
+                labels."app.kubernetes.io/name" = "rclone";
+                annotations = {
+                  "diun.enable" = "true";
+                  "diun.watch_repo" = "true";
+                  "diun.sort_tags" = "semver";
+                  "diun.max_tags" = "5";
+                  "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]*.[0-9]*.[0-9]*$";
+                };
               };
-            };
-            spec = {
-              restartPolicy = "Never"; # rclone container will terminate when finished
+              spec = {
+                restartPolicy = "Never"; # rclone container will terminate when finished
 
-              securityContext.supplementalGroups = [ config.users.groups.nas-rclone-management.gid ];
+                securityContext.supplementalGroups = [ config.users.groups.nas-rclone-management.gid ];
 
-              initContainers = [
-                {
-                  name = "tmp";
-                  image = "${image.imageName}:${image.imageTag}";
-                  imagePullPolicy = "IfNotPresent";
-                  command = [
-                    "sleep"
-                    "36000"
-                  ];
-                  volumeMounts = [
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
-                  ];
-                }
-              ];
+                initContainers = [
+                  {
+                    name = "tmp";
+                    image = "${image.imageName}:${image.imageTag}";
+                    imagePullPolicy = "IfNotPresent";
+                    command = [
+                      "sleep"
+                      "36000"
+                    ];
+                    volumeMounts = [
+                      {
+                        mountPath = "/config";
+                        name = "config";
+                      }
+                    ];
+                  }
+                ];
 
-              containers = [
-                {
-                  name = "rclone";
-                  image = "${image.imageName}:${image.imageTag}";
-                  imagePullPolicy = "IfNotPresent";
-                  env = [
-                    {
-                      name = "TZ";
-                      value = "America/Los_Angeles";
-                    }
-                  ];
-                  command = [
-                    "/bin/sh"
-                    "-lc"
-                  ];
-                  args = [
-                    ''
-                      set -euo pipefail
+                containers = [
+                  {
+                    name = "rclone";
+                    image = "${image.imageName}:${image.imageTag}";
+                    imagePullPolicy = "IfNotPresent";
+                    env = [
+                      {
+                        name = "TZ";
+                        value = "America/Los_Angeles";
+                      }
+                    ];
+                    command = [
+                      "/bin/sh"
+                      "-lc"
+                    ];
+                    args = [
+                      ''
+                        set -euo pipefail
 
-                      mkdir -p /backup/google_drive
+                        mkdir -p /backup/google_drive
 
-                      rclone sync "google_drive:" "/storage/google_drive" \
-                        --drive-export-formats "ods,odt,odp" \
-                        --create-empty-src-dirs \
-                        --fast-list \
-                        --checkers 16 \
-                        --transfers 8 \
-                        --retries 5 \
-                        --retries-sleep 10s \
-                        --stats 30s \
-                        --log-level INFO
-                    ''
-                  ];
-                  volumeMounts = [
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
-                    {
-                      mountPath = "/storage";
-                      name = "storage";
-                    }
-                  ];
-                }
-              ];
-              volumes = [
-                {
-                  name = "config";
-                  configMap.name = "rclone-config-pvc";
-                }
-                {
-                  name = "storage";
-                  persistentVolumeClaim.claimName = "rclone-storage-pvc";
-                }
-              ];
+                        rclone sync "google_drive:" "/storage/google_drive" \
+                          --drive-export-formats "ods,odt,odp" \
+                          --create-empty-src-dirs \
+                          --fast-list \
+                          --checkers 16 \
+                          --transfers 8 \
+                          --retries 5 \
+                          --retries-sleep 10s \
+                          --stats 30s \
+                          --log-level INFO
+                      ''
+                    ];
+                    volumeMounts = [
+                      {
+                        mountPath = "/config";
+                        name = "config";
+                      }
+                      {
+                        mountPath = "/storage";
+                        name = "storage";
+                      }
+                    ];
+                  }
+                ];
+                volumes = [
+                  {
+                    name = "config";
+                    configMap.name = "rclone-config-pvc";
+                  }
+                  {
+                    name = "storage";
+                    persistentVolumeClaim.claimName = "rclone-storage-pvc";
+                  }
+                ];
+              };
             };
           };
         };

@@ -66,7 +66,7 @@
           set -e
 
           ###### Variables
-          pool_datasets=(nas_data_primary nas_data_high_speed)
+          pool_datasets=(nas_data_primary nas_data_high_speed nas_data_important)
 
           chown_owner="root:root"
           chmod_dir_options="750"
@@ -91,9 +91,9 @@
 
               # Set non-acl directory and file permissions
               echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              find "/''${pool_dataset}" -name ".zfs" -prune -type d -exec chmod ''${chmod_dir_options} "{}" \;
               echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
+              find "/''${pool_dataset}" -name ".zfs" -prune -type f -exec chmod ''${chmod_file_options} "{}" \;
           done
 
           ##### Dataset acl config #####

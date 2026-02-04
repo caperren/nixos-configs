@@ -117,7 +117,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               volumes = [
                 {
                   name = "config";
-                  configMap.name = "rclone-config-pvc";
+                  persistentVolumeClaim.claimName = "rclone-config-pvc";
                 }
                 {
                   name = "storage";

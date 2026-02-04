@@ -116,14 +116,16 @@
             -m "g:nas-caperren:rwx" \
             /nas_data_primary/caperren
 
-          # caperren_gdrive
-          echo "Setting acl for nas_data_primary/caperren_gdrive dataset"
+          # rclone
+          echo "Setting acl for nas_data_primary/rclone dataset"
           setfacl -R \
-            -m "g:nas-caperren-gdrive-management:rwx" \
-            /nas_data_primary/caperren_gdrive
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-rclone-management:rwx" \
+            /nas_data_primary/rclone
           setfacl -R -d \
-            -m "g:nas-caperren-gdrive-management:rwx" \
-            /nas_data_primary/caperren_gdrive
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-rclone-management:rwx" \
+            /nas_data_primary/rclone
 
           # immich
           echo "Setting acl for nas_data_primary/immich dataset"
@@ -174,7 +176,7 @@
           zfs set sharenfs="''${zfs_share_options}" nas_data_high_speed/ollama
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
-          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren_gdrive
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/rclone
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage

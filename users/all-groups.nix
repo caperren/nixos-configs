@@ -28,8 +28,8 @@
   # Group with r/w permissions to the gitea share
   users.groups.nas-gitea-management.gid = 207;
 
-  # Group with r/w permissions to the caperren_gdrive share
-  users.groups.nas-caperren-gdrive-management.gid = 208;
+  # Group with r/w permissions to the rclone share
+  users.groups.nas-rclone-management.gid = 208;
 
   # Group with r/w permissions to the immich share
   users.groups.nas-immich-management.gid = 209;

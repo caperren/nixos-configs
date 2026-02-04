@@ -6,8 +6,56 @@ in
   boot.supportedFilesystems = [ "zfs" ];
 
   services.zfs = {
-    autoScrub.enable = true;
-    trim.enable = true;
+    autoScrub = {
+      enable = true;
+      interval = "monthly";
+    };
+    trim = {
+      enable = true;
+      interval = "weekly";
+    };
+  };
+
+  services.sanoid = {
+    enable = true;
+    templates = {
+      "critical_priority" = {
+        autoprune = true;
+        autosnap = true;
+
+        daily = 30;
+        hourly = 24;
+        monthly = 12;
+        yearly = 5;
+      };
+      "high_priority" = {
+        autoprune = true;
+        autosnap = true;
+
+        daily = 14;
+        hourly = 24;
+        monthly = 6;
+        yearly = 0;
+      };
+      "medium_priority" = {
+        autoprune = true;
+        autosnap = true;
+
+        daily = 7;
+        hourly = 12;
+        monthly = 3;
+        yearly = 0;
+      };
+      "low_priority" = {
+        autoprune = true;
+        autosnap = true;
+
+        daily = 1;
+        hourly = 1;
+        monthly = 1;
+        yearly = 0;
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [

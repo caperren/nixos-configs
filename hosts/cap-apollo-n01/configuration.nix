@@ -39,6 +39,17 @@
     "nas_data_primary"
   ];
 
+  services.sanoid.datasets = {
+    "nas_data_high_speed/ollama".useTemplate = [ "low_priority" ];
+    "nas_data_primary/ad".useTemplate = [ "low_priority" ];
+    "nas_data_primary/caperren".useTemplate = [ "medium_priority" ];
+    "nas_data_primary/immich".useTemplate = [ "high_priority" ];
+    "nas_data_primary/komga".useTemplate = [ "low_priority" ];
+    "nas_data_primary/long_term_storage".useTemplate = [ "low_priority" ];
+    "nas_data_primary/media".useTemplate = [ "low_priority" ];
+    "nas_data_primary/rclone".useTemplate = [ "medium_priority" ];
+  };
+
   services.nfs.server.enable = true;
 
   # Set post-boot zfs options that aren't declarative through nixos directly

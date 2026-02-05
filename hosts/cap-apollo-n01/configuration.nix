@@ -136,12 +136,12 @@ in
 
           ##### Top level dataset options #####
           for pool_dataset in ''${pool_datasets[@]}; do
-              echo "Setting top level dataset options for \"''${pool_dataset}\" pool"
-
               # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
+              echo "Setting acltype for \"''${pool_dataset}\" pool"
               zfs set acltype=posix "''${pool_dataset}"
 
               # Make snapshot directory hidden, for chown/chmod simplicity
+              echo "Disable snapshot visibility for \"''${pool_dataset}\" pool"
               zfs set snapdir=hidden "''${pool_dataset}"
 
               # Set non-acl owner
@@ -153,9 +153,6 @@ in
               find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
               echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
               find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
-
-              # Make snapshot directory visible, for backups
-              zfs set snapdir=visible "''${pool_dataset}"
           done
 
           ##### Dataset acl config #####
@@ -246,6 +243,13 @@ in
             -m "g:nas-media-management:rwx" \
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
+
+          ##### Top level dataset options #####
+          for pool_dataset in ''${pool_datasets[@]}; do
+              # Make snapshot directory visible, for backups
+              echo "Re-enabling snapshot visibility for \"''${pool_dataset}\" pool"
+              zfs set snapdir=visible "''${pool_dataset}"
+          done
 
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"

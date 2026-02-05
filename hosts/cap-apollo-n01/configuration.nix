@@ -39,10 +39,6 @@
     };
 
     templates.restic-backup-service-environment-file = {
-      mode = "0400";
-      owner = "root";
-      group = "root";
-
       content = ''
         AWS_ACCESS_KEY_ID="${config.sops.placeholder."backups/primary/id"}"
         AWS_SECRET_ACCESS_KEY="${config.sops.placeholder."backups/primary/key"}"
@@ -114,9 +110,9 @@
 
               # Set non-acl owner
               echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type d -exec chown ''${chown_owner} "{}" \;
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -maxdepth 0 -type d -exec chown -R ''${chown_owner} "{}" \;
               echo "Recursively chowning files in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type f -exec chown ''${chown_owner} "{}" \;
+              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -maxdepth 0 -type f -exec chown -R ''${chown_owner} "{}" \;
 
               # Set non-acl directory and file permissions
               echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"

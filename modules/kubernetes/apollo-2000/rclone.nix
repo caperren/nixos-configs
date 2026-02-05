@@ -54,23 +54,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
                 securityContext.supplementalGroups = [ config.users.groups.nas-rclone-management.gid ];
 
-                initContainers = [
-                  {
-                    name = "init-permissions";
-                    image = "busybox";
-                    command = [
-                      "sh"
-                      "-c"
-                      "chown -R 1000:1000 /data && chown -R 1000:1000 /config"
-                    ];
-                    volumeMounts = [
-                      {
-                        mountPath = "/storage";
-                        name = "storage";
-                      }
-                    ];
-                  }
-                ];
+#                initContainers = [
+#                  {
+#                    name = "init-permissions";
+#                    image = "busybox";
+#                    command = [
+#                      "sh"
+#                      "-c"
+#                      "chown -R 1000:1000 /data && chown -R 1000:1000 /config"
+#                    ];
+#                    volumeMounts = [
+#                      {
+#                        mountPath = "/storage";
+#                        name = "storage";
+#                      }
+#                    ];
+#                  }
+#                ];
 
                 containers = [
                   {
@@ -102,7 +102,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                           --retries 5 \
                           --retries-sleep 10s \
                           --stats 30s \
-                          --gid ${config.users.groups.nas-rclone-management.gid} \
+                          --gid ${toString config.users.groups.nas-rclone-management.gid} \
                           --log-level INFO
                       ''
                     ];

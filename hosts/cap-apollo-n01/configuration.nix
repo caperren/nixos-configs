@@ -38,7 +38,7 @@
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
     };
 
-    templates.restic-environment-file = {
+    templates.restic-backup-service-environment-file = {
       mode = "0400";
       owner = "root";
       group = "root";
@@ -55,8 +55,6 @@
     };
   };
 
-  environment.systemPackages = [ pkgs.restic ];
-
   boot.zfs.extraPools = [
     "nas_data_high_speed"
     "nas_data_important"
@@ -71,6 +69,7 @@
     "nas_data_primary/immich".useTemplate = [ "high_priority" ];
     "nas_data_primary/komga".useTemplate = [ "low_priority" ];
     "nas_data_primary/long_term_storage".useTemplate = [ "low_priority" ];
+    "nas_data_primary/longhorn".useTemplate = [ "medium_priority" ];
     "nas_data_primary/media".useTemplate = [ "low_priority" ];
     "nas_data_primary/rclone".useTemplate = [ "medium_priority" ];
   };

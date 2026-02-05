@@ -1,4 +1,19 @@
 { config, pkgs, ... }:
+let
+  resticBackupStagingPath = "/run/restic-backup";
+  resticBackupServicePrePostScript = pkgs.writeShellScript "restic-backup-pre-post" ''
+    set -euo pipefail
+
+    # Make sure staging path exists, and exit immediately if we just created it
+    if [ -d "${resticBackupStagingPath}" ]; then
+        mkdir -p ${resticBackupStagingPath}
+        exit 0
+    fi
+
+
+
+  '';
+in
 {
   imports = [
     # Hardware Scan
@@ -34,7 +49,6 @@
       "backups/primary/repository".sopsFile = ../../secrets/default.yaml;
       "backups/primary/id".sopsFile = ../../secrets/default.yaml;
       "backups/primary/key".sopsFile = ../../secrets/default.yaml;
-
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
     };
 
@@ -71,6 +85,28 @@
   };
 
   # Backup management
+  services.restic.backups = {
+    "nas_data_primary-caperren" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      exclude = [ "" ];
+    };
+  };
+  #  environment.systemPackages = [ pkgs.restic ];
+  #  systemd.services.restic-backup = {
+  #    serviceConfig = {
+  #      Type = "oneshot";
+  #      EnvironmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+  #      ExecStartPre = resticBackupServicePrePostScript;
+  #      ExecStart = pkgs.writeShellScript "restic-backup" ''
+  #        set -euo pipefail
+  #      '';
+  #      ExecStartPost = resticBackupServicePrePostScript;
+  #    };
+  #    path = with pkgs; [
+  #      coreutils
+  #      restic
+  #    ];
+  #  };
 
   # NFS for acting as a nas
   services.nfs.server.enable = true;
@@ -89,7 +125,7 @@
           set -e
 
           ###### Variables
-          pool_datasets=(nas_data_primary nas_data_high_speed nas_data_important)
+          pool_datasets=(nas_data_primary nas_data_high_speed)
 
           chown_owner="root:root"
           chmod_dir_options="750"

@@ -105,20 +105,21 @@
               # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
               zfs set acltype=posix "''${pool_dataset}"
 
-              # Make snapshot directory visible, for backups
-              zfs set snapdir=visible "''${pool_dataset}"
+              # Make snapshot directory hidden, for chown/chmod simplicity
+              zfs set snapdir=hidden "''${pool_dataset}"
 
               # Set non-acl owner
               echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -maxdepth 0 -type d -exec chown -R ''${chown_owner} "{}" \;
-              echo "Recursively chowning files in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -maxdepth 0 -type f -exec chown -R ''${chown_owner} "{}" \;
+              chown -R "''${chown_owner}" "/''${pool_dataset}"
 
               # Set non-acl directory and file permissions
               echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
               echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -name ".zfs" -prune -o -type f -exec chmod ''${chmod_file_options} "{}" \;
+              find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
+
+              # Make snapshot directory visible, for backups
+              zfs set snapdir=visible "''${pool_dataset}"
           done
 
           ##### Dataset acl config #####

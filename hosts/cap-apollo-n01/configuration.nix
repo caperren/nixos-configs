@@ -129,6 +129,7 @@ in
   services.syncthing = {
     enable = true;
     guiAddress = "0.0.0.0:8384";
+    gui.user = config.users.users.caperren.name;
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;

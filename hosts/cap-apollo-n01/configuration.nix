@@ -164,10 +164,10 @@ in
 
   # Set post-boot zfs options that aren't declarative through nixos directly
   systemd = {
-    syncthing.unitConfig = {
-      After = [ "set-zfs-options.service" ];
-      Requires = [ "set-zfs-options.service" ];
-    };
+#    syncthing.unitConfig = {
+#      After = [ "set-zfs-options.service" ];
+#      Requires = [ "set-zfs-options.service" ];
+#    };
     services.set-zfs-options = {
       enable = true;
       after = [ "network.target" ];

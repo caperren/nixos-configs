@@ -291,14 +291,14 @@ in
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
 
-          # media
+          # syncthing
           echo "Setting acl for nas_data_primary/syncthing dataset"
           setfacl -R \
             -m "g:nas-syncthing-management:rwx" \
-            /nas_data_primary/media
+            /nas_data_primary/syncthing
           setfacl -R -d \
             -m "g:nas-syncthing-management:rwx" \
-            /nas_data_primary/media
+            /nas_data_primary/syncthing
 
           ##### Top level dataset options #####
           for pool_dataset in ''${pool_datasets[@]}; do

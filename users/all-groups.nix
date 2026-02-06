@@ -38,5 +38,5 @@
   users.groups.nas-ollama-management.gid = 210;
 
   # Group with r/w permissions to syncthing share
-   users.groups.nas-syncthing-management.gid = 211;
+  users.groups.nas-syncthing-management.gid = 211;
 }

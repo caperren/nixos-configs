@@ -51,18 +51,18 @@ in
       "backups/primary/key".sopsFile = ../../secrets/default.yaml;
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
 
-#      "${config.networking.hostName}/syncthing/cert.pem" = {
-#        owner = config.services.syncthing.user;
-#        sopsFile = ../../secrets/apollo-2000.yaml;
-#      };
-#      "${config.networking.hostName}/syncthing/key.pem" = {
-#        owner = config.services.syncthing.user;
-#        sopsFile = ../../secrets/apollo-2000.yaml;
-#      };
-#      "syncthing/gui-password" = {
-#        owner = config.services.syncthing.user;
-#        sopsFile = ../../secrets/default.yaml;
-#      };
+      "${config.networking.hostName}/syncthing/cert.pem" = {
+        owner = config.services.syncthing.user;
+        sopsFile = ../../secrets/apollo-2000.yaml;
+      };
+      "${config.networking.hostName}/syncthing/key.pem" = {
+        owner = config.services.syncthing.user;
+        sopsFile = ../../secrets/apollo-2000.yaml;
+      };
+      "syncthing/gui-password" = {
+        owner = config.services.syncthing.user;
+        sopsFile = ../../secrets/default.yaml;
+      };
     };
 
     templates.restic-backup-service-environment-file = {
@@ -126,48 +126,47 @@ in
 
   # Syncthing for special apps like obsidian
   # https://wiki.nixos.org/wiki/Syncthing
-#  services.syncthing = {
-#    enable = true;
-#    systemService = false;
-#
-#    guiAddress = "0.0.0.0:8384";
-#    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
-#    cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
-#    key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
-#
-#    group = "nas-syncthing-management";
-#
-#    settings = {
-#      gui.user = "caperren";
-#
-#      devices = {
-#        "cap-slim7" = {
-#          id = "YSL2OXD-62M5Z6G-ID5LDD5-7MGHMTQ-3QTEXB4-NHOZIHH-5KX4F4B-6RIL5A4";
-#        };
-#        "android" = {
-#          id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
-#        };
-#      };
-#
-#      folders = {
-#        "obsidian" = {
-#          devices = [
-#            "cap-slim7"
-#            "android"
-#          ];
-#          path = "/nas_data_primary/obsidian";
-#          ignorePatterns = [ ".zfs" ];
-#        };
-#      };
-#    };
-#  };
+  services.syncthing = {
+    enable = true;
+
+    guiAddress = "0.0.0.0:8384";
+    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
+    cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
+    key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
+
+    group = "nas-syncthing-management";
+
+    settings = {
+      gui.user = "caperren";
+
+      devices = {
+        "cap-slim7" = {
+          id = "YSL2OXD-62M5Z6G-ID5LDD5-7MGHMTQ-3QTEXB4-NHOZIHH-5KX4F4B-6RIL5A4";
+        };
+        "android" = {
+          id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
+        };
+      };
+
+      folders = {
+        "obsidian" = {
+          devices = [
+            "cap-slim7"
+            "android"
+          ];
+          path = "/nas_data_primary/obsidian";
+          ignorePatterns = [ ".zfs" ];
+        };
+      };
+    };
+  };
 
   # Set post-boot zfs options that aren't declarative through nixos directly
   systemd = {
-#    syncthing.unitConfig = {
-#      After = [ "set-zfs-options.service" ];
-#      Requires = [ "set-zfs-options.service" ];
-#    };
+    #    syncthing.unitConfig = {
+    #      After = [ "set-zfs-options.service" ];
+    #      Requires = [ "set-zfs-options.service" ];
+    #    };
     services.set-zfs-options = {
       enable = true;
       after = [ "network.target" ];

@@ -134,6 +134,11 @@ in
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
     settings = {
       gui.user = "caperren";
+      folders = {
+        "obsidian" = {
+          path = "/nas_data_primary/obsidian";
+        };
+      };
     };
   };
 

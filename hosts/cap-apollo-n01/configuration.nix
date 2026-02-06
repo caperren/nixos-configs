@@ -118,6 +118,7 @@ in
     enable = true;
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     dataDir = "/nas_data_primary/syncthing";
+    systemService = false;
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

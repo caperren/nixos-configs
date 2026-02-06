@@ -118,7 +118,6 @@ in
   services.syncthing = {
     enable = true;
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
-    dataDir = "/nas_data_primary/syncthing";
     extraFlags = [ "--no-default-folder" ];
   };
 

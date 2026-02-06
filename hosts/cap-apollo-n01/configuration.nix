@@ -150,12 +150,19 @@ in
 
       folders = {
         "obsidian" = {
-          devices = [ "cap-slim7" "android" ];
+          devices = [
+            "cap-slim7"
+            "android"
+          ];
           path = "/nas_data_primary/obsidian";
           ignorePatterns = [ ".zfs" ];
         };
       };
     };
+  };
+  services.systemd.syncthing.unitConfig = {
+    After = [ "set-zfs-options.service" ];
+    Requires = [ "set-zfs-options.service" ];
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

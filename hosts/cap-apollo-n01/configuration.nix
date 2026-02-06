@@ -114,11 +114,12 @@ in
   services.nfs.server.enable = true;
 
   # Syncthing for special apps like obsidian
+  # https://wiki.nixos.org/wiki/Syncthing
   services.syncthing = {
     enable = true;
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     dataDir = "/nas_data_primary/syncthing";
-    systemService = false;
+    extraFlags = [ "--no-default-folder" ];
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

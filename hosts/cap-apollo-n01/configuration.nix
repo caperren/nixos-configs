@@ -132,7 +132,7 @@ in
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
-    group = config.users.groups.nas-syncthing-management.gid;
+    group = config.users.groups.nas-syncthing-management.name;
     settings = {
       gui.user = "caperren";
       folders = {

@@ -51,18 +51,18 @@ in
       "backups/primary/key".sopsFile = ../../secrets/default.yaml;
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
 
-      "${config.networking.hostName}/syncthing/cert.pem" = {
-        owner = "syncthing";
-        sopsFile = ../../secrets/apollo-2000.yaml;
-      };
-      "${config.networking.hostName}/syncthing/key.pem" = {
-        owner = "syncthing";
-        sopsFile = ../../secrets/apollo-2000.yaml;
-      };
-      "syncthing/gui-password" = {
-        owner = "syncthing";
-        sopsFile = ../../secrets/default.yaml;
-      };
+#      "${config.networking.hostName}/syncthing/cert.pem" = {
+#        owner = config.services.syncthing.user;
+#        sopsFile = ../../secrets/apollo-2000.yaml;
+#      };
+#      "${config.networking.hostName}/syncthing/key.pem" = {
+#        owner = config.services.syncthing.user;
+#        sopsFile = ../../secrets/apollo-2000.yaml;
+#      };
+#      "syncthing/gui-password" = {
+#        owner = config.services.syncthing.user;
+#        sopsFile = ../../secrets/default.yaml;
+#      };
     };
 
     templates.restic-backup-service-environment-file = {

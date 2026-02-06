@@ -152,6 +152,7 @@ in
         "obsidian" = {
           devices = [ "cap-slim7" "android" ];
           path = "/nas_data_primary/obsidian";
+          ignorePatterns = [ ".zfs" ];
         };
       };
     };

@@ -117,8 +117,7 @@ in
   # https://wiki.nixos.org/wiki/Syncthing
   services.syncthing = {
     enable = true;
-    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
-    extraFlags = [ "--no-default-folder" ];
+#    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

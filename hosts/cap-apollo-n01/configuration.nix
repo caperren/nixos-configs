@@ -52,15 +52,15 @@ in
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
 
       "${config.networking.hostName}/syncthing/cert.pem" = {
-        owner = config.services.syncthing.user;
+        owner = "syncthing";
         sopsFile = ../../secrets/apollo-2000.yaml;
       };
       "${config.networking.hostName}/syncthing/key.pem" = {
-        owner = config.services.syncthing.user;
+        owner = "syncthing";
         sopsFile = ../../secrets/apollo-2000.yaml;
       };
       "syncthing/gui-password" = {
-        owner = config.services.syncthing.user;
+        owner = "syncthing";
         sopsFile = ../../secrets/default.yaml;
       };
     };

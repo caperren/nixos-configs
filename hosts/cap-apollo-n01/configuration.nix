@@ -129,10 +129,12 @@ in
   services.syncthing = {
     enable = true;
     guiAddress = "0.0.0.0:8384";
-    gui.user = "caperren";
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
+    settings = {
+      gui.user = "caperren";
+    };
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

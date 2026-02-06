@@ -85,12 +85,12 @@ in
   };
 
   # Backup management
-  services.restic.backups = {
-    "nas_data_primary-caperren" = {
-      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
-      exclude = [ "" ];
-    };
-  };
+#  services.restic.backups = {
+#    "nas_data_primary-caperren" = {
+#      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+#      exclude = [ "" ];
+#    };
+#  };
   #  environment.systemPackages = [ pkgs.restic ];
   #  systemd.services.restic-backup = {
   #    serviceConfig = {
@@ -110,6 +110,11 @@ in
 
   # NFS for acting as a nas
   services.nfs.server.enable = true;
+
+  # Misc extra applications
+  environment.systemPackages = with pkgs; [
+    syncthing
+  ];
 
   # Set post-boot zfs options that aren't declarative through nixos directly
   systemd = {

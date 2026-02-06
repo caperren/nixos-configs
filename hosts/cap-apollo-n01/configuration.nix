@@ -128,6 +128,7 @@ in
   # https://wiki.nixos.org/wiki/Syncthing
   services.syncthing = {
     enable = true;
+    systemService = false;
 
     guiAddress = "0.0.0.0:8384";
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;

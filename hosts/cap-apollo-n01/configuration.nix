@@ -50,6 +50,8 @@ in
       "backups/primary/id".sopsFile = ../../secrets/default.yaml;
       "backups/primary/key".sopsFile = ../../secrets/default.yaml;
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
+
+      "syncthing/gui-password".sopsFile = ../../secrets/apollo-2000.yaml;
     };
 
     templates.restic-backup-service-environment-file = {
@@ -111,10 +113,12 @@ in
   # NFS for acting as a nas
   services.nfs.server.enable = true;
 
-  # Misc extra applications
-  environment.systemPackages = with pkgs; [
-    syncthing
-  ];
+  # Syncthing for special apps like obsidian
+  services.syncthing = {
+    enable = true;
+    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
+    dataDir = "/nas_data_primary/syncthing";
+  };
 
   # Set post-boot zfs options that aren't declarative through nixos directly
   systemd = {

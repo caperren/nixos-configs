@@ -132,6 +132,7 @@ in
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
+    group = config.users.groups.nas-syncthing-management.gid;
     settings = {
       gui.user = "caperren";
       folders = {
@@ -273,6 +274,15 @@ in
             -m "g:nas-caperren:rwx" \
             -m "g:nas-media-management:rwx" \
             -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
+
+          # media
+          echo "Setting acl for nas_data_primary/media dataset"
+          setfacl -R \
+            -m "g:nas-syncthing-management:rwx" \
+            /nas_data_primary/media
+          setfacl -R -d \
+            -m "g:nas-syncthing-management:rwx" \
             /nas_data_primary/media
 
           ##### Top level dataset options #####

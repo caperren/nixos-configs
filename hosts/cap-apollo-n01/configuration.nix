@@ -51,9 +51,17 @@ in
       "backups/primary/key".sopsFile = ../../secrets/default.yaml;
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
 
-      "syncthing/gui-password" = {
+      "${config.networking.hostName}/syncthing/cert.pem" = {
         owner = config.services.syncthing.user;
         sopsFile = ../../secrets/apollo-2000.yaml;
+      };
+      "${config.networking.hostName}/syncthing/key.pem" = {
+        owner = config.services.syncthing.user;
+        sopsFile = ../../secrets/apollo-2000.yaml;
+      };
+      "syncthing/gui-password" = {
+        owner = config.services.syncthing.user;
+        sopsFile = ../../secrets/default.yaml;
       };
     };
 
@@ -120,7 +128,10 @@ in
   # https://wiki.nixos.org/wiki/Syncthing
   services.syncthing = {
     enable = true;
+    guiAddress = "0.0.0.0:8384";
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
+    cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
+    key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

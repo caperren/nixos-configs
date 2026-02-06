@@ -143,11 +143,14 @@ in
         "cap-slim7" = {
           id = "YSL2OXD-62M5Z6G-ID5LDD5-7MGHMTQ-3QTEXB4-NHOZIHH-5KX4F4B-6RIL5A4";
         };
+        "android" = {
+          id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
+        };
       };
 
       folders = {
         "obsidian" = {
-          devices = [ "cap-slim7" ];
+          devices = [ "cap-slim7" "android" ];
           path = "/nas_data_primary/obsidian";
         };
       };
@@ -288,7 +291,7 @@ in
             /nas_data_primary/media
 
           # media
-          echo "Setting acl for nas_data_primary/media dataset"
+          echo "Setting acl for nas_data_primary/syncthing dataset"
           setfacl -R \
             -m "g:nas-syncthing-management:rwx" \
             /nas_data_primary/media

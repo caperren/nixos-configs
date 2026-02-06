@@ -112,7 +112,6 @@ in
       enable = true;
       tray.enable = true;
 
-      passwordFile = config.sops.secrets."syncthing/gui-password".path;
       cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
       key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
 
@@ -120,11 +119,19 @@ in
       overrideFolders = true;
 
       settings = {
-        gui.user = config.users.users.caperren.name;
-
         devices = {
           "cap-apollo-n01" = {
             id = "6YG34W5-52EXEAS-4RTGLCM-JOSGICK-M6QIRQS-OLLRWTF-HDZMNRP-ZJ24FAM";
+          };
+          "android" = {
+            id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
+          };
+        };
+
+        folders = {
+          "obsidian" = {
+            devices = [ "cap-apollo-n01" "android" ];
+            path = "~/obsidian";
           };
         };
       };

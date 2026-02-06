@@ -51,7 +51,10 @@ in
       "backups/primary/key".sopsFile = ../../secrets/default.yaml;
       "${config.networking.hostName}/backups/restic-password".sopsFile = ../../secrets/apollo-2000.yaml;
 
-      "syncthing/gui-password".sopsFile = ../../secrets/apollo-2000.yaml;
+      "syncthing/gui-password" = {
+        owner = config.services.syncthing.user;
+        sopsFile = ../../secrets/apollo-2000.yaml;
+      };
     };
 
     templates.restic-backup-service-environment-file = {
@@ -87,12 +90,12 @@ in
   };
 
   # Backup management
-#  services.restic.backups = {
-#    "nas_data_primary-caperren" = {
-#      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
-#      exclude = [ "" ];
-#    };
-#  };
+  #  services.restic.backups = {
+  #    "nas_data_primary-caperren" = {
+  #      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+  #      exclude = [ "" ];
+  #    };
+  #  };
   #  environment.systemPackages = [ pkgs.restic ];
   #  systemd.services.restic-backup = {
   #    serviceConfig = {
@@ -117,7 +120,7 @@ in
   # https://wiki.nixos.org/wiki/Syncthing
   services.syncthing = {
     enable = true;
-#    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
+    guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
   };
 
   # Set post-boot zfs options that aren't declarative through nixos directly

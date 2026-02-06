@@ -16,9 +16,24 @@ let
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 in
 {
-  sops.secrets."accounts/caperren/hashed-password" = {
-    sopsFile = ../../secrets/default.yaml;
-    neededForUsers = true;
+  sops.secrets = {
+    "accounts/caperren/hashed-password" = {
+      sopsFile = ../../secrets/default.yaml;
+      neededForUsers = true;
+    };
+
+    "${config.networking.hostName}/syncthing/cert.pem" = {
+      owner = config.users.users.caperren.name;
+      sopsFile = ../../secrets/caperren.yaml;
+    };
+    "${config.networking.hostName}/syncthing/key.pem" = {
+      owner = config.users.users.caperren.name;
+      sopsFile = ../../secrets/caperren.yaml;
+    };
+    "syncthing/gui-password" = {
+      owner = config.users.users.caperren.name;
+      sopsFile = ../../secrets/default.yaml;
+    };
   };
 
   users.users.caperren = {
@@ -88,6 +103,20 @@ in
           show_hidden = true;
           show_symlink = true;
         };
+      };
+    };
+
+    # Syncthing for special apps like obsidian
+    # https://wiki.nixos.org/wiki/Syncthing
+    services.syncthing = {
+      enable = true;
+      tray.enable = true;
+
+      cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
+      key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
+
+      settings = {
+        gui.user = config.users.users.caperren.name;
       };
     };
 

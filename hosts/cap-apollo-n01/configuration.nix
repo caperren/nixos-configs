@@ -128,15 +128,26 @@ in
   # https://wiki.nixos.org/wiki/Syncthing
   services.syncthing = {
     enable = true;
+
     guiAddress = "0.0.0.0:8384";
     guiPasswordFile = config.sops.secrets."syncthing/gui-password".path;
     cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
+
     group = "nas-syncthing-management";
+
     settings = {
       gui.user = "caperren";
+
+      devices = {
+        "cap-slim7" = {
+          id = "YSL2OXD-62M5Z6G-ID5LDD5-7MGHMTQ-3QTEXB4-NHOZIHH-5KX4F4B-6RIL5A4";
+        };
+      };
+
       folders = {
         "obsidian" = {
+          devices = [ "cap-slim7" ];
           path = "/nas_data_primary/obsidian";
         };
       };

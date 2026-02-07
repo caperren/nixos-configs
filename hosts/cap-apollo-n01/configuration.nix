@@ -226,7 +226,7 @@ in
               #find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
           done
 
-          ##### Dataset acl config #####
+          ##### Dataset permissions config #####
           ### nas_data_high_speed ###
           # ollama
           echo "Setting acl for nas_data_high_speed/ollama dataset"
@@ -316,16 +316,8 @@ in
             /nas_data_primary/media
 
           # obsidian
-          echo "Setting acl for nas_data_primary/obsidian dataset"
+          echo "Setting permissions for nas_data_primary/obsidian dataset"
           chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
-          #          setfacl -R \
-          #            -m "u:syncthing:rwx" \
-          #            -m "g:nas-syncthing-management:rwx" \
-          #            /nas_data_primary/obsidian
-          #          setfacl -R -d \
-          #            -m "u:syncthing:rwx" \
-          #            -m "g:nas-syncthing-management:rwx" \
-          #            /nas_data_primary/obsidian
 
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"

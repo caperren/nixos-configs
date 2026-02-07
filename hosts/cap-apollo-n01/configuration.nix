@@ -22,6 +22,8 @@ let
     "nas_data_primary"
     "nas_data_high_speed"
   ];
+
+  syncthingDevices = (import ../../constants/syncthing.nix).devices;
 in
 {
   imports = [
@@ -149,21 +151,11 @@ in
     settings = {
       gui.user = "caperren";
 
-      devices = {
-        "cap-slim7" = {
-          id = "YSL2OXD-62M5Z6G-ID5LDD5-7MGHMTQ-3QTEXB4-NHOZIHH-5KX4F4B-6RIL5A4";
-        };
-        "android" = {
-          id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
-        };
-      };
+      devices = removeAttrs syncthingDevices [ config.networking.hostName ];
 
       folders = {
         "obsidian" = {
-          devices = [
-            "cap-slim7"
-            "android"
-          ];
+          devices = lib.remove config.networking.hostName (lib.attrNames syncthingDevices);
           path = "/nas_data_primary/obsidian";
           ignorePatterns = [ ".zfs" ];
         };

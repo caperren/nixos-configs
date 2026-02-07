@@ -16,14 +16,7 @@ let
       spotifyPlayerAppTomlTextTemplate;
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 
-  syncthingDevices = {
-          "cap-apollo-n01" = {
-            id = "6YG34W5-52EXEAS-4RTGLCM-JOSGICK-M6QIRQS-OLLRWTF-HDZMNRP-ZJ24FAM";
-          };
-          "android" = {
-            id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
-          };
-        };
+  syncthingDevices = (import ../../constants/syncthing.nix).devices;
 in
 {
   sops.secrets = {

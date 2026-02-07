@@ -298,14 +298,14 @@ in
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
 
-          # syncthing
-          echo "Setting acl for nas_data_primary/syncthing dataset"
+          # obsidian
+          echo "Setting acl for nas_data_primary/obsidian dataset"
           setfacl -R \
             -m "g:nas-syncthing-management:rwx" \
-            /nas_data_primary/syncthing
+            /nas_data_primary/obsidian
           setfacl -R -d \
             -m "g:nas-syncthing-management:rwx" \
-            /nas_data_primary/syncthing
+            /nas_data_primary/obsidian
 
           ##### Top level dataset options #####
           for pool_dataset in ''${pool_datasets[@]}; do

@@ -102,6 +102,7 @@ in
     "nas_data_primary/komga".useTemplate = [ "low_priority" ];
     "nas_data_primary/long_term_storage".useTemplate = [ "low_priority" ];
     "nas_data_primary/longhorn".useTemplate = [ "medium_priority" ];
+    "nas_data_primary/obsidian".useTemplate = [ "high_priority" ];
     "nas_data_primary/media".useTemplate = [ "low_priority" ];
     "nas_data_primary/rclone".useTemplate = [ "medium_priority" ];
   };

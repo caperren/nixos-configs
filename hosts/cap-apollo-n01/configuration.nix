@@ -301,9 +301,11 @@ in
           # obsidian
           echo "Setting acl for nas_data_primary/obsidian dataset"
           setfacl -R \
+            -m "u:syncthing:rwx" \
             -m "g:nas-syncthing-management:rwx" \
             /nas_data_primary/obsidian
           setfacl -R -d \
+            -m "u:syncthing:rwx" \
             -m "g:nas-syncthing-management:rwx" \
             /nas_data_primary/obsidian
 

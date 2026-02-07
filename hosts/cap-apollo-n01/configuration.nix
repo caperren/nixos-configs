@@ -197,127 +197,127 @@ in
           done
         '';
         ExecStart = pkgs.writeShellScript "set-zfs-options.sh" ''
-                    set -e
+          set -euo pipefail
 
-                    ###### Variables
-                    pool_datasets=(nas_data_primary nas_data_high_speed)
+          ###### Variables
+          pool_datasets=(${lib.escapeShellArgs setZfsOptionsPools})
 
-                    chown_owner="root:root"
-                    chmod_dir_options="750"
-                    chmod_file_options="640"
+          chown_owner="root:root"
+          chmod_dir_options="750"
+          chmod_file_options="640"
 
-                    zfs_share_base_options="rw=@192.168.1.0/24"
-                    zfs_share_options="''${zfs_share_base_options},root_squash"
+          zfs_share_base_options="rw=@192.168.1.0/24"
+          zfs_share_options="''${zfs_share_base_options},root_squash"
 
-                    ##### Top level dataset options #####
-                    for pool_dataset in ''${pool_datasets[@]}; do
-                        # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
-                        echo "Setting acltype for \"''${pool_dataset}\" pool"
-                        zfs set acltype=posix "''${pool_dataset}"
+          ##### Top level dataset options #####
+          for pool_dataset in ''${pool_datasets[@]}; do
+              # Enable ACL (nfs4 type didn't work, couldn't set acl perms)
+              echo "Setting acltype for \"''${pool_dataset}\" pool"
+              zfs set acltype=posix "''${pool_dataset}"
 
-                        # Set non-acl owner
-                        #echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
-                        #chown -R "''${chown_owner}" "/''${pool_dataset}"
+              # Set non-acl owner
+              #echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
+              #chown -R "''${chown_owner}" "/''${pool_dataset}"
 
-                        # Set non-acl directory and file permissions
-                        #echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
-                        #find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
-                        #echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
-                        #find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
-                    done
+              # Set non-acl directory and file permissions
+              #echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
+              #find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              #echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
+              #find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
+          done
 
-                    ##### Dataset acl config #####
-                    ### nas_data_high_speed ###
-                    # ollama
-                    echo "Setting acl for nas_data_high_speed/ollama dataset"
-                    setfacl -R \
-                      -m "g:nas-ollama-management:rwx" \
-                      /nas_data_high_speed/ollama
-                    setfacl -R -d \
-                      -m "g:nas-ollama-management:rwx" \
-                      /nas_data_high_speed/ollama
+          ##### Dataset acl config #####
+          ### nas_data_high_speed ###
+          # ollama
+          echo "Setting acl for nas_data_high_speed/ollama dataset"
+          setfacl -R \
+            -m "g:nas-ollama-management:rwx" \
+            /nas_data_high_speed/ollama
+          setfacl -R -d \
+            -m "g:nas-ollama-management:rwx" \
+            /nas_data_high_speed/ollama
 
-                    ### nas_data_primary ###
-                    # ad
-                    echo "Setting acl for nas_data_primary/ad dataset"
-                    setfacl -R \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-ad-management:rwx" \
-                      -m "g:nas-ad-view:rx" \
-                      /nas_data_primary/ad
-                    setfacl -R -d \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-ad-management:rwx" \
-                      -m "g:nas-ad-view:rx" \
-                      /nas_data_primary/ad
+          ### nas_data_primary ###
+          # ad
+          echo "Setting acl for nas_data_primary/ad dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-ad-management:rwx" \
+            -m "g:nas-ad-view:rx" \
+            /nas_data_primary/ad
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-ad-management:rwx" \
+            -m "g:nas-ad-view:rx" \
+            /nas_data_primary/ad
 
-                    # caperren
-                    echo "Setting acl for nas_data_primary/caperren dataset"
-                    setfacl -R \
-                      -m "g:nas-caperren:rwx" \
-                      /nas_data_primary/caperren
-                    setfacl -R -d \
-                      -m "g:nas-caperren:rwx" \
-                      /nas_data_primary/caperren
+          # caperren
+          echo "Setting acl for nas_data_primary/caperren dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/caperren
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/caperren
 
-                    # rclone
-                    echo "Setting acl for nas_data_primary/rclone dataset"
-                    setfacl -R \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-rclone-management:rwx" \
-                      /nas_data_primary/rclone
-                    setfacl -R -d \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-rclone-management:rwx" \
-                      /nas_data_primary/rclone
+          # rclone
+          echo "Setting acl for nas_data_primary/rclone dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-rclone-management:rwx" \
+            /nas_data_primary/rclone
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-rclone-management:rwx" \
+            /nas_data_primary/rclone
 
-                    # immich
-                    echo "Setting acl for nas_data_primary/immich dataset"
-                    setfacl -R \
-                      -m "g:nas-immich-management:rwx" \
-                      /nas_data_primary/immich
-                    setfacl -R -d \
-                      -m "g:nas-immich-management:rwx" \
-                      /nas_data_primary/immich
+          # immich
+          echo "Setting acl for nas_data_primary/immich dataset"
+          setfacl -R \
+            -m "g:nas-immich-management:rwx" \
+            /nas_data_primary/immich
+          setfacl -R -d \
+            -m "g:nas-immich-management:rwx" \
+            /nas_data_primary/immich
 
-                    # komga
-                    echo "Setting acl for nas_data_primary/komga dataset"
-                    setfacl -R \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-komga-management:rwx" \
-                      -m "g:nas-komga-view:rx" \
-                      /nas_data_primary/komga
-                    setfacl -R -d \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-komga-management:rwx" \
-                      -m "g:nas-komga-view:rx" \
-                      /nas_data_primary/komga
+          # komga
+          echo "Setting acl for nas_data_primary/komga dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-komga-management:rwx" \
+            -m "g:nas-komga-view:rx" \
+            /nas_data_primary/komga
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-komga-management:rwx" \
+            -m "g:nas-komga-view:rx" \
+            /nas_data_primary/komga
 
-                    # long_term_storage
-                    echo "Setting acl for nas_data_primary/long_term_storage dataset"
-                    setfacl -R \
-                      -m "g:nas-caperren:rwx" \
-                      /nas_data_primary/long_term_storage
-                    setfacl -R -d \
-                      -m "g:nas-caperren:rwx" \
-                      /nas_data_primary/long_term_storage
+          # long_term_storage
+          echo "Setting acl for nas_data_primary/long_term_storage dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/long_term_storage
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            /nas_data_primary/long_term_storage
 
-                    # media
-                    echo "Setting acl for nas_data_primary/media dataset"
-                    setfacl -R \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-media-management:rwx" \
-                      -m "g:nas-media-view:rx" \
-                      /nas_data_primary/media
-                    setfacl -R -d \
-                      -m "g:nas-caperren:rwx" \
-                      -m "g:nas-media-management:rwx" \
-                      -m "g:nas-media-view:rx" \
-                      /nas_data_primary/media
+          # media
+          echo "Setting acl for nas_data_primary/media dataset"
+          setfacl -R \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-media-management:rwx" \
+            -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
+          setfacl -R -d \
+            -m "g:nas-caperren:rwx" \
+            -m "g:nas-media-management:rwx" \
+            -m "g:nas-media-view:rx" \
+            /nas_data_primary/media
 
-                    # obsidian
-                    echo "Setting acl for nas_data_primary/obsidian dataset"
-                    chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
+          # obsidian
+          echo "Setting acl for nas_data_primary/obsidian dataset"
+          chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
           #          setfacl -R \
           #            -m "u:syncthing:rwx" \
           #            -m "g:nas-syncthing-management:rwx" \
@@ -327,20 +327,20 @@ in
           #            -m "g:nas-syncthing-management:rwx" \
           #            /nas_data_primary/obsidian
 
-                    ##### Set sharing options
-                    echo "Setting zfs sharing options for datasets"
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_high_speed/ollama
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/rclone
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
-                    zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
+          ##### Set sharing options
+          echo "Setting zfs sharing options for datasets"
+          zfs set sharenfs="''${zfs_share_options}" nas_data_high_speed/ollama
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/ad
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/caperren
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/rclone
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/immich
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
 
-                    # Longhorn is special and literally recommends no_root_squash when connecting to an
-                    # nfs data store for backups in its faq troubleshooting...
-                    zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
+          # Longhorn is special and literally recommends no_root_squash when connecting to an
+          # nfs data store for backups in its faq troubleshooting...
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
         '';
         ExecStartPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
           set -euo pipefail

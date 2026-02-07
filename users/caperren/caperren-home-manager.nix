@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }:
 let
@@ -14,6 +15,15 @@ let
     builtins.replaceStrings [ "{{hostname}}" ] [ config.networking.hostName ]
       spotifyPlayerAppTomlTextTemplate;
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
+
+  syncthingDevices = {
+          "cap-apollo-n01" = {
+            id = "6YG34W5-52EXEAS-4RTGLCM-JOSGICK-M6QIRQS-OLLRWTF-HDZMNRP-ZJ24FAM";
+          };
+          "android" = {
+            id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
+          };
+        };
 in
 {
   sops.secrets = {
@@ -119,18 +129,11 @@ in
       overrideFolders = true;
 
       settings = {
-        devices = {
-          "cap-apollo-n01" = {
-            id = "6YG34W5-52EXEAS-4RTGLCM-JOSGICK-M6QIRQS-OLLRWTF-HDZMNRP-ZJ24FAM";
-          };
-          "android" = {
-            id = "GTAF4KD-BTLBC7H-X2HRHLR-UFBU5B4-LE4TSYP-F2VKVV7-JASWFJQ-CT4B5AF";
-          };
-        };
+        devices = removeAttrs syncthingDevices [ config.networking.hostName ];
 
         folders = {
           "obsidian" = {
-            devices = [ "cap-apollo-n01" "android" ];
+            devices = lib.remove config.networking.hostName (lib.attrNames syncthingDevices);
             path = "~/obsidian";
           };
         };

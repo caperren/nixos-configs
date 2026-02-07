@@ -13,6 +13,10 @@ let
 
 
   '';
+  setZfsOptionsPools = [
+    "nas_data_primary"
+    "nas_data_high_speed"
+  ];
 in
 {
   imports = [
@@ -134,6 +138,7 @@ in
     cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
     key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
 
+
     group = "nas-syncthing-management";
 
     settings = {
@@ -175,7 +180,19 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.writeShellScript "set-zfs-options.sh" ''
+        ExecStartPre = pkgs.writeShellScript "pre-set-zfs-options.sh" ''
+          set -euo pipefail
+
+          ###### Variables
+          pool_datasets=(${lib.escapeShellArgs setZfsOptionsPools})
+
+          for pool_dataset in ''${pool_datasets[@]}; do
+              # Make snapshot directory hidden, for chown/chmod simplicity
+              echo "Disable snapshot visibility for \"''${pool_dataset}\" pool"
+              zfs set snapdir=hidden "''${pool_dataset}"
+          done
+        '';
+        ExecStart = pkgs.writeShellScript "set-zfs-options.sh" ''
           set -e
 
           ###### Variables
@@ -194,19 +211,15 @@ in
               echo "Setting acltype for \"''${pool_dataset}\" pool"
               zfs set acltype=posix "''${pool_dataset}"
 
-              # Make snapshot directory hidden, for chown/chmod simplicity
-              echo "Disable snapshot visibility for \"''${pool_dataset}\" pool"
-              zfs set snapdir=hidden "''${pool_dataset}"
-
               # Set non-acl owner
-              echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
-              chown -R "''${chown_owner}" "/''${pool_dataset}"
+              #echo "Recursively chowning directories in \"''${pool_dataset}\" pool"
+              #chown -R "''${chown_owner}" "/''${pool_dataset}"
 
               # Set non-acl directory and file permissions
-              echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
-              echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
-              find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
+              #echo "Recursively chmoding directories in \"''${pool_dataset}\" pool"
+              #find "/''${pool_dataset}" -type d -exec chmod ''${chmod_dir_options} "{}" \;
+              #echo "Recursively chmoding files in \"''${pool_dataset}\" pool"
+              #find "/''${pool_dataset}" -type f -exec chmod ''${chmod_file_options} "{}" \;
           done
 
           ##### Dataset acl config #####
@@ -300,21 +313,15 @@ in
 
           # obsidian
           echo "Setting acl for nas_data_primary/obsidian dataset"
-          setfacl -R \
-            -m "u:syncthing:rwx" \
-            -m "g:nas-syncthing-management:rwx" \
-            /nas_data_primary/obsidian
-          setfacl -R -d \
-            -m "u:syncthing:rwx" \
-            -m "g:nas-syncthing-management:rwx" \
-            /nas_data_primary/obsidian
-
-          ##### Top level dataset options #####
-          for pool_dataset in ''${pool_datasets[@]}; do
-              # Make snapshot directory visible, for backups
-              echo "Re-enabling snapshot visibility for \"''${pool_dataset}\" pool"
-              zfs set snapdir=visible "''${pool_dataset}"
-          done
+          chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
+#          setfacl -R \
+#            -m "u:syncthing:rwx" \
+#            -m "g:nas-syncthing-management:rwx" \
+#            /nas_data_primary/obsidian
+#          setfacl -R -d \
+#            -m "u:syncthing:rwx" \
+#            -m "g:nas-syncthing-management:rwx" \
+#            /nas_data_primary/obsidian
 
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"
@@ -330,8 +337,19 @@ in
           # Longhorn is special and literally recommends no_root_squash when connecting to an
           # nfs data store for backups in its faq troubleshooting...
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
-        ''}";
+        '';
+        ExecStartPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
+          set -euo pipefail
 
+          ###### Variables
+          pool_datasets=(${lib.escapeShellArgs setZfsOptionsPools})
+
+          for pool_dataset in ''${pool_datasets[@]}; do
+              # Make snapshot directory hidden, for chown/chmod simplicity
+              echo "Enable snapshot visibility for \"''${pool_dataset}\" pool"
+              zfs set snapdir=visible "''${pool_dataset}"
+          done
+        '';
       };
 
       path = with pkgs; [

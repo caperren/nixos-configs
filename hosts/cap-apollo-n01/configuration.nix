@@ -342,7 +342,7 @@ in
           # nfs data store for backups in its faq troubleshooting...
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
         '';
-        ExecStartPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
+        ExecStopPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
           set -euo pipefail
 
           ###### Variables

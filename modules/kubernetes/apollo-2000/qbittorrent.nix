@@ -6,10 +6,10 @@
 }:
 let
   imageConfig = {
-    imageName = "linuxserver/qbittorrent";
-    imageDigest = "sha256:b8a08ffba8850e2e71153e153cf5eed2dedbf499ef9b123262735ce924b65586";
-    hash = "sha256-wn8kjR2P5XSk198uQYtxZMRDpjbL2Q/k1XEMpc91760=";
-    finalImageName = "linuxserver/qbittorrent";
+    imageName = "docker.io/linuxserver/qbittorrent";
+    imageDigest = "sha256:dfa75bc534ad4f36262f75b5c1d4c4f0ddd5e7ed5711ebc581c70920cce204ee";
+    hash = "sha256-fOe8YFSAed7F4+mDtwjdejJ4onmhjSETq4Bvw61hODU=";
+    finalImageName = "docker.io/linuxserver/qbittorrent";
     finalImageTag = "5.1.4";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
@@ -45,8 +45,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata = {
               labels."app.kubernetes.io/name" = "qbittorrent";
-              annotations."diun.enable" = "true";
-              annotations."k8s.v1.cni.cncf.io/networks" = "vlan5";
+              annotations = {
+                  "diun.enable" = "true";
+                  "diun.watch_repo" = "true";
+                  "diun.sort_tags" = "semver";
+                  "diun.max_tags" = "5";
+                  "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]*.[0-9]*.[0-9]*$";
+                  "k8s.v1.cni.cncf.io/networks" = "vlan5";
+                };
             };
             spec = {
               securityContext.supplementalGroups = [ config.users.groups.nas-media-management.gid ];

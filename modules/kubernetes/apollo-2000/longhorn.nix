@@ -5,8 +5,6 @@
   ...
 }:
 let
-  # If you have 3 k3s nodes and want HA volumes, 2 is a common homelab default.
-  # If you want maximum resilience (and can afford space), set 3.
   defaultReplicaCount = 2;
 in
 {
@@ -92,9 +90,7 @@ in
           chart = "longhorn";
           targetNamespace = "longhorn-system";
 
-          # Strongly recommended: pin a version so upgrades are intentional.
-          # Replace with the version you want (example only).
-          version = "v1.10.1";
+          version = "v1.11.0";
 
           valuesContent = ''
             # Make Longhorn create/mark its StorageClass as the default

@@ -13,7 +13,7 @@ let
     arch = "amd64";
   };
 in
-lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+{
   sops = {
     secrets."hetzner-ddns/config".sopsFile = ../../../secrets/apollo-2000.yaml;
     templates.hetznerDdnsConfig = {
@@ -30,7 +30,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     };
   };
 
-  services.k3s = {
+  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     images = [ image ];
     manifests = {
       hetzner-ddns-deployment.content = {

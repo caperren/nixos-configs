@@ -90,7 +90,7 @@ in
           chart = "longhorn";
           targetNamespace = "longhorn-system";
 
-          version = "v1.11.0";
+          version = "v1.10.1";
 
           valuesContent = ''
             # Make Longhorn create/mark its StorageClass as the default

@@ -7,17 +7,17 @@
 let
   imageConfig = {
     imageName = "ghcr.io/hargata/lubelogger";
-    imageDigest = "sha256:5998d88211abd0675d4707be125f788c4332ad46f8de366c72e8a371b52ee092";
-    hash = "sha256-nqToExIojH98rVQcbpsxKwXcWfU+UtsQEpWbQrMD90U=";
+    imageDigest = "sha256:c4277e12e005af6a3a95f3c32ce2aac6fbb035cb74e58d5f8d3cac4c27307eaf";
+    hash = "sha256-4yQz9WCa52CIJpD8h4u1hZZ9NTEI4we1UsJ51JvBnzU=";
     finalImageName = "ghcr.io/hargata/lubelogger";
-    finalImageTag = "v1.5.7";
+    finalImageTag = "v1.6.0";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       lubelogger-deployment.content = {
@@ -111,7 +111,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "lubelogger-data-pvc";
-          labels."app.kubernetes.io/name" = "lubelogger";
+          labels = {
+            "app.kubernetes.io/name" = "lubelogger";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -124,7 +128,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "lubelogger-keys-pvc";
-          labels."app.kubernetes.io/name" = "lubelogger";
+          labels = {
+            "app.kubernetes.io/name" = "lubelogger";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

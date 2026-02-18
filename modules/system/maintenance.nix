@@ -6,4 +6,10 @@
     readOnly = true;
     default = false;
   };
+
+  options."perren.cloud".maintenance.postgres = lib.mkOption {
+    type = lib.types.bool;
+    readOnly = true;
+    default = false;
+  };
 }

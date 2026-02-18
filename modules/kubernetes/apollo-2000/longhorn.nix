@@ -5,8 +5,6 @@
   ...
 }:
 let
-  # If you have 3 k3s nodes and want HA volumes, 2 is a common homelab default.
-  # If you want maximum resilience (and can afford space), set 3.
   defaultReplicaCount = 2;
 in
 {
@@ -35,16 +33,51 @@ in
     ];
   };
 
-  # Namespace first
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     manifests = {
-      longhorn-namespace.content = {
+    longhorn-namespace.content = {
         apiVersion = "v1";
         kind = "Namespace";
         metadata = {
           name = "longhorn-system";
         };
       };
+
+      longhorn-recurringjob-backup-daily.content = {
+        apiVersion = "longhorn.io/v1beta2";
+        kind = "RecurringJob";
+        metadata = {
+          name = "backup-daily";
+          namespace = "longhorn-system";
+        };
+        spec = {
+          task = "backup";
+          cron = "30 2 * * *"; # daily 02:30
+          retain = 14;
+          concurrency = 2;
+
+          groups = [ "daily" ];
+
+          # Full backup once a week, otherwise incremental
+          parameters."full-backup-interval" = "7";
+        };
+      };
+      longhorn-recurringjob-snapshot-hourly.content = {
+        apiVersion = "longhorn.io/v1beta2";
+        kind = "RecurringJob";
+        metadata = {
+          name = "snapshot-hourly";
+          namespace = "longhorn-system";
+        };
+        spec = {
+          task = "snapshot";
+          cron = "15 * * * *"; # hourly at :15
+          retain = 24;
+          concurrency = 2;
+          groups = [ "hourly" ];
+        };
+      };
+
       longhorn-helmchart.content = {
         apiVersion = "helm.cattle.io/v1";
         kind = "HelmChart";
@@ -57,9 +90,7 @@ in
           chart = "longhorn";
           targetNamespace = "longhorn-system";
 
-          # Strongly recommended: pin a version so upgrades are intentional.
-          # Replace with the version you want (example only).
-          version = "v1.10.1";
+          version = "v1.11.0";
 
           valuesContent = ''
             # Make Longhorn create/mark its StorageClass as the default
@@ -101,7 +132,7 @@ in
           namespace = "longhorn-system";
         };
         spec = {
-          backupTargetURL = "";
+          backupTargetURL = "nfs://192.168.1.41:/nas_data_primary/longhorn";
           pollInterval = "5m0s";
         };
       };

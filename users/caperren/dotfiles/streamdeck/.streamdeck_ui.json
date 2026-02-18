@@ -71,10 +71,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "/home/caperren/.config/streamdeck-ui/icons/thunar-icon.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/yazi.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "thunar",
+                                "command": "kitty -e yazi",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -263,7 +263,7 @@
                                 "icon": "/home/caperren/.config/streamdeck-ui/icons/spotify-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "kitty -e spotify_player",
+                                "command": "spotify",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -1665,10 +1665,10 @@
                         "states": {
                             "0": {
                                 "text": "",
-                                "icon": "/home/caperren/.config/streamdeck-ui/icons/thunar-icon.png",
+                                "icon": "/home/caperren/.config/streamdeck-ui/icons/yazi.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "thunar",
+                                "command": "kitty -e yazi",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,
@@ -1857,7 +1857,7 @@
                                 "icon": "/home/caperren/.config/streamdeck-ui/icons/spotify-logo.png",
                                 "keys": "",
                                 "write": "",
-                                "command": "kitty -e spotify_player",
+                                "command": "spotify",
                                 "brightness_change": 0,
                                 "switch_page": 0,
                                 "switch_state": 0,

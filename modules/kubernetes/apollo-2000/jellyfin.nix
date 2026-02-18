@@ -95,7 +95,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "jellyfin-config-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels = {
+            "app.kubernetes.io/name" = "jellyfin";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

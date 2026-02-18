@@ -18,6 +18,8 @@ let
 
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;
+
+  allowedReplicas = if config."perren.cloud".maintenance.postgres then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
@@ -53,7 +55,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -178,7 +180,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "gitea-config-pvc";
-          labels."app.kubernetes.io/name" = "gitea";
+          labels = {
+            "app.kubernetes.io/name" = "gitea";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];
@@ -191,7 +197,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "gitea-data-pvc";
-          labels."app.kubernetes.io/name" = "gitea";
+          labels = {
+            "app.kubernetes.io/name" = "gitea";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

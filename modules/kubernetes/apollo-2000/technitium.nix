@@ -13,8 +13,8 @@ let
     arch = "amd64";
   };
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       technitium-deployment.content = {
@@ -105,7 +105,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "technitium-config-pvc";
-          labels."app.kubernetes.io/name" = "technitium";
+          labels = {
+            "app.kubernetes.io/name" = "technitium";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

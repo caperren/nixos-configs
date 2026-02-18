@@ -17,8 +17,8 @@ let
 
   allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       komga-deployment.content = {
@@ -86,7 +86,11 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "komga-config-pvc";
-          labels."app.kubernetes.io/name" = "komga";
+          labels = {
+            "app.kubernetes.io/name" = "komga";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

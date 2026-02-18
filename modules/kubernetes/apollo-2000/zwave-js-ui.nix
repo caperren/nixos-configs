@@ -129,7 +129,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "zwave-js-ui-config-pvc";
-          labels."app.kubernetes.io/name" = "zwave-js-ui";
+          labels = {
+            "app.kubernetes.io/name" = "zwave-js-ui";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteOnce" ];

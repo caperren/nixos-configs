@@ -6,18 +6,20 @@
 }:
 let
   imageConfig = {
-    imageName = "homeassistant/home-assistant";
-    imageDigest = "sha256:c36741490472518338323db8ee67775d7df70d2fa1f68eff9b9e63679fe64a18";
-    hash = "sha256-ZuPa4FQb0/EcQOLn26E5bDsLwvCHxe1iQLJ4rZiVHKo=";
-    finalImageName = "homeassistant/home-assistant";
-    finalImageTag = "2026.1.3";
+    imageName = "docker.io/homeassistant/home-assistant";
+    imageDigest = "sha256:17441c45ba14560b4ef727ee06aac4d605cf0dc0625fc4f2e043cb2551d72749";
+    hash = "sha256-O0AfG7dy/ihDPu7lzk3aMpt4t2ncosC7cH7tVlZeBTk=";
+    finalImageName = "docker.io/homeassistant/home-assistant";
+    finalImageTag = "2026.2.1";
   };
-  image = pkgs.dockerTools.pullImage imageConfig // { arch = "amd64"; };
+  image = pkgs.dockerTools.pullImage imageConfig // {
+    arch = "amd64";
+  };
 
   zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
 in
-{
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       home-assistant-deployment.content = {
@@ -124,12 +126,16 @@ in
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "home-assistant-config-pvc";
-          labels."app.kubernetes.io/name" = "home-assistant";
+          labels = {
+            "app.kubernetes.io/name" = "home-assistant";
+            "recurring-job.longhorn.io/source" = "enabled";
+            "recurring-job.longhorn.io/backup-daily" = "enabled";
+          };
         };
         spec = {
           accessModes = [ "ReadWriteMany" ];
           storageClassName = "longhorn";
-          resources.requests.storage = "5Gi";
+          resources.requests.storage = "20Gi";
         };
       };
       home-assistant-service.content = {

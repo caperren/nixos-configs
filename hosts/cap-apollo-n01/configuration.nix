@@ -125,6 +125,7 @@ in
     "nas_data_primary-obsidian" = {
       environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
       pruneOpts = resticCloudPruneOpts."high_priority";
+      paths = [ "/nas_data_primary/obsidian" ];
     };
   };
 

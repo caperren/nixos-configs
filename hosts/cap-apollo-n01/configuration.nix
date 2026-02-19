@@ -122,10 +122,30 @@ in
   # Backup management
   environment.systemPackages = [ pkgs.restic ];
   services.restic.backups = {
+    "nas_data_primary-immich" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."high_priority";
+      paths = [ "/nas_data_primary/immich" ];
+    };
+    "nas_data_primary-komga" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."low_priority";
+      paths = [ "/nas_data_primary/komga" ];
+    };
+    "nas_data_primary-longhorn" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."medium_priority";
+      paths = [ "/nas_data_primary/longhorn" ];
+    };
     "nas_data_primary-obsidian" = {
       environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
       pruneOpts = resticCloudPruneOpts."high_priority";
       paths = [ "/nas_data_primary/obsidian" ];
+    };
+    "nas_data_primary-rclone" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."medium_priority";
+      paths = [ "/nas_data_primary/rclone" ];
     };
   };
 

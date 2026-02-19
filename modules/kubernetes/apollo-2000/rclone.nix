@@ -6,11 +6,11 @@
 }:
 let
   imageConfig = {
-    imageName = "rclone/rclone";
-    imageDigest = "sha256:9f59fda717a48aced38d7f27e9ec8fd9992b5651e7a03897bebf204d3a9197d6";
-    hash = "sha256-V6NwkOkzCbdN8Me8jzQ/9VSDcAbYAJMNbtKCz6K+ROE=";
-    finalImageName = "rclone/rclone";
-    finalImageTag = "1.73.0";
+    imageName = "docker.io/rclone/rclone";
+    imageDigest = "sha256:c08f5e100e1c4fa4deb1315b56a47c0cc0e765222b7c0834bc93305f2e4d85c0";
+    hash = "sha256-d3lG/m8Hvkbm7Wp+fDQnztPHKCvvpitp7Uy+wCprjsg=";
+    finalImageName = "docker.io/rclone/rclone";
+    finalImageTag = "1.73.1";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";

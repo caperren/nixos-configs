@@ -5,25 +5,30 @@
   ...
 }:
 let
-  resticBackupStagingPath = "/run/restic-backup";
-  resticBackupServicePrePostScript = pkgs.writeShellScript "restic-backup-pre-post" ''
-    set -euo pipefail
-
-    # Make sure staging path exists, and exit immediately if we just created it
-    if [ -d "${resticBackupStagingPath}" ]; then
-        mkdir -p ${resticBackupStagingPath}
-        exit 0
-    fi
-
-
-
-  '';
-  setZfsOptionsPools = [
-    "nas_data_primary"
-    "nas_data_high_speed"
-  ];
-
   syncthingDevices = (import ../../constants/syncthing.nix).devices;
+
+  # These are intended to be sister-configs to the sanoid templates in zfs.nix
+  # They won't match 1-1 schedule-wise, as it's a lot more expensive to use offsite storage
+  resticCloudPruneOpts = {
+    "critical_priority" = [
+      "--keep-daily 31"
+      "--keep-monthly 12"
+      "--keep-yearly 5"
+    ];
+    "high_priority" = [
+      "--keep-daily 14"
+      "--keep-weekly 4"
+      "--keep-monthly 6"
+    ];
+    "medium_priority" = [
+      "--keep-weekly 1"
+      "--keep-monthly 3"
+    ];
+    "low_priority" = [
+      "--keep-weekly 1"
+      "--keep-monthly 1"
+    ];
+  };
 in
 {
   imports = [
@@ -104,34 +109,19 @@ in
     "nas_data_primary/komga".useTemplate = [ "low_priority" ];
     "nas_data_primary/long_term_storage".useTemplate = [ "low_priority" ];
     "nas_data_primary/longhorn".useTemplate = [ "medium_priority" ];
-    "nas_data_primary/obsidian".useTemplate = [ "high_priority" ];
     "nas_data_primary/media".useTemplate = [ "low_priority" ];
+    "nas_data_primary/obsidian".useTemplate = [ "high_priority" ];
     "nas_data_primary/rclone".useTemplate = [ "medium_priority" ];
   };
 
   # Backup management
-  #  services.restic.backups = {
-  #    "nas_data_primary-caperren" = {
-  #      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
-  #      exclude = [ "" ];
-  #    };
-  #  };
-  #  environment.systemPackages = [ pkgs.restic ];
-  #  systemd.services.restic-backup = {
-  #    serviceConfig = {
-  #      Type = "oneshot";
-  #      EnvironmentFile = config.sops.templates."restic-backup-service-environment-file".path;
-  #      ExecStartPre = resticBackupServicePrePostScript;
-  #      ExecStart = pkgs.writeShellScript "restic-backup" ''
-  #        set -euo pipefail
-  #      '';
-  #      ExecStartPost = resticBackupServicePrePostScript;
-  #    };
-  #    path = with pkgs; [
-  #      coreutils
-  #      restic
-  #    ];
-  #  };
+  environment.systemPackages = [ pkgs.restic ];
+  services.restic.backups = {
+    "nas_data_primary-obsidian" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."high_priority";
+    };
+  };
 
   # NFS for acting as a nas
   services.nfs.server.enable = true;
@@ -334,8 +324,8 @@ in
 
           for pool_dataset in ''${pool_datasets[@]}; do
               # Make snapshot directory hidden, for chown/chmod simplicity
-              echo "Enable snapshot visibility for \"''${pool_dataset}\" pool"
-              zfs set snapdir=visible "''${pool_dataset}"
+              # echo "Enable snapshot visibility for \"''${pool_dataset}\" pool"
+              # zfs set snapdir=visible "''${pool_dataset}"
           done
         '';
       };

@@ -120,6 +120,7 @@ in
   };
 
   # Backup management
+  # Noting that if a service timer isn't manually set, the backups are run once a day by default
   environment.systemPackages = [ pkgs.restic ];
   services.restic.backups = {
     "nas_data_primary-immich" = {

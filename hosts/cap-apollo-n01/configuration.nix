@@ -327,11 +327,11 @@ in
           ###### Variables
           pool_datasets=(${lib.escapeShellArgs setZfsOptionsPools})
 
-          for pool_dataset in ''${pool_datasets[@]}; do
+          # for pool_dataset in ''${pool_datasets[@]}; do
               # Make snapshot directory hidden, for chown/chmod simplicity
               # echo "Enable snapshot visibility for \"''${pool_dataset}\" pool"
               # zfs set snapdir=visible "''${pool_dataset}"
-          done
+          # done
         '';
       };
 

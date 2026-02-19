@@ -5,6 +5,11 @@
   ...
 }:
 let
+  setZfsOptionsPools = [
+    "nas_data_primary"
+    "nas_data_high_speed"
+  ];
+
   syncthingDevices = (import ../../constants/syncthing.nix).devices;
 
   # These are intended to be sister-configs to the sanoid templates in zfs.nix

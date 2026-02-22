@@ -94,10 +94,10 @@ in
       #esac
 
       # Telegram message base
-      msg="ZFS event on ''${host}
-      class: ''${class}
-      subclass: ''${subclass}
-      pool: ''${pool}"
+      msg="# ZFS event on ''${host}
+
+      pool: ''${pool}
+      class: ''${class}"
 
       # Add pool health snapshots if any pools are unhealthy
       health="''$(${pkgs.zfs}/bin/zpool status -x 2>/dev/null || true)"
@@ -107,8 +107,8 @@ in
       $health"
       fi
 
-      # Send (escape MarkdownV2 first)
-      ${pkgs.coreutils}/bin/printf "%s" "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify -pc /root/.config/notify/provider-config.yaml
+      # Send (escape MarkdownV2 first, use bulk for sending as one message)
+      ${pkgs.coreutils}/bin/printf "%s" "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify -bulk -pc /root/.config/notify/provider-config.yaml
     '';
     mode = "0755";
   };

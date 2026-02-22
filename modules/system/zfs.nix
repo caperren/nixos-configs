@@ -107,11 +107,8 @@ in
       $health"
       fi
 
-      ${pkgs.logger}/bin/logger -t zedlet-test "''${msg}"
-      ${pkgs.coreutils}/bin/echo "test" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
-
       # Send (escape MarkdownV2 first)
-      ${pkgs.coreutils}/bin/printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
+      ${pkgs.coreutils}/bin/printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify -pc /root/.config/notify/provider-config.yaml
     '';
     mode = "0755";
   };

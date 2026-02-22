@@ -108,10 +108,10 @@ in
       fi
 
       ${pkgs.logger}/bin/logger -t zedlet-test "''${msg}"
-      echo "test" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
+      ${pkgs.coreutils}/bin/echo "test" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
 
       # Send (escape MarkdownV2 first)
-      printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
+      ${pkgs.coreutils}/bin/printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
     '';
     mode = "0755";
   };

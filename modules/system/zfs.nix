@@ -86,7 +86,7 @@ in
 
       # Exit if the event kind isn't something we should notify on
       case "$class" in
-        "sysevent.fs.zfs.statechange"|"sysevent.fs.zfs.vdev_fault"|"sysevent.fs.zfs.vdev_check"|"sysevent.fs.zfs.scrub_finish")
+        "sysevent.fs.zfs.statechange"|"sysevent.fs.zfs.vdev_fault"|"sysevent.fs.zfs.vdev_check")
           ;;
         *)
           exit 0

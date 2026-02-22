@@ -106,9 +106,12 @@ in
         $health"
       fi
 
+      ${pkgs.logger}/bin/logger -t zedlet-test "''${msg}"
+      echo "test" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
+
       # Send (escape MarkdownV2 first)
       printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
     '';
-    mode = "0555";
+    mode = "0755";
   };
 }

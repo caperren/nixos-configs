@@ -85,13 +85,13 @@ in
       host="''${HOSTNAME:-''$(hostname)}"
 
       # Exit if the event kind isn't something we should notify on
-      case "$class" in
-        "sysevent.fs.zfs.statechange"|"sysevent.fs.zfs.vdev_fault"|"sysevent.fs.zfs.vdev_check"|"sysevent.fs.zfs.scrub_finish")
-          ;;
-        *)
-          exit 0
-          ;;
-      esac
+      #case "$class" in
+      #  "sysevent.fs.zfs.statechange"|"sysevent.fs.zfs.vdev_fault"|"sysevent.fs.zfs.vdev_check"|"sysevent.fs.zfs.scrub_finish")
+      #    ;;
+      #  *)
+      #    exit 0
+      #    ;;
+      #esac
 
       # Telegram message base
       msg="ZFS event on ''${host}

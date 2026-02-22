@@ -72,12 +72,15 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       echo "=== routes BEFORE ==="
                       ip route
 
+                      # Find ip for default route on 10.42.x.x subnet
+                      default_route_ip="''$(ip route | awk '/^default/ && ''$3 ~ /^10\.42\./ { print ''$3 }')"
+
                       # Remove the VLAN default route so the pod keeps cluster default via eth0
-                      ip route del default via 10.42.0.1 dev eth0 || true
+                      ip route del default via ''${default_route_ip} dev eth0 || true
 
                       # Ensure cluster CIDRs stay on eth0
-                      ip route replace 10.42.0.0/16 via 10.42.0.1 dev eth0 || true
-                      ip route replace 10.43.0.0/16 via 10.42.0.1 dev eth0 || true
+                      ip route replace 10.42.0.0/16 via ''${default_route_ip} dev eth0 || true
+                      ip route replace 10.43.0.0/16 via ''${default_route_ip} dev eth0 || true
 
                       echo "=== routes AFTER ==="
                       ip route

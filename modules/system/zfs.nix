@@ -103,7 +103,8 @@ in
       health="''$(${pkgs.zfs}/bin/zpool status -x 2>/dev/null || true)"
       if [ -n "$health" ]; then
         msg="$msg
-        $health"
+
+      $health"
       fi
 
       ${pkgs.logger}/bin/logger -t zedlet-test "''${msg}"

@@ -13,6 +13,7 @@
       out = []
       for ch in s:
           out.append("\\" + ch if ch in esc else ch)
+      out = out.replace("\n", "\\n")
       sys.stdout.write("".join(out))
       '
     '';

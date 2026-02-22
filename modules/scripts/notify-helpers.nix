@@ -14,7 +14,7 @@
       for ch in s:
           out.append("\\" + ch if ch in esc else ch)
       out = "".join(out).replace("\n", "\\\n")
-      sys.stdout.write("".join(out))
+      sys.stdout.write(out)
       '
     '';
   };

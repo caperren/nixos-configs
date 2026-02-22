@@ -108,7 +108,7 @@ in
       fi
 
       # Send (escape MarkdownV2 first)
-      ${pkgs.coreutils}/bin/printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify -pc /root/.config/notify/provider-config.yaml
+      ${pkgs.coreutils}/bin/echo "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify -pc /root/.config/notify/provider-config.yaml
     '';
     mode = "0755";
   };

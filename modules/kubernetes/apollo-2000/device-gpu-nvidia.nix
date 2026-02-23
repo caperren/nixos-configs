@@ -10,7 +10,7 @@ in
 {
   hardware = {
     nvidia-container-toolkit.enable = true;
-    hardware.nvidia.datacenter.enable = true;
+    nvidia.datacenter.enable = true;
   };
   virtualisation.containerd = {
     enable = true;

@@ -9,19 +9,19 @@ let
 in
 {
   hardware = lib.mkIf (config.networking.hostName == gpuHavingNodeName) {
-    # Enable modesetting for Wayland compositors (hyprland)
-    modesetting.enable = true;
-    # Use the open source version of the kernel module (for driver 515.43.04+)
-    # Actually, just overridden to false for now
-    open = false;
-    # Enable the Nvidia settings menu
-    nvidiaSettings = true;
-    # Select the appropriate driver version for your specific GPU
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    # Stuff for kube interations
+    # Stuff for kube cdi integration
     nvidia-container-toolkit.enable = true;
-    nvidia.datacenter.enable = true;
+    nvidia = {
+      # Enable datacenter
+      datacenter.enable = true;
+      # Enable modesetting for Wayland compositors (hyprland)
+      modesetting.enable = true;
+      # Use the open source version of the kernel module (for driver 515.43.04+)
+      # Actually, just overridden to false for now
+      open = false;
+      # Select the appropriate driver version for your specific GPU
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
   };
   nixpkgs.config.nvidia.acceptLicense = true;
   virtualisation.containerd = {

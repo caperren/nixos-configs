@@ -16,23 +16,9 @@ let
   };
 
   allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
-
-  containerdAgentNvidiaConfigTemplate = pkgs.writeText "config.toml.tmpl" ''
-    {{ template "base" . }}
-
-    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
-      privileged_without_host_devices = false
-      runtime_engine = ""
-      runtime_root = ""
-      runtime_type = "io.containerd.runc.v2"
-  '';
 in
-{
-  systemd.tmpfiles.rules = [
-    "L+ /var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl - - - - ${containerdAgentNvidiaConfigTemplate}"
-  ];
-
-  services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
+  services.k3s = {
     images = [ image ];
     manifests = {
       ollama-deployment.content = {

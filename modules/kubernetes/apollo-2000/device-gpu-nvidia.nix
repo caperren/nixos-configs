@@ -31,12 +31,6 @@ in
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
         BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
     '';
-    extraFlags = (
-      toString [
-        "--container-runtime-endpoint unix:///run/containerd/containerd.sock"
-      ]
-    );
-    label."nixos-nvidia-cdi" = "enabled";
 
     manifests = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
       nvidia-gpu-node-labeler.content = {

@@ -8,7 +8,7 @@ let
   gpuHavingNodeName = "cap-apollo-n04";
 in
 {
-  hardware = {
+  hardware = lib.mkIf (config.networking.hostName == gpuHavingNodeName){
     nvidia-container-toolkit.enable = true;
     nvidia.datacenter.enable = true;
   };
@@ -42,7 +42,7 @@ in
         apiVersion = "v1";
         kind = "Node";
         metadata = {
-          name = "nvidia";
+          name = gpuHavingNodeName;
           labels."nixos-nvidia-cdi" = "gpu-enabled";
 
         };

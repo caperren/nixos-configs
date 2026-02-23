@@ -28,7 +28,7 @@ let
   '';
 in
 {
-  tmpfiles.rules = [
+  systemd.tmpfiles.rules = [
     "L+ /var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl - - - - ${containerdAgentNvidiaConfigTemplate}"
   ];
 

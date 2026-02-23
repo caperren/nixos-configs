@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   environment.sessionVariables = {
     # If your cursor becomes invisible
@@ -9,7 +14,9 @@
     __GL_SYNC_TO_VBLANK = "0";
   };
 
-  services.xserver.videoDrivers = lib.mkIf (!config.hardware.nvidia.datacenter.enable) [ "nvidia" ];
+  services.xserver = lib.mkIf (!config.hardware.nvidia.datacenter.enable) {
+    videoDrivers = [ "nvidia" ];
+  };
 
   hardware.nvidia = {
     # Enable modesetting for Wayland compositors (hyprland)

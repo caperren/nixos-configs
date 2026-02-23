@@ -8,7 +8,10 @@ let
   gpuHavingNodeName = "cap-apollo-n04";
 in
 {
-  hardware.nvidia-container-toolkit.enable = true;
+  hardware = {
+    nvidia-container-toolkit.enable = true;
+    hardware.nvidia.datacenter.enable = true;
+  };
   virtualisation.containerd = {
     enable = true;
     settings = {

@@ -8,9 +8,10 @@ let
   gpuHavingNodeName = "cap-apollo-n04";
 in
 {
-  hardware = lib.mkIf (config.networking.hostName == gpuHavingNodeName) {
+  hardware = {
     # Stuff for kube cdi integration
     nvidia-container-toolkit.enable = true;
+
     nvidia = {
       # Enable datacenter
       datacenter.enable = true;

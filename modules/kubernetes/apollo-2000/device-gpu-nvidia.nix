@@ -12,6 +12,7 @@ in
     nvidia-container-toolkit.enable = true;
     nvidia.datacenter.enable = true;
   };
+  nixpkgs.config.nvidia.acceptLicense = true;
   virtualisation.containerd = {
     enable = true;
     settings = {
@@ -21,6 +22,7 @@ in
       };
     };
   };
+
   services.k3s = {
     containerdConfigTemplate = ''
       {{ template "base" . }}

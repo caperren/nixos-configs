@@ -59,6 +59,7 @@ in
     ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices
+    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
     ../kubernetes/apollo-2000/device-zigbee.nix
     ../kubernetes/apollo-2000/device-zwave.nix
 

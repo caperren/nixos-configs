@@ -35,7 +35,7 @@ in
 
   services.k3s = lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
     manifests = {
-    longhorn-namespace.content = {
+      longhorn-namespace.content = {
         apiVersion = "v1";
         kind = "Namespace";
         metadata = {

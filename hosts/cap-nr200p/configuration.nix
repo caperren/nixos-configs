@@ -54,6 +54,9 @@
   ];
 
   networking.hostName = "cap-nr200p"; # Define your hostname.
+  networking.hosts = {
+   "192.168.1.42" = [ "longhorn.internal.perren.cloud" "technitium.internal.perren.cloud" "home-assistant.internal.perren.cloud" "homepage.internal.perren.cloud" ];
+  };
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";

@@ -53,7 +53,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
-              terminationGracePeriodSeconds = 30;
               containers = [
                 {
                   name = "home-assistant";

@@ -27,12 +27,12 @@ let
   isK3sPrimary = lib.lists.elem config.networking.hostName k3sPrimaries;
   serverAddr = if isK3sPrimary then "" else k3sNodeToPrimary.${config.networking.hostName};
 
-  flannelSubnetEnv = pkgs.writeText "subnet.env" ''
-    FLANNEL_NETWORK=10.42.0.0/16
-    FLANNEL_SUBNET=10.42.1.1/24
-    FLANNEL_MTU=1450
-    FLANNEL_IPMASQ=true
-  '';
+#  flannelSubnetEnv = pkgs.writeText "subnet.env" ''
+#    FLANNEL_NETWORK=10.42.0.0/16
+#    FLANNEL_SUBNET=10.42.1.1/24
+#    FLANNEL_MTU=1450
+#    FLANNEL_IPMASQ=true
+#  '';
 in
 {
   sops.secrets.k3s_token.sopsFile = k3sTokenSopsFile.${config.networking.hostName};
@@ -45,9 +45,9 @@ in
     '';
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /run/flannel/subnet.env - - - - ${flannelSubnetEnv}"
-  ];
+#  systemd.tmpfiles.rules = [
+#    "L+ /run/flannel/subnet.env - - - - ${flannelSubnetEnv}"
+#  ];
 
   services.k3s = {
     enable = true;
@@ -58,5 +58,10 @@ in
     extraFlags = [
       "--embedded-registry"
     ];
+    gracefulNodeShutdown = {
+        enable = true;
+        shutdownGracePeriod = "90s";
+        shutdownGracePeriodCriticalPods = "60s";
+    };
   };
 }

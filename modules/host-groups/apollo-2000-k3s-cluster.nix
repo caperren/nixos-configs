@@ -59,37 +59,36 @@ in
     ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices
-#    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
+#    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
     ../kubernetes/apollo-2000/device-zigbee.nix
     ../kubernetes/apollo-2000/device-zwave.nix
-
-    # Kubernetes Applications
-    #    ../kubernetes/apollo-2000/autobrr.nix
+#
+#    # Kubernetes Applications
+#    #    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
     ../kubernetes/apollo-2000/gitea.nix
-    #    ../kubernetes/apollo-2000/grafana.nix
+#    #    ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/homepage.nix
-    #    ../kubernetes/apollo-2000/immich.nix
+#    #    ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/jellyfin.nix
     ../kubernetes/apollo-2000/komga.nix
     ../kubernetes/apollo-2000/lubelogger.nix
-    #    ../kubernetes/apollo-2000/node-exporter.nix
-    ../kubernetes/apollo-2000/ollama.nix
+#    #    ../kubernetes/apollo-2000/node-exporter.nix
+#    ../kubernetes/apollo-2000/ollama.nix
     ../kubernetes/apollo-2000/openwebui.nix
     ../kubernetes/apollo-2000/pg-admin.nix
     ../kubernetes/apollo-2000/postgres.nix
-    #    ../kubernetes/apollo-2000/prometheus.nix
-    #    ../kubernetes/apollo-2000/prowlarr.nix
+#    #    ../kubernetes/apollo-2000/prometheus.nix
+#    #    ../kubernetes/apollo-2000/prowlarr.nix
     ../kubernetes/apollo-2000/qbittorrent.nix
-    #    ../kubernetes/apollo-2000/radarr.nix
+#    #    ../kubernetes/apollo-2000/radarr.nix
     ../kubernetes/apollo-2000/rclone.nix
     ../kubernetes/apollo-2000/spliit.nix
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
-    #    ../kubernetes/apollo-2000/termix.nix
     ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 

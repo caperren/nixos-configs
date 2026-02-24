@@ -54,7 +54,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   env = [
                     {
                       name = "OLLAMA_BASE_URL";
-                      value = "http://${ollamaServiceName}.default.svc.cluster.local:${ollamaServicePort}";
+                      value = "http://192.168.1.44:11434";
                     }
                   ];
                   ports = [ { containerPort = 8080; } ];

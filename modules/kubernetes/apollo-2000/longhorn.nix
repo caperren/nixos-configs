@@ -93,6 +93,15 @@ in
           version = "v1.11.0";
 
           valuesContent = ''
+            image:
+              manager:
+                tag: v1.11.0-hotfix-1
+              instanceManager:
+                tag: v1.11.0-hotfix-1
+
+            preUpgradeChecker:
+              upgradeVersionCheck: false
+
             # Make Longhorn create/mark its StorageClass as the default
             storageClass:
               defaultClass: true

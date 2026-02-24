@@ -94,6 +94,7 @@ in
   ];
 
   time.timeZone = "America/Los_Angeles";
+  networking.nameservers = [ "192.168.1.1" ];
 
   # Shitty bandaid until ollama can natively consider zfs ram caching as actually available, or provide an override flag
   # https://github.com/ollama/ollama/issues/5700

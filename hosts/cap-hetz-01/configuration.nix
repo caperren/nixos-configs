@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
 
     # Users
-    ../../users/caperren/hetzner-admin-home-manager.nix
+    ../../users/hetzner-admin/hetzner-admin-home-manager.nix
 
     # System Configuration
     ../../modules/system/fonts.nix

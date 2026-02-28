@@ -110,6 +110,7 @@ in
     "nas_data_high_speed/ollama".useTemplate = [ "low_priority" ];
     "nas_data_primary/ad".useTemplate = [ "low_priority" ];
     "nas_data_primary/caperren".useTemplate = [ "medium_priority" ];
+    "nas_data_primary/factorio".useTemplate = [ "medium_priority" ];
     "nas_data_primary/immich".useTemplate = [ "high_priority" ];
     "nas_data_primary/komga".useTemplate = [ "low_priority" ];
     "nas_data_primary/long_term_storage".useTemplate = [ "low_priority" ];
@@ -122,6 +123,11 @@ in
   # Backup management
   # Noting that if a service timer isn't manually set, the backups are run once a day by default
   services.restic.backups = {
+    "nas_data_primary-factorio" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."medium_priority";
+      paths = [ "/nas_data_primary/factorio" ];
+    };
     "nas_data_primary-immich" = {
       environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
       pruneOpts = resticCloudPruneOpts."high_priority";
@@ -322,6 +328,10 @@ in
             -m "g:nas-media-management:rwx" \
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
+
+          # factorio
+          echo "Setting permissions for nas_data_primary/factorio dataset"
+          chown -R syncthing:nas-syncthing-management /nas_data_primary/factorio
 
           # obsidian
           echo "Setting permissions for nas_data_primary/obsidian dataset"

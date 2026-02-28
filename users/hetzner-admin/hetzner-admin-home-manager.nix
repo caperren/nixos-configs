@@ -5,7 +5,7 @@ let
 in
 {
   sops.secrets."accounts/hetzner-admin/hashed-password" = {
-    sopsFile = ../../secrets/apollo-2000.yaml;
+    sopsFile = ../../secrets/hetzner.yaml;
     neededForUsers = true;
   };
 

@@ -10,7 +10,7 @@ let
     "nas_data_high_speed"
   ];
 
-  syncthingDevices = (import ../../constants/syncthing.nix).devices;
+  syncthingConstants = (import ../../constants/syncthing.nix);
 
   # These are intended to be sister-configs to the sanoid templates in zfs.nix
   # They won't match 1-1 schedule-wise, as it's a lot more expensive to use offsite storage
@@ -176,11 +176,16 @@ in
     settings = {
       gui.user = "caperren";
 
-      devices = removeAttrs syncthingDevices [ config.networking.hostName ];
+      devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
       folders = {
+        "factorio" = {
+          devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+          path = "/nas_data_primary/factorio";
+          ignorePatterns = [ ".zfs" ];
+        };
         "obsidian" = {
-          devices = lib.remove config.networking.hostName (lib.attrNames syncthingDevices);
+          devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.allDevices);
           path = "/nas_data_primary/obsidian";
           ignorePatterns = [ ".zfs" ];
         };

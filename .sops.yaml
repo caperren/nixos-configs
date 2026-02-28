@@ -20,6 +20,8 @@ keys:
       - &cap_clust_07 age1en6vdtxspam9s3nmsyfrcrxzrzu4t9v72ztqyekpzsc35rd06a2sza7ehw
       - &cap_clust_08 age1vujvq5rdzppkkdhkwyhnl6xhuvm8s5yf2wc8ke05m8jwrdwsdf0qfx5w4r
       - &cap_clust_09 age1uyuudfya8etgztlt6hlssr9hkstyyhg65wdq3pj9rud2czzkaqqssg7yvp
+    - &hetzner:
+      - &cap_hetz_01 age1hu2jmgzzpjmc8nhpgfslsqma05l8n445sk28f8z5dqu5nr0e3pmqt5f8yw
 creation_rules:
   - path_regex: users/caperren/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -46,6 +48,7 @@ creation_rules:
           - *cap_clust_07
           - *cap_clust_08
           - *cap_clust_09
+          - *cap_hetz_01
   - path_regex: secrets/apollo-2000.yaml$
     key_groups:
       - age:
@@ -71,6 +74,13 @@ creation_rules:
           - *cap_clust_07
           - *cap_clust_08
           - *cap_clust_09
+  - path_regex: secrets/hetzner.yaml$
+    key_groups:
+      - age:
+          - *caperren
+          - *cap_slim7
+          - *cap_nr200p
+          - *cap_hetz_01
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:

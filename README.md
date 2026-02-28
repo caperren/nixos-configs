@@ -24,7 +24,7 @@
 - Update keys after adding new host or personal key
     - `sops updatekeys <file>`
 - Get hashedPassword for new user account
-  - `mkpasswd -m sha-512`
+    - `mkpasswd -m sha-512`
 - To get the hashes for an updated version of a docker image
     - `nix-shell -p nix-prefetch-docker --run "nix-prefetch-docker --image-name <replace> --image-tag <replace>"`
 - To generate a unique id for networking.hostId when using zfs

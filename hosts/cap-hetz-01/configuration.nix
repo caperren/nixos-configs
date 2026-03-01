@@ -28,6 +28,7 @@ in
 
   users.users.caddy.enable = true;
   sops.secrets = {
+    "wireguard/private-key".sopsFile = ../../secrets/hetzner.yaml;
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;
       format = "binary";
@@ -46,7 +47,7 @@ in
 
     nat = {
       enable = true;
-      externalInterfaces = [ "enp1s0" ];
+      externalInterface = "enp1s0";
       internalInterfaces = [ "services" ];
     };
 
@@ -56,6 +57,7 @@ in
         ips = [ "10.100.0.1/24" ];
         listenPort = 51820;
       };
+      privateKeyFile = config.sops.secrets."wireguard/private-key".path;
     };
   };
 

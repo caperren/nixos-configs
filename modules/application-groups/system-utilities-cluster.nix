@@ -23,6 +23,7 @@
     usbutils
     util-linux
     wget
+    wireguard-tools
     yq
   ];
 }

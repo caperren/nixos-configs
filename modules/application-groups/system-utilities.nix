@@ -76,6 +76,7 @@
     wget
     xev
     xfce.mousepad
+    wireguard-tools
   ];
 
 }

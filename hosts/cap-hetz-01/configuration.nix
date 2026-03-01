@@ -41,7 +41,23 @@ in
 
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "cap-hetz-01";
+  networking = {
+    hostName = "cap-hetz-01";
+
+    nat = {
+      enable = true;
+      externalInterfaces = [ "enp1s0" ];
+      internalInterfaces = [ "services" ];
+    };
+
+    wireguard = {
+      enable = true;
+      interfaces.services = {
+        ips = [ "10.100.0.1/24" ];
+        listenPort = 51820;
+      };
+    };
+  };
 
   time.timeZone = "America/Los_Angeles";
 

@@ -34,6 +34,8 @@ in
       owner = "caddy";
       group = "caddy";
       mode = "0440";
+
+      restartUnits = [ "caddy.service" ];
     };
   };
 

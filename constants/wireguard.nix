@@ -1,7 +1,7 @@
 {
   services = {
     mtu = 1420;
-    allowedIPs = [ "10.8.0.1/24" ];
+    allowedIPs = [ "10.8.0.0/24" ];
     peers = {
       "cap-hetz-01" = {
         address = "10.8.0.1";

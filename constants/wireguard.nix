@@ -1,6 +1,10 @@
 {
   services = {
+    host = "caperren.com";
+    port = 51820;
     mtu = 1420;
+    persistentKeepalive = 25;
+
     allowedIPs = [ "10.8.0.0/24" ];
     peers = {
       "cap-hetz-01" = {

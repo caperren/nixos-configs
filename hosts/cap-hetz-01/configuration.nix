@@ -28,7 +28,8 @@ in
 
   users.users.caddy.enable = true;
   sops.secrets = {
-    "wireguard/private-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-slim7/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;
       format = "binary";
@@ -54,19 +55,20 @@ in
     wireguard = {
       enable = true;
       interfaces.services = {
-        privateKeyFile = config.sops.secrets."wireguard/private-key".path;
+        privateKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
         ips = [ "${wireguardServicesConfig.peers.${config.networking.hostName}.address}/24" ];
-        listenPort = 51820;
+        listenPort = wireguardServicesConfig.port;
         mtu = wireguardServicesConfig.mtu;
 
         peers = [
           {
             publicKey = wireguardServicesConfig.peers."cap-slim7".publicKey;
             allowedIPs = wireguardServicesConfig.allowedIPs;
+
+            preSharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
           }
         ];
       };
-
     };
   };
 

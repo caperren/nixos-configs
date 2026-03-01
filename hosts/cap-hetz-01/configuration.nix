@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  a = "";
+in
 {
   imports = [
     # Hardware Scan
@@ -22,12 +25,26 @@
     ../../modules/application-groups/system-utilities.nix
 
   ];
+  sops.secrets = {
+    "caddy/Caddyfile" = {
+      sopsFile = ../../secrets/hetzner-Caddyfile;
+      format = "binary";
+      owner = "caddy";
+      group = "caddy";
+      mode = "0440";
+    };
+  };
 
   boot.loader.grub.device = "/dev/sda";
 
   networking.hostName = "cap-hetz-01";
 
   time.timeZone = "America/Los_Angeles";
+
+  services.caddy = {
+    enable = true;
+    configFile = config.sops.secrets."caddy/Caddyfile".path;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

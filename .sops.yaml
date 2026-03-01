@@ -77,21 +77,21 @@ creation_rules:
           - *cap_clust_07
           - *cap_clust_08
           - *cap_clust_09
-  - path_regex: secrets/hetzner.yaml$
+  - path_regex: secrets/hetzner.*$
     key_groups:
       - age:
           - *caperren
           - *cap_slim7
           - *cap_nr200p
           - *cap_hetz_01
-  - path_regex: secrets/hetzner.yaml$
+  - path_regex: secrets/offsite.yaml$
     key_groups:
       - age:
           - *caperren
           - *cap_slim7
           - *cap_nr200p
           - *cap_offsite_01
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/.*$
     key_groups:
       - age:
           - *caperren

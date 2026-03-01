@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  a = "";
+  wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
 in
 {
   imports = [
@@ -55,8 +55,16 @@ in
       enable = true;
       interfaces.services = {
         privateKeyFile = config.sops.secrets."wireguard/private-key".path;
-        ips = [ "10.8.0.1/24" ];
+        ips = [ "${wireguardServicesConfig.peers.${config.networking.hostName}.address}/24" ];
         listenPort = 51820;
+        mtu = wireguardServicesConfig.mtu;
+
+        peers = [
+          {
+            publicKey = wireguardServicesConfig.peers."cap-slim7".publicKey;
+            allowedIPs = wireguardServicesConfig.allowedIPs;
+          }
+        ];
       };
 
     };

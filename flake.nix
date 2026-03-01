@@ -180,6 +180,16 @@
           sops-nix.nixosModules.sops
         ];
       };
+      nixosConfigurations.cap-offsite-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-offsite-01/configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
       nixosConfigurations.cap-slim7 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };

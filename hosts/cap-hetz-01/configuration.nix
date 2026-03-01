@@ -42,7 +42,7 @@ in
   time.timeZone = "America/Los_Angeles";
 
   services.caddy = {
-    enable = true;
+    enable = false;
     configFile = config.sops.secrets."caddy/Caddyfile".path;
   };
 

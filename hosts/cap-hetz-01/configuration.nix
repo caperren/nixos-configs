@@ -54,10 +54,11 @@ in
     wireguard = {
       enable = true;
       interfaces.services = {
+        privateKeyFile = config.sops.secrets."wireguard/private-key".path;
         ips = [ "10.100.0.1/24" ];
         listenPort = 51820;
       };
-      privateKeyFile = config.sops.secrets."wireguard/private-key".path;
+
     };
   };
 

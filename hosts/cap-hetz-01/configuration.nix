@@ -45,7 +45,7 @@ in
 
   services.caddy = {
     enable = true;
-#    configFile = config.sops.secrets."caddy/Caddyfile".path;
+    configFile = config.sops.secrets."caddy/Caddyfile".path;
   };
 
   # This value determines the NixOS release from which the default

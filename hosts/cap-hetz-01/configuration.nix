@@ -42,8 +42,8 @@ in
   time.timeZone = "America/Los_Angeles";
 
   services.caddy = {
-    enable = true;
-    configFile = config.sops.secrets."caddy/Caddyfile".path;
+    enable = false;
+#    configFile = config.sops.secrets."caddy/Caddyfile".path;
   };
 
   # This value determines the NixOS release from which the default

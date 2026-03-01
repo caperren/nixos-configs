@@ -31,8 +31,8 @@ in
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;
       format = "binary";
-#      owner = "caddy";
-#      group = "caddy";
+      owner = "caddy";
+      group = "caddy";
       mode = "0440";
     };
   };

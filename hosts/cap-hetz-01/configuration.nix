@@ -25,6 +25,8 @@ in
     ../../modules/application-groups/system-utilities.nix
 
   ];
+
+  users.users.caddy.enable = true;
   sops.secrets = {
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;

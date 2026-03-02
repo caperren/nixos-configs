@@ -1,10 +1,11 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   # Support steam hardware like the index and steam controller
   hardware.steam-hardware.enable = true;
 
   # Steam
   programs.steam =
+
     let
       patchedBwrap = pkgs.bubblewrap.overrideAttrs (o: {
         patches = (o.patches or [ ]) ++ [
@@ -16,8 +17,21 @@
       enable = true;
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
-      gamescopeSession.enable = true;
+      gamescopeSession = {
+        enable = true;
+        env = {
+          # Use dedicated GPU for steam on laptop - probably find nicer way to set this
+          DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
+        };
+      };
       package = pkgs.steam.override {
+        extraEnv = {
+          # Use dedicated GPU for steam on laptop - probably find nicer way to set this
+          DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
+
+          # Needed for steamvr to work properly
+          QT_QPA_PLATFORM = "xcb";
+        };
         buildFHSEnv = (
           args:
           (
@@ -39,7 +53,7 @@
           # Allows Monado to be used
           export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
 
-          # Needed for steamvr to work properly
+
           QT_QPA_PLATFORM=xcb
         '';
       };

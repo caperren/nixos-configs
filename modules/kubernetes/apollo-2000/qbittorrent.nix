@@ -7,8 +7,8 @@
 let
   imageConfig = {
     imageName = "docker.io/linuxserver/qbittorrent";
-    imageDigest = "sha256:dfa75bc534ad4f36262f75b5c1d4c4f0ddd5e7ed5711ebc581c70920cce204ee";
-    hash = "sha256-fOe8YFSAed7F4+mDtwjdejJ4onmhjSETq4Bvw61hODU=";
+    imageDigest = "sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618";
+    hash = "sha256-8rwvoxnGvuDnpXChEeQV/WTWZKEQ9Ib3YG8fE90IL5Q=";
     finalImageName = "docker.io/linuxserver/qbittorrent";
     finalImageTag = "5.1.4";
   };
@@ -46,13 +46,13 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             metadata = {
               labels."app.kubernetes.io/name" = "qbittorrent";
               annotations = {
-                  "diun.enable" = "true";
-                  "diun.watch_repo" = "true";
-                  "diun.sort_tags" = "semver";
-                  "diun.max_tags" = "5";
-                  "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]*.[0-9]*.[0-9]*$";
-                  "k8s.v1.cni.cncf.io/networks" = "vlan5";
-                };
+                "diun.enable" = "true";
+                "diun.watch_repo" = "true";
+                "diun.sort_tags" = "semver";
+                "diun.max_tags" = "5";
+                "diun.include_tags" = "${imageConfig.finalImageTag};^[0-9]*.[0-9]*.[0-9]*$";
+                "k8s.v1.cni.cncf.io/networks" = "vlan5";
+              };
             };
             spec = {
               securityContext.supplementalGroups = [ config.users.groups.nas-media-management.gid ];
@@ -72,12 +72,15 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                       echo "=== routes BEFORE ==="
                       ip route
 
+                      # Find ip for default route on 10.42.x.x subnet
+                      default_route_ip="''$(ip route | awk '/^default/ && ''$3 ~ /^10\.42\./ { print ''$3 }')"
+
                       # Remove the VLAN default route so the pod keeps cluster default via eth0
-                      ip route del default via 10.42.0.1 dev eth0 || true
+                      ip route del default via ''${default_route_ip} dev eth0 || true
 
                       # Ensure cluster CIDRs stay on eth0
-                      ip route replace 10.42.0.0/16 via 10.42.0.1 dev eth0 || true
-                      ip route replace 10.43.0.0/16 via 10.42.0.1 dev eth0 || true
+                      ip route replace 10.42.0.0/16 via ''${default_route_ip} dev eth0 || true
+                      ip route replace 10.43.0.0/16 via ''${default_route_ip} dev eth0 || true
 
                       echo "=== routes AFTER ==="
                       ip route

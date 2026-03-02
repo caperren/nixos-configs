@@ -16,7 +16,7 @@ let
       spotifyPlayerAppTomlTextTemplate;
   waybarConfigPath = ./. + "/dotfiles/waybar/${config.networking.hostName}";
 
-  syncthingDevices = (import ../../constants/syncthing.nix).devices;
+  syncthingConstants = (import ../../constants/syncthing.nix);
 in
 {
   sops.secrets = {
@@ -122,11 +122,15 @@ in
       overrideFolders = true;
 
       settings = {
-        devices = removeAttrs syncthingDevices [ config.networking.hostName ];
+        devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
         folders = {
+          "factorio" = {
+            devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+            path = "~/.factorio";
+          };
           "obsidian" = {
-            devices = lib.remove config.networking.hostName (lib.attrNames syncthingDevices);
+            devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.allDevices);
             path = "~/obsidian";
           };
         };

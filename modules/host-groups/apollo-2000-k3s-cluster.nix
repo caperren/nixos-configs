@@ -23,12 +23,7 @@
 
 { config, pkgs, ... }:
 let
-  wgPublicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
-  wgAddressesByHost = {
-    "cap-apollo-n02" = [ "10.8.0.4/24" ];
-    "cap-apollo-n03" = [ "10.8.0.5/24" ];
-    "cap-apollo-n04" = [ "10.8.0.7/24" ];
-  };
+  wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
 in
 {
   imports = [
@@ -59,40 +54,41 @@ in
     ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices
+#    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
     ../kubernetes/apollo-2000/device-zigbee.nix
     ../kubernetes/apollo-2000/device-zwave.nix
-
-    # Kubernetes Applications
-    #    ../kubernetes/apollo-2000/autobrr.nix
+#
+#    # Kubernetes Applications
+#    #    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
     ../kubernetes/apollo-2000/gitea.nix
-    #    ../kubernetes/apollo-2000/grafana.nix
+#    #    ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/homepage.nix
-    #    ../kubernetes/apollo-2000/immich.nix
+#    #    ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/jellyfin.nix
     ../kubernetes/apollo-2000/komga.nix
     ../kubernetes/apollo-2000/lubelogger.nix
-    #    ../kubernetes/apollo-2000/node-exporter.nix
-    ../kubernetes/apollo-2000/ollama.nix
+#    #    ../kubernetes/apollo-2000/node-exporter.nix
+#    ../kubernetes/apollo-2000/ollama.nix
     ../kubernetes/apollo-2000/openwebui.nix
     ../kubernetes/apollo-2000/pg-admin.nix
     ../kubernetes/apollo-2000/postgres.nix
-    #    ../kubernetes/apollo-2000/prometheus.nix
-    #    ../kubernetes/apollo-2000/prowlarr.nix
+#    #    ../kubernetes/apollo-2000/prometheus.nix
+#    #    ../kubernetes/apollo-2000/prowlarr.nix
     ../kubernetes/apollo-2000/qbittorrent.nix
-    #    ../kubernetes/apollo-2000/radarr.nix
+#    #    ../kubernetes/apollo-2000/radarr.nix
     ../kubernetes/apollo-2000/rclone.nix
     ../kubernetes/apollo-2000/spliit.nix
     ../kubernetes/apollo-2000/stash.nix
     ../kubernetes/apollo-2000/technitium.nix
-    ../kubernetes/apollo-2000/termix.nix
     ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";
+  networking.nameservers = [ "192.168.1.1" ];
 
   # Shitty bandaid until ollama can natively consider zfs ram caching as actually available, or provide an override flag
   # https://github.com/ollama/ollama/issues/5700
@@ -100,8 +96,8 @@ in
   boot.kernelParams = [ "zfs.zfs_arc_max=25769800000" ];
 
   sops.secrets = {
-    "${config.networking.hostName}/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;
-    "${config.networking.hostName}/wireguard/preshared-key".sopsFile = ../../secrets/apollo-2000.yaml;
+    "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/${config.networking.hostName}/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
   };
 
   boot.zfs.extraPools = [
@@ -173,21 +169,21 @@ in
   # Wireguard connection to my vps, for tunnelled reverse-proxying
   networking.wg-quick.interfaces = {
     wg0 = {
-      mtu = 1420;
-      address = wgAddressesByHost.${config.networking.hostName};
-      privateKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/private-key".path;
+      mtu = wireguardServicesConfig.mtu;
+      address = [ wireguardServicesConfig.peers.${config.networking.hostName}.address ];
+      privateKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
 
       # Known issue with using privateKeyFile where persistentKeepalive below is ignored
       # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
-      postUp = [ "wg set wg0 peer ${wgPublicKey} persistent-keepalive 25" ];
+      postUp = [ "wg set wg0 peer ${wireguardServicesConfig.peers."cap-hetz-01".publicKey} persistent-keepalive 25" ];
 
       peers = [
         {
-          publicKey = wgPublicKey;
-          presharedKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/preshared-key".path;
-          allowedIPs = [ "10.8.0.0/24" ];
-          endpoint = "caperren.com:51820";
-          persistentKeepalive = 25;
+          publicKey = wireguardServicesConfig.peers."cap-hetz-01".publicKey;
+          presharedKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/preshared-key".path;
+          allowedIPs = wireguardServicesConfig.clientAllowedIPs;
+          endpoint = "${wireguardServicesConfig.host}:${toString wireguardServicesConfig.port}";
+          persistentKeepalive = wireguardServicesConfig.persistentKeepalive;
         }
       ];
     };

@@ -9,6 +9,7 @@
     git
     htop
     iftop
+    inetutils
     iotop
     jq
     killall
@@ -23,6 +24,7 @@
     usbutils
     util-linux
     wget
+    wireguard-tools
     yq
   ];
 }

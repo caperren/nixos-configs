@@ -74,8 +74,8 @@ in
     notifyHelpers.tgEscape
   ];
 
-  environment.etc."zfs/zed.d/zed-tg-notify.sh" = {
-    source = pkgs.writeShellScript "zed-tg-notify.sh" ''
+  environment.etc."zfs/zed.d/all-zed-tg-notify.sh" = {
+    source = pkgs.writeShellScript "all-zed-tg-notify.sh" ''
       set -euo pipefail
 
       # Extract zevent data
@@ -86,7 +86,7 @@ in
 
       # Exit if the event kind isn't something we should notify on
       case "$class" in
-        "sysevent.fs.zfs.statechange"|"sysevent.fs.zfs.vdev_fault"|"sysevent.fs.zfs.vdev_check"|"sysevent.fs.zfs.scrub_finish")
+        "sysevent.fs.zfs.statechange"|"sysevent.fs.zfs.vdev_fault"|"sysevent.fs.zfs.vdev_check")
           ;;
         *)
           exit 0
@@ -95,20 +95,21 @@ in
 
       # Telegram message base
       msg="ZFS event on ''${host}
-      class: ''${class}
-      subclass: ''${subclass}
-      pool: ''${pool}"
+
+      pool: ''${pool}
+      class: ''${class}"
 
       # Add pool health snapshots if any pools are unhealthy
       health="''$(${pkgs.zfs}/bin/zpool status -x 2>/dev/null || true)"
       if [ -n "$health" ]; then
         msg="$msg
-        $health"
+
+      $health"
       fi
 
-      # Send (escape MarkdownV2 first)
-      printf '%s\n' "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify
+      # Send (escape MarkdownV2 first, use bulk for sending as one message)
+      ${pkgs.coreutils}/bin/printf "%s" "$msg" | ${notifyHelpers.tgEscape}/bin/tg-escape | ${pkgs.notify}/bin/notify -bulk -pc /root/.config/notify/provider-config.yaml
     '';
-    mode = "0555";
+    mode = "0755";
   };
 }

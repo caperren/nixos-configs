@@ -44,6 +44,7 @@
     htop
     iftop
     imagemagick
+    inetutils
     iotop
     jq
     k3s
@@ -76,6 +77,7 @@
     wget
     xev
     xfce.mousepad
+    wireguard-tools
   ];
 
 }

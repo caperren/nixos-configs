@@ -5,25 +5,35 @@
   ...
 }:
 let
-  resticBackupStagingPath = "/run/restic-backup";
-  resticBackupServicePrePostScript = pkgs.writeShellScript "restic-backup-pre-post" ''
-    set -euo pipefail
-
-    # Make sure staging path exists, and exit immediately if we just created it
-    if [ -d "${resticBackupStagingPath}" ]; then
-        mkdir -p ${resticBackupStagingPath}
-        exit 0
-    fi
-
-
-
-  '';
   setZfsOptionsPools = [
     "nas_data_primary"
     "nas_data_high_speed"
   ];
 
-  syncthingDevices = (import ../../constants/syncthing.nix).devices;
+  syncthingConstants = (import ../../constants/syncthing.nix);
+
+  # These are intended to be sister-configs to the sanoid templates in zfs.nix
+  # They won't match 1-1 schedule-wise, as it's a lot more expensive to use offsite storage
+  resticCloudPruneOpts = {
+    "critical_priority" = [
+      "--keep-daily 31"
+      "--keep-monthly 12"
+      "--keep-yearly 5"
+    ];
+    "high_priority" = [
+      "--keep-daily 14"
+      "--keep-weekly 4"
+      "--keep-monthly 6"
+    ];
+    "medium_priority" = [
+      "--keep-weekly 1"
+      "--keep-monthly 3"
+    ];
+    "low_priority" = [
+      "--keep-weekly 1"
+      "--keep-monthly 1"
+    ];
+  };
 in
 {
   imports = [
@@ -100,38 +110,50 @@ in
     "nas_data_high_speed/ollama".useTemplate = [ "low_priority" ];
     "nas_data_primary/ad".useTemplate = [ "low_priority" ];
     "nas_data_primary/caperren".useTemplate = [ "medium_priority" ];
+    "nas_data_primary/factorio".useTemplate = [ "medium_priority" ];
     "nas_data_primary/immich".useTemplate = [ "high_priority" ];
     "nas_data_primary/komga".useTemplate = [ "low_priority" ];
     "nas_data_primary/long_term_storage".useTemplate = [ "low_priority" ];
     "nas_data_primary/longhorn".useTemplate = [ "medium_priority" ];
-    "nas_data_primary/obsidian".useTemplate = [ "high_priority" ];
     "nas_data_primary/media".useTemplate = [ "low_priority" ];
+    "nas_data_primary/obsidian".useTemplate = [ "high_priority" ];
     "nas_data_primary/rclone".useTemplate = [ "medium_priority" ];
   };
 
   # Backup management
-  #  services.restic.backups = {
-  #    "nas_data_primary-caperren" = {
-  #      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
-  #      exclude = [ "" ];
-  #    };
-  #  };
-  #  environment.systemPackages = [ pkgs.restic ];
-  #  systemd.services.restic-backup = {
-  #    serviceConfig = {
-  #      Type = "oneshot";
-  #      EnvironmentFile = config.sops.templates."restic-backup-service-environment-file".path;
-  #      ExecStartPre = resticBackupServicePrePostScript;
-  #      ExecStart = pkgs.writeShellScript "restic-backup" ''
-  #        set -euo pipefail
-  #      '';
-  #      ExecStartPost = resticBackupServicePrePostScript;
-  #    };
-  #    path = with pkgs; [
-  #      coreutils
-  #      restic
-  #    ];
-  #  };
+  # Noting that if a service timer isn't manually set, the backups are run once a day by default
+  services.restic.backups = {
+    "nas_data_primary-factorio" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."medium_priority";
+      paths = [ "/nas_data_primary/factorio" ];
+    };
+    "nas_data_primary-immich" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."high_priority";
+      paths = [ "/nas_data_primary/immich" ];
+    };
+    "nas_data_primary-komga" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."low_priority";
+      paths = [ "/nas_data_primary/komga" ];
+    };
+    "nas_data_primary-longhorn" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."medium_priority";
+      paths = [ "/nas_data_primary/longhorn" ];
+    };
+    "nas_data_primary-obsidian" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."high_priority";
+      paths = [ "/nas_data_primary/obsidian" ];
+    };
+    "nas_data_primary-rclone" = {
+      environmentFile = config.sops.templates."restic-backup-service-environment-file".path;
+      pruneOpts = resticCloudPruneOpts."medium_priority";
+      paths = [ "/nas_data_primary/rclone" ];
+    };
+  };
 
   # NFS for acting as a nas
   services.nfs.server.enable = true;
@@ -154,11 +176,16 @@ in
     settings = {
       gui.user = "caperren";
 
-      devices = removeAttrs syncthingDevices [ config.networking.hostName ];
+      devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
       folders = {
+        "factorio" = {
+          devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+          path = "/nas_data_primary/factorio";
+          ignorePatterns = [ ".zfs" ];
+        };
         "obsidian" = {
-          devices = lib.remove config.networking.hostName (lib.attrNames syncthingDevices);
+          devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.allDevices);
           path = "/nas_data_primary/obsidian";
           ignorePatterns = [ ".zfs" ];
         };
@@ -307,6 +334,10 @@ in
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
 
+          # factorio
+          echo "Setting permissions for nas_data_primary/factorio dataset"
+          chown -R syncthing:nas-syncthing-management /nas_data_primary/factorio
+
           # obsidian
           echo "Setting permissions for nas_data_primary/obsidian dataset"
           chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
@@ -332,11 +363,11 @@ in
           ###### Variables
           pool_datasets=(${lib.escapeShellArgs setZfsOptionsPools})
 
-          for pool_dataset in ''${pool_datasets[@]}; do
+          # for pool_dataset in ''${pool_datasets[@]}; do
               # Make snapshot directory hidden, for chown/chmod simplicity
-              echo "Enable snapshot visibility for \"''${pool_dataset}\" pool"
-              zfs set snapdir=visible "''${pool_dataset}"
-          done
+              # echo "Enable snapshot visibility for \"''${pool_dataset}\" pool"
+              # zfs set snapdir=visible "''${pool_dataset}"
+          # done
         '';
       };
 

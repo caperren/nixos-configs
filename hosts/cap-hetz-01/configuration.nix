@@ -30,10 +30,11 @@ in
   sops.secrets = {
     "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-slim7/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
-    #    "wireguard/cap-nr200p/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-nr200p/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n02/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n03/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n04/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;
       format = "binary";
@@ -83,6 +84,11 @@ in
             publicKey = wireguardServicesConfig.peers."cap-slim7".publicKey;
             allowedIPs = [ "${wireguardServicesConfig.peers."cap-slim7".address}/32" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
+          }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-nr200p".publicKey;
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-nr200p".address}/32" ];
+            presharedKeyFile = config.sops.secrets."wireguard/cap-nr200p/preshared-key".path;
           }
           {
             publicKey = wireguardServicesConfig.peers."cap-apollo-n02".publicKey;

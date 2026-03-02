@@ -17,7 +17,7 @@
       };
       "cap-nr200p" = {
         address = "10.8.0.3";
-        publicKey = "";
+        publicKey = "eah3v76W6iB5/OVFbnxlEMJOJQydEUHGxe/gDodr5xs=";
       };
       "cap-apollo-n02" = {
         address = "10.8.0.4";

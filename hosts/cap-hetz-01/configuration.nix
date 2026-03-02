@@ -64,11 +64,6 @@ in
             allowedIPs = wireguardServicesConfig.allowedIPs;
             presharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
           }
-#          {
-#            publicKey = wireguardServicesConfig.peers."cap-nr200p".publicKey;
-#            allowedIPs = wireguardServicesConfig.allowedIPs;
-#            presharedKeyFile = config.sops.secrets."wireguard/cap-nr200p/preshared-key".path;
-#          }
           {
             publicKey = wireguardServicesConfig.peers."cap-apollo-n02".publicKey;
             allowedIPs = wireguardServicesConfig.allowedIPs;

@@ -30,7 +30,7 @@ in
   sops.secrets = {
     "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-slim7/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
-#    "wireguard/cap-nr200p/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    #    "wireguard/cap-nr200p/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n02/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n03/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n04/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
@@ -61,22 +61,22 @@ in
         peers = [
           {
             publicKey = wireguardServicesConfig.peers."cap-slim7".publicKey;
-            allowedIPs = [ "10.8.0.0/24" ];
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-slim7".address}/24" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
           }
           {
             publicKey = wireguardServicesConfig.peers."cap-apollo-n02".publicKey;
-            allowedIPs = [ "10.8.0.0/24" ];
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-apollo-n02".address}/24" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n02/preshared-key".path;
           }
           {
             publicKey = wireguardServicesConfig.peers."cap-apollo-n03".publicKey;
-            allowedIPs = [ "10.8.0.0/24" ];
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-apollo-n03".address}/24" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n03/preshared-key".path;
           }
           {
             publicKey = wireguardServicesConfig.peers."cap-apollo-n04".publicKey;
-            allowedIPs = [ "10.8.0.0/24" ];
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-apollo-n04".address}/24" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n04/preshared-key".path;
           }
         ];

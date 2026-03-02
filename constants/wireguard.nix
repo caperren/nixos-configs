@@ -5,7 +5,7 @@
     mtu = 1420;
     persistentKeepalive = 25;
 
-    allowedIPs = [ "10.8.0.0/24" ];
+    clientAllowedIPs = [ "10.8.0.1/24" ];
     peers = {
       "cap-hetz-01" = {
         address = "10.8.0.1";

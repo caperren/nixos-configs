@@ -44,6 +44,7 @@
     htop
     iftop
     imagemagick
+    inetutils
     iotop
     jq
     k3s

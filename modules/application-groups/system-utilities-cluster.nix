@@ -9,6 +9,7 @@
     git
     htop
     iftop
+    inetutils
     iotop
     jq
     killall

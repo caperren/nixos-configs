@@ -175,7 +175,7 @@ in
 
       # Known issue with using privateKeyFile where persistentKeepalive below is ignored
       # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
-      postUp = [ "wg set wg0 peer ${wgPublicKey} persistent-keepalive 25" ];
+      postUp = [ "wg set wg0 peer ${wireguardServicesConfig.peers."cap-hetz-01".publicKey} persistent-keepalive 25" ];
 
       peers = [
         {

@@ -23,12 +23,7 @@
 
 { config, pkgs, ... }:
 let
-  wgPublicKey = "EiFCVUvibomC8du68TGYvWYi/haNv0MELPJvnhPAcHA=";
-  wgAddressesByHost = {
-    "cap-apollo-n02" = [ "10.8.0.4/24" ];
-    "cap-apollo-n03" = [ "10.8.0.5/24" ];
-    "cap-apollo-n04" = [ "10.8.0.7/24" ];
-  };
+  wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
 in
 {
   imports = [
@@ -101,8 +96,8 @@ in
   boot.kernelParams = [ "zfs.zfs_arc_max=25769800000" ];
 
   sops.secrets = {
-    "${config.networking.hostName}/wireguard/private-key".sopsFile = ../../secrets/apollo-2000.yaml;
-    "${config.networking.hostName}/wireguard/preshared-key".sopsFile = ../../secrets/apollo-2000.yaml;
+    "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/${config.networking.hostName}/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
   };
 
   boot.zfs.extraPools = [
@@ -174,9 +169,9 @@ in
   # Wireguard connection to my vps, for tunnelled reverse-proxying
   networking.wg-quick.interfaces = {
     wg0 = {
-      mtu = 1420;
-      address = wgAddressesByHost.${config.networking.hostName};
-      privateKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/private-key".path;
+      mtu = wireguardServicesConfig.mtu;
+      address = [ wireguardServicesConfig.peers.${config.networking.hostName}.address ];
+      privateKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
 
       # Known issue with using privateKeyFile where persistentKeepalive below is ignored
       # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
@@ -184,11 +179,11 @@ in
 
       peers = [
         {
-          publicKey = wgPublicKey;
-          presharedKeyFile = config.sops.secrets."${config.networking.hostName}/wireguard/preshared-key".path;
-          allowedIPs = [ "10.8.0.0/24" ];
-          endpoint = "caperren.com:51820";
-          persistentKeepalive = 25;
+          publicKey = wireguardServicesConfig.peers."cap-hetz-01".publicKey;
+          presharedKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/preshared-key".path;
+          allowedIPs = wireguardServicesConfig.allowedIPs;
+          endpoint = "${wireguardServicesConfig.host}:${toString wireguardServicesConfig.port}";
+          persistentKeepalive = wireguardServicesConfig.persistentKeepalive;
         }
       ];
     };

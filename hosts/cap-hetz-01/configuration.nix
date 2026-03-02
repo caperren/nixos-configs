@@ -58,8 +58,27 @@ in
           {
             publicKey = wireguardServicesConfig.peers."cap-slim7".publicKey;
             allowedIPs = wireguardServicesConfig.allowedIPs;
-
             presharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
+          }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-nr200p".publicKey;
+            allowedIPs = wireguardServicesConfig.allowedIPs;
+            presharedKeyFile = config.sops.secrets."wireguard/cap-nr200p/preshared-key".path;
+          }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-apollo-n02".publicKey;
+            allowedIPs = wireguardServicesConfig.allowedIPs;
+            presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n02/preshared-key".path;
+          }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-apollo-n03".publicKey;
+            allowedIPs = wireguardServicesConfig.allowedIPs;
+            presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n03/preshared-key".path;
+          }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-apollo-n04".publicKey;
+            allowedIPs = wireguardServicesConfig.allowedIPs;
+            presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n04/preshared-key".path;
           }
         ];
       };

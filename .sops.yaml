@@ -83,6 +83,10 @@ creation_rules:
           - *caperren
           - *cap_slim7
           - *cap_nr200p
+          - *cap_apollo_n01
+          - *cap_apollo_n02
+          - *cap_apollo_n03
+          - *cap_apollo_n04
           - *cap_hetz_01
   - path_regex: secrets/offsite.yaml$
     key_groups:

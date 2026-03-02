@@ -46,12 +46,6 @@ in
   networking = {
     hostName = "cap-hetz-01";
 
-#    nat = {
-#      enable = true;
-#      externalInterface = "enp1s0";
-#      internalInterfaces = [ "services" ];
-#    };
-
     wireguard = {
       enable = true;
       interfaces.services = {
@@ -65,7 +59,7 @@ in
             publicKey = wireguardServicesConfig.peers."cap-slim7".publicKey;
             allowedIPs = wireguardServicesConfig.allowedIPs;
 
-            presharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
+#            presharedKeyFile = config.sops.secrets."wireguard/cap-slim7/preshared-key".path;
           }
         ];
       };

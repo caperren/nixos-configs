@@ -1,6 +1,6 @@
 {
   services = {
-    host = "perren.cloud;
+    host = "perren.cloud";
     port = 51820;
     mtu = 1420;
     persistentKeepalive = 25;

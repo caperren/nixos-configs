@@ -57,7 +57,7 @@ in
       "2606:4700:4700::1001"
     ];
 
-    interfaces.enp1s0.addresses = [
+    interfaces.enp1s0.ipv6.addresses = [
       {
         address = "2a01:4ff:1f0:8878::1";
         prefixLength = 64;

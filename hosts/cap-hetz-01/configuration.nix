@@ -30,6 +30,10 @@ in
   sops.secrets = {
     "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-slim7/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+#    "wireguard/cap-nr200p/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-apollo-n02/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-apollo-n03/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-apollo-n04/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;
       format = "binary";

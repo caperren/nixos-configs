@@ -57,12 +57,8 @@ in
   ];
 
   sops.secrets = {
-    "wireguard/${config.networking.hostName}/private-key" = {
-      sopsFile = ../../secrets/hetzner.yaml;
-#      owner = "caperren";
-#      group = "caddy";
-#      mode = "0440";
-    };
+    "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/${config.networking.hostName}/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
   };
 
   networking.hostName = "cap-slim7";

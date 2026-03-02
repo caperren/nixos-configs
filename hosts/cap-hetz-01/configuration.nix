@@ -50,6 +50,8 @@ in
   networking = {
     hostName = "cap-hetz-01";
 
+    enableIPv6 = true;
+
     wireguard = {
       enable = true;
       interfaces.services = {

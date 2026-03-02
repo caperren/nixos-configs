@@ -81,7 +81,7 @@ in
           publicKey = wireguardServicesConfig.peers."cap-hetz-01".publicKey;
           presharedKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
           allowedIPs = wireguardServicesConfig.allowedIPs;
-          endpoint = "${wireguardServicesConfig.host}:${wireguardServicesConfig.port}";
+          endpoint = "${wireguardServicesConfig.host}:${toString wireguardServicesConfig.port}";
           persistentKeepalive = wireguardServicesConfig.persistentKeepalive;
         }
       ];

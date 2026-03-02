@@ -46,11 +46,11 @@ in
   networking = {
     hostName = "cap-hetz-01";
 
-    nat = {
-      enable = true;
-      externalInterface = "enp1s0";
-      internalInterfaces = [ "services" ];
-    };
+#    nat = {
+#      enable = true;
+#      externalInterface = "enp1s0";
+#      internalInterfaces = [ "services" ];
+#    };
 
     wireguard = {
       enable = true;

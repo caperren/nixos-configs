@@ -4,7 +4,8 @@ Host *
 Host perren.cloud
   User hetzner-admin
 
-Host cap-hetz-*
+Host cap-hetz-01
+  HostName 10.8.0.1
   User hetzner-admin
 
 Host cap-apollo-n*

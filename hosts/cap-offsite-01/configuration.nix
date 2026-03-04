@@ -27,6 +27,7 @@
   boot.loader.systemd-boot.graceful = true;
 
   networking.hostName = "cap-offsite-01";
+  networking.hostId = "c5d7ab9f";
 
   time.timeZone = "America/Los_Angeles";
 

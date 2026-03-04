@@ -17,6 +17,7 @@
     ../../modules/system/server.nix
     ../../modules/system/ssd.nix
     ../../modules/system/systemd-boot.nix
+    ../system/zfs.nix
 
     # Application Groups
     ../../modules/application-groups/system-utilities.nix

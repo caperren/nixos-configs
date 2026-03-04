@@ -27,7 +27,7 @@
   boot.extraModulePackages = [ ];
   boot.kernelParams = [
     "usbcore.autosuspend=-1"
-    "usb-storage.quirks=0bda:9210:u"
+    "usb-storage.quirks=0bda:9210:u"  # USB ssd enclosure needs slower writes
   ];
 
   fileSystems."/" = {

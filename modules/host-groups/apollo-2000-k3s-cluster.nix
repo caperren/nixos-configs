@@ -24,6 +24,12 @@
 { config, pkgs, ... }:
 let
   wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
+  flannelSubnetEnv = pkgs.writeText "subnet.env" ''
+    FLANNEL_NETWORK=10.42.0.0/16
+    FLANNEL_SUBNET=10.42.1.1/24
+    FLANNEL_MTU=1450
+    FLANNEL_IPMASQ=true
+  '';
 in
 {
   imports = [
@@ -54,32 +60,32 @@ in
     ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices
-#    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
+    #    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
     ../kubernetes/apollo-2000/device-zigbee.nix
     ../kubernetes/apollo-2000/device-zwave.nix
-#
-#    # Kubernetes Applications
-#    #    ../kubernetes/apollo-2000/autobrr.nix
+    #
+    #    # Kubernetes Applications
+    #    #    ../kubernetes/apollo-2000/autobrr.nix
     ../kubernetes/apollo-2000/diun.nix
     ../kubernetes/apollo-2000/esphome.nix
     ../kubernetes/apollo-2000/gitea.nix
-#    #    ../kubernetes/apollo-2000/grafana.nix
+    #    #    ../kubernetes/apollo-2000/grafana.nix
     ../kubernetes/apollo-2000/hetzner-ddns.nix
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/homepage.nix
-#    #    ../kubernetes/apollo-2000/immich.nix
+    #    #    ../kubernetes/apollo-2000/immich.nix
     ../kubernetes/apollo-2000/jellyfin.nix
     ../kubernetes/apollo-2000/komga.nix
     ../kubernetes/apollo-2000/lubelogger.nix
-#    #    ../kubernetes/apollo-2000/node-exporter.nix
-#    ../kubernetes/apollo-2000/ollama.nix
+    #    #    ../kubernetes/apollo-2000/node-exporter.nix
+    #    ../kubernetes/apollo-2000/ollama.nix
     ../kubernetes/apollo-2000/openwebui.nix
     ../kubernetes/apollo-2000/pg-admin.nix
     ../kubernetes/apollo-2000/postgres.nix
-#    #    ../kubernetes/apollo-2000/prometheus.nix
-#    #    ../kubernetes/apollo-2000/prowlarr.nix
+    #    #    ../kubernetes/apollo-2000/prometheus.nix
+    #    #    ../kubernetes/apollo-2000/prowlarr.nix
     ../kubernetes/apollo-2000/qbittorrent.nix
-#    #    ../kubernetes/apollo-2000/radarr.nix
+    #    #    ../kubernetes/apollo-2000/radarr.nix
     ../kubernetes/apollo-2000/rclone.nix
     ../kubernetes/apollo-2000/spliit.nix
     ../kubernetes/apollo-2000/stash.nix
@@ -105,6 +111,10 @@ in
   ];
 
   systemd = {
+    tmpfiles.rules = [
+      "L+ /run/flannel/subnet.env - - - - ${flannelSubnetEnv}"
+    ];
+
     # Set post-boot zfs options that aren't declarative through nixos directly
     services = {
       set-zfs-options = {
@@ -175,7 +185,9 @@ in
 
       # Known issue with using privateKeyFile where persistentKeepalive below is ignored
       # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
-      postUp = [ "wg set wg0 peer ${wireguardServicesConfig.peers."cap-hetz-01".publicKey} persistent-keepalive 25" ];
+      postUp = [
+        "wg set wg0 peer ${wireguardServicesConfig.peers."cap-hetz-01".publicKey} persistent-keepalive 25"
+      ];
 
       peers = [
         {

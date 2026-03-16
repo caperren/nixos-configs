@@ -7,10 +7,10 @@
 let
   imageConfig = {
     imageName = "ghcr.io/hargata/lubelogger";
-    imageDigest = "sha256:c4277e12e005af6a3a95f3c32ce2aac6fbb035cb74e58d5f8d3cac4c27307eaf";
-    hash = "sha256-4yQz9WCa52CIJpD8h4u1hZZ9NTEI4we1UsJ51JvBnzU=";
+    imageDigest = "sha256:a289daf3670f49a8be4e7d4f8f88d6af3699e19d67cb5c6e4afc9c30777ec2d8";
+    hash = "sha256-/FUB/hHkeJZd0JpGnsJ+FmFcejyXpBxjmcb5qJL7DXw=";
     finalImageName = "ghcr.io/hargata/lubelogger";
-    finalImageTag = "v1.6.0";
+    finalImageTag = "v1.6.2";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";

@@ -342,6 +342,16 @@ in
           echo "Setting permissions for nas_data_primary/obsidian dataset"
           chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
 
+          ### Pod Configs
+          # zwave-js-ui
+          echo "Setting acl for nas_data_primary/pod-configs/zwave-js-ui dataset"
+          setfacl -R \
+            -m "g:pod-configs-zwave-js-ui:rwx" \
+            /nas_data_primary/pod-configs/zwave-js-ui
+          setfacl -R -d \
+            -m "g:pod-configs-zwave-js-ui:rwx" \
+            /nas_data_primary/pod-configs/zwave-js-ui
+
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"
           zfs set sharenfs="''${zfs_share_options}" nas_data_high_speed/ollama
@@ -352,6 +362,8 @@ in
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/komga
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
+
+          zfs set sharenfs="''${zfs_share_options}" nas_data_primary/pod-configs/zwave-js-ui
 
           # Longhorn is special and literally recommends no_root_squash when connecting to an
           # nfs data store for backups in its faq troubleshooting...

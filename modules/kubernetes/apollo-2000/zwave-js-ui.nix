@@ -43,7 +43,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
         spec = {
-          replicas = 1;
+          replicas = 0;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -58,22 +58,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
               securityContext.supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
-#              initContainers = [
-#                {
-#                  name = "init-permissions";
-#                  image = "busybox";
-#                  command = [
-#                    "sleep"
-#                    "360000"
-#                  ];
-#                  volumeMounts = [
-#                    {
-#                      mountPath = "/usr/src/app/store";
-#                      name = "config";
-#                    }
-#                  ];
-#                }
-#              ];
+              initContainers = [
+                {
+                  name = "init-permissions";
+                  image = "busybox";
+                  command = [
+                    "sh"
+                    "-c"
+                    "chown -R 1000:1000 /usr/src/app/store"
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/usr/src/app/store";
+                      name = "config";
+                    }
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "zwave-js-ui";

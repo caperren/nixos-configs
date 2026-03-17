@@ -43,7 +43,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
         spec = {
-          replicas = 0;
+          replicas = 1;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -57,7 +57,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
-              terminationGracePeriodSeconds = 30;
+              securityContext.supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
               containers = [
                 {
                   name = "zwave-js-ui";
@@ -124,23 +124,63 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      zwave-js-ui-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "zwave-js-ui-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "zwave-js-ui";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod-configs/zwave-js-ui";
+          };
+        };
+      };
       zwave-js-ui-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "zwave-js-ui-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "zwave-js-ui";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "1Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "zwave-js-ui";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "zwave-js-ui-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
+#      zwave-js-ui-config-pvc.content = {
+#        apiVersion = "v1";
+#        kind = "PersistentVolumeClaim";
+#        metadata = {
+#          name = "zwave-js-ui-config-pvc";
+#          labels = {
+#            "app.kubernetes.io/name" = "zwave-js-ui";
+#            "recurring-job.longhorn.io/source" = "enabled";
+#            "recurring-job.longhorn.io/backup-daily" = "enabled";
+#          };
+#        };
+#        spec = {
+#          accessModes = [ "ReadWriteOnce" ];
+#          storageClassName = "longhorn";
+#          resources.requests.storage = "1Gi";
+#        };
+#      };
       zwave-js-ui-service.content = {
         apiVersion = "v1";
         kind = "Service";

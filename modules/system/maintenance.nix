@@ -15,6 +15,6 @@
   options."perren.cloud".maintenance.postgres = lib.mkOption {
     type = lib.types.bool;
     readOnly = true;
-    default = true;
+    default = false;
   };
 }

@@ -61,8 +61,8 @@ in
 
     # Hardware Devices
     #    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
-    ../kubernetes/apollo-2000/device-zigbee.nix
-    ../kubernetes/apollo-2000/device-zwave.nix
+#    ../kubernetes/apollo-2000/device-zigbee.nix
+#    ../kubernetes/apollo-2000/device-zwave.nix
     #
     #    # Kubernetes Applications
     #    #    ../kubernetes/apollo-2000/autobrr.nix
@@ -71,7 +71,7 @@ in
 #    ../kubernetes/apollo-2000/gitea.nix
     #    #    ../kubernetes/apollo-2000/grafana.nix
 #    ../kubernetes/apollo-2000/hetzner-ddns.nix
-    ../kubernetes/apollo-2000/home-assistant.nix
+#    ../kubernetes/apollo-2000/home-assistant.nix
 #    ../kubernetes/apollo-2000/homepage.nix
     #    #    ../kubernetes/apollo-2000/immich.nix
 #    ../kubernetes/apollo-2000/jellyfin.nix
@@ -90,7 +90,7 @@ in
 #    ../kubernetes/apollo-2000/spliit.nix
 #    ../kubernetes/apollo-2000/stash.nix
 #    ../kubernetes/apollo-2000/technitium.nix
-    ../kubernetes/apollo-2000/zwave-js-ui.nix
+#    ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];
 
   time.timeZone = "America/Los_Angeles";

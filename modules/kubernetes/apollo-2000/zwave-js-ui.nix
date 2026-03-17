@@ -68,10 +68,6 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   ];
                   volumeMounts = [
                     {
-                      mountPath = "/data";
-                      name = "data";
-                    }
-                    {
                       mountPath = "/usr/src/app/store";
                       name = "config";
                     }

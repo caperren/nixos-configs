@@ -24,12 +24,12 @@
 { config, pkgs, ... }:
 let
   wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
-  flannelSubnetEnv = pkgs.writeText "subnet.env" ''
-    FLANNEL_NETWORK=10.42.0.0/16
-    FLANNEL_SUBNET=10.42.1.1/24
-    FLANNEL_MTU=1450
-    FLANNEL_IPMASQ=true
-  '';
+#  flannelSubnetEnv = pkgs.writeText "subnet.env" ''
+#    FLANNEL_NETWORK=10.42.0.0/16
+#    FLANNEL_SUBNET=10.42.1.1/24
+#    FLANNEL_MTU=1450
+#    FLANNEL_IPMASQ=true
+#  '';
 in
 {
   imports = [

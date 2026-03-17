@@ -56,7 +56,7 @@ in
     ../application-groups/virtualization.nix
 
     # Core Kubernetes Applications
-    ../kubernetes/apollo-2000/longhorn.nix # Distributed block storage
+#    ../kubernetes/apollo-2000/longhorn.nix # Distributed block storage
 #    ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices

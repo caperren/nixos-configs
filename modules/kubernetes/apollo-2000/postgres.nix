@@ -50,7 +50,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
-          replicas = 0;
+          replicas = 1;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

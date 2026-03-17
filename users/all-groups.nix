@@ -42,4 +42,7 @@
 
   # Group with r/w permissions to pod-configs-zwave-js-ui share
   users.groups.pod-configs-zwave-js-ui.gid = 212;
+
+  # Group with r/w permissions to pod-configs-home-assistant share
+  users.groups.pod-configs-home-assistant.gid = 213;
 }

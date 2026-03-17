@@ -343,6 +343,15 @@ in
           chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
 
           ### Pod Configs
+          # home-assistant
+          echo "Setting acl for nas_data_primary/pod-configs/home-assistant dataset"
+          setfacl -R \
+            -m "g:pod-configs-home-assistant:rwx" \
+            /nas_data_primary/pod-configs/home-assistant
+          setfacl -R -d \
+            -m "g:pod-configs-home-assistant:rwx" \
+            /nas_data_primary/pod-configs/home-assistant
+
           # zwave-js-ui
           echo "Setting acl for nas_data_primary/pod-configs/zwave-js-ui dataset"
           setfacl -R \
@@ -363,6 +372,7 @@ in
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
 
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod-configs/home-assistant
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod-configs/zwave-js-ui
 
           # Longhorn is special and literally recommends no_root_squash when connecting to an

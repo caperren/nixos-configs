@@ -65,7 +65,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                   command = [
                     "sh"
                     "-c"
-                    "chown -R 1000:1000 /usr/src/app/store"
+                    "chown -R root:root /usr/src/app/store"
                   ];
                   volumeMounts = [
                     {

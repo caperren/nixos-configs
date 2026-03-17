@@ -51,7 +51,7 @@ in
     ../system/zfs.nix
 
     # Application Groups
-#    ../application-groups/k3s.nix
+    ../application-groups/k3s.nix
     ../application-groups/system-utilities-cluster.nix
     ../application-groups/virtualization.nix
 

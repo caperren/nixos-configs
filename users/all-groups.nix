@@ -39,4 +39,7 @@
 
   # Group with r/w permissions to syncthing share
   users.groups.nas-syncthing-management.gid = 211;
+
+  # Group with r/w permissions to pod-config-zwave-js-ui share
+  users.groups.pod-config-zwave-js-ui.gid = 212;
 }

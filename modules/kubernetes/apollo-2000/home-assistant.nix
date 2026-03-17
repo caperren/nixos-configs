@@ -17,6 +17,7 @@ let
   };
 
   zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
+  allowedReplicas = if config."perren.cloud".maintenance.postgres then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -30,7 +31,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

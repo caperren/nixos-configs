@@ -58,22 +58,22 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
               securityContext.supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
-              initContainers = [
-                {
-                  name = "init-permissions";
-                  image = "busybox";
-                  command = [
-                    "sleep"
-                    "360000"
-                  ];
-                  volumeMounts = [
-                    {
-                      mountPath = "/usr/src/app/store";
-                      name = "config";
-                    }
-                  ];
-                }
-              ];
+#              initContainers = [
+#                {
+#                  name = "init-permissions";
+#                  image = "busybox";
+#                  command = [
+#                    "sleep"
+#                    "360000"
+#                  ];
+#                  volumeMounts = [
+#                    {
+#                      mountPath = "/usr/src/app/store";
+#                      name = "config";
+#                    }
+#                  ];
+#                }
+#              ];
               containers = [
                 {
                   name = "zwave-js-ui";

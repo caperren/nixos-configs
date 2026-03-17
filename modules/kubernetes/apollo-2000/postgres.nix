@@ -104,7 +104,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
         spec = {
-          accessModes = [ "ReadWriteMany" ];
+          accessModes = [ "ReadWriteOnce" ];
           storageClassName = "longhorn";
           resources.requests.storage = "40Gi";
         };

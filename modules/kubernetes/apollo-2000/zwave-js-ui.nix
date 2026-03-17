@@ -57,24 +57,29 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
-#              initContainers = [
-#                {
-#                  name = "init-permissions";
-#                  image = "busybox";
-#                  command = [
-#                    "sh"
-#                    "-c"
-#                    "sleep 360000 && chown -R root:root /usr/src/app/store"
-#                  ];
-#                  volumeMounts = [
-#                    {
-#                      mountPath = "/usr/src/app/store";
-#                      name = "config";
-#                    }
-#                  ];
-#                }
-#              ];
+              securityContext = {
+                runAsUser = 0;
+                runAsGroup = 0;
+                supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
+              };
+
+              #              initContainers = [
+              #                {
+              #                  name = "init-permissions";
+              #                  image = "busybox";
+              #                  command = [
+              #                    "sh"
+              #                    "-c"
+              #                    "sleep 360000 && chown -R root:root /usr/src/app/store"
+              #                  ];
+              #                  volumeMounts = [
+              #                    {
+              #                      mountPath = "/usr/src/app/store";
+              #                      name = "config";
+              #                    }
+              #                  ];
+              #                }
+              #              ];
               containers = [
                 {
                   name = "zwave-js-ui";
@@ -181,23 +186,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           resources.requests.storage = "1Ti";
         };
       };
-#      zwave-js-ui-config-pvc.content = {
-#        apiVersion = "v1";
-#        kind = "PersistentVolumeClaim";
-#        metadata = {
-#          name = "zwave-js-ui-config-pvc";
-#          labels = {
-#            "app.kubernetes.io/name" = "zwave-js-ui";
-#            "recurring-job.longhorn.io/source" = "enabled";
-#            "recurring-job.longhorn.io/backup-daily" = "enabled";
-#          };
-#        };
-#        spec = {
-#          accessModes = [ "ReadWriteOnce" ];
-#          storageClassName = "longhorn";
-#          resources.requests.storage = "1Gi";
-#        };
-#      };
+      #      zwave-js-ui-config-pvc.content = {
+      #        apiVersion = "v1";
+      #        kind = "PersistentVolumeClaim";
+      #        metadata = {
+      #          name = "zwave-js-ui-config-pvc";
+      #          labels = {
+      #            "app.kubernetes.io/name" = "zwave-js-ui";
+      #            "recurring-job.longhorn.io/source" = "enabled";
+      #            "recurring-job.longhorn.io/backup-daily" = "enabled";
+      #          };
+      #        };
+      #        spec = {
+      #          accessModes = [ "ReadWriteOnce" ];
+      #          storageClassName = "longhorn";
+      #          resources.requests.storage = "1Gi";
+      #        };
+      #      };
       zwave-js-ui-service.content = {
         apiVersion = "v1";
         kind = "Service";

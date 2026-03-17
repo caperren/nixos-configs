@@ -61,7 +61,7 @@ in
 
     # Hardware Devices
     #    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix
-#    ../kubernetes/apollo-2000/device-zigbee.nix
+    ../kubernetes/apollo-2000/device-zigbee.nix
     ../kubernetes/apollo-2000/device-zwave.nix
     #
     #    # Kubernetes Applications

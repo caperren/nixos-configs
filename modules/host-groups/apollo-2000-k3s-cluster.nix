@@ -111,9 +111,9 @@ in
   ];
 
   systemd = {
-    tmpfiles.rules = [
-      "L+ /run/flannel/subnet.env - - - - ${flannelSubnetEnv}"
-    ];
+#    tmpfiles.rules = [
+#      "L+ /run/flannel/subnet.env - - - - ${flannelSubnetEnv}"
+#    ];
 
     # Set post-boot zfs options that aren't declarative through nixos directly
     services = {

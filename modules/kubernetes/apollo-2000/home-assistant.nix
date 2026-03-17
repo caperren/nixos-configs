@@ -54,22 +54,22 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
-              initContainers = [
-                {
-                  name = "init-permissions";
-                  image = "busybox";
-                  command = [
-                    "sleep"
-                    "36000"
-                  ];
-                  volumeMounts = [
-                    {
-                      mountPath = "/config";
-                      name = "config";
-                    }
-                  ];
-                }
-              ];
+#              initContainers = [
+#                {
+#                  name = "init-permissions";
+#                  image = "busybox";
+#                  command = [
+#                    "sleep"
+#                    "36000"
+#                  ];
+#                  volumeMounts = [
+#                    {
+#                      mountPath = "/config";
+#                      name = "config";
+#                    }
+#                  ];
+#                }
+#              ];
               containers = [
                 {
                   name = "home-assistant";

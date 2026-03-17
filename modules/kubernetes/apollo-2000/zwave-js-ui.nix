@@ -63,23 +63,23 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
                 supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
               };
 
-              #              initContainers = [
-              #                {
-              #                  name = "init-permissions";
-              #                  image = "busybox";
-              #                  command = [
-              #                    "sh"
-              #                    "-c"
-              #                    "sleep 360000 && chown -R root:root /usr/src/app/store"
-              #                  ];
-              #                  volumeMounts = [
-              #                    {
-              #                      mountPath = "/usr/src/app/store";
-              #                      name = "config";
-              #                    }
-              #                  ];
-              #                }
-              #              ];
+              initContainers = [
+                {
+                  name = "init-permissions";
+                  image = "busybox";
+                  command = [
+                    "sh"
+                    "-c"
+                    "sleep 360000 && chown -R root:root /usr/src/app/store"
+                  ];
+                  volumeMounts = [
+                    {
+                      mountPath = "/usr/src/app/store";
+                      name = "config";
+                    }
+                  ];
+                }
+              ];
               containers = [
                 {
                   name = "zwave-js-ui";

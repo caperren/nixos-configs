@@ -54,6 +54,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
+              securityContext.supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
               containers = [
                 {
                   name = "home-assistant";

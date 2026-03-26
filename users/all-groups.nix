@@ -51,4 +51,7 @@
 
   # Group with r/w permissions to pod-configs-stash shares
   users.groups.pod-configs-stash.gid = 215;
+
+  # Group with r/w permissions to pod-configs-diun share
+  users.groups.pod-configs-diun.gid = 216;
 }

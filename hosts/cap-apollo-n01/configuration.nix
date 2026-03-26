@@ -345,6 +345,15 @@ in
           chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
 
           ### Pod Configs
+          # diun
+          echo "Setting acl for nas_data_primary/pod_configs/diun dataset"
+          setfacl -R \
+            -m "g:pod-configs-diun:rwx" \
+            /nas_data_primary/pod_configs/diun
+          setfacl -R -d \
+            -m "g:pod-configs-diun:rwx" \
+            /nas_data_primary/pod_configs/diun
+
           # home-assistant
           echo "Setting acl for nas_data_primary/pod_configs/home-assistant dataset"
           setfacl -R \

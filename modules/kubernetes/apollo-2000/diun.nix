@@ -179,6 +179,31 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      diun-data-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "diun-data-nfs-pv";
+          labels."app.kubernetes.io/name" = "diun";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/diun";
+          };
+        };
+      };
       diun-data-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
@@ -187,9 +212,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "diun";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "1Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "diun";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "diun-data-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
     };

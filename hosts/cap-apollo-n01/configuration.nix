@@ -408,6 +408,7 @@ in
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
 
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/diun
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/home-assistant
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/jellyfin
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/config

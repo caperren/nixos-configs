@@ -88,7 +88,7 @@ in
     #    #    ../kubernetes/apollo-2000/radarr.nix
 #    ../kubernetes/apollo-2000/rclone.nix
 #    ../kubernetes/apollo-2000/spliit.nix
-#    ../kubernetes/apollo-2000/stash.nix
+    ../kubernetes/apollo-2000/stash.nix
 #    ../kubernetes/apollo-2000/technitium.nix
     ../kubernetes/apollo-2000/zwave-js-ui.nix
   ];

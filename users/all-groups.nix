@@ -45,4 +45,7 @@
 
   # Group with r/w permissions to pod-configs-home-assistant share
   users.groups.pod-configs-home-assistant.gid = 213;
+
+  # Group with r/w permissions to pod-configs-jellyfin share
+  users.groups.pod-configs-jellyfin.gid = 214;
 }

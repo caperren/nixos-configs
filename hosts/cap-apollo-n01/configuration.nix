@@ -180,7 +180,9 @@ in
 
       folders = {
         "factorio" = {
-          devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+          devices = lib.remove config.networking.hostName (
+            lib.attrNames syncthingConstants.nonAndroidDevices
+          );
           path = "/nas_data_primary/factorio";
           ignorePatterns = [ ".zfs" ];
         };
@@ -344,22 +346,31 @@ in
 
           ### Pod Configs
           # home-assistant
-          echo "Setting acl for nas_data_primary/pod-configs/home-assistant dataset"
+          echo "Setting acl for nas_data_primary/pod_configs/home-assistant dataset"
           setfacl -R \
             -m "g:pod-configs-home-assistant:rwx" \
-            /nas_data_primary/pod-configs/home-assistant
+            /nas_data_primary/pod_configs/home-assistant
           setfacl -R -d \
             -m "g:pod-configs-home-assistant:rwx" \
-            /nas_data_primary/pod-configs/home-assistant
+            /nas_data_primary/pod_configs/home-assistant
+
+          # jellyfin
+          echo "Setting acl for nas_data_primary/pod_configs/jellyfin dataset"
+          setfacl -R \
+            -m "g:pod-configs-jellyfin:rwx" \
+            /nas_data_primary/pod_configs/jellyfin
+          setfacl -R -d \
+            -m "g:pod-configs-jellyfin:rwx" \
+            /nas_data_primary/pod_configs/jellyfin
 
           # zwave-js-ui
-          echo "Setting acl for nas_data_primary/pod-configs/zwave-js-ui dataset"
+          echo "Setting acl for nas_data_primary/pod_configs/zwave-js-ui dataset"
           setfacl -R \
             -m "g:pod-configs-zwave-js-ui:rwx" \
-            /nas_data_primary/pod-configs/zwave-js-ui
+            /nas_data_primary/pod_configs/zwave-js-ui
           setfacl -R -d \
             -m "g:pod-configs-zwave-js-ui:rwx" \
-            /nas_data_primary/pod-configs/zwave-js-ui
+            /nas_data_primary/pod_configs/zwave-js-ui
 
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"

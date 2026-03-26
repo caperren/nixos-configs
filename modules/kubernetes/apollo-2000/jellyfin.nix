@@ -46,7 +46,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-media-view.gid ];
+              securityContext.supplementalGroups = [
+                config.users.groups.nas-media-view.gid
+                config.users.groups.pod-configs-jellyfin.gid
+              ];
               containers = [
                 {
                   name = "jellyfin";

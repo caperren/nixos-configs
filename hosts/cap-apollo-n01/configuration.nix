@@ -363,6 +363,22 @@ in
             -m "g:pod-configs-jellyfin:rwx" \
             /nas_data_primary/pod_configs/jellyfin
 
+          # stash
+          echo "Setting acl for nas_data_primary/pod_configs/stash-a dataset"
+          setfacl -R \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-a
+          setfacl -R -d \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-a
+          echo "Setting acl for nas_data_primary/pod_configs/stash-b dataset"
+          setfacl -R \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-b
+          setfacl -R -d \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-b
+
           # zwave-js-ui
           echo "Setting acl for nas_data_primary/pod_configs/zwave-js-ui dataset"
           setfacl -R \
@@ -385,6 +401,10 @@ in
 
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/home-assistant
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/jellyfin
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/config
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/store
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/config
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/store
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/zwave-js-ui
 
           # Longhorn is special and literally recommends no_root_squash when connecting to an

@@ -48,4 +48,7 @@
 
   # Group with r/w permissions to pod-configs-jellyfin share
   users.groups.pod-configs-jellyfin.gid = 214;
+
+  # Group with r/w permissions to pod-configs-stash shares
+  users.groups.pod-configs-stash.gid = 214;
 }

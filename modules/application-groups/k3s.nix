@@ -30,13 +30,13 @@ in
 {
   sops.secrets.k3s_token.sopsFile = k3sTokenSopsFile.${config.networking.hostName};
 
-  environment.etc = {
-    # Enable the embedded registry mirror for all registries
-    "rancher/k3s/registries.yaml".text = ''
-      mirrors:
-        "*":
-    '';
-  };
+#  environment.etc = {
+#    # Enable the embedded registry mirror for all registries
+#    "rancher/k3s/registries.yaml".text = ''
+#      mirrors:
+#        "*":
+#    '';
+#  };
 
   services.k3s = {
     enable = true;

@@ -31,7 +31,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
-          replicas = 1;
+          replicas = 0;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -143,7 +143,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           ];
           nfs = {
             server = "cap-apollo-n01";
-            path = "/nas_data_primary/pod-configs/home-assistant";
+            path = "/nas_data_primary/pod_configs/home-assistant";
           };
         };
       };

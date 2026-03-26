@@ -62,7 +62,8 @@ in
   };
 
   networking.hostName = "cap-nr200p"; # Define your hostname.
-  # Useful when technitium isn't yet running
+  #   Useful when technitium isn't yet running
+  #  networking.nameservers = [ "192.168.1.1" ];
   #  networking.hosts = {
   #    "192.168.1.42" = [
   #      "longhorn.internal.perren.cloud"

@@ -43,7 +43,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
         spec = {
-          replicas = 1;
+          replicas = 0;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -149,7 +149,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           ];
           nfs = {
             server = "cap-apollo-n01";
-            path = "/nas_data_primary/pod-configs/zwave-js-ui";
+            path = "/nas_data_primary/pod_configs/zwave-js-ui";
           };
         };
       };

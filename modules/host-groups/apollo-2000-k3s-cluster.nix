@@ -74,7 +74,7 @@ in
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/homepage.nix
     #    #    ../kubernetes/apollo-2000/immich.nix
-#    ../kubernetes/apollo-2000/jellyfin.nix
+    ../kubernetes/apollo-2000/jellyfin.nix
 #    ../kubernetes/apollo-2000/komga.nix
 #    ../kubernetes/apollo-2000/lubelogger.nix
     #    #    ../kubernetes/apollo-2000/node-exporter.nix

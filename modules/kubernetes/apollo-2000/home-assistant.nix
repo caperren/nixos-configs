@@ -122,46 +122,46 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
-      home-assistant-config-nfs-pv.content = {
-        apiVersion = "v1";
-        kind = "PersistentVolume";
-        metadata = {
-          name = "home-assistant-config-nfs-pv";
-          labels."app.kubernetes.io/name" = "home-assistant";
-        };
-        spec = {
-          capacity.storage = "1Ti";
-          accessModes = [ "ReadWriteMany" ];
-          persistentVolumeReclaimPolicy = "Retain";
-          mountOptions = [
-            "nfsvers=4.1"
-            "rsize=1048576"
-            "wsize=1048576"
-            "hard"
-            "timeo=600"
-            "retrans=2"
-          ];
-          nfs = {
-            server = "cap-apollo-n01";
-            path = "/nas_data_primary/pod_configs/home-assistant";
-          };
-        };
-      };
-      home-assistant-config-pvc.content = {
-        apiVersion = "v1";
-        kind = "PersistentVolumeClaim";
-        metadata = {
-          name = "home-assistant-config-pvc";
-          labels."app.kubernetes.io/name" = "home-assistant";
-        };
-        spec = {
-          selector.matchLabels."app.kubernetes.io/name" = "home-assistant";
-          accessModes = [ "ReadWriteMany" ];
-          volumeName = "home-assistant-config-nfs-pv";
-          storageClassName = "";
-          resources.requests.storage = "1Ti";
-        };
-      };
+#      home-assistant-config-nfs-pv.content = {
+#        apiVersion = "v1";
+#        kind = "PersistentVolume";
+#        metadata = {
+#          name = "home-assistant-config-nfs-pv";
+#          labels."app.kubernetes.io/name" = "home-assistant";
+#        };
+#        spec = {
+#          capacity.storage = "1Ti";
+#          accessModes = [ "ReadWriteMany" ];
+#          persistentVolumeReclaimPolicy = "Retain";
+#          mountOptions = [
+#            "nfsvers=4.1"
+#            "rsize=1048576"
+#            "wsize=1048576"
+#            "hard"
+#            "timeo=600"
+#            "retrans=2"
+#          ];
+#          nfs = {
+#            server = "cap-apollo-n01";
+#            path = "/nas_data_primary/pod_configs/home-assistant";
+#          };
+#        };
+#      };
+#      home-assistant-config-pvc.content = {
+#        apiVersion = "v1";
+#        kind = "PersistentVolumeClaim";
+#        metadata = {
+#          name = "home-assistant-config-pvc";
+#          labels."app.kubernetes.io/name" = "home-assistant";
+#        };
+#        spec = {
+#          selector.matchLabels."app.kubernetes.io/name" = "home-assistant";
+#          accessModes = [ "ReadWriteMany" ];
+#          volumeName = "home-assistant-config-nfs-pv";
+#          storageClassName = "";
+#          resources.requests.storage = "1Ti";
+#        };
+#      };
       home-assistant-service.content = {
         apiVersion = "v1";
         kind = "Service";

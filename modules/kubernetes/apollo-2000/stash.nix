@@ -5,16 +5,17 @@
   ...
 }:
 let
-  imageConfig = {
-    imageName = "stashapp/stash";
-    imageDigest = "sha256:4cac18873ea052f03510602d9e1a9b29e6241a393a111479010292b7a1e28a5e";
-    hash = "sha256-D3XMtByDotpCR/Q4CqoKzL1n/wGHgXMyPNYpkUxxlXs=";
-    finalImageName = "stashapp/stash";
-    finalImageTag = "v0.30.1";
-  };
-  image = pkgs.dockerTools.pullImage imageConfig // {
-    arch = "amd64";
-  };
+#  imageConfig = {
+#    imageName = "stashapp/stash";
+#    imageDigest = "sha256:4cac18873ea052f03510602d9e1a9b29e6241a393a111479010292b7a1e28a5e";
+#    hash = "sha256-D3XMtByDotpCR/Q4CqoKzL1n/wGHgXMyPNYpkUxxlXs=";
+#    finalImageName = "stashapp/stash";
+#    finalImageTag = "v0.30.1";
+#  };
+#  image = pkgs.dockerTools.pullImage imageConfig // {
+#    arch = "amd64";
+#  };
+  image = "stashapp/stash:v0.30.1";
 
   allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
   stashShareEnvironment = [

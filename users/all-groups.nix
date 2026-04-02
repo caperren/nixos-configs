@@ -56,5 +56,5 @@
   users.groups.pod-configs-diun.gid = 216;
 
   # Group with r/w permissions to pod-configs-esphome share
-  users.groups.pod-configs-diun.gid = 217;
+  users.groups.pod-configs-esphome.gid = 217;
 }

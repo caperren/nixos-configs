@@ -42,6 +42,9 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
+              securityContext.supplementalGroups = [
+                config.users.groups.pod-configs-esphome.gid
+              ];
               containers = [
                 {
                   name = "esphome";

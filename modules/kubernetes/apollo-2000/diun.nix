@@ -119,6 +119,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
 
               restartPolicy = "Always";
 
+              securityContext.supplementalGroups = [
+                config.users.groups.pod-configs-diun.gid
+              ];
+
               containers = [
                 {
                   name = "diun";

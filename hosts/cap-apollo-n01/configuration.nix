@@ -354,6 +354,15 @@ in
             -m "g:pod-configs-diun:rwx" \
             /nas_data_primary/pod_configs/diun
 
+          # esphome
+          echo "Setting acl for nas_data_primary/pod_configs/esphome dataset"
+          setfacl -R \
+            -m "g:pod-configs-esphome:rwx" \
+            /nas_data_primary/pod_configs/esphome
+          setfacl -R -d \
+            -m "g:pod-configs-esphome:rwx" \
+            /nas_data_primary/pod_configs/esphome
+
           # home-assistant
           echo "Setting acl for nas_data_primary/pod_configs/home-assistant dataset"
           setfacl -R \
@@ -409,6 +418,7 @@ in
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
 
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/diun
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/esphome
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/home-assistant
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/jellyfin
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/config
@@ -416,10 +426,6 @@ in
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/config
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/store
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/zwave-js-ui
-
-          # Longhorn is special and literally recommends no_root_squash when connecting to an
-          # nfs data store for backups in its faq troubleshooting...
-          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
         '';
         ExecStopPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
           set -euo pipefail

@@ -70,7 +70,7 @@ in
     ../kubernetes/apollo-2000/esphome.nix
 #    ../kubernetes/apollo-2000/gitea.nix
     #    #    ../kubernetes/apollo-2000/grafana.nix
-#    ../kubernetes/apollo-2000/hetzner-ddns.nix
+    ../kubernetes/apollo-2000/hetzner-ddns.nix
     ../kubernetes/apollo-2000/home-assistant.nix
     ../kubernetes/apollo-2000/homepage.nix
     #    #    ../kubernetes/apollo-2000/immich.nix
@@ -84,7 +84,7 @@ in
 #    ../kubernetes/apollo-2000/postgres.nix
     #    #    ../kubernetes/apollo-2000/prometheus.nix
     #    #    ../kubernetes/apollo-2000/prowlarr.nix
-#    ../kubernetes/apollo-2000/qbittorrent.nix
+    ../kubernetes/apollo-2000/qbittorrent.nix
     #    #    ../kubernetes/apollo-2000/radarr.nix
 #    ../kubernetes/apollo-2000/rclone.nix
 #    ../kubernetes/apollo-2000/spliit.nix

@@ -57,4 +57,7 @@
 
   # Group with r/w permissions to pod-configs-esphome share
   users.groups.pod-configs-esphome.gid = 218;
+
+  # Group with r/w permissions to pod-configs-qbittorrent share
+  users.groups.pod-configs-qbittorrent.gid = 219;
 }

@@ -55,7 +55,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-media-management.gid ];
+              securityContext.supplementalGroups = [
+                config.users.groups.pod-configs-qbittorrent.gid
+                config.users.groups.nas-media-management.gid
+              ];
               initContainers = [
                 {
                   name = "fix-multus-routes";
@@ -143,21 +146,44 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      qbittorrent-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "qbittorrent-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "qbittorrent";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/qbittorrent";
+          };
+        };
+      };
       qbittorrent-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "qbittorrent-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "qbittorrent";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "qbittorrent";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "256Mi";
+          selector.matchLabels."app.kubernetes.io/name" = "qbittorrent";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "qbittorrent-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       qbittorrent-media-nfs-pv.content = {

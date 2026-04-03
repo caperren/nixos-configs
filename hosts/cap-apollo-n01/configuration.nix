@@ -406,6 +406,15 @@ in
             -m "g:pod-configs-zwave-js-ui:rwx" \
             /nas_data_primary/pod_configs/zwave-js-ui
 
+          # qbittorrent
+          echo "Setting acl for nas_data_primary/pod_configs/qbittorrent dataset"
+          setfacl -R \
+            -m "g:pod-configs-qbittorrent:rwx" \
+            /nas_data_primary/pod_configs/qbittorrent
+          setfacl -R -d \
+            -m "g:pod-configs-qbittorrent:rwx" \
+            /nas_data_primary/pod_configs/qbittorrent
+
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"
           zfs set sharenfs="''${zfs_share_options}" nas_data_high_speed/ollama
@@ -426,6 +435,7 @@ in
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/config
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/store
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/zwave-js-ui
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/qbittorrent
         '';
         ExecStopPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
           set -euo pipefail

@@ -7,9 +7,10 @@
 let
   imageConfig = {
     imageName = "ghcr.io/jellyfin/jellyfin";
-    imageDigest = "sha256:cd7e4cb71812dd76988a725da615e37c6d0d24c200be904ad5d183e51f1dc6ed";
-    hash = "sha256-8FujxEYyhcFfyP5cwemHSeR+l/zYpk49pQymuMlH6So=";
-    finalImageTag = "10.11.5";
+    imageDigest = "sha256:2b93aa3830dcd0aab7185c635e20edef1f8dc5d2e999768baf1724e88c078004";
+    hash = "sha256-UViHngRWe7VW8ZLce05itsmPh2LAB4wJDSz6qeTkswM=";
+    finalImageName = "ghcr.io/jellyfin/jellyfin";
+    finalImageTag = "10.11.7";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";

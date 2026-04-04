@@ -57,7 +57,7 @@ in
 
     # Core Kubernetes Applications
 #    ../kubernetes/apollo-2000/longhorn.nix # Distributed block storage
-#    ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
+    ../kubernetes/apollo-2000/multus.nix # VLAN-aware networking
 
     # Hardware Devices
     #    #    ../kubernetes/apollo-2000/device-gpu-nvidia.nix

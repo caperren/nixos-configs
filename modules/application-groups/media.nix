@@ -29,7 +29,7 @@
     glava
     gimp
     imv
-    plex-desktop
+    jellyfin-tui
     projectm_3
     sox
     spotify

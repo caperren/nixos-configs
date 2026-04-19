@@ -7,8 +7,8 @@
 let
   imageConfig = {
     imageName = "docker.io/linuxserver/qbittorrent";
-    imageDigest = "sha256:1fc78c81850d658f17701bfa9d8de58ccc12ff27d36a9a176c6299e55aaf4b4e";
-    hash = "sha256-vWwCPrGs5O0WHqsXeOGhCoMooTky9+jUwLln3phD1WA=";
+    imageDigest = "sha256:8f7a1da9644340c737e3211ecc910a416d4295076e6b2824a4afcd1f4e3576e2";
+    hash = "sha256-xdD4yPi7EdreGQbSpkGn6wu8CE4X+UeHAgp/xwuqG+o=";
     finalImageName = "docker.io/linuxserver/qbittorrent";
     finalImageTag = "5.1.4";
   };

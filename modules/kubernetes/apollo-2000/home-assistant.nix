@@ -7,10 +7,10 @@
 let
   imageConfig = {
     imageName = "docker.io/homeassistant/home-assistant";
-    imageDigest = "sha256:4c940155cfd5b0187a6faee2db5d52b98bb573edc1aeee95d0818bb17b6534d7";
-    hash = "sha256-40VE1Gl+GpgmAb4W4P+6Njkp+T0YfiUVYkrBoL13xUc=";
+    imageDigest = "sha256:ae0800c81fea16bc1241ce03bddb9c6260566e90f58b09d3e5a629e4f68bdc0b";
+    hash = "sha256-gynPisu32nDkWu0Gj+4w+qQ2MgShuf5100AUODWmOTI=";
     finalImageName = "docker.io/homeassistant/home-assistant";
-    finalImageTag = "2026.4.2";
+    finalImageTag = "2026.4.3";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";

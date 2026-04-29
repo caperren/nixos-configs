@@ -92,6 +92,32 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      postgres-data-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "postgres-data-nfs-pv";
+          labels."app.kubernetes.io/name" = "jellyfin";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadOnlyMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/postgres";
+            readOnly = true;
+          };
+        };
+      };
       postgres-data-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";

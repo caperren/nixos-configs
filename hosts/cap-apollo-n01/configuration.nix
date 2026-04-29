@@ -381,6 +381,15 @@ in
             -m "g:pod-configs-jellyfin:rwx" \
             /nas_data_primary/pod_configs/jellyfin
 
+          # postgres
+          echo "Setting acl for nas_data_primary/pod_configs/postgres dataset"
+          setfacl -R \
+            -m "g:pod-configs-postgres:rwx" \
+            /nas_data_primary/pod_configs/postgres
+          setfacl -R -d \
+            -m "g:pod-configs-postgres:rwx" \
+            /nas_data_primary/pod_configs/postgres
+
           # stash
           echo "Setting acl for nas_data_primary/pod_configs/stash-a dataset"
           setfacl -R \
@@ -430,6 +439,7 @@ in
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/esphome
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/home-assistant
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/jellyfin
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/postgres
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/config
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/store
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/config

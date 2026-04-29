@@ -5,5 +5,6 @@
     slack
     signal-desktop
     telegram-desktop
+    signal-desktop
   ];
 }

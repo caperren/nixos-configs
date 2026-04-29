@@ -60,4 +60,7 @@
 
   # Group with r/w permissions to pod-configs-qbittorrent share
   users.groups.pod-configs-qbittorrent.gid = 219;
+
+  # Group with r/w permissions to pod-configs-qbittorrent share
+  users.groups.pod-configs-qbittorrent.gid = 220;
 }

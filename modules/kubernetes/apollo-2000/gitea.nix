@@ -180,7 +180,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolume";
         metadata = {
           name = "gitea-data-nfs-pv";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
           capacity.storage = "1Ti";
@@ -206,10 +206,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "gitea-data-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          selector.matchLabels."app.kubernetes.io/name" = "gitea";
           accessModes = [ "ReadOnlyMany" ];
           volumeName = "gitea-data-nfs-pv";
           storageClassName = "";
@@ -221,7 +221,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolume";
         metadata = {
           name = "gitea-config-nfs-pv";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
           capacity.storage = "1Ti";
@@ -247,10 +247,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "gitea-config-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          selector.matchLabels."app.kubernetes.io/name" = "gitea";
           accessModes = [ "ReadOnlyMany" ];
           volumeName = "gitea-config-nfs-pv";
           storageClassName = "";

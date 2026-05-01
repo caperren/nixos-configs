@@ -97,7 +97,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolume";
         metadata = {
           name = "postgres-data-nfs-pv";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
           capacity.storage = "1Ti";
@@ -123,10 +123,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "postgres-data-pvc";
-          labels."app.kubernetes.io/name" = "jellyfin";
+          labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
-          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          selector.matchLabels."app.kubernetes.io/name" = "postgres";
           accessModes = [ "ReadOnlyMany" ];
           volumeName = "postgres-data-nfs-pv";
           storageClassName = "";

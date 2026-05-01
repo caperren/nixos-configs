@@ -19,7 +19,7 @@ let
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;
 
-  allowedReplicas = if config."perren.cloud".maintenance.postgres then 0 else 1;
+  allowedReplicas = if config."perren.cloud".maintenance.postgres then 0 else 0
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {

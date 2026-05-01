@@ -363,6 +363,23 @@ in
             -m "g:pod-configs-esphome:rwx" \
             /nas_data_primary/pod_configs/esphome
 
+          # gitea
+          echo "Setting acl for nas_data_primary/pod_configs/gitea/config dataset"
+          setfacl -R \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/config
+          setfacl -R -d \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/config
+
+          echo "Setting acl for nas_data_primary/pod_configs/gitea/data dataset"
+          setfacl -R \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/data
+          setfacl -R -d \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/data
+
           # home-assistant
           echo "Setting acl for nas_data_primary/pod_configs/home-assistant dataset"
           setfacl -R \

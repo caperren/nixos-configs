@@ -454,6 +454,8 @@ in
 
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/diun
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/esphome
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/gitea/config
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/gitea/data
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/home-assistant
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/jellyfin
           zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/postgres

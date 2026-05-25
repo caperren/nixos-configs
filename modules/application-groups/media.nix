@@ -31,6 +31,7 @@
     imv
     jellyfin-tui
     projectm_3
+    qbz
     sox
     spotify
     spotify-player

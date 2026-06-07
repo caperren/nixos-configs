@@ -6,7 +6,7 @@
 
   programs.ssh.startAgent = true;
   programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
+  programs.thunar.plugins = with pkgs; [
     thunar-archive-plugin
     thunar-volman
   ];
@@ -76,7 +76,7 @@
     util-linux
     wget
     xev
-    xfce.mousepad
+    mousepad
     wireguard-tools
   ];
 

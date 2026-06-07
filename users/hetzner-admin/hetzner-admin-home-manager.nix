@@ -48,6 +48,7 @@ in
 
     programs.yazi = {
       enable = true;
+      shellWrapperName = "y";
       settings = {
         mgr = {
           sort_by = "natural";

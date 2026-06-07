@@ -13,10 +13,20 @@
   programs.hyprlock.enable = true;
   programs.waybar.enable = true;
 
-  services.displayManager.gdm = {
+  services.displayManager.ly = {
     enable = true;
-    wayland = true;
+#    x11Support = true;
+    settings = {
+      animation = "matrix";
+      bg = 0;  # Black
+      blank_password = true;
+      border_fg = 3;  # Green
+      clock = "%Y-%m-%d %H:%M:%S";
+      fg = 3;  # Green
+      hide_key_hints = true;
+    };
   };
+
   services.hypridle.enable = true;
   services.xserver.enable = true;
 
@@ -27,6 +37,7 @@
     arandr
     bemenu
     dunst
+    # durdraw  # Maybe in the future....
     grim
     hyprpaper
     hyprpicker
@@ -38,9 +49,8 @@
     rofi
     slurp
     swayimg
+    tuigreet
     wl-clipboard
     wlogout
-
   ];
-
 }

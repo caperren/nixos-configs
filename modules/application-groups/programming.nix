@@ -7,7 +7,7 @@
     gnumake
     jetbrains-toolbox
     nix-update
-    nixfmt-rfc-style
+    nixfmt
     nixos-generators
     nodejs
     # platformio

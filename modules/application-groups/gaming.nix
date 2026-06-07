@@ -4,60 +4,37 @@
   hardware.steam-hardware.enable = true;
 
   # Steam
-  programs.steam =
-
-    let
-      patchedBwrap = pkgs.bubblewrap.overrideAttrs (o: {
-        patches = (o.patches or [ ]) ++ [
-          ./bwrap.patch
-        ];
-      });
-    in
-    {
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession = {
       enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      gamescopeSession = {
-        enable = true;
-        env = {
-          # Use dedicated GPU for steam on laptop - probably find nicer way to set this
-          DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
-        };
-      };
-      package = pkgs.steam.override {
-        extraEnv = {
-          # Use dedicated GPU for steam on laptop - probably find nicer way to set this
-          DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
-
-          # Needed for steamvr to work properly
-          QT_QPA_PLATFORM = "xcb";
-        };
-        buildFHSEnv = (
-          args:
-          (
-            (pkgs.buildFHSEnv.override {
-              bubblewrap = patchedBwrap;
-            })
-            (
-              args
-              // {
-                extraBwrapArgs = (args.extraBwrapArgs or [ ]) ++ [ "--cap-add ALL" ];
-              }
-            )
-          )
-        );
-        extraProfile = ''
-          # Fixes timezones on VRChat
-          unset TZ
-
-          # Allows Monado to be used
-          export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
-
-
-          QT_QPA_PLATFORM=xcb
-        '';
-      };
+#      env = {
+#        # Use dedicated GPU for steam on laptop - probably find nicer way to set this
+#        DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
+#      };
     };
+#    package = pkgs.steam.override {
+#      extraEnv = {
+#        # Use dedicated GPU for steam on laptop - probably find nicer way to set this
+#        DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
+#
+#        # Needed for steamvr to work properly
+#        QT_QPA_PLATFORM = "xcb";
+#      };
+#      extraProfile = ''
+#        # Fixes timezones on VRChat
+#        unset TZ
+#
+#        # Allows Monado to be used
+#        export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
+#
+#
+#        QT_QPA_PLATFORM=xcb
+#      '';
+#    };
+  };
 
   programs.bash.shellAliases = {
     vrcompositor-workaround = "sudo setcap CAP_SYS_NICE+ep ~/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
@@ -66,7 +43,7 @@
   # Valve's micro-compositor
   programs.gamescope = {
     enable = true;
-    capSysNice = true;
+#    capSysNice = true;
   };
 
   # Open source OpenXR runtime for VR

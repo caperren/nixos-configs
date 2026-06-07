@@ -97,6 +97,7 @@ in
 
     programs.yazi = {
       enable = true;
+      shellWrapperName = "y";
       settings = {
         mgr = {
           sort_by = "natural";
@@ -212,10 +213,11 @@ in
     gtk = {
       enable = true;
 
-      theme = {
-        name = "Adwaita-dark"; # Or another dark theme
-        package = pkgs.gnome-themes-extra;
-      };
+      theme = null;
+# {
+#        name = "Adwaita-dark"; # Or another dark theme
+#        package = pkgs.gnome-themes-extra;
+#      };
 
       iconTheme = {
         name = "Papirus-Dark";

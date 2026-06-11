@@ -59,7 +59,6 @@
     networkmanager
     networkmanagerapplet
     nmap
-    nvtopPackages.full
     openrgb-with-all-plugins
     pciutils
     rofi-bluetooth

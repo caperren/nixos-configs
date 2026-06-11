@@ -5,11 +5,14 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
-    imageName = "esphome/esphome";
-    imageDigest = "sha256:c625ac6e9f119cd501293ce47a04aea3042a9428108209f368262d8867aa2920";
-    hash = "sha256-wKXDnBdfTuKV+Wn79/VliiDR76rmrASTHlPCoxWC6gs=";
-    finalImageTag = "2025.12.5";
+  imageConfig = {
+    imageName = "docker.io/esphome/esphome";
+    imageDigest = "sha256:ba995aa3fc86dd7fc3d39da7bf450112fb4bf30d6f8f1e846553d94f2b4ef151";
+    hash = "sha256-pwxwLcqflDWxqts5NYnzbADBBq7AWp2gJ2Wh0gIvr4g=";
+    finalImageName = "docker.io/esphome/esphome";
+    finalImageTag = "2026.5.3";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
   allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;

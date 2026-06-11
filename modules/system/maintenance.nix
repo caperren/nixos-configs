@@ -4,7 +4,7 @@
   options."perren.cloud".maintenance.kube = lib.mkOption {
     type = lib.types.bool;
     readOnly = true;
-    default = true;
+    default = false;
   };
   options."perren.cloud".maintenance.nfs = lib.mkOption {
     type = lib.types.bool;

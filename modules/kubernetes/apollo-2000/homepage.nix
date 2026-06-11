@@ -15,6 +15,7 @@ let
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -210,7 +211,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "homepage";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
 
           selector.matchLabels."app.kubernetes.io/name" = "homepage";
 

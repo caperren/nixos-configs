@@ -16,7 +16,8 @@ let
     arch = "amd64";
   };
 
-  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
+  allowedReplicas =
+    if (config."perren.cloud".maintenance.kube or config."perren.cloud".maintenance.nfs) then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {

@@ -12,6 +12,7 @@ let
     finalImageTag = "1.0.1";
     arch = "amd64";
   };
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 {
   sops = {
@@ -41,7 +42,7 @@ in
           labels."app.kubernetes.io/name" = "hetzner-ddns";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

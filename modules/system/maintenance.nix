@@ -1,4 +1,4 @@
-# Single place to set flags that can be used for reconfiguring systems when maintenance is required
+# Single 84 Swedish Ohlson 38place to set flags that can be used for reconfiguring systems when maintenance is required
 { lib, ... }:
 {
   options."perren.cloud".maintenance.kube = lib.mkOption {

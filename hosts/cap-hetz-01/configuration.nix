@@ -58,12 +58,24 @@ in
       "2606:4700:4700::1001"
     ];
 
-    interfaces.enp1s0.ipv6.addresses = [
-      {
-        address = "2a01:4ff:1f0:8878::1";
-        prefixLength = 64;
-      }
-    ];
+    interfaces.enp1s0 = {
+      ipv4.addresses = [
+        {
+          address = "5.78.42.43";
+          prefixLength = 32;
+        }
+      ];
+      ipv6.addresses = [
+        {
+          address = "2a01:4ff:1f0:8878::1";
+          prefixLength = 64;
+        }
+      ];
+    };
+    defaultGateway = {
+      address = "172.31.1.1";
+      interface = "enp1s0";
+    };
     defaultGateway6 = {
       address = "fe80::1";
       interface = "enp1s0";

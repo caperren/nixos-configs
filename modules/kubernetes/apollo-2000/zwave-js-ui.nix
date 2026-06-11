@@ -5,11 +5,14 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
-    imageName = "zwavejs/zwave-js-ui";
-    imageDigest = "sha256:a7036e59a9d7916d1f92f2fa1e0b9f4a5ed317fc8bef38756368f7c865e0e95a";
-    hash = "sha256-q8FOH4O6lMwN/0K6r+5E2q/TbitL3Oos1UqKM/PfQAs=";
-    finalImageTag = "11.9.1";
+  imageConfig = {
+    imageName = "docker.io/zwavejs/zwave-js-ui";
+    imageDigest = "sha256:944d39fe22d8985ddcbef0849cd22984b8340448f742195821cc34f7a9ca1bb4";
+    hash = "sha256-UdpeBybR14AP8Tx8QM4PGJMIljkWQwM9q0DZIIYW0qc=";
+    finalImageName = "docker.io/zwavejs/zwave-js-ui";
+    finalImageTag = "11.19.1";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
   zWaveUsbDevice = "/dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE7E6E0-if00";

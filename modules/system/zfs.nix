@@ -3,6 +3,7 @@ let
   notifyHelpers = import ../scripts/notify-helpers.nix { inherit pkgs; };
 in
 {
+  boot.zfs.forceImportRoot = false;
   boot.supportedFilesystems = [ "zfs" ];
 
   services.zfs = {

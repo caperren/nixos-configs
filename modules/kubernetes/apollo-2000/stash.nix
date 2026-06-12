@@ -6,11 +6,11 @@
 }:
 let
   imageConfig = {
-    imageName = "stashapp/stash";
-    imageDigest = "sha256:4cac18873ea052f03510602d9e1a9b29e6241a393a111479010292b7a1e28a5e";
-    hash = "sha256-D3XMtByDotpCR/Q4CqoKzL1n/wGHgXMyPNYpkUxxlXs=";
-    finalImageName = "stashapp/stash";
-    finalImageTag = "v0.30.1";
+    imageName = "docker.io/stashapp/stash";
+    imageDigest = "sha256:df744af5a0c976e2ec671052ecc1f8a9aa757fa12b8f9930b59910b7295f0da6";
+    hash = "sha256-r318Y4GD9b0YU7v9bm9guvT9oQJkQCTIK8NEL1uFZRI=";
+    finalImageName = "docker.io/stashapp/stash";
+    finalImageTag = "v0.31.1";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";

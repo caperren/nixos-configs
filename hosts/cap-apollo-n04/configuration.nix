@@ -17,6 +17,10 @@
   networking.hostName = "cap-apollo-n04";
   networking.hostId = "32d76617";
 
+  hardware.graphics = {
+    enable = true;
+  };
+
   services.ollama = {
     package = pkgs.ollama-cuda;
     environmentVariables = {

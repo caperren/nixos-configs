@@ -19,6 +19,9 @@
 
   services.ollama = {
     package = pkgs.ollama-cuda;
+    environmentVariables = {
+      CUDA_VISIBLE_DEVICES = "0"; # or "1" for the other NVIDIA GPU
+    };
   };
 
   services.open-webui = {

@@ -14,6 +14,10 @@
   networking.hostName = "cap-apollo-n04";
   networking.hostId = "32d76617";
 
+  services.ollama = {
+    package = pkgs.ollama-cuda;
+  };
+
   services.open-webui = {
     host = "0.0.0.0";
   };

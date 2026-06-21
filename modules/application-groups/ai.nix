@@ -5,7 +5,7 @@
   nixpkgs.config.rocmSupport = true;
   services.ollama = {
     enable = true;
-    package = pkgs.ollama-vulkan;
+
     #    environmentVariables = {
     #      # For ROCm / HIP:
     #      #      OLLAMA_VULKAN = "0";

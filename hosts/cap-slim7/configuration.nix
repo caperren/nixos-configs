@@ -92,6 +92,7 @@ in
   # time.timeZone = "Pacific/Honolulu";
 
   services.ollama = {
+    package = pkgs.ollama-vulkan;
     environmentVariables = {
       GGML_VK_VISIBLE_DEVICES = "1";
     };

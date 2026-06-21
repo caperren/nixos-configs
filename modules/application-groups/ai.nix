@@ -16,19 +16,7 @@
     #
     #      #      OLLAMA_DEBUG = "1";
     #    };
-    loadModels = [
-      #      "llama3.2:3b"
-      #      "phi4-reasoning:14b"
-      #      "dolphin3:8b"
-      #      "smallthinker:3b"
-      #      "gemma3:4b"
-      "gemma4:12b"
-      #      "gemma3:27b"
-      "deepcoder:14b"
-      "qwen3.5:9b"
-      #      "qwen3.6:27b"
-      #      "nomic-embed-text"
-    ];
+
     syncModels = true;
   };
 

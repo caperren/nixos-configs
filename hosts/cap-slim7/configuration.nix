@@ -39,7 +39,7 @@ in
 
     # Application Groups
     ../../modules/application-groups/3d-design.nix
-    ../../modules/application-groups/ai.nix
+#    ../../modules/application-groups/ai.nix
     ../../modules/application-groups/android.nix
     ../../modules/application-groups/downloads.nix
     ../../modules/application-groups/gaming.nix
@@ -91,15 +91,15 @@ in
   time.timeZone = "America/Los_Angeles";
   # time.timeZone = "Pacific/Honolulu";
 
-  services.ollama = {
-    package = pkgs.ollama-vulkan;
-    environmentVariables = {
-      GGML_VK_VISIBLE_DEVICES = "1";
-    };
-  };
-  services.open-webui = {
-    host = "127.0.0.1";
-  };
+#  services.ollama = {
+#    package = pkgs.ollama-vulkan;
+#    environmentVariables = {
+#      GGML_VK_VISIBLE_DEVICES = "1";
+#    };
+#  };
+#  services.open-webui = {
+#    host = "127.0.0.1";
+#  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

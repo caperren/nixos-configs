@@ -24,6 +24,12 @@
   services.ollama = {
     package = pkgs.ollama-cuda;
     environmentVariables = {
+      OLLAMA_CONTEXT_LENGTH = "32768";
+
+      OLLAMA_MAX_LOADED_MODELS = "1";
+      OLLAMA_NUM_PARALLEL = "1";
+      OLLAMA_KEEP_ALIVE = "10m";
+
       CUDA_VISIBLE_DEVICES = "0"; # or "1" for the other NVIDIA GPU
     };
     #    loadModels = [

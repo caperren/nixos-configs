@@ -55,7 +55,7 @@
 
   environment.systemPackages = with pkgs; [
     bs-manager
-    heroic
+#    heroic
     itch
     monado
     xrizer

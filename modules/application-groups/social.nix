@@ -3,8 +3,7 @@
   environment.systemPackages = with pkgs; [
     discord
     slack
-    signal-desktop
     telegram-desktop
-    signal-desktop
+#    signal-desktop
   ];
 }

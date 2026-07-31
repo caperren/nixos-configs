@@ -12,7 +12,7 @@ let
     finalImageTag = "18.1";
     arch = "amd64";
   };
-  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 0;  # FiXME: Disabled for now
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {

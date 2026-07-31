@@ -21,7 +21,7 @@ let
     if config."perren.cloud".maintenance.kube then
       0
     else
-      (if config."perren.cloud".maintenance.postgres then 0 else 1);
+      (if config."perren.cloud".maintenance.postgres then 0 else 0);
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {

@@ -227,7 +227,7 @@ in
           chmod_dir_options="750"
           chmod_file_options="640"
 
-          zfs_share_base_options="rw=@192.168.1.0/24"
+          zfs_share_base_options="rw=@192.168.200.0/24"
           zfs_share_options="''${zfs_share_base_options},root_squash"
 
           ##### Top level dataset options #####

@@ -18,10 +18,7 @@ let
 
   zigbeeUsbDevice = "/dev/serial/by-id/usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_16d54ca07d76f0118eeb6c574783cc33-if00-port0";
   allowedReplicas =
-    if config."perren.cloud".maintenance.kube then
-      0
-    else
-      (if config."perren.cloud".maintenance.postgres then 0 else 0);
+    if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {

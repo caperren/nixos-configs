@@ -35,7 +35,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {

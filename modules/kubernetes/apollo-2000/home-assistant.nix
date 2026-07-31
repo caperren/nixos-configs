@@ -16,7 +16,7 @@ let
     arch = "amd64";
   };
 
-  zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
+  zigbeeUsbDevice = "/dev/serial/by-id/usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_16d54ca07d76f0118eeb6c574783cc33-if00-port0";
   allowedReplicas =
     if config."perren.cloud".maintenance.kube then
       0

@@ -7,10 +7,10 @@
 let
   imageConfig = {
     imageName = "docker.io/esphome/esphome";
-    imageDigest = "sha256:ba995aa3fc86dd7fc3d39da7bf450112fb4bf30d6f8f1e846553d94f2b4ef151";
-    hash = "sha256-pwxwLcqflDWxqts5NYnzbADBBq7AWp2gJ2Wh0gIvr4g=";
+    imageDigest = "sha256:1445f14341cf0c40f29ab8c019b4c89bfb38bd8f6bb275af3b4b0ab1fb40fbd9";
+    hash = "sha256-hFt6Ac5HNWMJEx9+YDZPvVv6B0FUcSRXYyYUqLv6bRI=";
     finalImageName = "docker.io/esphome/esphome";
-    finalImageTag = "2026.5.3";
+    finalImageTag = "2026.7.3";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";

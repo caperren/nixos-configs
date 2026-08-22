@@ -7,18 +7,17 @@
 let
   imageConfig = {
     imageName = "docker.io/homeassistant/home-assistant";
-    imageDigest = "sha256:6340a3de3917a9b19368e767310a96dd090f6a19aca8aeadf87fd1145cec9682";
-    hash = "sha256-z6bnVc3K0pUisszG4DZ/wF8wU38kUwGK8xk6WUfAU70=";
+    imageDigest = "sha256:14931c6b13756317849f46da1d01b45937a1150db66c081cfe529d48215943fe";
+    hash = "sha256-9bFZGhtBsxM61lRfHlAu40A9p8VLnQTUrEodqZ6hskw=";
     finalImageName = "docker.io/homeassistant/home-assistant";
-    finalImageTag = "2026.8.1";
+    finalImageTag = "2026.8.3";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
 
   zigbeeUsbDevice = "/dev/serial/by-id/usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_16d54ca07d76f0118eeb6c574783cc33-if00-port0";
-  allowedReplicas =
-    if config."perren.cloud".maintenance.kube then 0 else 1;
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {

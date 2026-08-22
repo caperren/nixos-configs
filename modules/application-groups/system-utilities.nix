@@ -30,7 +30,12 @@
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.hardware.openrgb.enable = true;
   services.openssh.enable = true;
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [
+        pkgs.brlaser
+    ];
+  };
   services.tumbler.enable = true; # Thumbnail support for images
 
   environment.systemPackages = with pkgs; [

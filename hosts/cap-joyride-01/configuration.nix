@@ -38,6 +38,7 @@ in
     # Application Groups
     ../../modules/application-groups/boating.nix
     ../../modules/application-groups/downloads.nix
+    ../../modules/application-groups/gaming.nix
     ../../modules/application-groups/media.nix
     ../../modules/application-groups/media-creation.nix
     ../../modules/application-groups/productivity.nix

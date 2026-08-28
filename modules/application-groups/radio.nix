@@ -4,6 +4,7 @@
 
   environment.systemPackages = with pkgs; [
     chirp
+    rtl-ais
     soapysdr
     soapyrtlsdr
   ];

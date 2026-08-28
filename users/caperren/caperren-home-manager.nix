@@ -126,8 +126,16 @@ in
         devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
         folders = {
+          "charts" = {
+            devices = lib.remove config.networking.hostName (
+              lib.attrNames syncthingConstants.nonAndroidDevices
+            );
+            path = "~/Charts";
+          };
           "factorio" = {
-            devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+            devices = lib.remove config.networking.hostName (
+              lib.attrNames syncthingConstants.nonAndroidDevices
+            );
             path = "~/.factorio";
           };
           "obsidian" = {
@@ -214,10 +222,10 @@ in
       enable = true;
 
       theme = null;
-# {
-#        name = "Adwaita-dark"; # Or another dark theme
-#        package = pkgs.gnome-themes-extra;
-#      };
+      # {
+      #        name = "Adwaita-dark"; # Or another dark theme
+      #        package = pkgs.gnome-themes-extra;
+      #      };
 
       iconTheme = {
         name = "Papirus-Dark";

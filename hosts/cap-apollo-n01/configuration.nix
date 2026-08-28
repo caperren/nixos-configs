@@ -179,6 +179,13 @@ in
       devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
       folders = {
+        "charts" = {
+          devices = lib.remove config.networking.hostName (
+            lib.attrNames syncthingConstants.nonAndroidDevices
+          );
+          path = "/nas_data_primary/charts";
+          ignorePatterns = [ ".zfs" ];
+        };
         "factorio" = {
           devices = lib.remove config.networking.hostName (
             lib.attrNames syncthingConstants.nonAndroidDevices
@@ -335,6 +342,10 @@ in
             -m "g:nas-media-management:rwx" \
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
+
+          # charts
+          echo "Setting permissions for nas_data_primary/charts dataset"
+          chown -R syncthing:nas-syncthing-management /nas_data_primary/charts
 
           # factorio
           echo "Setting permissions for nas_data_primary/factorio dataset"

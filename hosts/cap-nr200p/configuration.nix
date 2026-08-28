@@ -40,6 +40,7 @@ in
     # Application Groups
     ../../modules/application-groups/3d-design.nix
     ../../modules/application-groups/android.nix
+    ../../modules/application-groups/boating.nix
     ../../modules/application-groups/downloads.nix
     ../../modules/application-groups/gaming.nix
     ../../modules/application-groups/hobby-rc.nix
@@ -108,7 +109,6 @@ in
   services.open-webui = {
     host = "127.0.0.1";
   };
-
 
 
 

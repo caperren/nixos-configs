@@ -41,6 +41,7 @@ in
     ../../modules/application-groups/3d-design.nix
 #    ../../modules/application-groups/ai.nix
     ../../modules/application-groups/android.nix
+    ../../modules/application-groups/boating.nix
     ../../modules/application-groups/downloads.nix
     ../../modules/application-groups/gaming.nix
     ../../modules/application-groups/hobby-rc.nix

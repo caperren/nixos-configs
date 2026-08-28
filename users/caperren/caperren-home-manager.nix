@@ -113,11 +113,11 @@ in
     # Syncthing for special apps like obsidian
     # https://wiki.nixos.org/wiki/Syncthing
     services.syncthing = {
-      enable = false;
-      tray.enable = false;
+      enable = true;
+      tray.enable = true;
 
-#      cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
-#      key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
+      cert = config.sops.secrets."${config.networking.hostName}/syncthing/cert.pem".path;
+      key = config.sops.secrets."${config.networking.hostName}/syncthing/key.pem".path;
 
       overrideDevices = true;
       overrideFolders = true;

@@ -36,7 +36,6 @@
     allowDiscards = true;
     keyFileSize = 4096;
     keyFile = "usb-_Patriot_Memory_07B406013A4D761C-0:0";
-    fallbackToPassword = true;
   };
 
   fileSystems."/boot" = {

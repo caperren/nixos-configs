@@ -31,11 +31,14 @@
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-e24d5b44-c3a8-4f35-8850-aa11c901eab9" = {
-    device = "/dev/disk/by-uuid/e24d5b44-c3a8-4f35-8850-aa11c901eab9";
-    allowDiscards = true;
-    keyFileSize = 4096;
-    keyFile = "/dev/disk/by-id/usb-_Patriot_Memory_07B406013A4D761C-0:0";
+  boot.initrd.luks.devices = {
+    luksroot = {
+      device = "/dev/disk/by-uuid/e24d5b44-c3a8-4f35-8850-aa11c901eab9";
+      allowDiscards = true;
+      keyFileSize = 4096;
+      keyFile = "/dev/disk/by-id/usb-_Patriot_Memory_07B406013A4D761C-0:0";
+      fallbackToPassword = true;
+    };
   };
 
   fileSystems."/boot" = {

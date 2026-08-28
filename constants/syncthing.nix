@@ -16,7 +16,7 @@ let
   };
   cap_joyride_01 = {
     "cap-joyride-01" = {
-      id = "6YG34W5-52EXEAS-4RTGLCM-JOSGICK-M6QIRQS-OLLRWTF-HDZMNRP-ZJ24FAM";
+      id = "QRAAGMR-JEEGOOQ-BWDDKHV-CW2ZZUN-JICPEQS-ZAFLSKZ-CLUBQEX-UVB5EA6";
     };
   };
   android = {

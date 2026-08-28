@@ -72,6 +72,13 @@ creation_rules:
           - *cap_slim7
           - *cap_nr200p
           - *cap_offsite_01
+  - path_regex: secrets/caperren.yaml$
+    key_groups:
+      - age:
+          - *caperren
+          - *cap_slim7
+          - *cap_nr200p
+          - *cap_joyride_01
   - path_regex: secrets/.*$
     key_groups:
       - age:

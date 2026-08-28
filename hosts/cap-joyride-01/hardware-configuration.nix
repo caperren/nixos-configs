@@ -35,7 +35,7 @@
     device = "/dev/disk/by-uuid/e24d5b44-c3a8-4f35-8850-aa11c901eab9";
     allowDiscards = true;
     keyFileSize = 4096;
-    keyFile = "usb-_Patriot_Memory_07B406013A4D761C-0:0";
+    keyFile = "/dev/disk/by-uuid/9ae3a4fb-3133-4781-aba6-88c4e69de292";
   };
 
   fileSystems."/boot" = {

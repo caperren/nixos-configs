@@ -17,6 +17,8 @@ keys:
       - &cap_joyride_01 age1ldrn70e09s99p0frlkpywpns0sl6vr4y4kdxr9r47wuh9swq2faq30au2h
     - &offsite:
       - &cap_offsite_01 age17k70g4yrrkcuzshwefpx0ll3hp9nyytfcgrfd4cv3wxvn0g60uusw4njfj
+    - &workshop:
+      - &cap_workshop_02 age1v0l0vem97plxsnj9m7xryrevmahfcqvfygfnm2p0vzk64jkalvwqw4zvvh
 creation_rules:
   - path_regex: users/caperren/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -37,6 +39,7 @@ creation_rules:
           - *cap_hetz_01
           - *cap_joyride_01
           - *cap_offsite_01
+          - *cap_workshop_02
   - path_regex: secrets/apollo-2000.yaml$
     key_groups:
       - age:
@@ -79,6 +82,7 @@ creation_rules:
           - *cap_slim7
           - *cap_nr200p
           - *cap_joyride_01
+          - *cap_workshop_02
   - path_regex: secrets/.*$
     key_groups:
       - age:

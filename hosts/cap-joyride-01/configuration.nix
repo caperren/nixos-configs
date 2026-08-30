@@ -53,7 +53,10 @@ in
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
-  networking.firewall.enable = false;
+  networking = {
+    firewall.enable = false;
+    useNetworkd = true;
+  };
 
   systemd.network = {
    enable = true;

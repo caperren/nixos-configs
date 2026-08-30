@@ -131,5 +131,25 @@
           sops-nix.nixosModules.sops
         ];
       };
+      nixosConfigurations.cap-workshop-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-workshop-01/configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
+      nixosConfigurations.cap-workshop-02 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-workshop-02/configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
     };
 }

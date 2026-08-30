@@ -1,0 +1,173 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": [
+//    "custom/logo",
+    "clock",
+    "temperature",
+    "disk",
+    "memory",
+    "cpu"
+  ],
+  "modules-center": [
+    "hyprland/window",
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "tray",
+    "idle_inhibitor",
+    "pulseaudio",
+    "battery",
+    "backlight",
+    "custom/exit"
+  ],
+  "reload_style_on_change": true,
+  "custom/logo": {
+    "format": "<span font='15'></span>",
+    "tooltip": false
+  },
+  "hyprland/workspaces": {
+    "all-outputs": false,
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    }
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{percent}% {icon}",
+    "format-icons": [
+      "",
+      ""
+    ]
+  },
+  "battery": {
+    "bat": "BAT0",
+    "adapter": "AC",
+    "interval": 10,
+    "full-at": 100,
+    "states": {
+      "full": 100,
+      "good": 75,
+      "warning": 30,
+      "critical": 15,
+      "empty": 5
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "temperature": {
+    "interval": 1,
+    "critical-threshold": 90,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉"
+    },
+    "tooltip-format-activated": "idle-inhibitor <span color='#a6da95'>on</span>",
+    "tooltip-format-deactivated": "idle-inhibitor <span color='#ee99a0'>off</span>"
+  },
+  "clock": {
+    "format": "{:%I:%M:%S %p} |",
+    "interval": 1,
+    "tooltip-format": "<big>{:%I:%M:%S %p | %a | %F}</big>\n\n<tt><big>{calendar}</big></tt>",
+    "calendar-weeks-pos": "right",
+    "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
+    "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
+    "format-calendar-weeks": "<span color='#aeaeae'><b>W{:%V}</b></span>",
+    "format-calendar-weekdays": "<span color='#aeaeae'><b>{}</b></span>"
+  },
+  "disk": {
+    "interval": 30,
+    "format": " {}%",
+    "tooltip-format": "{used} / {total} used"
+  },
+  "cpu": {
+    "format": "  {usage:02}% {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+    "tooltip": false,
+    "interval": 1,
+    "format-icons": [
+      // green,
+      "<span color='#69ff94'>▁</span>",
+      // blue,
+      "<span color='#2aa9ff'>▂</span>",
+      // white,
+      "<span color='#f8f8f2'>▃</span>",
+      // white,
+      "<span color='#f8f8f2'>▄</span>",
+      // yellow,
+      "<span color='#ffffa5'>▅</span>",
+      // yellow,
+      "<span color='#ffffa5'>▆</span>",
+      // orange,
+      "<span color='#ff9977'>▇</span>",
+      // red,
+      "<span color='#dd532e'>█</span>"
+    ]
+  },
+  "memory": {
+    "format": "  {percentage:02}%"
+  },
+  "hyprland/window": {
+    "format": "( {class} )",
+  },
+  "pulseaudio": {
+    "format": "{volume:02}% {icon}",
+    "format-bluetooth": "󰂰",
+    "format-muted": "00% {icon}",
+    "format-icons": {
+      "headphones": "",
+      "bluetooth": "󰥰",
+      "handsfree": "",
+      "headset": "󱡬",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "🕨",
+        "🕩",
+        "🕪"
+      ]
+    },
+    "justify": "center",
+    "on-click": "amixer sset Master toggle",
+    "on-click-right": "pavucontrol",
+    "tooltip-format": "{icon} {volume:02}%"
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  },
+  "custom/exit": {
+    "format": "| ",
+    "on-click": "wlogout -b 2",
+    "tooltip": false
+  }
+}
+

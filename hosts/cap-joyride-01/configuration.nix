@@ -28,7 +28,6 @@ in
     ../../modules/system/hyprland.nix
     ../../modules/system/internationalization.nix
     ../../modules/system/monitoring-and-metrics.nix
-    ../../modules/system/networking.nix
     ../../modules/system/nix-settings.nix
     ../../modules/system/pipewire.nix
     ../../modules/system/security.nix
@@ -51,9 +50,93 @@ in
 
   networking.hostName = "cap-joyride-01"; # Define your hostname.
 
-
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
+
+  networking.firewall.enable = false;
+
+  systemd.network = {
+   enable = true;
+   netdevs = {
+     "30-br0" = {
+       netdevConfig = {
+         Kind = "bridge";
+         Name = "br0";
+         MACAddress = "none";
+       };
+     };
+   };
+   networks = {
+     "30-enp1s0" = {
+       name = "enp1s0";
+       DHCP = "no";
+       networkConfig = {
+         IPv6AcceptRA = false;
+         LinkLocalAddressing = "no";
+       };
+       linkConfig.RequiredForOnline = "no";
+     };
+     "30-enp2s0" = {
+       name = "enp2s0";
+       DHCP = "no";
+       networkConfig = {
+         IPv6AcceptRA = false;
+         LinkLocalAddressing = "no";
+       };
+       linkConfig.RequiredForOnline = "no";
+     };
+     "30-enp3s0" = {
+       name = "enp3s0";
+       DHCP = "no";
+       networkConfig = {
+         IPv6AcceptRA = false;
+         LinkLocalAddressing = "no";
+       };
+       linkConfig.RequiredForOnline = "no";
+     };
+     "30-enp4s0" = {
+       name = "enp4s0";
+       bridge = [ "br0" ];
+       networkConfig = {
+         IPv6AcceptRA = false;
+         LinkLocalAddressing = "no";
+       };
+       linkConfig.RequiredForOnline = "enslaved";
+     };
+     "30-enp5s0" = {
+       name = "enp5s0";
+       bridge = [ "br0" ];
+       networkConfig = {
+         IPv6AcceptRA = false;
+         LinkLocalAddressing = "no";
+       };
+       linkConfig.RequiredForOnline = "enslaved";
+     };
+     "30-enp8s0" = {
+       name = "enp8s0";
+       bridge = [ "br0" ];
+       networkConfig = {
+         IPv6AcceptRA = false;
+         LinkLocalAddressing = "no";
+       };
+       linkConfig.RequiredForOnline = "enslaved";
+     };
+     "30-br0" = {
+       name = "br0";
+       DHCP = "yes";
+       dhcpV4Config.UseDomains = true;
+       ipv6AcceptRAConfig.UseDNS = true;
+       dhcpV6Config.UseDNS = true;
+       linkConfig.RequiredForOnline = "routable";
+     };
+   };
+   links = {
+     "30-br0" = {
+       matchConfig.OriginalName = "br0";
+       linkConfig.MACAddressPolicy = "none";
+     };
+   };
+  };
 
 #  services.ollama = {
 #    package = pkgs.ollama-vulkan;

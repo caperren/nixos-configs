@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     arduino-ide
+    can-utils
     dfu-util
     gcc
     gnumake

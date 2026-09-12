@@ -101,16 +101,16 @@ in
   time.timeZone = "America/Los_Angeles";
 
   services.ollama = {
+    enable = true;
     package = pkgs.ollama-vulkan;
     environmentVariables = {
       GGML_VK_VISIBLE_DEVICES = "0";
     };
   };
   services.open-webui = {
+    enable = true;
     host = "127.0.0.1";
   };
-
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

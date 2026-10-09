@@ -12,6 +12,14 @@ profile workshop_den {
     output "Aculab Ltd QHD270 Unknown" enable transform 90 position 2560,-560
 }
 
+profile workshop_den_no_displaylink {
+    ##### Bottom left to right
+    output "Aculab Ltd Digital Unknown" enable transform 270 position -1440,-560
+    # Primary monitor, which wayland doesn't have a concept of
+    output "Hewlett Packard HP Z27n CNK7311DRR" enable position 0,0
+    output "Aculab Ltd QHD270 Unknown" enable transform 90 position 2560,-560
+}
+
 profile office_desk {
     output "Hewlett Packard HP Z27n CNK7311FCY" enable position 0,0
     output "LG Electronics LG ULTRAGEAR 104NTVS1N751" enable mode 3440x1440@143.92Hz position -440,1440 adaptive_sync on

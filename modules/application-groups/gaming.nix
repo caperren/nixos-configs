@@ -10,31 +10,38 @@
     dedicatedServer.openFirewall = true;
     gamescopeSession = {
       enable = true;
-#      env = {
-#        # Use dedicated GPU for steam on laptop - probably find nicer way to set this
-#        DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
-#      };
+      #      env = {
+      #        # Use dedicated GPU for steam on laptop - probably find nicer way to set this
+      #        DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
+      #      };
     };
-#    package = pkgs.steam.override {
-#      extraEnv = {
-#        # Use dedicated GPU for steam on laptop - probably find nicer way to set this
-#        DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
-#
-#        # Needed for steamvr to work properly
-#        QT_QPA_PLATFORM = "xcb";
-#      };
-#      extraProfile = ''
-#        # Fixes timezones on VRChat
-#        unset TZ
-#
-#        # Allows Monado to be used
-#        export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
-#
-#
-#        QT_QPA_PLATFORM=xcb
-#      '';
-#    };
+    #    package = pkgs.steam.override {
+    #      extraEnv = {
+    #        # Use dedicated GPU for steam on laptop - probably find nicer way to set this
+    #        DRI_PRIME = if config.networking.hostName == "cap-slim7" then "1" else "0";
+    #
+    #        # Needed for steamvr to work properly
+    #        QT_QPA_PLATFORM = "xcb";
+    #      };
+    #      extraProfile = ''
+    #        # Fixes timezones on VRChat
+    #        unset TZ
+    #
+    #        # Allows Monado to be used
+    #        export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
+    #
+    #
+    #        QT_QPA_PLATFORM=xcb
+    #      '';
+    #    };
   };
+
+  # Section needed for steam frame support, specifically the wireless dongle
+  hardware.enableRedistributableFirmware = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModprobeConfig = ''
+    options cfg80211 ieee80211_regdom=US
+  '';
 
   programs.bash.shellAliases = {
     vrcompositor-workaround = "sudo setcap CAP_SYS_NICE+ep ~/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
@@ -43,7 +50,7 @@
   # Valve's micro-compositor
   programs.gamescope = {
     enable = true;
-#    capSysNice = true;
+    #    capSysNice = true;
   };
 
   # Open source OpenXR runtime for VR
@@ -55,7 +62,7 @@
 
   environment.systemPackages = with pkgs; [
     bs-manager
-#    heroic
+    #    heroic
     itch
     monado
     xrizer

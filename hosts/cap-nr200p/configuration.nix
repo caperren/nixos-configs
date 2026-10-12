@@ -97,12 +97,6 @@ in
     };
   };
 
-  hardware.enableRedistributableFirmware = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModprobeConfig = ''
-    options cfg80211 ieee80211_regdom=US
-  '';
-
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 

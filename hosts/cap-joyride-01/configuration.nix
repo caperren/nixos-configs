@@ -140,10 +140,6 @@ in
      };
    };
   };
-  services.murmur = {
-    enable = true;
-    openFirewall = true;
-  };
 
 #  services.ollama = {
 #    package = pkgs.ollama-vulkan;

@@ -110,6 +110,37 @@ in
       };
     };
 
+    services.dunst = {
+      enable = true;
+      settings = {
+        global = {
+          width = "(200,600)";
+          height = "(0,300)";
+          offset = "(5,5)"; # Matches 5px gap for hyprland gaps
+          origin = "top-right";
+          font = "JetBrains Mono 11";
+        };
+        urgency_low = {
+          background = "#000000";
+          foreground = "#10ac25";
+          frame_color = "#000000";
+          timeout = 10;
+        };
+        urgency_normal = {
+          background = "#000000";
+          foreground = "#10ac25";
+          frame_color = "#10ac25";
+          timeout = 30;
+        };
+        urgency_critical = {
+          background = "#000000";
+          foreground = "#ff0000";
+          frame_color = "#ff0000";
+          timeout = 3600;
+        };
+      };
+    };
+
     # Syncthing for special apps like obsidian
     # https://wiki.nixos.org/wiki/Syncthing
     services.syncthing = {
@@ -247,17 +278,28 @@ in
       GTK_THEME = "Adwaita-dark";
     };
 
-    xdg.mimeApps = {
+    xdg = {
       enable = true;
-      defaultApplications = {
-        "application/pdf" = [ "okularApplication_pdf.desktop" ];
-        "x-scheme-handler/http" = [ "firefox.desktop" ];
-        "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "text/html" = [ "firefox.desktop" ];
-        "image/*" = [ "imv.desktop" ];
+      #      configHome = "${config.users.users.caperren.home}/.config";
+      portal = {
+        enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        config.common.default = "*";
       };
-    };
 
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "text/plain" = [ "org.xfce.mousepad.desktop" ];
+          "application/pdf" = [ "okularApplication_pdf.desktop" ];
+          "x-scheme-handler/http" = [ "firefox.desktop" ];
+          "x-scheme-handler/https" = [ "firefox.desktop" ];
+          "text/html" = [ "firefox.desktop" ];
+          "image/*" = [ "imv.desktop" ];
+        };
+      };
+
+    };
     xresources.properties = {
       "Xft.font" = "JetBrains Mono";
     };

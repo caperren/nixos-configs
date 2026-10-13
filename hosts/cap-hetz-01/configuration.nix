@@ -129,6 +129,106 @@ in
     configFile = config.sops.secrets."caddy/Caddyfile".path;
   };
 
+  virtualisation.oci-containers = {
+    backend = "docker";
+
+    containers = {
+      searxng-core = {
+        image = "ghcr.io/searxng/searxng:latest";
+        autoStart = true;
+
+        ports = [
+          "8080:8080"
+        ];
+
+        environment = {
+          SEARXNG_VALKEY_URL = "valkey://172.17.0.1:6379";
+        };
+
+        volumes = [
+          "/oci/searxng/config/:/etc/searxng/:Z"
+          "core-data:/var/cache/searxng/"virtualisation.oci-containers = {
+    backend = "docker";
+
+    containers = {
+      searxng-core = {
+        image = "ghcr.io/searxng/searxng:latest";
+        autoStart = true;
+
+        ports = [
+          "8081:8080"
+        ];
+
+        environment = {
+          SEARXNG_VALKEY_URL = "valkey://172.17.0.1:6379";
+        };
+
+        volumes = [
+          "/oci/searxng/config/:/etc/searxng/:Z"
+          "core-data:/var/cache/searxng/"
+          "/etc/localtime:/etc/localtime:ro"
+        ];
+
+
+
+        #        extraOptions = [
+        #          "--network=host"
+        #        ];
+      };
+      searxng-valkey = {
+        image = "docker.io/valkey/valkey:9-alpine";
+        autoStart = true;
+
+        cmd = [
+          "valkey-server"
+          "--save"
+          "30"
+          "1"
+          "--loglevel"
+          "warning"
+        ];
+
+        ports = [
+          "6379:6379"
+        ];
+
+        volumes = [
+          "valkey-data:/data/"
+        ];
+      };
+    };
+  };
+          "/etc/localtime:/etc/localtime:ro"
+        ];
+
+        #        extraOptions = [
+        #          "--network=host"
+        #        ];
+      };
+      searxng-valkey = {
+        image = "docker.io/valkey/valkey:9-alpine";
+        autoStart = true;
+
+        cmd = [
+          "valkey-server"
+          "--save"
+          "30"
+          "1"
+          "--loglevel"
+          "warning"
+        ];
+
+        ports = [
+          "6379:6379"
+        ];
+
+        volumes = [
+          "valkey-data:/data/"
+        ];
+      };
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

@@ -7,6 +7,7 @@
     gcc
     gnumake
     jetbrains-toolbox
+    lua
     nix-update
     nixfmt
     nixos-generators

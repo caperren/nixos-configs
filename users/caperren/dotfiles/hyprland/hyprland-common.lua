@@ -17,7 +17,7 @@ hl.config({
 		kb_model = "",
 		kb_options = "",
 		kb_rules = "",
-		follow_mouse = 0,
+		follow_mouse = 1,
 		sensitivity = 0,
 		numlock_by_default = true,
 		touchpad = {
@@ -32,7 +32,7 @@ hl.config({
 			active_border = "rgba(0D8A1EFF)",
 			inactive_border = "rgba(595959aa)"
 		},
-		layout = "scrolling",
+		layout = "dwindle",
 		allow_tearing = false,
 	},
 	decoration = {
@@ -55,16 +55,8 @@ hl.config({
 	binds = {
 		movefocus_cycles_fullscreen = true
 	},
-	scrolling = {
-		column_width = 0.5,
-		fullscreen_on_one_column = true,
-		focus_fit_method = 1,
-		follow_focus = true,
-		follow_min_visible = 0.4,
-		explicit_column_widths = "0.25, 0.333, 0.5, 0.667, 0.75, 1.0",
-		wrap_focus = false,
-		wrap_swapcol = false,
-		direction = "right",
+	dwindle = {
+		preserve_split = true
 	},
 	misc = {
 		force_default_wallpaper = 1
@@ -79,8 +71,9 @@ hl.animation({ leaf = "borderangle", enabled = true, speed = 8, bezier = "defaul
 hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 6, bezier = "default" })
 
--- Pan horizontally across the scrolling tape with three fingers.
-hl.gesture({ fingers = 3, direction = "horizontal", action = "scroll_move" })
+-- Fullscreen on three finger swipe up or down
+hl.gesture({ fingers = 3, direction = "up", action = "fullscreen" })
+hl.gesture({ fingers = 3, direction = "down", action = "fullscreen" })
 
 -- Applications and session
 hl.bind(mod .. " + T", hl.dsp.exec_cmd(terminal))
@@ -98,31 +91,20 @@ for _, direction in ipairs({ "left", "right", "up", "down" }) do
 	hl.bind(mod .. " + " .. direction, hl.dsp.focus({ direction = direction }))
 end
 
--- Swap horizontal columns; move individual windows vertically.
-hl.bind(mod .. " + SHIFT + left", hl.dsp.layout("swapcol l"))
-hl.bind(mod .. " + SHIFT + right", hl.dsp.layout("swapcol r"))
-hl.bind(mod .. " + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
-hl.bind(mod .. " + SHIFT + down", hl.dsp.window.move({ direction = "down" }))
+-- Dwindle: move windows between split positions.
+for _, direction in ipairs({ "left", "right", "up", "down" }) do
+    hl.bind(mod .. " + SHIFT + " .. direction, hl.dsp.window.move({ direction = direction }))
+end
 
--- Stack windows into existing columns, or split them back out.
-hl.bind(mod .. " + bracketleft", hl.dsp.layout("consume_or_expel prev"))
-hl.bind(mod .. " + bracketright", hl.dsp.layout("consume_or_expel next"))
-hl.bind(mod .. " + comma", hl.dsp.layout("consume"))
-hl.bind(mod .. " + period", hl.dsp.layout("expel"))
+-- Split toggling shortcut.
+hl.bind(mod .. " + J", hl.dsp.layout("togglesplit"))
 
--- Width adjustment and presets
-hl.bind(mod .. " + minus", hl.dsp.layout("colresize -0.05"))
-hl.bind(mod .. " + equal", hl.dsp.layout("colresize +0.05"))
-hl.bind(mod .. " + SHIFT + R", hl.dsp.layout("colresize +conf"))
-hl.bind(mod .. " + CTRL + R", hl.dsp.layout("colresize -conf"))
-hl.bind(mod .. " + CTRL + BackSpace", hl.dsp.layout("colresize 0.5"))
-
--- Fit rather than auto-center; manual centerinFFg remains available.
-hl.bind(mod .. " + C", hl.dsp.layout("fit active"))
-hl.bind(mod .. " + CTRL + F", hl.dsp.layout("fit visible"))
-hl.bind(mod .. " + CTRL + SHIFT + F", hl.dsp.layout("fit all"))
-hl.bind(mod .. " + ALT + left", hl.dsp.layout("move -col"))
-hl.bind(mod .. " + ALT + right", hl.dsp.layout("move +col"))
+-- Optional dwindle conveniences.
+hl.bind(mod .. " + P", hl.dsp.window.pseudo())
+hl.bind(mod .. " + bracketleft", hl.dsp.layout("splitratio -0.05"))
+hl.bind(mod .. " + bracketright", hl.dsp.layout("splitratio +0.05"))
+hl.bind(mod .. " + CTRL + BackSpace", hl.dsp.layout("splitratio 1.0 exact"))
+hl.bind(mod .. " + SHIFT + J", hl.dsp.layout("swapsplit"))
 
 -- Workspaces 1-10, with 0 meaning 10.
 for i = 1, 10 do

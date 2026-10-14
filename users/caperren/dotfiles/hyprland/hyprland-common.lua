@@ -1,6 +1,6 @@
 -- Hyprland 0.55.4 - native scrolling layout
 -- Monitor fallback; kanshi manages known configurations.
-hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
 
 local terminal = "kitty"
 local fileManager = "kitty -e yazi"
@@ -150,24 +150,29 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s +1%"), { repeati
 -- Screenshot controls (unchanged)
 local shot = "~/.config/hypr/scripts/screenshot.sh "
 for _, entry in ipairs({
-	{ "PRINT", "rc" }, { "SUPER + PRINT", "rf" }, { "CTRL + PRINT", "ri" },
-	{ "SHIFT + PRINT", "sc" }, { "SUPER + SHIFT + PRINT", "sf" },
-	{ "CTRL + SHIFT + PRINT", "si" }, { "ALT + PRINT", "p" },
+	{ "PRINT", "rc" },
+	{ "SUPER + PRINT", "rf" },
+	{ "CTRL + PRINT", "ri" },
+	{ "SHIFT + PRINT", "sc" },
+	{ "SUPER + SHIFT + PRINT", "sf" },
+	{ "CTRL + SHIFT + PRINT", "si" },
+	{ "ALT + PRINT", "p" },
 }) do
 	hl.bind(entry[1], hl.dsp.exec_cmd(shot .. entry[2]))
 end
 
 -- Suppress maximize requests to avoid unexpected column changes.
 hl.window_rule({ name = "suppress-maximize", match = { class = ".*" }, suppress_event = "maximize" })
--- Avoid JetBrains empty/utility popups stealing initial focus.
+-- Force jetbrains popup windows to float and take focus (searching, rebasing, etc...)
 hl.window_rule({
 	name = "jetbrains-popup-focus",
 	match = { class = "^jetbrains-.*$", float = true, title = "^($|\\s|win[0-9]+$)" },
 	no_initial_focus = false,
+	focus_on_activate = true,
 })
 -- Application-specific starting widths. Match case-sensitive Wayland classes.
 hl.window_rule({ name = "kitty-width", match = { class = "^kitty$" }, scrolling_width = 0.333 })
-hl.window_rule({ name = "firefox-width", match = { class = "^firefox$" }, scrolling_width = 1.0 })
+hl.window_rule({ name = "firefox-width", match = { class = "^firefox$" }, scrolling_width = 0.5 })
 hl.window_rule({ name = "jetbrains-width", match = { class = "^jetbrains-.*$" }, scrolling_width = 1.0 })
 hl.window_rule({ name = "telegram-width", match = { class = "^(org.telegram.desktop|TelegramDesktop)$" }, scrolling_width = 0.25 })
 hl.window_rule({ name = "signal-width", match = { class = "^signal$" }, scrolling_width = 0.25 })
@@ -189,7 +194,7 @@ hl.on("hyprland.start", function()
 		"sleep 5 && Telegram -startintray",
 		"sleep 5 && signal-desktop",
 		"sleep 10 && itch",
-		"sleep 15 && hyprctl dispatch closewindow 'title:itch'",
+		[[sleep 15 && hyprctl dispatch 'hl.dsp.window.close({ window = "title:^(itch)$" })']]
 	}) do
 		hl.exec_cmd(cmd)
 	end

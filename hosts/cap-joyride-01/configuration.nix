@@ -9,7 +9,6 @@
   ...
 }:
 let
-#  wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
 in
 {
   imports = [
@@ -43,6 +42,7 @@ in
     ../../modules/application-groups/productivity.nix
     ../../modules/application-groups/programming.nix
     ../../modules/application-groups/radio.nix
+    ../../modules/application-groups/social.nix
     ../../modules/application-groups/system-utilities.nix
     ../../modules/application-groups/virtualization.nix
     ../../modules/application-groups/web.nix
@@ -82,97 +82,132 @@ in
   };
 
   systemd.network = {
-   enable = true;
-   netdevs = {
-     "30-br0" = {
-       netdevConfig = {
-         Kind = "bridge";
-         Name = "br0";
-         MACAddress = "none";
-       };
-     };
-   };
-   networks = {
-     "30-enp1s0" = {
-       name = "enp1s0";
-       DHCP = "no";
-       networkConfig = {
-         IPv6AcceptRA = false;
-         LinkLocalAddressing = "no";
-       };
-       linkConfig.RequiredForOnline = "no";
-     };
-     "30-enp2s0" = {
-       name = "enp2s0";
-       DHCP = "no";
-       networkConfig = {
-         IPv6AcceptRA = false;
-         LinkLocalAddressing = "no";
-       };
-       linkConfig.RequiredForOnline = "no";
-     };
-     "30-enp3s0" = {
-       name = "enp3s0";
-       DHCP = "no";
-       networkConfig = {
-         IPv6AcceptRA = false;
-         LinkLocalAddressing = "no";
-       };
-       linkConfig.RequiredForOnline = "no";
-     };
-     "30-enp4s0" = {
-       name = "enp4s0";
-       bridge = [ "br0" ];
-       networkConfig = {
-         IPv6AcceptRA = false;
-         LinkLocalAddressing = "no";
-       };
-       linkConfig.RequiredForOnline = "enslaved";
-     };
-     "30-enp5s0" = {
-       name = "enp5s0";
-       bridge = [ "br0" ];
-       networkConfig = {
-         IPv6AcceptRA = false;
-         LinkLocalAddressing = "no";
-       };
-       linkConfig.RequiredForOnline = "enslaved";
-     };
-     "30-enp8s0" = {
-       name = "enp8s0";
-       bridge = [ "br0" ];
-       networkConfig = {
-         IPv6AcceptRA = false;
-         LinkLocalAddressing = "no";
-       };
-       linkConfig.RequiredForOnline = "enslaved";
-     };
-     "30-br0" = {
-       name = "br0";
-       DHCP = "yes";
-       dhcpV4Config.UseDomains = true;
-       ipv6AcceptRAConfig.UseDNS = true;
-       dhcpV6Config.UseDNS = true;
-       linkConfig.RequiredForOnline = "routable";
-     };
-   };
-   links = {
-     "30-br0" = {
-       matchConfig.OriginalName = "br0";
-       linkConfig.MACAddressPolicy = "none";
-     };
-   };
+    enable = true;
+    netdevs = {
+      "30-br0" = {
+        netdevConfig = {
+          Kind = "bridge";
+          Name = "br0";
+          MACAddress = "none";
+        };
+      };
+    };
+    networks = {
+      "30-enp1s0" = {
+        name = "enp1s0";
+        bridge = [ "br0" ];
+        networkConfig = {
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-enp2s0" = {
+        name = "enp2s0";
+        bridge = [ "br0" ];
+        networkConfig = {
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-enp3s0" = {
+        name = "enp3s0";
+        bridge = [ "br0" ];
+        networkConfig = {
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-enp4s0" = {
+        name = "enp4s0";
+        bridge = [ "br0" ];
+        networkConfig = {
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-enp5s0" = {
+        name = "enp5s0";
+        bridge = [ "br0" ];
+        networkConfig = {
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-enp8s0" = {
+        name = "enp8s0";
+        bridge = [ "br0" ];
+        networkConfig = {
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "30-br0" = {
+        name = "br0";
+        DHCP = "yes";
+        dhcpV4Config.UseDomains = true;
+        ipv6AcceptRAConfig.UseDNS = true;
+        dhcpV6Config.UseDNS = true;
+        linkConfig.RequiredForOnline = "routable";
+      };
+    };
+    links = {
+      "30-br0" = {
+        matchConfig.OriginalName = "br0";
+        linkConfig.MACAddressPolicy = "none";
+      };
+    };
   };
 
-#  services.ollama = {
-#    package = pkgs.ollama-vulkan;
-#    environmentVariables = {
-#      GGML_VK_VISIBLE_DEVICES = "0";
-#    };
-#  };
-#  services.open-webui = {
-#    host = "127.0.0.1";
-#  };
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers = {
+      homeassistant = {
+        image = "ghcr.io/home-assistant/home-assistant:stable";
+
+        autoStart = true;
+
+        volumes = [
+          "/container_storage/homeassistant/config:/config"
+          "/etc/localtime:/etc/localtime:ro"
+        ];
+
+        extraOptions = [
+          "--network=host"
+        ];
+      };
+      esphome = {
+        image = "ghcr.io/esphome/esphome:stable";
+        autoStart = true;
+
+        volumes = [
+          "/container_storage/esphome/config:/config"
+          "/etc/localtime:/etc/localtime:ro"
+        ];
+
+        extraOptions = [
+          "--network=host"
+        ];
+      };
+    };
+  };
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-vulkan;
+    environmentVariables = {
+      OLLAMA_IGPU_ENABLE = "1";
+    };
+  };
+  services.open-webui = {
+    enable = true;
+    host = "127.0.0.1";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

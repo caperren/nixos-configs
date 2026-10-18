@@ -60,6 +60,7 @@ creation_rules:
           - *cap_apollo_n02
           - *cap_apollo_n03
           - *cap_apollo_n04
+          - *cap_joyride_01
           - *cap_hetz_01
   - path_regex: secrets/joyride.yaml$
     key_groups:

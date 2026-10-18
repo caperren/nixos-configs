@@ -34,6 +34,7 @@ in
     "wireguard/cap-apollo-n02/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n03/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n04/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-joyride-01/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
 
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;

@@ -61,7 +61,7 @@ in
       wg0 = {
         mtu = wireguardServicesConfig.mtu;
         address = [ wireguardServicesConfig.peers.${config.networking.hostName}.address ];
-#        privateKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
+        #        privateKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
 
         # Known issue with using privateKeyFile where persistentKeepalive below is ignored
         # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
@@ -79,6 +79,7 @@ in
           }
         ];
       };
+    };
   };
 
   systemd.network = {

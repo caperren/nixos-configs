@@ -14,10 +14,20 @@
       "cap-slim7" = {
         address = "10.8.0.2";
         publicKey = "9DRHIl2r/iMGrsMO3e/cKea/Jtp5QhXjgvP8ci5k9wI=";
+        clientAllowedIPs = [
+          "10.8.0.1/32"
+          "10.8.0.3/32"
+          "10.8.0.7/32"
+        ];
       };
       "cap-nr200p" = {
         address = "10.8.0.3";
         publicKey = "eah3v76W6iB5/OVFbnxlEMJOJQydEUHGxe/gDodr5xs=";
+        clientAllowedIPs = [
+          "10.8.0.1/32"
+          "10.8.0.2/32"
+          "10.8.0.7/32"
+        ];
       };
       "cap-apollo-n02" = {
         address = "10.8.0.4";
@@ -34,11 +44,6 @@
       "cap-joyride-01" = {
         address = "10.8.0.7";
         publicKey = "qyyDNlCH+e3EpjApvV/+JQrU3aZG9GqG/QJ2ZN8BGhI=";
-        clientAllowedIPs = [
-          "10.8.0.1/32"
-          "10.8.0.2/32"
-          "10.8.0.3/32"
-        ];
       };
 
     };

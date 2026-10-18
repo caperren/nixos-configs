@@ -9,6 +9,7 @@
   ...
 }:
 let
+  wireguardServicesConfig = (import ../../constants/wireguard.nix).services;
 in
 {
   imports = [

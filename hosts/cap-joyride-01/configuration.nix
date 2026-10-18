@@ -176,7 +176,7 @@ in
     containers = {
       homeassistant = {
         image = "ghcr.io/home-assistant/home-assistant:stable";
-
+        pull = "always";
         autoStart = true;
 
         volumes = [
@@ -190,6 +190,7 @@ in
       };
       esphome = {
         image = "ghcr.io/esphome/esphome:stable";
+        pull = "always";
         autoStart = true;
 
         volumes = [

@@ -34,6 +34,11 @@
       "cap-joyride-01" = {
         address = "10.8.0.7";
         publicKey = "qyyDNlCH+e3EpjApvV/+JQrU3aZG9GqG/QJ2ZN8BGhI=";
+        clientAllowedIPs = [
+          "10.8.0.1/32"
+          "10.8.0.2/32"
+          "10.8.0.3/32"
+        ];
       };
 
     };

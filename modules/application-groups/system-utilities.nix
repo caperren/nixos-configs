@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   hardware.keyboard.qmk.enable = true;
-  hardware.logitech.wireless.enable = true;
+#  hardware.logitech.wireless.enable = true;
 #  hardware.logitech.wireless.enableGraphical = true;  # Solaar build failing
 
   programs.ssh.startAgent = true;

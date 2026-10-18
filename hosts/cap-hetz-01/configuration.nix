@@ -119,6 +119,11 @@ in
             allowedIPs = [ "${wireguardServicesConfig.peers."cap-apollo-n04".address}/32" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n04/preshared-key".path;
           }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-joyride-01".publicKey;
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-joyride-01".address}/32" ];
+            presharedKeyFile = config.sops.secrets."wireguard/cap-joyride-01/preshared-key".path;
+          }
         ];
       };
     };

@@ -31,6 +31,10 @@
         address = "10.8.0.6";
         publicKey = "ZyhdQ7Q9a6Xg2IHlYeN7K8sOlMGgc6OvOaG/Nwx7W1M=";
       };
+      "cap-joyride-01" = {
+        address = "10.8.0.7";
+        publicKey = "";
+      };
 
     };
   };

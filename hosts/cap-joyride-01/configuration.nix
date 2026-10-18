@@ -56,6 +56,29 @@ in
   networking = {
     firewall.enable = false;
     useNetworkd = true;
+
+    wg-quick.interfaces = {
+      wg0 = {
+        mtu = wireguardServicesConfig.mtu;
+        address = [ wireguardServicesConfig.peers.${config.networking.hostName}.address ];
+#        privateKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/private-key".path;
+
+        # Known issue with using privateKeyFile where persistentKeepalive below is ignored
+        # https://wiki.nixos.org/wiki/WireGuard#Tunnel_does_not_automatically_connect_despite_persistentKeepalive_being_set
+        postUp = [
+          "wg set wg0 peer ${wireguardServicesConfig.peers."cap-hetz-01".publicKey} persistent-keepalive 25"
+        ];
+
+        peers = [
+          {
+            publicKey = wireguardServicesConfig.peers."cap-hetz-01".publicKey;
+            presharedKeyFile = config.sops.secrets."wireguard/${config.networking.hostName}/preshared-key".path;
+            allowedIPs = wireguardServicesConfig.clientAllowedIPs;
+            endpoint = "${wireguardServicesConfig.host}:${toString wireguardServicesConfig.port}";
+            persistentKeepalive = wireguardServicesConfig.persistentKeepalive;
+          }
+        ];
+      };
   };
 
   systemd.network = {

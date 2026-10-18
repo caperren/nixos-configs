@@ -236,27 +236,16 @@ in
 
       # Nice to have an alias if I ever want to launch this from cmdline, or see the dbus help string
       screenshot = "~/.config/hypr/scripts/screenshot.sh";
-
-      # Quick reboot of all the apollo servers
-      apollo-reboot = "${pkgs.writeShellScript "apollo-reboot.sh" ''
-        set -e
-
-        for i in {1..4}; do
-            echo "Rebooting cap-apollo-n0$i"
-            ssh cap-apollo-n0$i "sudo reboot"
-        done
-      ''}";
     };
 
     # Theming
     gtk = {
       enable = true;
 
-      theme = null;
-      # {
-      #        name = "Adwaita-dark"; # Or another dark theme
-      #        package = pkgs.gnome-themes-extra;
-      #      };
+      gtk4.theme = {
+        name = "Adwaita-dark"; # Or another dark theme
+        package = pkgs.gnome-themes-extra;
+      };
 
       iconTheme = {
         name = "Papirus-Dark";

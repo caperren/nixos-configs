@@ -63,6 +63,9 @@ in
   };
 
   networking.hostName = "cap-nr200p"; # Define your hostname.
+
+  programs.streamdeck-ui.enable = true;
+
   #   Useful when technitium isn't yet running
   #  networking.nameservers = [ "192.168.1.1" ];
   #  networking.hosts = {

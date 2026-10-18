@@ -170,7 +170,7 @@ hl.on("hyprland.start", function()
 		"waybar",
 		"sleep 5 && nm-applet",
 		"sleep 5 && blueman-applet",
-		"sleep 5 && streamdeck -n",
+		"sleep 5 && systemctl start --user streamdeck.service",
 		"sleep 5 && solaar --window=hide",
 		"sleep 5 && systemctl --user start syncthingtray.service",
 		"sleep 5 && Telegram -startintray",

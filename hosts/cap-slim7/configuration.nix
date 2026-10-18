@@ -39,7 +39,7 @@ in
 
     # Application Groups
     ../../modules/application-groups/3d-design.nix
-#    ../../modules/application-groups/ai.nix
+    #    ../../modules/application-groups/ai.nix
     ../../modules/application-groups/android.nix
     ../../modules/application-groups/boating.nix
     ../../modules/application-groups/downloads.nix
@@ -92,18 +92,73 @@ in
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
-  # time.timeZone = "Pacific/Honolulu";
+  # time.timeZone = "Pacific/Honolulu"
 
-#  services.ollama = {
-#    package = pkgs.ollama-vulkan;
-#    environmentVariables = {
-#      GGML_VK_VISIBLE_DEVICES = "1";
-#    };
-#  };
-#  services.open-webui = {
-#    host = "127.0.0.1";
-#  };
+  programs.streamdeck-ui.enable = true;
 
+  virtualisation.oci-containers = {
+    backend = "docker";
+
+    containers = {
+      searxng-core = {
+        image = "ghcr.io/searxng/searxng:latest";
+        autoStart = true;
+
+        ports = [
+          "8081:8080"
+        ];
+
+        environment = {
+          SEARXNG_VALKEY_URL = "valkey://172.17.0.1:6379";
+        };
+
+        volumes = [
+          "/oci/searxng/config/:/etc/searxng/:Z"
+          "core-data:/var/cache/searxng/"
+          "/etc/localtime:/etc/localtime:ro"
+        ];
+
+
+
+        #        extraOptions = [
+        #          "--network=host"
+        #        ];
+      };
+      searxng-valkey = {
+        image = "docker.io/valkey/valkey:9-alpine";
+        autoStart = true;
+
+        cmd = [
+          "valkey-server"
+          "--save"
+          "30"
+          "1"
+          "--loglevel"
+          "warning"
+        ];
+
+        ports = [
+          "6379:6379"
+        ];
+
+        volumes = [
+          "valkey-data:/data/"
+        ];
+      };
+    };
+  };
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-vulkan;
+    environmentVariables = {
+      GGML_VK_VISIBLE_DEVICES = "1";
+    };
+  };
+  services.open-webui = {
+    enable = true;
+    host = "127.0.0.1";
+  };
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

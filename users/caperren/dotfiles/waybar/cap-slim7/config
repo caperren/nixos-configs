@@ -61,9 +61,9 @@
       "critical": 15,
       "empty": 5
     },
-    "format": "{icon}  {capacity}%",
-    "format-charging": "  {capacity}%",
-    "format-plugged": "  {capacity}%",
+    "format": " {capacity}% {icon}",
+    "format-charging": "{capacity}% ",
+    "format-plugged": "{capacity}% ",
     "format-icons": [
       "",
       "",
@@ -139,8 +139,8 @@
     "format": "( {class} )",
   },
   "pulseaudio": {
-    "format": "{volume:02}% {icon}",
-    "format-bluetooth": "󰂰",
+    "format": "{volume:02}% {icon}    ",
+    "format-bluetooth": "{volume:02}% 󰂰",
     "format-muted": "00% {icon}",
     "format-icons": {
       "headphones": "",

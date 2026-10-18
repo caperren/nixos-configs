@@ -37,6 +37,8 @@
     grim
     hyprpaper
     hyprpicker
+    hyprpwcenter
+    hyprshutdown
     j4-dmenu-desktop
     kanshi
     libnotify

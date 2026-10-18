@@ -73,7 +73,6 @@
     scrcpy
     screen
     speedcrunch
-    streamdeck-ui
     stress
     unzip
     usbutils

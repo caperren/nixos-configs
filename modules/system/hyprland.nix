@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 {
 
   hardware.graphics = {
@@ -17,7 +21,7 @@
     enable = true;
     #    x11Support = true;
     settings = {
-      animation = "matrix";
+      animation = lib.mkDefault "matrix";
       bg = 0; # Black
       blank_password = true;
       border_fg = 3; # Green

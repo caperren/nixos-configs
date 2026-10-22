@@ -1,6 +1,6 @@
 -- Hyprland 0.55.4 - native scrolling layout
 -- Monitor fallback; kanshi manages known configurations.
-hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
 
 local terminal = "kitty"
 local fileManager = "kitty -e yazi"

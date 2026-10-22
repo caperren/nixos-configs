@@ -60,7 +60,7 @@ in
   time.timeZone = "America/Los_Angeles";
 
   # Lower cpu usage than the other options
-  services.displayManager.settings.animation = "none";
+  services.displayManager.ly.settings.animation = "none";
 
   networking = {
     firewall.enable = false;

@@ -184,8 +184,11 @@ in
 
         volumes = [
           "/container_storage/homeassistant/config:/config"
-          "/dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_d4bf061d2c75f011a7c4ad2f1045c30f-if00-port0:/dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_d4bf061d2c75f011a7c4ad2f1045c30f-if00-port0"
           "/etc/localtime:/etc/localtime:ro"
+        ];
+
+        devices = [
+          "/dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_d4bf061d2c75f011a7c4ad2f1045c30f-if00-port0:/dev//by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_d4bf061d2c75f011a7c4ad2f1045c30f-if00-port0"
         ];
 
         extraOptions = [

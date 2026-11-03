@@ -29,8 +29,9 @@
     glava
     gimp
     imv
-    plex-desktop
+    jellyfin-tui
     projectm_3
+    qbz
     sox
     spotify
     spotify-player

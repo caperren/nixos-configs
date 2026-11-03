@@ -90,14 +90,14 @@ in
           chart = "longhorn";
           targetNamespace = "longhorn-system";
 
-          version = "v1.11.0";
+          version = "v1.11.1";
 
           valuesContent = ''
-            image:
-              manager:
-                tag: v1.11.0-hotfix-1
-              instanceManager:
-                tag: v1.11.0-hotfix-1
+            # image:
+            #   manager:
+            #      tag: v1.11.0-hotfix-1
+            #    instanceManager:
+            #      tag: v1.11.0-hotfix-1
 
             preUpgradeChecker:
               upgradeVersionCheck: false
@@ -130,6 +130,8 @@ in
                 gethomepage.dev/icon: longhorn.png
                 gethomepage.dev/name: Longhorn
                 gethomepage.dev/pod-selector: app.kubernetes.io/name=longhorn
+
+
           '';
         };
       };

@@ -34,6 +34,7 @@ in
     "wireguard/cap-apollo-n02/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n03/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-apollo-n04/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
+    "wireguard/cap-joyride-01/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
 
     "caddy/Caddyfile" = {
       sopsFile = ../../secrets/hetzner-Caddyfile;
@@ -45,6 +46,8 @@ in
       restartUnits = [ "caddy.service" ];
     };
   };
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.grub.device = "/dev/sda";
 
@@ -58,12 +61,24 @@ in
       "2606:4700:4700::1001"
     ];
 
-    interfaces.enp1s0.ipv6.addresses = [
-      {
-        address = "2a01:4ff:1f0:8878::1";
-        prefixLength = 64;
-      }
-    ];
+    interfaces.enp1s0 = {
+      ipv4.addresses = [
+        {
+          address = "5.78.42.43";
+          prefixLength = 32;
+        }
+      ];
+      ipv6.addresses = [
+        {
+          address = "2a01:4ff:1f0:8878::1";
+          prefixLength = 64;
+        }
+      ];
+    };
+    defaultGateway = {
+      address = "172.31.1.1";
+      interface = "enp1s0";
+    };
     defaultGateway6 = {
       address = "fe80::1";
       interface = "enp1s0";
@@ -105,6 +120,11 @@ in
             allowedIPs = [ "${wireguardServicesConfig.peers."cap-apollo-n04".address}/32" ];
             presharedKeyFile = config.sops.secrets."wireguard/cap-apollo-n04/preshared-key".path;
           }
+          {
+            publicKey = wireguardServicesConfig.peers."cap-joyride-01".publicKey;
+            allowedIPs = [ "${wireguardServicesConfig.peers."cap-joyride-01".address}/32" ];
+            presharedKeyFile = config.sops.secrets."wireguard/cap-joyride-01/preshared-key".path;
+          }
         ];
       };
     };
@@ -115,6 +135,56 @@ in
   services.caddy = {
     enable = true;
     configFile = config.sops.secrets."caddy/Caddyfile".path;
+  };
+
+  virtualisation.oci-containers = {
+    backend = "docker";
+
+    containers = {
+      searxng-core = {
+        image = "ghcr.io/searxng/searxng:latest";
+        autoStart = true;
+
+        ports = [
+          "8080:8080"
+        ];
+
+        environment = {
+          SEARXNG_VALKEY_URL = "valkey://172.17.0.1:6379";
+        };
+
+        volumes = [
+          "/oci/searxng/config/:/etc/searxng/:Z"
+          "core-data:/var/cache/searxng/"
+          "/etc/localtime:/etc/localtime:ro"
+        ];
+
+        #        extraOptions = [
+        #          "--network=host"
+        #        ];
+      };
+      searxng-valkey = {
+        image = "docker.io/valkey/valkey:9-alpine";
+        autoStart = true;
+
+        cmd = [
+          "valkey-server"
+          "--save"
+          "30"
+          "1"
+          "--loglevel"
+          "warning"
+        ];
+
+        ports = [
+          "6379:6379"
+        ];
+
+        volumes = [
+          "valkey-data:/data/"
+        ];
+      };
+    };
   };
 
   # This value determines the NixOS release from which the default

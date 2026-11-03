@@ -40,6 +40,7 @@ in
     # Application Groups
     ../../modules/application-groups/3d-design.nix
     ../../modules/application-groups/android.nix
+    ../../modules/application-groups/boating.nix
     ../../modules/application-groups/downloads.nix
     ../../modules/application-groups/gaming.nix
     ../../modules/application-groups/hobby-rc.nix
@@ -62,7 +63,11 @@ in
   };
 
   networking.hostName = "cap-nr200p"; # Define your hostname.
-  # Useful when technitium isn't yet running
+
+  programs.streamdeck-ui.enable = true;
+
+  #   Useful when technitium isn't yet running
+  #  networking.nameservers = [ "192.168.1.1" ];
   #  networking.hosts = {
   #    "192.168.1.42" = [
   #      "longhorn.internal.perren.cloud"
@@ -97,6 +102,18 @@ in
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-vulkan;
+    environmentVariables = {
+      GGML_VK_VISIBLE_DEVICES = "0";
+    };
+  };
+  services.open-webui = {
+    enable = true;
+    host = "127.0.0.1";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

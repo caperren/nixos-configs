@@ -19,7 +19,7 @@ let
   postgresServiceCfg = config.services.k3s.manifests.postgres-service.content;
   postgresServiceName = postgresServiceCfg.metadata.name;
 
-  allowedReplicas = if config."perren.cloud".maintenance.postgres then 0 else 1;
+  allowedReplicas = if config."perren.cloud".maintenance.postgres then 0 else 0;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
@@ -175,21 +175,30 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
-      gitea-config-pvc.content = {
+      gitea-data-nfs-pv.content = {
         apiVersion = "v1";
-        kind = "PersistentVolumeClaim";
+        kind = "PersistentVolume";
         metadata = {
-          name = "gitea-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "gitea";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          name = "gitea-data-nfs-pv";
+          labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "10Mi";
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadOnlyMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/postgres";
+            readOnly = true;
+          };
         };
       };
       gitea-data-pvc.content = {
@@ -197,58 +206,57 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "gitea-data-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "gitea";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "gitea";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "30Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "gitea";
+          accessModes = [ "ReadOnlyMany" ];
+          volumeName = "gitea-data-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
-      #      gitea-data-nfs-pv.content = {
-      #        apiVersion = "v1";
-      #        kind = "PersistentVolume";
-      #        metadata = {
-      #          name = "gitea-data-nfs-pv";
-      #          labels."app.kubernetes.io/name" = "gitea";
-      #        };
-      #        spec = {
-      #          capacity.storage = "1Ti";
-      #          accessModes = [ "ReadOnlyMany" ];
-      #          persistentVolumeReclaimPolicy = "Retain";
-      #          mountOptions = [
-      #            "nfsvers=4.1"
-      #            "rsize=1048576"
-      #            "wsize=1048576"
-      #            "hard"
-      #            "timeo=600"
-      #            "retrans=2"
-      #          ];
-      #          nfs = {
-      #            server = "cap-apollo-n01";
-      #            path = "/nas_data_primary/gitea";
-      #          };
-      #        };
-      #      };
-      #      gitea-data-pvc.content = {
-      #        apiVersion = "v1";
-      #        kind = "PersistentVolumeClaim";
-      #        metadata = {
-      #          name = "gitea-data-pvc";
-      #          labels."app.kubernetes.io/name" = "gitea";
-      #        };
-      #        spec = {
-      #          selector.matchLabels."app.kubernetes.io/name" = "gitea";
-      #          accessModes = [ "ReadOnlyMany" ];
-      #          volumeName = "gitea-data-nfs-pv";
-      #          storageClassName = "";
-      #          resources.requests.storage = "1Ti";
-      #        };
-      #      };
+      gitea-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "gitea-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "gitea";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadOnlyMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/postgres";
+            readOnly = true;
+          };
+        };
+      };
+      gitea-config-pvc.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolumeClaim";
+        metadata = {
+          name = "gitea-config-pvc";
+          labels."app.kubernetes.io/name" = "gitea";
+        };
+        spec = {
+          selector.matchLabels."app.kubernetes.io/name" = "gitea";
+          accessModes = [ "ReadOnlyMany" ];
+          volumeName = "gitea-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
+        };
+      };
       gitea-service.content = {
         apiVersion = "v1";
         kind = "Service";

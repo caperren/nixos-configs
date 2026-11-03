@@ -6,7 +6,7 @@ let
     "noauto"
     "_netdev"
     "nofail"
-    "nfsvers=4.0"
+    "nfsvers=4.1"
   ];
 in
 {

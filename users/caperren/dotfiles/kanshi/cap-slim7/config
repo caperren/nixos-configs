@@ -4,6 +4,11 @@ profile builtin_only {
     output "BOE 0x0A9B Unknown" enable mode 2560x1600@165Hz position 0,0 adaptive_sync on
 }
 
+profile travel_dual_with_stand {
+    output "BOE 0x0A9B Unknown" enable mode 2560x1600@60Hz position 0,0 adaptive_sync on
+    output "Invalid Vendor Codename - RTK ARZOPA demoset-1" enable mode 1920x1080@60Hz position 320,1600
+}
+
 profile travel_with_secondary {
     output "BOE 0x0A9B Unknown" enable mode 2560x1600@165Hz position 0,0 adaptive_sync on
     output "BOE Display 0x00000060" enable mode 2160x1440@60Hz position 200,1600

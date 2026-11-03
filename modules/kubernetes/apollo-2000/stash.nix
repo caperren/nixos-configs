@@ -6,17 +6,18 @@
 }:
 let
   imageConfig = {
-    imageName = "stashapp/stash";
-    imageDigest = "sha256:4cac18873ea052f03510602d9e1a9b29e6241a393a111479010292b7a1e28a5e";
-    hash = "sha256-D3XMtByDotpCR/Q4CqoKzL1n/wGHgXMyPNYpkUxxlXs=";
-    finalImageName = "stashapp/stash";
-    finalImageTag = "v0.30.1";
+    imageName = "docker.io/stashapp/stash";
+    imageDigest = "sha256:df744af5a0c976e2ec671052ecc1f8a9aa757fa12b8f9930b59910b7295f0da6";
+    hash = "sha256-r318Y4GD9b0YU7v9bm9guvT9oQJkQCTIK8NEL1uFZRI=";
+    finalImageName = "docker.io/stashapp/stash";
+    finalImageTag = "v0.31.1";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
 
-  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
+  allowedReplicas =
+    if (config."perren.cloud".maintenance.kube or config."perren.cloud".maintenance.nfs) then 0 else 1;
   stashShareEnvironment = [
     {
       name = "TZ";
@@ -70,7 +71,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-ad-view.gid ];
+              securityContext.supplementalGroups = [
+                config.users.groups.nas-ad-view.gid
+                config.users.groups.pod-configs-stash.gid
+              ];
               containers = [
                 {
                   name = "stash-a";
@@ -120,21 +124,69 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      stash-a-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "stash-a-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "stash-a";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/stash-a/config";
+          };
+        };
+      };
       stash-a-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-a-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "stash-a";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "stash-a";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "2Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "stash-a";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "stash-a-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
+        };
+      };
+      stash-a-store-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "stash-a-store-nfs-pv";
+          labels."app.kubernetes.io/name" = "stash-a";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/stash-a/store";
+          };
         };
       };
       stash-a-store-pvc.content = {
@@ -142,16 +194,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-a-store-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "stash-a";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "stash-a";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "10Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "stash-a";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "stash-a-store-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       stash-a-content-nfs-pv.content = {
@@ -277,7 +327,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-ad-view.gid ];
+              securityContext.supplementalGroups = [
+                config.users.groups.nas-ad-view.gid
+                config.users.groups.pod-configs-stash.gid
+              ];
               containers = [
                 {
                   name = "stash-b";
@@ -327,21 +380,69 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      stash-b-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "stash-b-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "stash-b";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/stash-b/config";
+          };
+        };
+      };
       stash-b-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-b-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "stash-b";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "stash-b";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "1Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "stash-b";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "stash-b-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
+        };
+      };
+      stash-b-store-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "stash-b-store-nfs-pv";
+          labels."app.kubernetes.io/name" = "stash-b";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/stash-b/store";
+          };
         };
       };
       stash-b-store-pvc.content = {
@@ -349,16 +450,14 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "stash-b-store-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "stash-b";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "stash-b";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "2Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "stash-b";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "stash-b-store-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       stash-b-content-nfs-pv.content = {

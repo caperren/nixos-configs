@@ -97,6 +97,7 @@ in
 
     programs.yazi = {
       enable = true;
+      shellWrapperName = "y";
       settings = {
         mgr = {
           sort_by = "natural";
@@ -105,6 +106,37 @@ in
           linemode = "none";
           show_hidden = true;
           show_symlink = true;
+        };
+      };
+    };
+
+    services.dunst = {
+      enable = true;
+      settings = {
+        global = {
+          width = "(200,600)";
+          height = "(0,300)";
+          offset = "(5,5)"; # Matches 5px gap for hyprland gaps
+          origin = "top-right";
+          font = "JetBrains Mono 11";
+        };
+        urgency_low = {
+          background = "#000000";
+          foreground = "#10ac25";
+          frame_color = "#000000";
+          timeout = 10;
+        };
+        urgency_normal = {
+          background = "#000000";
+          foreground = "#10ac25";
+          frame_color = "#10ac25";
+          timeout = 30;
+        };
+        urgency_critical = {
+          background = "#000000";
+          foreground = "#ff0000";
+          frame_color = "#ff0000";
+          timeout = 3600;
         };
       };
     };
@@ -125,8 +157,16 @@ in
         devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
         folders = {
+          "charts" = {
+            devices = lib.remove config.networking.hostName (
+              lib.attrNames syncthingConstants.nonAndroidDevices
+            );
+            path = "~/Charts";
+          };
           "factorio" = {
-            devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+            devices = lib.remove config.networking.hostName (
+              lib.attrNames syncthingConstants.nonAndroidDevices
+            );
             path = "~/.factorio";
           };
           "obsidian" = {
@@ -146,8 +186,8 @@ in
     home.file.".config/hypr/hypridle.conf".source = ./dotfiles/hypridle/hypridle.conf;
     home.file.".config/hypr/hyprpaper.conf".source = ./dotfiles/hyprpaper/hyprpaper.conf;
     home.file.".config/hypr/backgrounds/black.png".source = ./dotfiles/hyprpaper/backgrounds/black.png;
-    home.file.".config/hypr/hyprland-common.conf".source = ./dotfiles/hyprland/hyprland-common.conf;
-    home.file.".config/hypr/hyprland.conf".source = hyprlandConfigPath + "/hyprland.conf";
+    home.file.".config/hypr/hyprland-common.lua".source = ./dotfiles/hyprland/hyprland-common.lua;
+    home.file.".config/hypr/hyprland.lua".source = hyprlandConfigPath + "/hyprland.lua";
     home.file.".config/kanshi/config".source = kanshiConfigPath + "/config";
     home.file.".config/streamdeck-ui/.streamdeck_ui_link.json" = {
       source = ./dotfiles/streamdeck/.streamdeck_ui.json;
@@ -196,23 +236,13 @@ in
 
       # Nice to have an alias if I ever want to launch this from cmdline, or see the dbus help string
       screenshot = "~/.config/hypr/scripts/screenshot.sh";
-
-      # Quick reboot of all the apollo servers
-      apollo-reboot = "${pkgs.writeShellScript "apollo-reboot.sh" ''
-        set -e
-
-        for i in {1..4}; do
-            echo "Rebooting cap-apollo-n0$i"
-            ssh cap-apollo-n0$i "sudo reboot"
-        done
-      ''}";
     };
 
     # Theming
     gtk = {
       enable = true;
 
-      theme = {
+      gtk4.theme = {
         name = "Adwaita-dark"; # Or another dark theme
         package = pkgs.gnome-themes-extra;
       };
@@ -237,17 +267,28 @@ in
       GTK_THEME = "Adwaita-dark";
     };
 
-    xdg.mimeApps = {
+    xdg = {
       enable = true;
-      defaultApplications = {
-        "application/pdf" = [ "okularApplication_pdf.desktop" ];
-        "x-scheme-handler/http" = [ "firefox.desktop" ];
-        "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "text/html" = [ "firefox.desktop" ];
-        "image/*" = [ "imv.desktop" ];
+      #      configHome = "${config.users.users.caperren.home}/.config";
+      portal = {
+        enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        config.common.default = "*";
       };
-    };
 
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "text/plain" = [ "org.xfce.mousepad.desktop" ];
+          "application/pdf" = [ "okularApplication_pdf.desktop" ];
+          "x-scheme-handler/http" = [ "firefox.desktop" ];
+          "x-scheme-handler/https" = [ "firefox.desktop" ];
+          "text/html" = [ "firefox.desktop" ];
+          "image/*" = [ "imv.desktop" ];
+        };
+      };
+
+    };
     xresources.properties = {
       "Xft.font" = "JetBrains Mono";
     };

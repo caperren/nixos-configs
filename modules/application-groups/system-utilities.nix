@@ -2,11 +2,11 @@
 {
   hardware.keyboard.qmk.enable = true;
   hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
+  hardware.logitech.wireless.enableGraphical = true;  # Solaar build failing
 
   programs.ssh.startAgent = true;
   programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
+  programs.thunar.plugins = with pkgs; [
     thunar-archive-plugin
     thunar-volman
   ];
@@ -30,7 +30,12 @@
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.hardware.openrgb.enable = true;
   services.openssh.enable = true;
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [
+        pkgs.brlaser
+    ];
+  };
   services.tumbler.enable = true; # Thumbnail support for images
 
   environment.systemPackages = with pkgs; [
@@ -59,7 +64,6 @@
     networkmanager
     networkmanagerapplet
     nmap
-    nvtopPackages.full
     openrgb-with-all-plugins
     pciutils
     rofi-bluetooth
@@ -69,14 +73,13 @@
     scrcpy
     screen
     speedcrunch
-    streamdeck-ui
     stress
     unzip
     usbutils
     util-linux
     wget
     xev
-    xfce.mousepad
+    mousepad
     wireguard-tools
   ];
 

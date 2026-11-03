@@ -7,8 +7,8 @@
 let
   imageConfig = {
     imageName = "docker.io/linuxserver/qbittorrent";
-    imageDigest = "sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618";
-    hash = "sha256-8rwvoxnGvuDnpXChEeQV/WTWZKEQ9Ib3YG8fE90IL5Q=";
+    imageDigest = "sha256:3679a75dd2304b695525d83a4ff14c458708b5da4a7ce53044240932139590e1";
+    hash = "sha256-/Yvy4V6dQ8tjNJoHLc0C5dc8342jvRJbGIP3/oFMU0Y=";
     finalImageName = "docker.io/linuxserver/qbittorrent";
     finalImageTag = "5.1.4";
   };
@@ -16,7 +16,8 @@ let
     arch = "amd64";
   };
 
-  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
+  allowedReplicas =
+    if (config."perren.cloud".maintenance.kube or config."perren.cloud".maintenance.nfs) then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -55,7 +56,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-media-management.gid ];
+              securityContext.supplementalGroups = [
+                config.users.groups.pod-configs-qbittorrent.gid
+                config.users.groups.nas-media-management.gid
+              ];
               initContainers = [
                 {
                   name = "fix-multus-routes";
@@ -143,21 +147,44 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      qbittorrent-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "qbittorrent-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "qbittorrent";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/qbittorrent";
+          };
+        };
+      };
       qbittorrent-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "qbittorrent-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "qbittorrent";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "qbittorrent";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "256Mi";
+          selector.matchLabels."app.kubernetes.io/name" = "qbittorrent";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "qbittorrent-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       qbittorrent-media-nfs-pv.content = {

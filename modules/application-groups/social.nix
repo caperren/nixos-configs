@@ -4,5 +4,6 @@
     discord
     slack
     telegram-desktop
+#    signal-desktop
   ];
 }

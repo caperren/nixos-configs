@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
 
   hardware.graphics = {
@@ -13,23 +18,32 @@
   programs.hyprlock.enable = true;
   programs.waybar.enable = true;
 
-  services.displayManager.gdm = {
+  services.displayManager.ly = {
     enable = true;
-    wayland = true;
+    #    x11Support = true;
+    settings = {
+      animation = lib.mkDefault "matrix";
+      bg = 0; # Black
+      blank_password = true;
+      border_fg = 3; # Green
+      clock = "%Y-%m-%d %H:%M:%S";
+      fg = 3; # Green
+      hide_key_hints = true;
+    };
   };
+
   services.hypridle.enable = true;
   services.xserver.enable = true;
-
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   environment.systemPackages = with pkgs; [
     arandr
     bemenu
-    dunst
+    # durdraw  # Maybe in the future....
     grim
     hyprpaper
     hyprpicker
+    hyprpwcenter
+    hyprshutdown
     j4-dmenu-desktop
     kanshi
     libnotify
@@ -38,9 +52,8 @@
     rofi
     slurp
     swayimg
+    tuigreet
     wl-clipboard
     wlogout
-
   ];
-
 }

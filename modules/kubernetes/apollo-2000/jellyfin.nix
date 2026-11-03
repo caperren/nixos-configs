@@ -7,15 +7,17 @@
 let
   imageConfig = {
     imageName = "ghcr.io/jellyfin/jellyfin";
-    imageDigest = "sha256:cd7e4cb71812dd76988a725da615e37c6d0d24c200be904ad5d183e51f1dc6ed";
-    hash = "sha256-8FujxEYyhcFfyP5cwemHSeR+l/zYpk49pQymuMlH6So=";
-    finalImageTag = "10.11.5";
+    imageDigest = "sha256:2b93aa3830dcd0aab7185c635e20edef1f8dc5d2e999768baf1724e88c078004";
+    hash = "sha256-UViHngRWe7VW8ZLce05itsmPh2LAB4wJDSz6qeTkswM=";
+    finalImageName = "ghcr.io/jellyfin/jellyfin";
+    finalImageTag = "10.11.7";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
 
-  allowedReplicas = if config."perren.cloud".maintenance.nfs then 0 else 1;
+  allowedReplicas =
+    if (config."perren.cloud".maintenance.kube or config."perren.cloud".maintenance.nfs) then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -46,7 +48,10 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
-              securityContext.supplementalGroups = [ config.users.groups.nas-media-view.gid ];
+              securityContext.supplementalGroups = [
+                config.users.groups.nas-media-view.gid
+                config.users.groups.pod-configs-jellyfin.gid
+              ];
               containers = [
                 {
                   name = "jellyfin";
@@ -90,21 +95,44 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      jellyfin-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "jellyfin-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "jellyfin";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/jellyfin";
+          };
+        };
+      };
       jellyfin-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "jellyfin-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "jellyfin";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "jellyfin";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "20Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "jellyfin";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "jellyfin-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       jellyfin-media-nfs-pv.content = {

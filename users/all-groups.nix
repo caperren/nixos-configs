@@ -39,4 +39,31 @@
 
   # Group with r/w permissions to syncthing share
   users.groups.nas-syncthing-management.gid = 211;
+
+  # Group with r/w permissions to pod-configs-zwave-js-ui share
+  users.groups.pod-configs-zwave-js-ui.gid = 212;
+
+  # Group with r/w permissions to pod-configs-home-assistant share
+  users.groups.pod-configs-home-assistant.gid = 213;
+
+  # Group with r/w permissions to pod-configs-jellyfin share
+  users.groups.pod-configs-jellyfin.gid = 214;
+
+  # Group with r/w permissions to pod-configs-stash shares
+  users.groups.pod-configs-stash.gid = 215;
+
+  # Group with r/w permissions to pod-configs-diun share
+  users.groups.pod-configs-diun.gid = 216;
+
+  # Group with r/w permissions to pod-configs-esphome share
+  users.groups.pod-configs-esphome.gid = 218;
+
+  # Group with r/w permissions to pod-configs-qbittorrent share
+  users.groups.pod-configs-qbittorrent.gid = 219;
+
+  # Group with r/w permissions to pod-configs-postgres share
+  users.groups.pod-configs-postgres.gid = 220;
+
+  # Group with r/w permissions to pod-configs-gitea share
+  users.groups.pod-configs-gitea.gid = 221;
 }

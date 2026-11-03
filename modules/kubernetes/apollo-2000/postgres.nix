@@ -12,6 +12,7 @@ let
     finalImageTag = "18.1";
     arch = "amd64";
   };
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 0;  # FiXME: Disabled for now
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
@@ -50,7 +51,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -92,21 +93,45 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      postgres-data-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "postgres-data-nfs-pv";
+          labels."app.kubernetes.io/name" = "postgres";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadOnlyMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/postgres";
+            readOnly = true;
+          };
+        };
+      };
       postgres-data-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "postgres-data-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "postgres";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "postgres";
         };
         spec = {
-          accessModes = [ "ReadWriteMany" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "40Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "postgres";
+          accessModes = [ "ReadOnlyMany" ];
+          volumeName = "postgres-data-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       postgres-service.content = {

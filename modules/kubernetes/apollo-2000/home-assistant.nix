@@ -7,16 +7,17 @@
 let
   imageConfig = {
     imageName = "docker.io/homeassistant/home-assistant";
-    imageDigest = "sha256:96fa92d83fa8dae987fbbbcf58b1fea1140985ff6a8517b37f7b65c76ef20133";
-    hash = "sha256-qSzPi+rZWZbgHrbrzVKdV7HCgd3+KainfXz0WNlUYNU=";
+    imageDigest = "sha256:a1bc133af84ee6505fe2c266d9805b7c75b780dfdc188edfee3b11e8f3cd8efe";
+    hash = "sha256-WnbhhNOUpkHWlwxQ55EQp8qaQRnXoHYx2Y7bjLwbpd8=";
     finalImageName = "docker.io/homeassistant/home-assistant";
-    finalImageTag = "2026.2.3";
+    finalImageTag = "2026.9.2";
   };
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
 
-  zigbeeUsbDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_70e285591fe8ec1181258160e89bdf6f-if00-port0";
+  zigbeeUsbDevice = "/dev/serial/by-id/usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_16d54ca07d76f0118eeb6c574783cc33-if00-port0";
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -30,7 +31,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -53,6 +54,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               };
             };
             spec = {
+              securityContext.supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
               containers = [
                 {
                   name = "home-assistant";
@@ -120,21 +122,44 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      home-assistant-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "home-assistant-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "home-assistant";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/home-assistant";
+          };
+        };
+      };
       home-assistant-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "home-assistant-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "home-assistant";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "home-assistant";
         };
         spec = {
+          selector.matchLabels."app.kubernetes.io/name" = "home-assistant";
           accessModes = [ "ReadWriteMany" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "20Gi";
+          volumeName = "home-assistant-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       home-assistant-service.content = {

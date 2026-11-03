@@ -5,13 +5,17 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
-    imageName = "esphome/esphome";
-    imageDigest = "sha256:c625ac6e9f119cd501293ce47a04aea3042a9428108209f368262d8867aa2920";
-    hash = "sha256-wKXDnBdfTuKV+Wn79/VliiDR76rmrASTHlPCoxWC6gs=";
-    finalImageTag = "2025.12.5";
+  imageConfig = {
+    imageName = "docker.io/esphome/esphome";
+    imageDigest = "sha256:1445f14341cf0c40f29ab8c019b4c89bfb38bd8f6bb275af3b4b0ab1fb40fbd9";
+    hash = "sha256-hFt6Ac5HNWMJEx9+YDZPvVv6B0FUcSRXYyYUqLv6bRI=";
+    finalImageName = "docker.io/esphome/esphome";
+    finalImageTag = "2026.7.3";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -25,7 +29,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "esphome";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -42,6 +46,9 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
               annotations."diun.enable" = "true";
             };
             spec = {
+              securityContext.supplementalGroups = [
+                config.users.groups.pod-configs-esphome.gid
+              ];
               containers = [
                 {
                   name = "esphome";
@@ -68,21 +75,44 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      diun-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "esphome-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "esphome";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/esphome";
+          };
+        };
+      };
       esphome-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "esphome-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "esphome";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "esphome";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "10Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "esphome";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "esphome-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       esphome-service.content = {

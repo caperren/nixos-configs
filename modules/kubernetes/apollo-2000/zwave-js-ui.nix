@@ -5,14 +5,18 @@
   ...
 }:
 let
-  image = pkgs.dockerTools.pullImage {
-    imageName = "zwavejs/zwave-js-ui";
-    imageDigest = "sha256:a7036e59a9d7916d1f92f2fa1e0b9f4a5ed317fc8bef38756368f7c865e0e95a";
-    hash = "sha256-q8FOH4O6lMwN/0K6r+5E2q/TbitL3Oos1UqKM/PfQAs=";
-    finalImageTag = "11.9.1";
+  imageConfig = {
+    imageName = "docker.io/zwavejs/zwave-js-ui";
+    imageDigest = "sha256:944d39fe22d8985ddcbef0849cd22984b8340448f742195821cc34f7a9ca1bb4";
+    hash = "sha256-UdpeBybR14AP8Tx8QM4PGJMIljkWQwM9q0DZIIYW0qc=";
+    finalImageName = "docker.io/zwavejs/zwave-js-ui";
+    finalImageTag = "11.19.1";
+  };
+  image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
   zWaveUsbDevice = "/dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE7E6E0-if00";
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   sops = {
@@ -43,7 +47,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
           strategy = {
             type = "RollingUpdate";
             rollingUpdate = {
@@ -57,7 +61,11 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           template = {
             metadata.labels."app.kubernetes.io/name" = "zwave-js-ui";
             spec = {
-              terminationGracePeriodSeconds = 30;
+              securityContext = {
+                runAsUser = 0;
+                runAsGroup = 0;
+                supplementalGroups = [ config.users.groups.pod-configs-zwave-js-ui.gid ];
+              };
               containers = [
                 {
                   name = "zwave-js-ui";
@@ -124,21 +132,44 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           };
         };
       };
+      zwave-js-ui-config-nfs-pv.content = {
+        apiVersion = "v1";
+        kind = "PersistentVolume";
+        metadata = {
+          name = "zwave-js-ui-config-nfs-pv";
+          labels."app.kubernetes.io/name" = "zwave-js-ui";
+        };
+        spec = {
+          capacity.storage = "1Ti";
+          accessModes = [ "ReadWriteMany" ];
+          persistentVolumeReclaimPolicy = "Retain";
+          mountOptions = [
+            "nfsvers=4.1"
+            "rsize=1048576"
+            "wsize=1048576"
+            "hard"
+            "timeo=600"
+            "retrans=2"
+          ];
+          nfs = {
+            server = "cap-apollo-n01";
+            path = "/nas_data_primary/pod_configs/zwave-js-ui";
+          };
+        };
+      };
       zwave-js-ui-config-pvc.content = {
         apiVersion = "v1";
         kind = "PersistentVolumeClaim";
         metadata = {
           name = "zwave-js-ui-config-pvc";
-          labels = {
-            "app.kubernetes.io/name" = "zwave-js-ui";
-            "recurring-job.longhorn.io/source" = "enabled";
-            "recurring-job.longhorn.io/backup-daily" = "enabled";
-          };
+          labels."app.kubernetes.io/name" = "zwave-js-ui";
         };
         spec = {
-          accessModes = [ "ReadWriteOnce" ];
-          storageClassName = "longhorn";
-          resources.requests.storage = "1Gi";
+          selector.matchLabels."app.kubernetes.io/name" = "zwave-js-ui";
+          accessModes = [ "ReadWriteMany" ];
+          volumeName = "zwave-js-ui-config-nfs-pv";
+          storageClassName = "";
+          resources.requests.storage = "1Ti";
         };
       };
       zwave-js-ui-service.content = {

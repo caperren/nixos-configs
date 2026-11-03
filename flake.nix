@@ -7,7 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -17,7 +17,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -39,97 +39,6 @@
       ...
     }@inputs:
     {
-      nixosConfigurations.cap-clust-01 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-01/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-02 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-02/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-03 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-03/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-04 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-04/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-05 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-05/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-06 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-06/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-07 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-07/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-08 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-08/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-      nixosConfigurations.cap-clust-09 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/cap-clust-09/configuration.nix
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-
       nixosConfigurations.cap-apollo-n01 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
@@ -180,6 +89,16 @@
           sops-nix.nixosModules.sops
         ];
       };
+      nixosConfigurations.cap-joyride-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-joyride-01/configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
       nixosConfigurations.cap-offsite-01 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
@@ -207,6 +126,26 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/cap-nr200p/configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
+      nixosConfigurations.cap-workshop-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-workshop-01/configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
+      nixosConfigurations.cap-workshop-02 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/cap-workshop-02/configuration.nix
           nix-index-database.nixosModules.default
           home-manager.nixosModules.default
           sops-nix.nixosModules.sops

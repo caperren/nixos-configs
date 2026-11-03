@@ -2,12 +2,14 @@
 {
   environment.systemPackages = with pkgs; [
     arduino-ide
+    can-utils
     dfu-util
     gcc
     gnumake
     jetbrains-toolbox
+    lua
     nix-update
-    nixfmt-rfc-style
+    nixfmt
     nixos-generators
     nodejs
     # platformio

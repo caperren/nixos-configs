@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     # ...
   };
 
@@ -10,7 +10,7 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
 
-      py = pkgs.python311;
+      py = pkgs.python314;
       ps = py.pkgs;
 
       comictagger = ps.buildPythonApplication rec {

@@ -15,6 +15,7 @@ let
   image = pkgs.dockerTools.pullImage imageConfig // {
     arch = "amd64";
   };
+  allowedReplicas = if config."perren.cloud".maintenance.kube then 0 else 1;
 in
 lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
   services.k3s = {
@@ -159,13 +160,13 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           "services.yaml" = ''
             - iLO:
               - cap-apollo-ilo01:
-                  href: https://192.168.1.45
+                  href: https://192.168.200.45
               - cap-apollo-ilo02:
-                  href: https://192.168.1.46
+                  href: https://192.168.200.46
               - cap-apollo-ilo03:
-                  href: https://192.168.1.47
+                  href: https://192.168.200.47
               - cap-apollo-ilo04:
-                  href: https://192.168.1.48
+                  href: https://192.168.200.48
           '';
           "settings.yaml" = ''
             background: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
@@ -210,7 +211,7 @@ lib.mkIf (config.networking.hostName == "cap-apollo-n02") {
           labels."app.kubernetes.io/name" = "homepage";
         };
         spec = {
-          replicas = 1;
+          replicas = allowedReplicas;
 
           selector.matchLabels."app.kubernetes.io/name" = "homepage";
 

@@ -1,3 +1,33 @@
+# Find disks with `ls -l /dev/disk/by-id/`
+# Ensure you're not nuking your boot drive with `lsblk -o NAME,SIZE,MODEL,SERIAL,UUID`
+# To create the data_offsite zfs pool, use the following example template
+# sudo wipefs -a /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTFBH9Q && \
+# sudo wipefs -a /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTDY6K9 && \
+# sudo wipefs -a /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTEZANT && \
+# sudo wipefs -a /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTAX092 && \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTFBH9Q ; \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTDY6K9 ; \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTEZANT ; \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTAX092 ; \
+# sudo zpool create \
+#   -o ashift=9 \
+#   data_offsite \
+#   raidz2 \
+#   /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTFBH9Q \
+#   /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTDY6K9 \
+#   /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTEZANT \
+#   /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTAX092 && \
+# sudo zfs set compression=lz4 data_offsite && \
+# sudo zfs set atime=off data_offsite && \
+# sudo zfs set xattr=sa data_offsite && \
+# sudo zpool scrub data_offsite && \
+# sudo zpool status
+#
+# To add hot spare
+# sudo wipefs -a /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTAW2BB && \
+# sudo zpool labelclear -f /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTAW2BB ; \
+# sudo zpool add data_offsite spare /dev/disk/by-id/ata-ST16000NE000-3UN101_ZVTAW2BB
+
 { config, pkgs, ... }:
 {
   imports = [
@@ -17,15 +47,17 @@
     ../../modules/system/server.nix
     ../../modules/system/ssd.nix
     ../../modules/system/systemd-boot.nix
+    ../../modules/system/zfs.nix
 
     # Application Groups
     ../../modules/application-groups/system-utilities.nix
 
   ];
 
-  boot.loader.systemd-boot.graceful = true;
+#  boot.loader.systemd-boot.graceful = true;
 
   networking.hostName = "cap-offsite-01";
+  networking.hostId = "c5d7ab9f";
 
   time.timeZone = "America/Los_Angeles";
 

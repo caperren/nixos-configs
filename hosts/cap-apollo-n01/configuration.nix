@@ -179,8 +179,17 @@ in
       devices = removeAttrs syncthingConstants.allDevices [ config.networking.hostName ];
 
       folders = {
+        "charts" = {
+          devices = lib.remove config.networking.hostName (
+            lib.attrNames syncthingConstants.nonAndroidDevices
+          );
+          path = "/nas_data_primary/charts";
+          ignorePatterns = [ ".zfs" ];
+        };
         "factorio" = {
-          devices = lib.remove config.networking.hostName (lib.attrNames syncthingConstants.nonAndroidDevices);
+          devices = lib.remove config.networking.hostName (
+            lib.attrNames syncthingConstants.nonAndroidDevices
+          );
           path = "/nas_data_primary/factorio";
           ignorePatterns = [ ".zfs" ];
         };
@@ -225,7 +234,7 @@ in
           chmod_dir_options="750"
           chmod_file_options="640"
 
-          zfs_share_base_options="rw=@192.168.1.0/24"
+          zfs_share_base_options="rw=@192.168.200.0/24"
           zfs_share_options="''${zfs_share_base_options},root_squash"
 
           ##### Top level dataset options #####
@@ -334,6 +343,10 @@ in
             -m "g:nas-media-view:rx" \
             /nas_data_primary/media
 
+          # charts
+          echo "Setting permissions for nas_data_primary/charts dataset"
+          chown -R syncthing:nas-syncthing-management /nas_data_primary/charts
+
           # factorio
           echo "Setting permissions for nas_data_primary/factorio dataset"
           chown -R syncthing:nas-syncthing-management /nas_data_primary/factorio
@@ -341,6 +354,103 @@ in
           # obsidian
           echo "Setting permissions for nas_data_primary/obsidian dataset"
           chown -R syncthing:nas-syncthing-management /nas_data_primary/obsidian
+
+          ### Pod Configs
+          # diun
+          echo "Setting acl for nas_data_primary/pod_configs/diun dataset"
+          setfacl -R \
+            -m "g:pod-configs-diun:rwx" \
+            /nas_data_primary/pod_configs/diun
+          setfacl -R -d \
+            -m "g:pod-configs-diun:rwx" \
+            /nas_data_primary/pod_configs/diun
+
+          # esphome
+          echo "Setting acl for nas_data_primary/pod_configs/esphome dataset"
+          setfacl -R \
+            -m "g:pod-configs-esphome:rwx" \
+            /nas_data_primary/pod_configs/esphome
+          setfacl -R -d \
+            -m "g:pod-configs-esphome:rwx" \
+            /nas_data_primary/pod_configs/esphome
+
+          # gitea
+          echo "Setting acl for nas_data_primary/pod_configs/gitea/config dataset"
+          setfacl -R \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/config
+          setfacl -R -d \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/config
+
+          echo "Setting acl for nas_data_primary/pod_configs/gitea/data dataset"
+          setfacl -R \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/data
+          setfacl -R -d \
+            -m "g:pod-configs-gitea:rwx" \
+            /nas_data_primary/pod_configs/gitea/data
+
+          # home-assistant
+          echo "Setting acl for nas_data_primary/pod_configs/home-assistant dataset"
+          setfacl -R \
+            -m "g:pod-configs-home-assistant:rwx" \
+            /nas_data_primary/pod_configs/home-assistant
+          setfacl -R -d \
+            -m "g:pod-configs-home-assistant:rwx" \
+            /nas_data_primary/pod_configs/home-assistant
+
+          # jellyfin
+          echo "Setting acl for nas_data_primary/pod_configs/jellyfin dataset"
+          setfacl -R \
+            -m "g:pod-configs-jellyfin:rwx" \
+            /nas_data_primary/pod_configs/jellyfin
+          setfacl -R -d \
+            -m "g:pod-configs-jellyfin:rwx" \
+            /nas_data_primary/pod_configs/jellyfin
+
+          # postgres
+          echo "Setting acl for nas_data_primary/pod_configs/postgres dataset"
+          setfacl -R \
+            -m "g:pod-configs-postgres:rwx" \
+            /nas_data_primary/pod_configs/postgres
+          setfacl -R -d \
+            -m "g:pod-configs-postgres:rwx" \
+            /nas_data_primary/pod_configs/postgres
+
+          # stash
+          echo "Setting acl for nas_data_primary/pod_configs/stash-a dataset"
+          setfacl -R \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-a
+          setfacl -R -d \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-a
+          echo "Setting acl for nas_data_primary/pod_configs/stash-b dataset"
+          setfacl -R \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-b
+          setfacl -R -d \
+            -m "g:pod-configs-stash:rwx" \
+            /nas_data_primary/pod_configs/stash-b
+
+          # zwave-js-ui
+          echo "Setting acl for nas_data_primary/pod_configs/zwave-js-ui dataset"
+          setfacl -R \
+            -m "g:pod-configs-zwave-js-ui:rwx" \
+            /nas_data_primary/pod_configs/zwave-js-ui
+          setfacl -R -d \
+            -m "g:pod-configs-zwave-js-ui:rwx" \
+            /nas_data_primary/pod_configs/zwave-js-ui
+
+          # qbittorrent
+          echo "Setting acl for nas_data_primary/pod_configs/qbittorrent dataset"
+          setfacl -R \
+            -m "g:pod-configs-qbittorrent:rwx" \
+            /nas_data_primary/pod_configs/qbittorrent
+          setfacl -R -d \
+            -m "g:pod-configs-qbittorrent:rwx" \
+            /nas_data_primary/pod_configs/qbittorrent
 
           ##### Set sharing options
           echo "Setting zfs sharing options for datasets"
@@ -353,9 +463,19 @@ in
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/long_term_storage
           zfs set sharenfs="''${zfs_share_options}" nas_data_primary/media
 
-          # Longhorn is special and literally recommends no_root_squash when connecting to an
-          # nfs data store for backups in its faq troubleshooting...
-          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/longhorn
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/diun
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/esphome
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/gitea/config
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/gitea/data
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/home-assistant
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/jellyfin
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/postgres
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/config
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-a/store
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/config
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/stash-b/store
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/zwave-js-ui
+          zfs set sharenfs="''${zfs_share_base_options},no_root_squash" nas_data_primary/pod_configs/qbittorrent
         '';
         ExecStopPost = pkgs.writeShellScript "post-set-zfs-options.sh" ''
           set -euo pipefail

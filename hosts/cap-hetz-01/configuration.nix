@@ -28,6 +28,7 @@ in
 
   users.users.caddy.enable = true;
   sops.secrets = {
+    "access-tokens/ghcr".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/${config.networking.hostName}/private-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-slim7/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
     "wireguard/cap-nr200p/preshared-key".sopsFile = ../../secrets/hetzner.yaml;
@@ -141,6 +142,30 @@ in
     backend = "docker";
 
     containers = {
+      caperren-com-staging = {
+        image = "ghcr.io/caperren/caperren-com:latest-staging";
+        pull = "always";
+        autoStart = true;
+        ports = [ "8082:80" ];
+        login = {
+          registry = "ghcr.io";
+          username = "caperren";
+          passwordFile = config.sops.secrets."access-tokens/ghcr".path;
+        };
+      };
+
+      caperren-com = {
+        image = "ghcr.io/caperren/caperren-com:latest";
+        pull = "always";
+        autoStart = true;
+        ports = [ "8081:80" ];
+        login = {
+          registry = "ghcr.io";
+          username = "caperren";
+          passwordFile = config.sops.secrets."access-tokens/ghcr".path;
+        };
+      };
+
       searxng-core = {
         image = "ghcr.io/searxng/searxng:latest";
         autoStart = true;
